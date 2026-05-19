@@ -306,6 +306,24 @@
     <div id="calendarView"></div>
 
   </div>
+  
+<div id="calendarTaskModal" class="modal">
+  <div class="modal-content">
+
+    <h3>Detail Task</h3>
+
+    <p id="modalCategory"></p>
+    <input id="modalTaskName" type="text" />
+
+    <div style="margin-top:10px;">
+      <button onclick="saveCalendarTask()">💾 Save</button>
+      <button onclick="toggleCalendarTaskDone()">☑ Done</button>
+      <button onclick="deleteCalendarTask()">🗑 Delete</button>
+      <button onclick="closeCalendarModal()">❌ Close</button>
+    </div>
+
+  </div>
+</div>
 
   <!-- =========================
        HABIT SECTION
