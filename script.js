@@ -1,3 +1,7 @@
+let calendarSelected = {
+  catIndex: null,
+  taskIndex: null
+};
 let chart = null;
 let deferredPrompt = null;
 let dragged = null;
@@ -1460,41 +1464,42 @@ function renderCalendar() {
     dayBox.appendChild(dateText);
 
     // TASK
-    state.appData.forEach(category => {
+    state.appData.forEach((category, catIndex) => {
+  category.tasks.forEach((task, taskIndex) => {
 
-      category.tasks.forEach(task => {
+    if (!task.deadline) return;
 
-        if (!task.deadline) return;
+    const taskDate = new Date(task.deadline);
 
-        const taskDate =
-          new Date(task.deadline);
+    if (
+      taskDate.getDate() === day &&
+      taskDate.getMonth() === month &&
+      taskDate.getFullYear() === year
+    ) {
 
-        if (
-          taskDate.getDate() === day &&
-          taskDate.getMonth() === month &&
-          taskDate.getFullYear() === year
-        ) {
+      const taskEl = document.createElement("div");
 
-          const taskEl =
-            document.createElement("div");
+      taskEl.className = "calendar-task";
 
-          taskEl.className =
-            "calendar-task";
+      if (task.done) {
+        taskEl.classList.add("done-task");
+      }
 
-          if (task.done) {
+      taskEl.innerText = `${category.name} • ${task.name}`;
 
-            taskEl.classList.add(
-              "done-task"
-            );
-          }
+      taskEl.addEventListener("click", (e) => {
+        e.stopPropagation();
 
-          taskEl.innerText =
-  `${category.name} • ${task.name}`;
+        calendarSelected.catIndex = catIndex;
+        calendarSelected.taskIndex = taskIndex;
 
-          dayBox.appendChild(taskEl);
-        }
+        openCalendarModal();
       });
-    });
+
+      dayBox.appendChild(taskEl);
+    }
+  });
+});
 
     grid.appendChild(dayBox);
   }
@@ -1531,6 +1536,76 @@ document
       openTaskModal();
     }
   );
+  
+  function openCalendarModal() {
+
+  const task =
+    state.appData[
+      calendarSelected.catIndex
+    ].tasks[
+      calendarSelected.taskIndex
+    ];
+
+  document.getElementById("modalTaskName").value = task.name;
+
+  document.getElementById("modalCategory").innerText =
+    state.appData[calendarSelected.catIndex].name;
+
+  document.getElementById("calendarTaskModal").classList.add("show");
+}
+
+function closeCalendarModal() {
+  document.getElementById("calendarTaskModal").classList.remove("show");
+}
+
+function saveCalendarTask() {
+  const task =
+    state.appData[
+      calendarSelected.catIndex
+    ].tasks[
+      calendarSelected.taskIndex
+    ];
+
+  saveState();
+
+  task.name = document.getElementById("modalTaskName").value;
+
+  saveToLocal();
+  refreshUI();
+  closeCalendarModal();
+}
+
+function toggleCalendarTaskDone() {
+  const task =
+    state.appData[
+      calendarSelected.catIndex
+    ].tasks[
+      calendarSelected.taskIndex
+    ];
+
+  saveState();
+
+  task.done = !task.done;
+
+  saveToLocal();
+  refreshUI();
+  closeCalendarModal();
+}
+
+function deleteCalendarTask() {
+  saveState();
+
+  state.appData[
+    calendarSelected.catIndex
+  ].tasks.splice(
+    calendarSelected.taskIndex,
+    1
+  );
+
+  saveToLocal();
+  refreshUI();
+  closeCalendarModal();
+}
   
   /* =========================
    CHANGE MONTH
@@ -1619,7 +1694,7 @@ function checkDeadlines(){
   const today =
     new Date();
 
-  state.appData.forEach(category=>{
+  state.appData.forEach((category, catIndex)=>{
 
     category.tasks.forEach(task=>{
 
