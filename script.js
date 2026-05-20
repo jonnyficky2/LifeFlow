@@ -5,6 +5,7 @@ let calendarSelected = {
 let chart = null;
 let deferredPrompt = null;
 let dragged = null;
+let selectedCalendarDate = null;
 
 /* =========================
    STATE
@@ -57,8 +58,8 @@ window.addEventListener(
   Notification.requestPermission();
 }
     resetHabitsDaily();
-    resetDailyTasks();
     refreshUI();
+    checkTaskReminders();
 
     loadTheme();
 
@@ -528,6 +529,21 @@ function saveTaskModal() {
     document.getElementById(
       "taskDeadlineInput"
     ).value;
+    
+    const time =
+  document.getElementById(
+    "taskTimeInput"
+  ).value;
+
+const location =
+  document.getElementById(
+    "taskLocationInput"
+  ).value;
+
+const note =
+  document.getElementById(
+    "taskNoteInput"
+  ).value;
 
   const priority =
     document.getElementById(
@@ -543,11 +559,10 @@ function saveTaskModal() {
 ].tasks.push({
   name,
   deadline,
+  time,
+  location,
+  note,
   priority,
-  daily:
-    document.getElementById(
-      "taskDailyInput"
-    ).checked,
   done: false
 });
 
@@ -563,10 +578,6 @@ function saveTaskModal() {
   document.getElementById(
     "taskDeadlineInput"
   ).value = "";
-  
-  document.getElementById(
-  "taskDailyInput"
-).checked = false;
 }
 
 function toggleTask(
@@ -1738,14 +1749,17 @@ function renderCalendar() {
 
       taskEl.innerText = `${category.name} • ${task.name}`;
 
-      taskEl.addEventListener("click", (e) => {
-        e.stopPropagation();
+      dayBox.addEventListener(
+  "click",
+  () => {
 
-        calendarSelected.catIndex = catIndex;
-        calendarSelected.taskIndex = taskIndex;
-
-        openCalendarModal();
-      });
+    openDayTasks(
+      year,
+      month,
+      day
+    );
+  }
+);
 
       dayBox.appendChild(taskEl);
     }
@@ -2092,48 +2106,85 @@ function checkDeadlines(){
   });
 }
 
-setInterval(
-  checkDeadlines,
-  60000
-);
-
 /* =========================
-   RESET DAILY TASK
+   TASK TIME REMINDER
 ========================= */
 
-function resetDailyTasks() {
+function checkTaskReminders(){
 
-  const today =
-    new Date().toDateString();
-
-  const lastReset =
-    localStorage.getItem(
-      "dailyTaskReset"
-    );
-
-  if (lastReset === today)
+  if(Notification.permission !== "granted")
     return;
 
-  state.appData.forEach(
-    category => {
+  const now = new Date();
 
-      category.tasks.forEach(
-        task => {
+  const currentDate =
+    now.toISOString().split("T")[0];
 
-          if (task.daily) {
+  const currentHour =
+    String(now.getHours())
+    .padStart(2,"0");
 
-            task.done = false;
+  const currentMinute =
+    String(now.getMinutes())
+    .padStart(2,"0");
+
+  const currentTime =
+    `${currentHour}:${currentMinute}`;
+
+  state.appData.forEach(category=>{
+
+    category.tasks.forEach(task=>{
+
+      if(
+        task.done ||
+        !task.deadline ||
+        !task.time
+      ) return;
+
+      // hanya hari ini
+      if(task.deadline !== currentDate)
+        return;
+
+      // cocok jam
+      if(task.time === currentTime){
+
+        const notifyKey =
+          `notif_${task.name}_${currentDate}_${currentTime}`;
+
+        // cegah notif spam
+        if(localStorage.getItem(notifyKey))
+          return;
+
+        new Notification(
+          "🔔 Reminder Task",
+          {
+            body:
+              `${task.name}
+              • ${task.time}`
           }
-        }
-      );
-    }
-  );
+        );
 
-  localStorage.setItem(
-    "dailyTaskReset",
-    today
-  );
+        showToast(
+          `Reminder:
+          ${task.name}`
+        );
 
-  saveToLocal();
+        localStorage.setItem(
+          notifyKey,
+          "sent"
+        );
+      }
+    });
+  });
 }
+
+setInterval(() => {
+
+  checkDeadlines();
+
+  checkTaskReminders();
+
+}, 60000);
+
+
   
