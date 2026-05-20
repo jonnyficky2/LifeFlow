@@ -397,22 +397,16 @@
 
     <div class="habit-box">
 
-      <input
-        type="text"
-        id="habitInput"
-        placeholder="Tambah habit">
+  <button onclick="openHabitModal()">
 
-      <button onclick="addHabit()">
+    + Tambah Habit
 
-        Tambah
+  </button>
 
-      </button>
+</div>
+<div id="habitContainer"></div>
 
-    </div>
-
-    <div id="habitContainer"></div>
-
-  </div>
+</div>
 
   <!-- =========================
        STATS SECTION
@@ -425,6 +419,11 @@
     </h2>
 
     <canvas id="statsChart"></canvas>
+    <h2>
+  🔥 Habit Statistics
+</h2>
+
+<canvas id="habitChart"></canvas>
 
   </div>
 
@@ -508,7 +507,6 @@
       <input
         type="date"
         id="taskDeadlineInput"
-        placeholder="Waktu">
         <input
   type="time"
   id="taskTimeInput"
@@ -520,10 +518,10 @@
   placeholder="Tempat (opsional)"
 >
 
-<input
+<textarea
   id="taskNoteInput"
   placeholder="Keterangan (opsional)"
->
+></textarea>
 
       <select id="taskPriorityInput">
 
@@ -569,6 +567,75 @@
     </div>
 
   </div>
+  
+  <!-- =========================
+     HABIT MODAL
+========================== -->
+
+<div
+  id="habitModal"
+  class="modal"
+>
+
+  <div class="modal-content">
+
+    <h2>
+      Tambah Habit
+    </h2>
+
+    <input
+      type="text"
+      id="habitInput"
+      placeholder="Nama habit"
+    >
+
+    <input
+      type="text"
+      id="habitCategoryInput"
+      placeholder="Kategori"
+    >
+
+    <select id="habitRepeatInput">
+
+      <option value="daily">
+        Daily
+      </option>
+
+      <option value="weekly">
+        Weekly
+      </option>
+
+      <option value="monthly">
+        Monthly
+      </option>
+
+    </select>
+
+    <input
+      type="time"
+      id="habitTimeInput"
+    >
+
+    <div class="modal-actions">
+
+      <button
+        onclick="closeHabitModal()"
+      >
+        Batal
+      </button>
+
+      <button
+        onclick="addHabit()"
+      >
+        Simpan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+  
   <div id="toast"></div>
 
   <!-- =========================
