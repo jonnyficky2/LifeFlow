@@ -17,8 +17,12 @@ const state = {
   xp: Number(localStorage.getItem("xp")) || 0,
 
   habits: JSON.parse(
-    localStorage.getItem("habits") || "[]"
-  ),
+  localStorage.getItem("habits") || "[]"
+),
+
+habitHistory: JSON.parse(
+  localStorage.getItem("habitHistory") || "{}"
+),
 
   streakData: JSON.parse(
     localStorage.getItem("streakData") || "[]"
@@ -87,6 +91,11 @@ function saveToLocal() {
     "habits",
     JSON.stringify(state.habits)
   );
+  
+  localStorage.setItem(
+  "habitHistory",
+  JSON.stringify(state.habitHistory)
+);
 
   localStorage.setItem(
     "streakData",
@@ -444,6 +453,8 @@ function refreshUI() {
   renderCalendar();
 
   updateChart();
+  
+  updateHabitChart();
 
   generateHeatmap();
 
@@ -452,6 +463,7 @@ function refreshUI() {
   updateLevel();
   loadRandomQuote();
   updateImproveStats();
+  
 }
 
 /* =========================
@@ -852,6 +864,40 @@ function updateDailyHistory() {
   saveToLocal();
 }
 
+function updateHabitStats(){
+
+  const today =
+    new Date()
+    .toISOString()
+    .split("T")[0];
+
+  let total = 0;
+  let done = 0;
+
+  state.habits.forEach(h=>{
+
+    total++;
+
+    if(h.done){
+      done++;
+    }
+  });
+
+  const percent =
+    total
+    ? Math.round(
+        done / total * 100
+      )
+    : 0;
+
+  state.habitHistory[today] =
+    percent;
+
+  saveToLocal();
+
+  updateHabitChart();
+}
+
 /* =========================
    IMPROVE SYSTEM
 ========================= */
@@ -1120,6 +1166,78 @@ for(let i = 6; i >= 0; i--){
   });
 }
 
+function updateHabitChart(){
+
+  const canvas =
+    document.getElementById(
+      "habitChart"
+    );
+
+  if(!canvas) return;
+
+  const labels = [];
+  const data = [];
+
+  for(let i=6;i>=0;i--){
+
+    const date =
+      new Date();
+
+    date.setDate(
+      date.getDate()-i
+    );
+
+    const key =
+      date
+      .toISOString()
+      .split("T")[0];
+
+    labels.push(
+      `${date.getDate()}/${
+        date.getMonth()+1
+      }`
+    );
+
+    data.push(
+      state.habitHistory[key] || 0
+    );
+  }
+
+  new Chart(canvas,{
+
+    type:"line",
+
+    data:{
+
+      labels,
+
+      datasets:[{
+
+        label:"Habit Progress",
+
+        data,
+
+        tension:0.4,
+
+        fill:true,
+
+        backgroundColor:
+          "rgba(34,197,94,0.2)",
+
+        borderColor:
+          "#22c55e"
+      }]
+    },
+
+    options:{
+
+      responsive:true,
+
+      maintainAspectRatio:false
+    }
+  });
+}
+
 /* =========================
    HEATMAP
 ========================= */
@@ -1240,23 +1358,59 @@ function loadRandomQuote() {
 
 function addHabit() {
 
-  const input =
+  const name =
     document.getElementById(
       "habitInput"
-    );
+    ).value;
 
-  if (!input.value.trim()) return;
+  const category =
+    document.getElementById(
+      "habitCategoryInput"
+    ).value;
+
+  const repeat =
+    document.getElementById(
+      "habitRepeatInput"
+    ).value;
+
+  const time =
+    document.getElementById(
+      "habitTimeInput"
+    ).value;
+
+  if(!name.trim()) return;
 
   state.habits.push({
-    name: input.value,
-    done: false
-  });
 
-  input.value = "";
+    name,
+
+    category:
+      category || "General",
+
+    repeat,
+
+    time,
+
+    done:false
+  });
 
   saveToLocal();
 
-  refreshUI();
+  renderHabits();
+
+  closeHabitModal();
+
+  document.getElementById(
+    "habitInput"
+  ).value = "";
+
+  document.getElementById(
+    "habitCategoryInput"
+  ).value = "";
+
+  document.getElementById(
+    "habitTimeInput"
+  ).value = "";
 }
 
 function resetHabitsDaily() {
@@ -1291,24 +1445,58 @@ function renderHabits() {
       "habitContainer"
     );
 
-  if (!container) return;
+  if(!container) return;
 
   container.innerHTML = "";
 
-  state.habits.forEach(
-    (habit, index) => {
+  const grouped = {};
+
+  state.habits.forEach(habit=>{
+
+    if(!grouped[habit.category]){
+
+      grouped[habit.category] = [];
+    }
+
+    grouped[
+      habit.category
+    ].push(habit);
+  });
+
+  Object.keys(grouped).forEach(category=>{
+
+    const categoryDiv =
+      document.createElement("div");
+
+    categoryDiv.className =
+      "category";
+
+    const title =
+      document.createElement("h2");
+
+    title.innerText =
+      category;
+
+    categoryDiv.appendChild(title);
+
+    grouped[category].forEach(
+      (habit,index)=>{
 
       const card =
         document.createElement("div");
 
       card.className =
-        "habit-card";
+        `task ${
+          habit.done
+          ? "done"
+          : ""
+        }`;
 
-      card.style.padding =
-        "15px";
+      const left =
+        document.createElement("div");
 
-      card.style.marginTop =
-        "10px";
+      left.className =
+        "task-left";
 
       const checkbox =
         document.createElement("input");
@@ -1319,30 +1507,58 @@ function renderHabits() {
       checkbox.checked =
         habit.done;
 
-      checkbox.onchange = () => {
+      checkbox.onchange = ()=>{
 
         habit.done =
           !habit.done;
 
+        if(habit.done){
+
+          addXP(5);
+
+          celebrate();
+        }
+
+        updateHabitStats();
+
         saveToLocal();
+
+        renderHabits();
       };
+
+      const wrapper =
+        document.createElement("div");
 
       const text =
         document.createElement("span");
 
       text.innerText =
-        " " + habit.name;
+        habit.name;
 
-      card.append(
+      wrapper.appendChild(text);
+
+      const info =
+        document.createElement("small");
+
+      info.innerText =
+        `${habit.repeat} • ${habit.time || "-"}`;
+
+      wrapper.appendChild(info);
+
+      left.append(
         checkbox,
-        text
+        wrapper
       );
 
-      container.appendChild(
-        card
-      );
-    }
-  );
+      card.appendChild(left);
+
+      categoryDiv.appendChild(card);
+    });
+
+    container.appendChild(
+      categoryDiv
+    );
+  });
 }
 
 /* =========================
@@ -1363,6 +1579,46 @@ function closeTaskModal() {
   document
     .getElementById(
       "taskModal"
+    )
+    .classList.remove("show");
+}
+
+function openHabitModal(){
+
+  document
+    .getElementById(
+      "habitModal"
+    )
+    .classList.add("show");
+}
+
+function closeHabitModal(){
+
+  document
+    .getElementById(
+      "habitModal"
+    )
+    .classList.remove("show");
+}
+
+/* =========================
+   HABIT MODAL
+========================= */
+
+function openHabitModal(){
+
+  document
+    .getElementById(
+      "habitModal"
+    )
+    .classList.add("show");
+}
+
+function closeHabitModal(){
+
+  document
+    .getElementById(
+      "habitModal"
     )
     .classList.remove("show");
 }
