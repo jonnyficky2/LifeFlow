@@ -450,6 +450,7 @@ function refreshUI() {
 
   updateLevel();
   loadRandomQuote();
+  updateImproveStats();
 }
 
 /* =========================
@@ -585,9 +586,18 @@ function toggleTask(
 
   task.done = !task.done;
 
-  if (task.done) {
+  const level =
+  Math.floor(state.xp / 100) + 1;
 
-  addXP(10);
+const safeLevel =
+  Math.min(level,10);
+
+const reward =
+  levels[safeLevel - 1].xp;
+
+if (task.done) {
+
+  addXP(reward);
 
   celebrate();
 
@@ -595,7 +605,7 @@ function toggleTask(
 
 } else {
 
-  addXP(-10);
+  addXP(-reward);
 }
 
   saveToLocal();
@@ -690,6 +700,59 @@ function setFilter(filter) {
   refreshUI();
 }
 
+const levels = [
+
+  {
+    name:"Pemula",
+    xp:10
+  },
+
+  {
+    name:"Konsisten",
+    xp:9
+  },
+
+  {
+    name:"Fokus",
+    xp:8
+  },
+
+  {
+    name:"Produktif",
+    xp:7
+  },
+
+  {
+    name:"Disiplin",
+    xp:6
+  },
+
+  {
+    name:"Advanced",
+    xp:5
+  },
+
+  {
+    name:"Elite",
+    xp:4
+  },
+
+  {
+    name:"Master",
+    xp:3
+  },
+
+  {
+    name:"Legend",
+    xp:2
+  },
+
+  {
+    name:"Monster",
+    xp:1
+  }
+];
+
 /* =========================
    XP
 ========================= */
@@ -709,16 +772,24 @@ function addXP(amount) {
 
 function updateLevel() {
 
-  const level =
-    Math.floor(state.xp / 100) + 1;
+  let level =
+  Math.floor(state.xp / 100) + 1;
+
+if(level > 10){
+  level = 10;
+}
 
   const currentXP =
     state.xp % 100;
+    
+    const levelData =
+  levels[level - 1];
 
   document.getElementById(
-    "levelText"
-  ).innerText =
-    `🏆 Level ${level}`;
+  "levelText"
+).innerText =
+
+  `🏆 Lv.${level} • ${levelData.name}`;
 
   document.getElementById(
     "xpText"
@@ -768,6 +839,129 @@ function updateDailyHistory() {
     percent;
 
   saveToLocal();
+}
+
+/* =========================
+   IMPROVE SYSTEM
+========================= */
+
+function updateImproveStats(){
+
+  const dates =
+    Object.keys(state.historyData);
+
+  if(dates.length < 2)
+    return;
+
+  const today =
+    new Date();
+
+  const todayKey =
+    today
+    .toISOString()
+    .split("T")[0];
+
+  const yesterday =
+    new Date();
+
+  yesterday.setDate(
+    yesterday.getDate() - 1
+  );
+
+  const yesterdayKey =
+    yesterday
+    .toISOString()
+    .split("T")[0];
+
+  const todayValue =
+    state.historyData[todayKey] || 0;
+
+  const yesterdayValue =
+    state.historyData[
+      yesterdayKey
+    ] || 0;
+
+  let diff =
+    todayValue - yesterdayValue;
+
+  let text = "";
+
+  if(diff > 0){
+
+    text =
+      `🔥 Hari ini ${diff}% lebih baik dari kemarin`;
+
+  }else if(diff < 0){
+
+    text =
+      `📉 Hari ini turun ${Math.abs(diff)}%`;
+
+  }else{
+
+    text =
+      `⚖️ Progress sama seperti kemarin`;
+  }
+
+  document.getElementById(
+    "dailyImprove"
+  ).innerText = text;
+
+  /* WEEK */
+
+  const values =
+    Object.values(
+      state.historyData
+    );
+
+  const last7 =
+    values.slice(-7);
+
+  const prev7 =
+    values.slice(-14,-7);
+
+  const avg1 =
+    last7.length
+    ? Math.round(
+        last7.reduce(
+          (a,b)=>a+b,0
+        ) / last7.length
+      )
+    : 0;
+
+  const avg2 =
+    prev7.length
+    ? Math.round(
+        prev7.reduce(
+          (a,b)=>a+b,0
+        ) / prev7.length
+      )
+    : 0;
+
+  let weeklyText = "";
+
+  const weekDiff =
+    avg1 - avg2;
+
+  if(weekDiff > 0){
+
+    weeklyText =
+      `🚀 Minggu ini naik ${weekDiff}%`;
+
+  }else if(weekDiff < 0){
+
+    weeklyText =
+      `📉 Minggu ini turun ${Math.abs(weekDiff)}%`;
+
+  }else{
+
+    weeklyText =
+      `📊 Minggu ini stabil`;
+  }
+
+  document.getElementById(
+    "weeklyImprove"
+  ).innerText =
+    weeklyText;
 }
 
 /* =========================
@@ -1682,9 +1876,120 @@ function changeMonth(step) {
    SPLASH
 ========================= */
 
+/* =========================
+   SPLASH WELCOME
+========================= */
+
+function updateSplashWelcome(){
+
+  let level =
+    Math.floor(state.xp / 100) + 1;
+
+  if(level > 10){
+    level = 10;
+  }
+
+  const splashData = [
+
+    {
+      title:
+        "Selamat datang, Pemula 👋",
+
+      quote:
+        "Setiap orang hebat pernah memulai dari nol."
+    },
+
+    {
+      title:
+        "Selamat datang, Konsisten 🔥",
+
+      quote:
+        "Konsistensi kecil setiap hari mengalahkan motivasi sesaat."
+    },
+
+    {
+      title:
+        "Selamat datang, Fokus 🎯",
+
+      quote:
+        "Fokus pada progress, bukan kesempurnaan."
+    },
+
+    {
+      title:
+        "Selamat datang, Produktif ⚡",
+
+      quote:
+        "Produktivitas bukan sibuk, tapi menyelesaikan hal penting."
+    },
+
+    {
+      title:
+        "Selamat datang, Disiplin 🧠",
+
+      quote:
+        "Disiplin membuatmu tetap berjalan saat motivasi hilang."
+    },
+
+    {
+      title:
+        "Selamat datang, Advanced 🚀",
+
+      quote:
+        "Kamu sudah lebih jauh dari kebanyakan orang."
+    },
+
+    {
+      title:
+        "Selamat datang, Elite 👑",
+
+      quote:
+        "Level tinggi datang dari ribuan langkah kecil."
+    },
+
+    {
+      title:
+        "Selamat datang, Master 🔥",
+
+      quote:
+        "Master bukan yang sempurna, tapi yang terus berkembang."
+    },
+
+    {
+      title:
+        "Selamat datang, Legend ⚔️",
+
+      quote:
+        "Legenda dibentuk oleh konsistensi bertahun-tahun."
+    },
+
+    {
+      title:
+        "Selamat datang, Monster 💀",
+
+      quote:
+        "Kamu bukan lagi mengejar orang lain. Kamu melampaui dirimu sendiri."
+    }
+  ];
+
+  const data =
+    splashData[level - 1];
+
+  document.getElementById(
+    "splashLevelText"
+  ).innerText =
+    data.title;
+
+  document.getElementById(
+    "splashQuote"
+  ).innerText =
+    data.quote;
+}
+
 window.addEventListener(
   "load",
   () => {
+    updateSplashWelcome();
 
     const splash =
       document.getElementById(
