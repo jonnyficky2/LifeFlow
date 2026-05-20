@@ -22,6 +22,10 @@ const state = {
   streakData: JSON.parse(
     localStorage.getItem("streakData") || "[]"
   ),
+  
+  historyData: JSON.parse(
+  localStorage.getItem("historyData") || "{}"
+),
 
   undoStack: [],
   redoStack: [],
@@ -53,6 +57,7 @@ window.addEventListener(
   Notification.requestPermission();
 }
     resetHabitsDaily();
+    resetDailyTasks();
     refreshUI();
 
     loadTheme();
@@ -86,6 +91,10 @@ function saveToLocal() {
     "streakData",
     JSON.stringify(state.streakData)
   );
+  localStorage.setItem(
+  "historyData",
+  JSON.stringify(state.historyData)
+);
 }
 function saveState() {
 
@@ -427,7 +436,8 @@ if(task.deadline){
 ========================= */
 
 function refreshUI() {
-
+  
+  updateDailyHistory();
   render();
 
   renderCalendar();
@@ -528,13 +538,17 @@ function saveTaskModal() {
   saveState();
 
   state.appData[
-    state.currentCategoryIndex
-  ].tasks.push({
-    name,
-    deadline,
-    priority,
-    done: false
-  });
+  state.currentCategoryIndex
+].tasks.push({
+  name,
+  deadline,
+  priority,
+  daily:
+    document.getElementById(
+      "taskDailyInput"
+    ).checked,
+  done: false
+});
 
   saveToLocal();
 
@@ -548,6 +562,10 @@ function saveTaskModal() {
   document.getElementById(
     "taskDeadlineInput"
   ).value = "";
+  
+  document.getElementById(
+  "taskDailyInput"
+).checked = false;
 }
 
 function toggleTask(
@@ -714,6 +732,45 @@ function updateLevel() {
 }
 
 /* =========================
+   DAILY HISTORY
+========================= */
+
+function updateDailyHistory() {
+
+  const today =
+    new Date()
+    .toISOString()
+    .split("T")[0];
+
+  let total = 0;
+  let done = 0;
+
+  state.appData.forEach(category => {
+
+    category.tasks.forEach(task => {
+
+      total++;
+
+      if(task.done){
+        done++;
+      }
+    });
+  });
+
+  const percent =
+    total
+    ? Math.round(
+        done / total * 100
+      )
+    : 0;
+
+  state.historyData[today] =
+    percent;
+
+  saveToLocal();
+}
+
+/* =========================
    CHART
 ========================= */
 
@@ -729,28 +786,33 @@ function updateChart(){
 
   if(!canvas) return;
 
-  const labels =
-    state.appData.map(
-      c => c.name
-    );
+  const labels = [];
+const data = [];
 
-  const data =
-    state.appData.map(c=>{
+for(let i = 6; i >= 0; i--){
 
-      const total =
-        c.tasks.length;
+  const date =
+    new Date();
 
-      const done =
-        c.tasks.filter(
-          t=>t.done
-        ).length;
+  date.setDate(
+    date.getDate() - i
+  );
 
-      return total
-        ? Math.round(
-            done / total * 100
-          )
-        : 0;
-    });
+  const key =
+    date
+    .toISOString()
+    .split("T")[0];
+
+  labels.push(
+    `${date.getDate()}/${
+      date.getMonth()+1
+    }`
+  );
+
+  data.push(
+    state.historyData[key] || 0
+  );
+}
 
   if(chart){
     chart.destroy();
@@ -774,13 +836,8 @@ function updateChart(){
 
         borderSkipped: false,
 
-        backgroundColor: [
-          "#38bdf8",
-          "#22c55e",
-          "#f59e0b",
-          "#ef4444",
-          "#8b5cf6"
-        ]
+        backgroundColor:
+  "rgba(59,130,246,0.8)",
       }]
     },
 
@@ -1734,4 +1791,44 @@ setInterval(
   checkDeadlines,
   60000
 );
+
+/* =========================
+   RESET DAILY TASK
+========================= */
+
+function resetDailyTasks() {
+
+  const today =
+    new Date().toDateString();
+
+  const lastReset =
+    localStorage.getItem(
+      "dailyTaskReset"
+    );
+
+  if (lastReset === today)
+    return;
+
+  state.appData.forEach(
+    category => {
+
+      category.tasks.forEach(
+        task => {
+
+          if (task.daily) {
+
+            task.done = false;
+          }
+        }
+      );
+    }
+  );
+
+  localStorage.setItem(
+    "dailyTaskReset",
+    today
+  );
+
+  saveToLocal();
+}
   
