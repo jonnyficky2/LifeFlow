@@ -26,7 +26,7 @@
 
   <meta
     name="apple-mobile-web-app-status-bar-style"
-    content="default"
+    content="default">
 
   <meta
     name="apple-mobile-web-app-title"
@@ -85,7 +85,6 @@
   </h2>
 
   <p id="splashQuote">
-    Loading...
   </p>
 
 </div>
@@ -668,21 +667,87 @@
       placeholder="Nama habit"
     >
 
-    <select id="habitRepeatInput">
+    <select
+  id="habitRepeatInput"
+  onchange="toggleRepeatOptions()"
+>
 
-      <option value="daily">
-        Daily
-      </option>
+  <option value="daily">
+    Daily
+  </option>
 
-      <option value="weekly">
-        Weekly
-      </option>
+  <option value="weekly">
+    Weekly
+  </option>
 
-      <option value="monthly">
-        Monthly
-      </option>
+  <option value="monthly">
+    Monthly
+  </option>
 
-    </select>
+  <option value="custom">
+    Hari Tertentu
+  </option>
+
+</select>
+<div
+  id="habitDaysBox"
+  style="display:none;"
+>
+
+  <p>Pilih Hari:</p>
+
+  <label>
+    <input type="checkbox" value="0">
+    Minggu
+  </label>
+
+  <label>
+    <input type="checkbox" value="1">
+    Senin
+  </label>
+
+  <label>
+    <input type="checkbox" value="2">
+    Selasa
+  </label>
+
+  <label>
+    <input type="checkbox" value="3">
+    Rabu
+  </label>
+
+  <label>
+    <input type="checkbox" value="4">
+    Kamis
+  </label>
+
+  <label>
+    <input type="checkbox" value="5">
+    Jumat
+  </label>
+
+  <label>
+    <input type="checkbox" value="6">
+    Sabtu
+  </label>
+
+</div>
+
+<div
+  id="habitDateBox"
+  style="display:none;"
+>
+
+  <p>Setiap tanggal:</p>
+
+  <input
+    type="number"
+    id="habitDateInput"
+    min="1"
+    max="31"
+  >
+
+</div>
 
     <input
       type="time"
@@ -715,10 +780,7 @@
        CONFETTI
   ========================== -->
 
-  <script
-    src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
-
-  </script>
+  <script src="./confetti.js"></script>
   
 
   <!-- =========================
@@ -810,4 +872,4 @@
   </noscript>
 
 </body>
-          </html>
+</html>
