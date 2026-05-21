@@ -500,8 +500,6 @@ function refreshTaskUI(){
 
   generateHeatmap();
 
-  updateStreak();
-
   loadRandomQuote();
 
   updateImproveStats();
@@ -512,6 +510,7 @@ function refreshStatsUI(){
   updateChart();
 
   updateHabitChart();
+  updateImproveStats();
 }
 
 function refreshHabitUI(){
@@ -554,10 +553,17 @@ function addCategory() {
 
 function addHabitCategory(){
 
+  const input =
+    document.getElementById(
+      "habitCategoryInput"
+    );
+
   const name =
-    prompt("Nama kategori habit:");
+    input.value.trim();
 
   if(!name) return;
+
+  saveState();
 
   state.habits.push({
 
@@ -566,9 +572,11 @@ function addHabitCategory(){
     habits:[]
   });
 
+  input.value = "";
+
   saveToLocal();
 
-  renderHabits();
+  refreshHabitUI();
 }
 
 function editCategory(index) {
@@ -667,6 +675,22 @@ const note =
   document.getElementById(
     "taskDeadlineInput"
   ).value = "";
+  
+  document.getElementById(
+  "taskTimeInput"
+).value = "";
+
+document.getElementById(
+  "taskLocationInput"
+).value = "";
+
+document.getElementById(
+  "taskNoteInput"
+).value = "";
+
+document.getElementById(
+  "taskPriorityInput"
+).value = "low";
 }
 
 function toggleTask(
@@ -739,7 +763,7 @@ function toggleHabit(
   }
 
   const reward =
-    11 - level;
+  Math.max(2, level);
 
   if(habit.done){
 
@@ -1446,7 +1470,10 @@ function updateHabitChart(){
 
         borderWidth:3,
 
-        pointRadius:4
+        pointRadius:5,
+pointHoverRadius:8,
+pointBorderWidth:2,
+cubicInterpolationMode:"monotone",
       }]
     },
 
@@ -1537,15 +1564,32 @@ function generateHeatmap() {
    STREAK
 ========================= */
 
-function updateStreak() {
+function updateStreak(){
 
   const today =
     new Date()
     .toDateString();
 
-  if (
+  let allDone = true;
+  let hasTask = false;
+
+  state.appData.forEach(category=>{
+
+    category.tasks.forEach(task=>{
+
+      hasTask = true;
+
+      if(!task.done){
+        allDone = false;
+      }
+    });
+  });
+
+  if(
+    hasTask &&
+    allDone &&
     !state.streakData.includes(today)
-  ) {
+  ){
 
     state.streakData.push(today);
 
@@ -1557,7 +1601,6 @@ function updateStreak() {
   ).innerText =
     `🔥 Streak: ${state.streakData.length} hari`;
 }
-
 function loadRandomQuote() {
 
   if (!quotes.length) return;
@@ -1697,11 +1740,11 @@ function renderHabits() {
       category.category;
 
     header.appendChild(title);
-    const addBtn =
+  const addBtn =
   document.createElement("button");
 
 addBtn.innerText =
-  "+ Tambah Habit";
+  "+ Habit";
 
 addBtn.onclick = ()=>{
 
@@ -1712,6 +1755,7 @@ addBtn.onclick = ()=>{
 };
 
 header.appendChild(addBtn);
+
 
     categoryDiv.appendChild(
       header
@@ -1857,10 +1901,11 @@ function showSection(section) {
   ).style.display = "none";
 
   if (section === "home") {
-    homeSection.style.display =
-      "block";
-  }
 
+  document.getElementById(
+    "homeSection"
+  ).style.display = "block";
+}
   if (section === "calendar") {
     calendarSection.style.display =
       "block";
@@ -1975,6 +2020,14 @@ function importData(event) {
 
   state.habits =
     imported.habits || [];
+    state.historyData =
+  imported.historyData || {};
+
+state.habitHistory =
+  imported.habitHistory || {};
+
+state.streakData =
+  imported.streakData || [];
 
   saveToLocal();
 
@@ -2257,7 +2310,8 @@ function renderCalendar() {
 
     if (!task.deadline) return;
 
-    const taskDate = new Date(task.deadline);
+    const taskDate =
+  new Date(task.deadline + "T00:00:00");
 
     if (
       taskDate.getDate() === day &&
@@ -2446,6 +2500,8 @@ function saveCalendarTask() {
   task.name = document.getElementById("modalTaskName").value;
 
   saveToLocal();
+  updateDailyHistory();
+updateQuickStats();
   refreshUI();
   closeCalendarModal();
 }
@@ -2814,6 +2870,12 @@ document.addEventListener(
     }
   }
 );
+
+setInterval(()=>{
+
+  checkTaskReminders();
+
+},60000);
 
 
   
