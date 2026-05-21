@@ -7,6 +7,8 @@ let habitChart = null;
 let deferredPrompt = null;
 let dragged = null;
 let selectedCalendarDate = null;
+let editingTask = null;
+let editingHabit = null;
 
 /* =========================
    STATE
@@ -51,6 +53,18 @@ habitHistory: JSON.parse(
 
 const container =
   document.getElementById("container");
+  
+  const homeSection =
+  document.getElementById("homeSection");
+
+const calendarSection =
+  document.getElementById("calendarSection");
+
+const habitSection =
+  document.getElementById("habitSection");
+
+const statsSection =
+  document.getElementById("statsSection");
 
 /* =========================
    START
@@ -101,8 +115,20 @@ function resetHabitsDaily(){
     "habitResetDate",
     today
   );
-
   saveToLocal();
+}
+
+function trimHistory(){
+
+  const keys =
+    Object.keys(state.historyData);
+
+  if(keys.length > 90){
+
+    delete state.historyData[
+      keys[0]
+    ];
+  }
 }
 
 /* =========================
@@ -110,6 +136,7 @@ function resetHabitsDaily(){
 ========================= */
 
 function saveToLocal() {
+  trimHistory();
 
   localStorage.setItem(
     "appData",
@@ -306,9 +333,9 @@ taskDiv.addEventListener(
       movedTask
     );
 
-    dragged = null;
-
     saveToLocal();
+
+    dragged = null;
 
     refreshUI();
   }
@@ -626,21 +653,21 @@ function saveTaskModal() {
     document.getElementById(
       "taskDeadlineInput"
     ).value;
-    
-    const time =
-  document.getElementById(
-    "taskTimeInput"
-  ).value;
 
-const location =
-  document.getElementById(
-    "taskLocationInput"
-  ).value;
+  const time =
+    document.getElementById(
+      "taskTimeInput"
+    ).value;
 
-const note =
-  document.getElementById(
-    "taskNoteInput"
-  ).value;
+  const location =
+    document.getElementById(
+      "taskLocationInput"
+    ).value;
+
+  const note =
+    document.getElementById(
+      "taskNoteInput"
+    ).value;
 
   const priority =
     document.getElementById(
@@ -651,23 +678,44 @@ const note =
 
   saveState();
 
+if(editingTask){
+
+  const task =
+    state.appData[
+      editingTask.catIndex
+    ].tasks[
+      editingTask.taskIndex
+    ];
+
+  task.name = name;
+  task.deadline = deadline;
+  task.time = time;
+  task.location = location;
+  task.note = note;
+  task.priority = priority;
+
+  editingTask = null;
+
+}else{
+
   state.appData[
-  state.currentCategoryIndex
-].tasks.push({
-  name,
-  deadline,
-  time,
-  location,
-  note,
-  priority,
-  done: false
-});
+    state.currentCategoryIndex
+  ].tasks.push({
+    name,
+    deadline,
+    time,
+    location,
+    note,
+    priority,
+    done: false
+  });
+}
 
   saveToLocal();
 
   refreshUI();
-  closeTaskModal();
 
+  // RESET FORM
   document.getElementById(
     "taskNameInput"
   ).value = "";
@@ -675,22 +723,24 @@ const note =
   document.getElementById(
     "taskDeadlineInput"
   ).value = "";
-  
+
   document.getElementById(
-  "taskTimeInput"
-).value = "";
+    "taskTimeInput"
+  ).value = "";
 
-document.getElementById(
-  "taskLocationInput"
-).value = "";
+  document.getElementById(
+    "taskLocationInput"
+  ).value = "";
 
-document.getElementById(
-  "taskNoteInput"
-).value = "";
+  document.getElementById(
+    "taskNoteInput"
+  ).value = "";
 
-document.getElementById(
-  "taskPriorityInput"
-).value = "low";
+  document.getElementById(
+    "taskPriorityInput"
+  ).value = "low";
+
+  closeTaskModal();
 }
 
 function toggleTask(
@@ -799,19 +849,36 @@ function editTask(
     state.appData[catIndex]
     .tasks[taskIndex];
 
-  const newName =
-    prompt(
-      "Edit task:",
-      task.name
-    );
+  editingTask = {
+    catIndex,
+    taskIndex
+  };
 
-  if (!newName) return;
+  document.getElementById(
+    "taskNameInput"
+  ).value = task.name || "";
 
-  task.name = newName;
+  document.getElementById(
+    "taskDeadlineInput"
+  ).value = task.deadline || "";
 
-  saveToLocal();
+  document.getElementById(
+    "taskTimeInput"
+  ).value = task.time || "";
 
-  refreshUI();
+  document.getElementById(
+    "taskLocationInput"
+  ).value = task.location || "";
+
+  document.getElementById(
+    "taskNoteInput"
+  ).value = task.note || "";
+
+  document.getElementById(
+    "taskPriorityInput"
+  ).value = task.priority || "low";
+
+  openTaskModal();
 }
 
 function deleteTask(
@@ -848,7 +915,9 @@ function filterTask(task) {
   if (state.searchValue) {
 
     return (
-  task.name.toLowerCase().includes(state.searchValue)
+  (task.name || "")
+.toLowerCase()
+.includes(state.searchValue)
   ||
   (task.note || "")
     .toLowerCase()
@@ -1445,6 +1514,25 @@ function updateHabitChart(){
       state.habitHistory[key] || 0
     );
   }
+  const categoryStats =
+  state.habits.map(cat=>{
+
+    const total =
+      cat.habits.length;
+
+    const done =
+      cat.habits.filter(
+        h=>h.done
+      ).length;
+
+    return {
+      name:cat.category,
+      percent:
+        total
+        ? Math.round(done/total*100)
+        : 0
+    };
+  });
 
   if(habitChart){
     habitChart.destroy();
@@ -1673,6 +1761,26 @@ function addHabit() {
       "habitRepeatInput"
     ).value;
 
+  let checkedDays = [
+    ...document.querySelectorAll(
+      "#habitDaysBox input:checked"
+    )
+  ].map(el => Number(el.value));
+
+  if(
+    repeat === "weekly" &&
+    checkedDays.length === 0
+  ){
+    checkedDays.push(
+      new Date().getDay()
+    );
+  }
+
+  const repeatDate =
+    document.getElementById(
+      "habitDateInput"
+    ).value;
+
   const time =
     document.getElementById(
       "habitTimeInput"
@@ -1680,31 +1788,121 @@ function addHabit() {
 
   if(!name.trim()) return;
 
+  // FIX
+  if(
+    state.currentHabitCategoryIndex === null ||
+    !state.habits[
+      state.currentHabitCategoryIndex
+    ]
+  ){
+    alert("Pilih category habit dulu");
+    return;
+  }
+
   const category =
     state.habits[
       state.currentHabitCategoryIndex
     ];
 
-  category.habits.push({
+  if(editingHabit){
 
-    id:Date.now(),
+    const habit =
+      state.habits[
+        editingHabit.catIndex
+      ].habits[
+        editingHabit.habitIndex
+      ];
 
-    name,
+    habit.name = name;
+    habit.repeatType = repeat;
+    habit.repeatDays = checkedDays;
+    habit.repeatDate = repeatDate;
+    habit.time = time;
 
-    repeat,
+    editingHabit = null;
 
-    time,
+  }else{
 
-    streak:0,
+    category.habits.push({
 
-    done:false
-  });
+      id: Date.now(),
+
+      name,
+
+      repeatType: repeat,
+
+      repeatDays: checkedDays,
+
+      repeatDate,
+
+      time,
+
+      streak: 0,
+
+      done: false,
+
+      createdAt: Date.now()
+    });
+  }
 
   saveToLocal();
 
   renderHabits();
 
+  // reset form
+  document.getElementById(
+    "habitInput"
+  ).value = "";
+
+  document.getElementById(
+    "habitTimeInput"
+  ).value = "";
+
+  document.getElementById(
+    "habitDateInput"
+  ).value = "";
+
+  document.querySelectorAll(
+    "#habitDaysBox input"
+  ).forEach(el=>{
+
+    el.checked = false;
+  });
+
   closeHabitModal();
+}
+
+function isHabitToday(habit){
+
+  const now =
+    new Date();
+
+  const day =
+    now.getDay();
+
+  const date =
+    now.getDate();
+
+  if(habit.repeatType === "daily"){
+    return true;
+  }
+
+  if(habit.repeatType === "weekly"){
+
+  return habit.repeatDays.includes(day);
+}
+
+  if(habit.repeatType === "monthly"){
+    return Number(
+      habit.repeatDate
+    ) === date;
+  }
+
+  if(habit.repeatType === "custom"){
+    return habit.repeatDays.includes(day);
+  }
+
+  return true;
 }
 
 function renderHabits() {
@@ -1740,6 +1938,64 @@ function renderHabits() {
       category.category;
 
     header.appendChild(title);
+    const actions =
+  document.createElement("div");
+
+/* EDIT CATEGORY */
+
+const editBtn =
+  document.createElement("button");
+
+editBtn.innerText = "✏️";
+
+editBtn.onclick = ()=>{
+
+  const newName =
+    prompt(
+      "Edit category habit:",
+      category.category
+    );
+
+  if(!newName) return;
+
+  category.category = newName;
+
+  saveToLocal();
+
+  renderHabits();
+};
+
+/* DELETE CATEGORY */
+
+const delBtn =
+  document.createElement("button");
+
+delBtn.innerText = "🗑";
+
+delBtn.onclick = ()=>{
+
+  if(
+    !confirm(
+      "Hapus category habit?"
+    )
+  ) return;
+
+  state.habits.splice(
+    catIndex,
+    1
+  );
+
+  saveToLocal();
+
+  renderHabits();
+};
+
+actions.append(
+  editBtn,
+  delBtn
+);
+
+header.appendChild(actions);
   const addBtn =
   document.createElement("button");
 
@@ -1763,6 +2019,8 @@ header.appendChild(addBtn);
 
     category.habits.forEach(
       (habit,habitIndex)=>{
+        if(!isHabitToday(habit))
+  return;
 
       const card =
         document.createElement("div");
@@ -1809,8 +2067,35 @@ header.appendChild(addBtn);
       const info =
         document.createElement("small");
 
-      info.innerText =
-        `${habit.repeat} • 🔥 ${habit.streak}`;
+      let repeatText =
+  habit.repeatType;
+
+if(habit.repeatType === "custom"){
+
+  const names = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu"
+  ];
+
+  repeatText =
+    habit.repeatDays
+    .map(day=>names[day])
+    .join(", ");
+}
+
+if(habit.repeatType === "monthly"){
+
+  repeatText =
+    `Tgl ${habit.repeatDate}`;
+}
+
+info.innerText =
+  `${repeatText} • 🔥 ${habit.streak}`;
 
       wrapper.append(
         text,
@@ -1823,6 +2108,122 @@ header.appendChild(addBtn);
       );
 
       card.appendChild(left);
+      const right =
+  document.createElement("div");
+  card.draggable = true;
+  card.addEventListener(
+  "dragstart",
+  ()=>{
+
+    dragged = {
+      type:"habit",
+      catIndex,
+      habitIndex
+    };
+
+    card.classList.add(
+      "dragging"
+    );
+  }
+);
+
+card.addEventListener(
+  "dragend",
+  ()=>{
+
+    card.classList.remove(
+      "dragging"
+    );
+  }
+);
+
+card.addEventListener(
+  "dragover",
+  (e)=>{
+
+    e.preventDefault();
+  }
+);
+
+card.addEventListener(
+  "drop",
+  ()=>{
+
+    if(
+      !dragged ||
+      dragged.type !== "habit"
+    ) return;
+
+    const from =
+      state.habits[
+        dragged.catIndex
+      ];
+
+    const moved =
+      from.habits.splice(
+        dragged.habitIndex,
+        1
+      )[0];
+
+    state.habits[
+      catIndex
+    ].habits.splice(
+      habitIndex,
+      0,
+      moved
+    );
+
+    saveToLocal();
+
+    renderHabits();
+  }
+);
+
+const edit =
+  document.createElement("button");
+
+edit.innerText = "✏️";
+
+edit.onclick = ()=>{
+
+  const newName =
+    prompt(
+      "Edit habit:",
+      habit.name
+    );
+
+  if(!newName) return;
+
+  habit.name = newName;
+
+  saveToLocal();
+
+  renderHabits();
+};
+
+const del =
+  document.createElement("button");
+
+del.innerText = "🗑";
+
+del.onclick = ()=>{
+
+  category.habits.splice(
+    habitIndex,
+    1
+  );
+
+  saveToLocal();
+
+  renderHabits();
+};
+
+right.append(
+  edit,
+  del
+);
+
+card.appendChild(right);
 
       categoryDiv.appendChild(
         card
@@ -1855,6 +2256,7 @@ function closeTaskModal() {
       "taskModal"
     )
     .classList.remove("show");
+    editingTask = null;
 }
 
 function openHabitModal(){
@@ -1879,46 +2281,68 @@ function closeHabitModal(){
     .classList.remove("show");
 }
 
+function toggleRepeatOptions(){
+
+  const repeat =
+    document.getElementById(
+      "habitRepeatInput"
+    ).value;
+
+  const daysBox =
+    document.getElementById(
+      "habitDaysBox"
+    );
+
+  const dateBox =
+    document.getElementById(
+      "habitDateBox"
+    );
+
+  daysBox.style.display =
+    repeat === "custom"
+    ? "block"
+    : "none";
+
+  dateBox.style.display =
+    repeat === "monthly"
+    ? "block"
+    : "none";
+}
+
 /* =========================
    SECTION
 ========================= */
 
 function showSection(section) {
 
-  document.getElementById("homeSection"
-  ).style.display = "none";
-  
-  document.getElementById(
-    "calendarSection"
-  ).style.display = "none";
+  homeSection.style.display = "none";
 
-  document.getElementById(
-    "habitSection"
-  ).style.display = "none";
+  calendarSection.style.display = "none";
 
-  document.getElementById(
-    "statsSection"
-  ).style.display = "none";
+  habitSection.style.display = "none";
+
+  statsSection.style.display = "none";
 
   if (section === "home") {
+    homeSection.style.display = "block";
+  }
 
-  document.getElementById(
-    "homeSection"
-  ).style.display = "block";
-}
   if (section === "calendar") {
-    calendarSection.style.display =
-      "block";
+
+    calendarSection.style.display = "block";
+
+    renderCalendar();
   }
 
   if (section === "habit") {
-    habitSection.style.display =
-      "block";
+    habitSection.style.display = "block";
   }
 
   if (section === "stats") {
-    statsSection.style.display =
-      "block";
+
+    statsSection.style.display = "block";
+
+    refreshStatsUI();
   }
 }
 
@@ -1960,6 +2384,7 @@ document
         ? "light"
         : "dark"
     );
+    refreshStatsUI();
   };
 
 /* =========================
@@ -2175,7 +2600,17 @@ function celebrate() {
   }
 }
 
+function refreshStatsUI(){
 
+  requestAnimationFrame(()=>{
+
+    updateChart();
+    updateHabitChart();
+
+  });
+
+  updateImproveStats();
+}
 
 
 /* =========================
@@ -2475,67 +2910,39 @@ document
       calendarSelected.taskIndex
     ];
 
-  document.getElementById("modalTaskName").value = task.name;
+  editingTask = {
+    catIndex:
+      calendarSelected.catIndex,
 
-  document.getElementById("modalCategory").innerText =
-    state.appData[calendarSelected.catIndex].name;
-
-  document.getElementById("calendarTaskModal").classList.add("show");
-}
-
-function closeCalendarModal() {
-  document.getElementById("calendarTaskModal").classList.remove("show");
-}
-
-function saveCalendarTask() {
-  const task =
-    state.appData[
-      calendarSelected.catIndex
-    ].tasks[
+    taskIndex:
       calendarSelected.taskIndex
-    ];
+  };
 
-  saveState();
+  document.getElementById(
+    "taskNameInput"
+  ).value = task.name || "";
 
-  task.name = document.getElementById("modalTaskName").value;
+  document.getElementById(
+    "taskDeadlineInput"
+  ).value = task.deadline || "";
 
-  saveToLocal();
-  updateDailyHistory();
-updateQuickStats();
-  refreshUI();
-  closeCalendarModal();
-}
+  document.getElementById(
+    "taskTimeInput"
+  ).value = task.time || "";
 
-function toggleCalendarTaskDone() {
-  const task =
-    state.appData[
-      calendarSelected.catIndex
-    ].tasks[
-      calendarSelected.taskIndex
-    ];
+  document.getElementById(
+    "taskLocationInput"
+  ).value = task.location || "";
 
-  saveState();
+  document.getElementById(
+    "taskNoteInput"
+  ).value = task.note || "";
 
-  task.done = !task.done;
+  document.getElementById(
+    "taskPriorityInput"
+  ).value = task.priority || "low";
 
-  saveToLocal();
-  refreshUI();
-  closeCalendarModal();
-}
-
-function deleteCalendarTask() {
-  saveState();
-
-  state.appData[
-    calendarSelected.catIndex
-  ].tasks.splice(
-    calendarSelected.taskIndex,
-    1
-  );
-
-  saveToLocal();
-  refreshUI();
-  closeCalendarModal();
+  openTaskModal();
 }
   
   /* =========================
@@ -2772,17 +3179,28 @@ function checkDeadlines(){
 
       if(diff === 0){
 
-        new Notification(
-          "⏰ Deadline Hari Ini",
-          {
-            body:task.name
-          }
-        );
+  const notifyKey =
+    `deadline_${task.name}_${task.deadline}`;
 
-        showToast(
-          "Deadline hari ini!"
-        );
-      }
+  if(localStorage.getItem(notifyKey))
+    return;
+
+  localStorage.setItem(
+    notifyKey,
+    "sent"
+  );
+
+  new Notification(
+    "⏰ Deadline Hari Ini",
+    {
+      body:task.name
+    }
+  );
+
+  showToast(
+    "Deadline hari ini!"
+  );
+}
     });
   });
 }
@@ -2870,6 +3288,7 @@ document.addEventListener(
     }
   }
 );
+
 
 setInterval(()=>{
 
