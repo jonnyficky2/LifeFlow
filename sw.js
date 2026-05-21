@@ -1,43 +1,46 @@
 const CACHE_NAME = "daily-tracker-v1";
 
 const urlsToCache = [
+  "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap",
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
-  "./manifest.json",
   "./icon.jpg",
+  "./manifest.json",
   "./icon2.png"
 ];
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
   );
-
-  self.skipWaiting();
 });
 
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
+self.addEventListener(
+  "fetch",
+  event => {
+
+    event.respondWith(
+
+      caches.match(
+        event.request
       )
-    )
-  );
+      .then(response => {
 
-  self.clients.claim();
-});
+        return (
+          response ||
+          fetch(event.request)
+          .catch(() => {
 
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
-});
+            return caches.match(
+              "./index.html"
+            );
+          })
+        );
+      })
+    );
+  }
+);
