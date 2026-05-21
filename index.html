@@ -15,14 +15,6 @@
   <meta
     name="theme-color"
     content="#181818">
-    
-    <meta
-  name="apple-mobile-web-app-capable"
-  content="yes">
-
-<meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="black">
 
   <meta
     name="mobile-web-app-capable"
@@ -34,7 +26,7 @@
 
   <meta
     name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent">
+    content="default"
 
   <meta
     name="apple-mobile-web-app-title"
@@ -88,9 +80,9 @@
     <h1>Daily Tracker</h1>
     <div class="splash-content">
 
-  <h1 id="splashLevelText">
+  <h2 id="splashLevelText">
     Selamat Datang
-  </h1>
+  </h2>
 
   <p id="splashQuote">
     Loading...
@@ -106,7 +98,7 @@
        TITLE
   ========================== -->
 
-  <h1>Daily Tracker</h1>
+  <header>Daily Tracker</header>
 
   <!-- =========================
        LEVEL
@@ -345,8 +337,6 @@
 
     <div id="calendarGrid"></div>
 
-    <div id="calendarView"></div>
-
   </div>
   <div
   id="dayTasksModal"
@@ -428,15 +418,17 @@
 
     <div class="habit-box">
 
+  <input
+    type="text"
+    id="habitCategoryInput"
+    placeholder="Tambah kategori habit"
+  >
+
   <button onclick="addHabitCategory()">
 
-    + Category Habit
+    Tambah
 
   </button>
-  <button onclick="openHabitModal()">
-  + Tambah Habit
-</button>
-  
 
 </div>
 
@@ -450,17 +442,67 @@
   ========================== -->
 
   <div id="statsSection">
+    
+<div class="improve-card">
+
+  <h3 id="dailyImprove">
+    Hari ini belum ada data
+  </h3>
+
+  <p id="weeklyImprove">
+    Mingguan belum ada data
+  </p>
+
+</div>
+
+<div class="progress-ring-box">
+
+  <svg class="progress-ring"
+    width="180"
+    height="180">
+
+    <circle
+      class="ring-bg"
+      cx="90"
+      cy="90"
+      r="70"
+    />
+
+    <circle
+      class="ring-progress"
+      cx="90"
+      cy="90"
+      r="70"
+      id="progressRing"
+    />
+
+  </svg>
+
+  <div class="ring-text">
+
+    <h2 id="ringPercent">
+      0%
+    </h2>
+
+    <p>Productivity</p>
+
+  </div>
+
+</div>
 
     <h2>
       📊 Statistics
     </h2>
 
-    <canvas id="statsChart"></canvas>
+    <div class="chart-box">
+  <canvas id="statsChart"></canvas>
+</div>
     <h2>
   🔥 Habit Statistics
 </h2>
-
-<canvas id="habitChart"></canvas>
+<div class="chart-box">
+  <canvas id="habitChart"></canvas>
+</div>
 
   </div>
 
@@ -479,9 +521,7 @@
   ========================== -->
     
     <button
-  id="floatingAddBtn"
-  onclick="openTaskModal()"
->
+  id="floatingAddBtn">
   +
 </button>
   
@@ -679,58 +719,13 @@
     src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
 
   </script>
-  <div class="improve-card">
-
-  <h3 id="dailyImprove">
-    Hari ini belum ada data
-  </h3>
-
-  <p id="weeklyImprove">
-    Mingguan belum ada data
-  </p>
-
-</div>
-
-<div class="progress-ring-box">
-
-  <svg class="progress-ring"
-    width="180"
-    height="180">
-
-    <circle
-      class="ring-bg"
-      cx="90"
-      cy="90"
-      r="70"
-    />
-
-    <circle
-      class="ring-progress"
-      cx="90"
-      cy="90"
-      r="70"
-      id="progressRing"
-    />
-
-  </svg>
-
-  <div class="ring-text">
-
-    <h2 id="ringPercent">
-      0%
-    </h2>
-
-    <p>Productivity</p>
-
-  </div>
-
-</div>
+  
 
   <!-- =========================
        CHART JS
   ========================== -->
 
-  <script defer src="./chart.umd.js"></script>
+  <script src="./chart.umd.js"></script>
 
   <!-- =========================
        MAIN SCRIPT
@@ -749,10 +744,10 @@
 
   <script>
 
-    if (
-      location.hostname === "localhost"
-    ) {
-
+      if (
+  location.hostname === "localhost" ||
+  location.hostname === "127.0.0.1"
+) {
       const script =
         document.createElement("script");
 
@@ -815,4 +810,4 @@
   </noscript>
 
 </body>
-</html>
+          </html>
