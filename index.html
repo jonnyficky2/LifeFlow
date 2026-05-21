@@ -15,6 +15,14 @@
   <meta
     name="theme-color"
     content="#181818">
+    
+    <meta
+  name="apple-mobile-web-app-capable"
+  content="yes">
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black">
 
   <meta
     name="mobile-web-app-capable"
@@ -263,6 +271,29 @@
   ========================== -->
 
   <div id="homeSection">
+    <div id="quickStats">
+
+  <div class="stat-card">
+    <h3 id="doneCount">0</h3>
+    <p>Done</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="pendingCount">0</h3>
+    <p>Pending</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="streakCount">0</h3>
+    <p>Streak</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="levelCount">1</h3>
+    <p>Level</p>
+  </div>
+
+</div>
 
     <p id="saveStatus">
 
@@ -397,13 +428,19 @@
 
     <div class="habit-box">
 
-  <button onclick="openHabitModal()">
+  <button onclick="addHabitCategory()">
 
-    + Tambah Habit
+    + Category Habit
 
   </button>
+  <button onclick="openHabitModal()">
+  + Tambah Habit
+</button>
+  
 
 </div>
+
+    
 <div id="habitContainer"></div>
 
 </div>
@@ -440,12 +477,14 @@
   <!-- =========================
        FLOAT BUTTON
   ========================== -->
-
-  <button id="floatingAddBtn">
-
-    +
-
-  </button>
+    
+    <button
+  id="floatingAddBtn"
+  onclick="openTaskModal()"
+>
+  +
+</button>
+  
 
   <!-- =========================
        BOTTOM NAV
@@ -506,7 +545,7 @@
 
       <input
         type="date"
-        id="taskDeadlineInput"
+        id="taskDeadlineInput">
         <input
   type="time"
   id="taskTimeInput"
@@ -589,12 +628,6 @@
       placeholder="Nama habit"
     >
 
-    <input
-      type="text"
-      id="habitCategoryInput"
-      placeholder="Kategori"
-    >
-
     <select id="habitRepeatInput">
 
       <option value="daily">
@@ -658,11 +691,46 @@
 
 </div>
 
+<div class="progress-ring-box">
+
+  <svg class="progress-ring"
+    width="180"
+    height="180">
+
+    <circle
+      class="ring-bg"
+      cx="90"
+      cy="90"
+      r="70"
+    />
+
+    <circle
+      class="ring-progress"
+      cx="90"
+      cy="90"
+      r="70"
+      id="progressRing"
+    />
+
+  </svg>
+
+  <div class="ring-text">
+
+    <h2 id="ringPercent">
+      0%
+    </h2>
+
+    <p>Productivity</p>
+
+  </div>
+
+</div>
+
   <!-- =========================
        CHART JS
   ========================== -->
 
-  <script src="./chart.umd.js"></script>
+  <script defer src="./chart.umd.js"></script>
 
   <!-- =========================
        MAIN SCRIPT
@@ -734,14 +802,7 @@
 
   </script>
   
-  <script>
-if ("serviceWorker" in navigator) {
-
-  navigator.serviceWorker.register(
-    "./service-worker.js"
-  );
-}
-</script>
+  
 
   <!-- =========================
        NOSCRIPT
