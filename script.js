@@ -785,7 +785,6 @@ function toggleHabit(
 
   habit.done =
     !habit.done;
-
   const level =
   Math.min(
     getLevelData().level,
@@ -978,58 +977,20 @@ function setFilter(filter) {
   refreshUI();
 }
 
-const levels = [
-
-  {
-    name:"Pemula",
-    xp:10
-  },
-
-  {
-    name:"Konsisten",
-    xp:9
-  },
-
-  {
-    name:"Fokus",
-    xp:8
-  },
-
-  {
-    name:"Produktif",
-    xp:7
-  },
-
-  {
-    name:"Disiplin",
-    xp:6
-  },
-
-  {
-    name:"Advanced",
-    xp:5
-  },
-
-  {
-    name:"Elite",
-    xp:4
-  },
-
-  {
-    name:"Master",
-    xp:3
-  },
-
-  {
-    name:"Legend",
-    xp:2
-  },
-
-  {
-    name:"Monster",
-    xp:1
-  }
+const levelNames = [
+  "Rookie",
+  "Grinder",
+  "Focused",
+  "Achiever",
+  "Discipline",
+  "Pro",
+  "Elite",
+  "Mastermind",
+  "Legend",
+  "Overlord"
 ];
+
+ 
 
 function getLevelData(){
 
@@ -1088,10 +1049,16 @@ function updateLevel() {
   const percent =
     (remainingXP / xpNeeded) * 100;
 
-  document.getElementById(
-    "levelText"
-  ).innerText =
-    `🏆 Level ${level}`;
+  const levelName =
+  levelNames[
+    Math.min(level - 1, 9)
+  ];
+
+document.getElementById(
+  "levelText"
+).innerText =
+  `🏆 ${levelName}
+   Lv.${level}`;
 
   document.getElementById(
     "xpText"
