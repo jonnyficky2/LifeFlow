@@ -176,6 +176,11 @@ function saveState(){
       streakData:state.streakData
     })
   );
+  
+  if(state.undoStack.length > 30){
+
+  state.undoStack.shift();
+}
 
   state.redoStack = [];
 }
@@ -315,19 +320,17 @@ taskDiv.addEventListener(
 
     // FIX INDEX
     let insertIndex = taskIndex;
+    if(
+  dragged.catIndex === catIndex &&
+  dragged.taskIndex < taskIndex
+){
+  insertIndex--;
+}
 
     const targetTasks =
   state.appData[catIndex].tasks;
 
 targetTasks.splice(insertIndex,0,movedTask);
-
-    state.appData[
-      catIndex
-    ].tasks.splice(
-      insertIndex,
-      0,
-      movedTask
-    );
 
     saveToLocal();
 
@@ -806,6 +809,10 @@ const reward =
   rewards[level - 1];
 
   if(habit.done){
+    const today =
+  new Date()
+  .toISOString()
+  .split("T")[0];
 
     addXP(reward);
 
@@ -891,36 +898,64 @@ function deleteTask(
    FILTER
 ========================= */
 
-function filterTask(task) {
+function filterTask(task){
 
-  if (
-    state.currentFilter === "done" &&
-    !task.done
-  ) return false;
+  const matchFilter =
 
-  if (
-    state.currentFilter === "pending" &&
-    task.done
-  ) return false;
+    (
+      state.currentFilter ===
+      "all"
+    )
 
-  if (state.searchValue) {
+    ||
 
-    return (
-  (task.name || "")
-.toLowerCase()
-.includes(state.searchValue)
-  ||
-  (task.note || "")
-    .toLowerCase()
-    .includes(state.searchValue)
-  ||
-  (task.location || "")
-    .toLowerCase()
-    .includes(state.searchValue)
-);
-  }
+    (
+      state.currentFilter ===
+      "done"
 
-  return true;
+      && task.done
+    )
+
+    ||
+
+    (
+      state.currentFilter ===
+      "pending"
+
+      && !task.done
+    );
+
+  const keyword =
+    state.searchValue;
+
+  const matchSearch =
+
+    !keyword
+
+    ||
+
+    (
+      (task.name || "")
+      .toLowerCase()
+      .includes(keyword)
+
+      ||
+
+      (task.note || "")
+      .toLowerCase()
+      .includes(keyword)
+
+      ||
+
+      (task.location || "")
+      .toLowerCase()
+      .includes(keyword)
+    );
+
+  return (
+    matchFilter &&
+    matchSearch
+  );
 }
 
 function searchTask() {
@@ -2469,9 +2504,6 @@ state.habitHistory =
 state.streakData =
   imported.streakData || [];
 
-  saveToLocal();
-
-  refreshUI();
 
 }catch(err){
 
@@ -2778,7 +2810,8 @@ function renderCalendar() {
         taskEl.classList.add("done-task");
       }
 
-      taskEl.innerText = `${category.name} • ${task.name}`;
+      taskEl.innerText =
+  `📌 ${task.name}`;
 
       
 
@@ -2809,13 +2842,9 @@ function openDayTasks(
 ){
 
   const selectedDate =
-    new Date(
-      year,
-      month,
-      day
-    )
-    .toISOString()
-    .split("T")[0];
+  getLocalDate(
+    new Date(year, month, day)
+  );
 
   selectedCalendarDate =
     selectedDate;
@@ -2853,9 +2882,30 @@ function openDayTasks(
           "calendar-task-item";
 
         item.innerHTML = `
-          <strong>${task.name}</strong>
-          <small>${category.name}</small>
-        `;
+  <strong>${task.name}</strong>
+
+  <small>
+    📂 ${category.name}
+  </small>
+
+  ${
+    task.time
+    ? `<small>⏰ ${task.time}</small>`
+    : ""
+  }
+
+  ${
+    task.location
+    ? `<small>📍 ${task.location}</small>`
+    : ""
+  }
+
+  ${
+    task.note
+    ? `<small>📝 ${task.note}</small>`
+    : ""
+  }
+`;
 
         item.onclick = ()=>{
 
