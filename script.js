@@ -123,12 +123,10 @@ function trimHistory(){
   const keys =
     Object.keys(state.historyData);
 
-  if(keys.length > 90){
+  while(keys.length > 90){
 
-    delete state.historyData[
-      keys[0]
-    ];
-  }
+  delete state.historyData[keys.shift()];
+}
 }
 
 /* =========================
@@ -318,12 +316,10 @@ taskDiv.addEventListener(
     // FIX INDEX
     let insertIndex = taskIndex;
 
-    if (
-      dragged.catIndex === catIndex &&
-      dragged.taskIndex < taskIndex
-    ) {
-      insertIndex--;
-    }
+    const targetTasks =
+  state.appData[catIndex].tasks;
+
+targetTasks.splice(insertIndex,0,movedTask);
 
     state.appData[
       catIndex
@@ -532,13 +528,6 @@ function refreshTaskUI(){
   updateImproveStats();
 }
 
-function refreshStatsUI(){
-
-  updateChart();
-
-  updateHabitChart();
-  updateImproveStats();
-}
 
 function refreshHabitUI(){
 
@@ -761,14 +750,7 @@ function toggleTask(
   task.done = !task.done;
   updateDailyHistory();
 
-  const level =
-  Math.floor(state.xp / 100) + 1;
-
-const safeLevel =
-  Math.min(level,10);
-
-const reward =
-  levels[safeLevel - 1].xp;
+  const reward = 3;
 
 if (task.done) {
 
@@ -784,8 +766,6 @@ if (task.done) {
 }
 
   saveToLocal();
-
-  refreshUI();
 }
 
 function toggleHabit(
@@ -803,23 +783,34 @@ function toggleHabit(
   habit.done =
     !habit.done;
 
-  let level =
-    Math.floor(
-      state.xp / 100
-    ) + 1;
+  const level =
+  Math.min(
+    getLevelData().level,
+    10
+  );
 
-  if(level > 10){
-    level = 10;
-  }
+const rewards = [
+  5, // level 1
+  5, // level 2
+  4, // level 3
+  4, // level 4
+  3, // level 5
+  3, // level 6
+  2, // level 7
+  2, // level 8
+  1, // level 9
+  1  // level 10
+];
 
-  const reward =
-  Math.max(2, level);
+const reward =
+  rewards[level - 1];
 
   if(habit.done){
 
     addXP(reward);
 
     habit.streak++;
+    habit.lastDoneDate = today;
 
     celebrate();
 
@@ -1005,6 +996,28 @@ const levels = [
   }
 ];
 
+function getLevelData(){
+
+  let level = 1;
+  let xpNeeded = 100;
+  let remainingXP = state.xp;
+
+  while(remainingXP >= xpNeeded){
+
+    remainingXP -= xpNeeded;
+
+    level++;
+
+    xpNeeded += 50;
+  }
+
+  return {
+    level,
+    remainingXP,
+    xpNeeded
+  };
+}
+
 /* =========================
    XP
 ========================= */
@@ -1024,34 +1037,36 @@ function addXP(amount) {
 
 function updateLevel() {
 
-  let level =
-  Math.floor(state.xp / 100) + 1;
+  let level = 1;
+  let xpNeeded = 100;
+  let remainingXP = state.xp;
 
-if(level > 10){
-  level = 10;
-}
+  while (remainingXP >= xpNeeded) {
 
-  const currentXP =
-    state.xp % 100;
-    
-    const levelData =
-  levels[level - 1];
+    remainingXP -= xpNeeded;
+
+    level++;
+
+    xpNeeded += 50;
+  }
+
+  const percent =
+    (remainingXP / xpNeeded) * 100;
 
   document.getElementById(
-  "levelText"
-).innerText =
-
-  `🏆 Lv.${level} • ${levelData.name}`;
+    "levelText"
+  ).innerText =
+    `🏆 Level ${level}`;
 
   document.getElementById(
     "xpText"
   ).innerText =
-    `${currentXP} / 100 XP`;
+    `${remainingXP} / ${xpNeeded} XP`;
 
   document.getElementById(
     "xpFill"
   ).style.width =
-    `${currentXP}%`;
+    `${percent}%`;
 }
 
 function updateQuickStats(){
@@ -1075,7 +1090,7 @@ function updateQuickStats(){
   });
 
   const level =
-    Math.floor(state.xp / 100) + 1;
+    getLevelData().level;
 
   document.getElementById(
     "doneCount"
@@ -2600,6 +2615,7 @@ function celebrate() {
   }
 }
 
+
 function refreshStatsUI(){
 
   requestAnimationFrame(()=>{
@@ -2985,7 +3001,7 @@ function getLocalDate(date){
 function updateSplashWelcome(){
 
   let level =
-    Math.floor(state.xp / 100) + 1;
+    getLevelData().level;
 
   if(level > 10){
     level = 10;
