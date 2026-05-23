@@ -7,7 +7,10 @@ const urlsToCache = [
   "./style.css",
   "./script.js",
   "./icon.jpg",
+  "./chart.umd.js",
+  "./confetti.js",
   "./manifest.json",
+  "./quotes.js",
   "./icon2.png"
 ];
 
