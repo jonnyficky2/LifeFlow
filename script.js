@@ -741,6 +741,7 @@ function toggleTask(
 ) {
 
   saveState();
+  updateImproveStats();
   /* =========================
    REFRESH UI
 ========================= */
@@ -831,6 +832,8 @@ const reward =
   }
 
   updateHabitStats();
+  
+  refreshStatsUI();
 
   saveToLocal();
 
@@ -1861,10 +1864,12 @@ function addHabit() {
       createdAt: Date.now()
     });
   }
-
+  
+  updateHabitStats();
   saveToLocal();
 
   renderHabits();
+  refreshStatsUI();
 
   // reset form
   document.getElementById(
