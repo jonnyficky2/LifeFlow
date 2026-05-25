@@ -78,6 +78,7 @@ window.addEventListener(
   Notification.requestPermission();
 }
     resetHabitsDaily();
+    resetTasksDaily();
     refreshUI();
     checkTaskReminders();
     checkDeadlines();
@@ -87,6 +88,13 @@ window.addEventListener(
     showSection("home");
   }
 );
+
+function getToday(){
+
+  return new Date()
+    .toISOString()
+    .split("T")[0];
+}
 
 function resetHabitsDaily(){
 
@@ -115,6 +123,35 @@ function resetHabitsDaily(){
     "habitResetDate",
     today
   );
+  saveToLocal();
+}
+
+function resetTasksDaily(){
+
+  const today =
+    getToday();
+
+  const lastReset =
+    localStorage.getItem(
+      "taskResetDate"
+    );
+
+  if(lastReset === today)
+    return;
+
+  state.appData.forEach(category=>{
+
+    category.tasks.forEach(task=>{
+
+      task.done = false;
+    });
+  });
+
+  localStorage.setItem(
+    "taskResetDate",
+    today
+  );
+
   saveToLocal();
 }
 
@@ -699,7 +736,10 @@ if(editingTask){
     location,
     note,
     priority,
-    done: false
+    done: false,
+completedDates: [],
+streak: 0,
+lastCompleted: null
   });
 }
 
@@ -741,35 +781,97 @@ function toggleTask(
 ) {
 
   saveState();
-  updateImproveStats();
-  /* =========================
-   REFRESH UI
-========================= */
-
 
   const task =
     state.appData[catIndex]
     .tasks[taskIndex];
 
+  const today = getToday();
+
   task.done = !task.done;
-  updateDailyHistory();
 
   const reward = 3;
 
-if (task.done) {
+  if(task.done){
 
-  addXP(reward);
+    // cegah duplicate
+    if(
+      !task.completedDates.includes(today)
+    ){
 
-  celebrate();
+      task.completedDates.push(today);
 
-  updateStreak();
+      updateTaskStreak(task);
+    }
 
-} else {
+    addXP(reward);
 
-  addXP(-reward);
-}
+    celebrate();
+
+    updateStreak();
+
+  } else {
+
+    addXP(-reward);
+
+    task.completedDates =
+      task.completedDates.filter(
+        date => date !== today
+      );
+  }
+
+  updateDailyHistory();
 
   saveToLocal();
+
+  refreshUI();
+}
+
+function updateTaskStreak(task){
+
+  const dates =
+    [...task.completedDates]
+    .sort();
+
+  if(dates.length === 0){
+
+    task.streak = 0;
+
+    return;
+  }
+
+  let streak = 1;
+
+  for(
+    let i = dates.length - 1;
+    i > 0;
+    i--
+  ){
+
+    const current =
+      new Date(dates[i]);
+
+    const prev =
+      new Date(dates[i - 1]);
+
+    const diff =
+      (current - prev)
+      / (1000 * 60 * 60 * 24);
+
+    if(diff === 1){
+
+      streak++;
+
+    }else{
+
+      break;
+    }
+  }
+
+  task.streak = streak;
+
+  task.lastCompleted =
+    getToday();
 }
 
 function toggleHabit(
