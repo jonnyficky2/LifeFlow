@@ -1088,11 +1088,11 @@ const levelNames = [
   "Focused",
   "Achiever",
   "Discipline",
-  "Pro",
+  "Advanced",
   "Elite",
   "Mastermind",
   "Legend",
-  "Overlord"
+  "Monster"
 ];
 
  
@@ -1380,17 +1380,17 @@ function updateImproveStats(){
   if(diff > 0){
 
     text =
-      `🔥 Hari ini ${diff}% lebih baik dari kemarin`;
+      `🔥 Today ${diff}% is better than yestersay`;
 
   }else if(diff < 0){
 
     text =
-      `📉 Hari ini turun ${Math.abs(diff)}%`;
+      `📉 Today down ${Math.abs(diff)}%`;
 
   }else{
 
     text =
-      `⚖️ Progress sama seperti kemarin`;
+      `⚖️ progress is the same as yesterday`;
   }
 
   document.getElementById(
@@ -1441,12 +1441,12 @@ function updateImproveStats(){
   }else if(weekDiff < 0){
 
     weeklyText =
-      `📉 Minggu ini turun ${Math.abs(weekDiff)}%`;
+      `📉 This week doen ${Math.abs(weekDiff)}%`;
 
   }else{
 
     weeklyText =
-      `📊 Minggu ini stabil`;
+      `📊 This week it's stable`;
   }
 
   document.getElementById(
@@ -1829,7 +1829,7 @@ function loadRandomQuote() {
       "dailyQuote"
     );
 
-  // kalau hari baru
+  // if today
   if (savedDate !== today) {
 
     const random =
@@ -2197,13 +2197,13 @@ header.appendChild(addBtn);
 if(habit.repeatType === "custom"){
 
   const names = [
-    "Minggu",
-    "Senin",
-    "Selasa",
-    "Rabu",
-    "Kamis",
-    "Jumat",
-    "Sabtu"
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
   ];
 
   repeatText =
@@ -2756,28 +2756,28 @@ function renderCalendar() {
   grid.innerHTML = "";
 
   const months = [
-    "Januari",
-    "Februari",
-    "Maret",
+    "January",
+    "February",
+    "March",
     "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
+    "May",
+    "June",
+    "July",
+    "August",
     "September",
-    "Oktober",
+    "October",
     "November",
-    "Desember"
+    "December"
   ];
 
   const days = [
-    "Min",
-    "Sen",
-    "Sel",
-    "Rab",
-    "Kam",
-    "Jum",
-    "Sab"
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
   ];
 
   const year =
@@ -3135,82 +3135,82 @@ function updateSplashWelcome(){
 
     {
       title:
-        "Selamat datang, Pemula 👋",
+        "Welcome, Rookie 👋",
 
       quote:
-        "Setiap orang hebat pernah memulai dari nol."
+        "Every great person started from zero."
     },
 
     {
       title:
-        "Selamat datang, Konsisten 🔥",
+        "Welcome, Grinder 🔥",
 
       quote:
-        "Konsistensi kecil setiap hari mengalahkan motivasi sesaat."
+        "Small daily consistency beats momentary motivation."
     },
 
     {
       title:
-        "Selamat datang, Fokus 🎯",
+        "Welcome, Focused 🎯",
 
       quote:
-        "Fokus pada progress, bukan kesempurnaan."
+        "Focus on progress, not perfection."
     },
 
     {
       title:
-        "Selamat datang, Produktif ⚡",
+        "Welcome, Achiever ⚡",
 
       quote:
-        "Produktivitas bukan sibuk, tapi menyelesaikan hal penting."
+        "Productivity is not being busy, but getting important things done."
     },
 
     {
       title:
-        "Selamat datang, Disiplin 🧠",
+        "Welcome, Discipline 🧠",
 
       quote:
-        "Disiplin membuatmu tetap berjalan saat motivasi hilang."
+        "Discipline keeps you going when motivation is gone.."
     },
 
     {
       title:
-        "Selamat datang, Advanced 🚀",
+        "Welcome, Advanced 🚀",
 
       quote:
-        "Kamu sudah lebih jauh dari kebanyakan orang."
+        "You've come further than most people.."
     },
 
     {
       title:
-        "Selamat datang, Elite 👑",
+        "Welcome, Elite 👑",
 
       quote:
-        "Level tinggi datang dari ribuan langkah kecil."
+        "High levels come from thousands of small steps."
     },
 
     {
       title:
-        "Selamat datang, Master 🔥",
+        "Welcome, MasterMind 🔥",
 
       quote:
-        "Master bukan yang sempurna, tapi yang terus berkembang."
+        "A master is not one who is perfect, but one who continues to develop."
     },
 
     {
       title:
-        "Selamat datang, Legend ⚔️",
+        "Welcome, Legend ⚔️",
 
       quote:
-        "Legenda dibentuk oleh konsistensi bertahun-tahun."
+        "Legends are shaped by years of consistency."
     },
 
     {
       title:
-        "Selamat datang, Monster 💀",
+        "Welcome, Monster 💀",
 
       quote:
-        "Kamu bukan lagi mengejar orang lain. Kamu melampaui dirimu sendiri."
+        "You are no longer chasing others. You are surpassing yourself."
     }
   ];
 
@@ -3244,7 +3244,7 @@ window.addEventListener(
         "splash-hide"
       );
 
-    }, 1200);
+    }, 3000);
   }
 );
 
