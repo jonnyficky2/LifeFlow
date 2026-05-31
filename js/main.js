@@ -22,12 +22,14 @@ import {
   toggleRepeatOptions
 } from "./habit/habit.js";
 
-import { openTaskModal, closeTaskModal, openHabitModal, closeHabitModal } from "./ui/modal.js";
+import { openTaskModal, closeTaskModal, openHabitModal, closeHabitModal, openNoteModal, closeNoteModal } from "./ui/modal.js";
 import { showSection } from "./ui/section.js";
 import { renderCalendar, changeMonth } from "./task/calendar.js";
 import { saveTaskModal, toggleTask, editTask, deleteTask, addCategory, editCategory, deleteCategory, renderTasks, searchTask, setFilter } from "./task/task.js";
 import { getLevelData, updateLevel, updateQuickStats, updateProgressRing, generateHeatmap, updateImproveStats, refreshStatsUI } from "./stats/stats.js";
 import { loadTheme, toggleTheme } from "./modules/theme.js";
+import { saveNoteModal, renderNotes } from "./core/notes.js";
+import { initShare, triggerShare } from "./modules/share.js";
 
 let deferredPrompt = null;
 
@@ -175,6 +177,13 @@ function setupUIEventListeners() {
     );
 
   document
+    .getElementById("navNotesBtn")
+    ?.addEventListener(
+      "click",
+      () => showSection("notes")
+    );
+
+  document
     .getElementById("closeTaskModalBtn")
     ?.addEventListener(
       "click",
@@ -208,6 +217,34 @@ function setupUIEventListeners() {
       "click",
       addHabit
     );
+
+  document
+    .getElementById("addNoteBtn")
+    ?.addEventListener(
+      "click",
+      openNoteModal
+    );
+
+  document
+    .getElementById("closeNoteModalBtn")
+    ?.addEventListener(
+      "click",
+      closeNoteModal
+    );
+
+  document
+    .getElementById("shareStatsBtn")
+    ?.addEventListener(
+      "click",
+      triggerShare
+    );
+
+  document
+    .getElementById("saveNoteModalBtn")
+    ?.addEventListener(
+      "click",
+      saveNoteModal
+    );
 }
 
 /* =========================
@@ -237,6 +274,7 @@ document.addEventListener(
     }
 
     setupUIEventListeners();
+    initShare();
 
     showSection("home");
   }
@@ -311,6 +349,7 @@ export function refreshUI() {
 refreshStatsUI()
 refreshHabitUI()
 refreshCalendarUI()
+renderNotes()
   
 }
 

@@ -1,4 +1,5 @@
 import { resetEditingTask } from "../task/task.js";
+import { resetEditingNote } from "../core/notes.js";
 
 export function openTaskModal() {
   document.getElementById("taskModal").classList.add("show");
@@ -15,4 +16,13 @@ export function openHabitModal() {
 
 export function closeHabitModal() {
   document.getElementById("habitModal").classList.remove("show");
+}
+
+export function openNoteModal() {
+  document.getElementById("noteModal").classList.add("show");
+}
+
+export function closeNoteModal() {
+  document.getElementById("noteModal").classList.remove("show");
+  resetEditingNote();
 }

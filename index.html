@@ -42,7 +42,7 @@
 
   <link
     rel="apple-touch-icon"
-    href="icon.jpg">
+    href="./assets/icons/icon.jpg">
 
   <!-- FONT -->
   <link
@@ -455,6 +455,20 @@
   <canvas id="habitChart"></canvas>
 </div>
 
+    <!-- FITUR SHARE -->
+    <button id="shareStatsBtn" class="share-btn">
+      📸 Share to IG Story
+    </button>
+    <input type="file" id="shareBgInput" accept="image/*" hidden>
+  </div>
+
+  <!-- =========================
+       NOTES SECTION
+  ========================== -->
+  <div id="notesSection" style="display: none;">
+    <h2>📝 Catatan</h2>
+    <button id="addNoteBtn" style="width: 100%; margin-bottom: 16px; padding: 16px;">+ Tulis Catatan Baru</button>
+    <div id="notesContainer"></div>
   </div>
 
   <!-- =========================
@@ -511,6 +525,12 @@
 
     </button>
 
+    <button
+      id="navNotesBtn">
+
+      📝
+
+    </button>
   </div>
 
   <!-- =========================
@@ -729,6 +749,31 @@
 
 </div>
   
+  <!-- =========================
+     NOTE MODAL
+========================== -->
+<div id="noteModal" class="modal">
+  <div class="modal-content">
+    <h2>Tulis Catatan</h2>
+    <input type="text" id="noteTitleInput" placeholder="Judul (Opsional)">
+    <textarea id="noteContentInput" placeholder="Mulai mengetik ide atau catatanmu di sini..."></textarea>
+    
+    <label class="pin-label">
+      <input type="checkbox" id="notePinInput"> 
+      📌 Sematkan Catatan
+    </label>
+    
+    <div class="modal-actions" style="margin-top: 16px;">
+      <button id="closeNoteModalBtn" type="button">
+        Batal
+      </button>
+      <button id="saveNoteModalBtn" type="button">
+        Simpan
+      </button>
+    </div>
+  </div>
+</div>
+
   <div id="toast"></div>
 
   <!-- =========================

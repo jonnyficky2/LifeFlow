@@ -1,4 +1,4 @@
-const CACHE_NAME = "daily-tracker-v3";
+const CACHE_NAME = "daily-tracker-v6";
 
 const urlsToCache = [
   "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap",
@@ -13,6 +13,8 @@ const urlsToCache = [
   "./js/task/calendar.js",
   "./js/habit/habit.js",
   "./js/stats/stats.js",
+  "./js/core/notes.js",
+  "./js/modules/share.js",
   "./js/ui/modal.js",
   "./js/ui/section.js",
   "./js/modules/theme.js",
