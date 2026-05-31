@@ -2,7 +2,7 @@ import { renderCalendar } from "../task/calendar.js";
 import { refreshStatsUI } from "../stats/stats.js";
 import { renderNotes } from "../core/notes.js";
 
-export function showSection(section) {
+export function showSection(section, addToHistory = true) {
   const homeSection = document.getElementById("homeSection");
   const calendarSection = document.getElementById("calendarSection");
   const habitSection = document.getElementById("habitSection");
@@ -28,5 +28,9 @@ export function showSection(section) {
   } else if (section === "notes") {
     notesSection.style.display = "block";
     renderNotes();
+  }
+
+  if (addToHistory) {
+    window.history.pushState({ section }, "", `#${section}`);
   }
 }

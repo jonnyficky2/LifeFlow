@@ -59,7 +59,9 @@ function generateShareImage(bgImg) {
   }
 
   // Draw Background Image
+  ctx.filter = "grayscale(50%) blur(4px)"; // Menambahkan efek estetik pada background
   ctx.drawImage(bgImg, offsetX, offsetY, drawWidth, drawHeight);
+  ctx.filter = "none"; // Wajib di-reset agar teks dan elemen di depannya tidak ikut nge-blur!
 
   // Draw Dark Gradient Overlay for readability
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);

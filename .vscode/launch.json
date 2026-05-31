@@ -29,9 +29,7 @@
             "port": 9222,
             "request": "attach",
             "type": "chrome",
-            "webRoot": "${workspaceFolder}",
- "runtimeExecutable": "dev" 
-
+            "webRoot": "${workspaceFolder}"
         },
         {
             "type": "chrome",

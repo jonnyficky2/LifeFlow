@@ -43,9 +43,6 @@ let deferredPrompt = null;
    ELEMENT
 ========================= */
 
-const container =
-  document.getElementById("container");
-
 function setupUIEventListeners() {
   const importFile =
     document.getElementById("importFile");
@@ -277,6 +274,14 @@ document.addEventListener(
     initShare();
 
     showSection("home");
+
+    window.addEventListener("popstate", (e) => {
+      if (e.state && e.state.section) {
+        showSection(e.state.section, false);
+      } else {
+        showSection("home", false);
+      }
+    });
   }
 );
 
@@ -731,6 +736,28 @@ function checkDeadlines(){
     Notification.permission !==
     "granted"
   ) return;
+
+  const today = new Date();
+
+  state.appData.forEach((category) => {
+    category.tasks.forEach((task) => {
+      if (task.done || !task.deadline) return;
+
+      const deadline = new Date(task.deadline);
+      const diff = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+
+      if (diff === 0) {
+        const notifyKey = `deadline_${task.name}_${task.deadline}`;
+        if (localStorage.getItem(notifyKey)) return;
+
+        localStorage.setItem(notifyKey, "sent");
+        new Notification("⏰ Deadline Hari Ini", {
+          body: task.name
+        });
+        showToast("Deadline hari ini!");
+      }
+    });
+  });
 }
 
 /* =========================
@@ -747,6 +774,31 @@ function checkTaskReminders(){
     Notification.permission !==
     "granted"
   ) return;
+
+  const now = new Date();
+  const currentDate = getLocalDate(now);
+  const currentHour = String(now.getHours()).padStart(2, "0");
+  const currentMinute = String(now.getMinutes()).padStart(2, "0");
+  const currentTime = `${currentHour}:${currentMinute}`;
+
+  state.appData.forEach((category) => {
+    category.tasks.forEach((task) => {
+      if (task.done || !task.deadline || !task.time) return;
+      if (task.deadline !== currentDate) return;
+
+      if (task.time === currentTime) {
+        const notifyKey = `notif_${task.name}_${currentDate}_${currentTime}`;
+        if (localStorage.getItem(notifyKey)) return;
+
+        new Notification("🔔 Reminder Task", {
+          body: `${task.name}\n• ${task.time}`
+        });
+
+        showToast(`Reminder:\n${task.name}`);
+        localStorage.setItem(notifyKey, "sent");
+      }
+    });
+  });
 }
 
 document.addEventListener(
