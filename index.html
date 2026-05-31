@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Daily Tracker</title>
+
+  <!-- PWA -->
+  <meta
+    name="theme-color"
+    content="#181818">
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default">
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Daily Tracker">
+
+  <link
+    rel="manifest"
+    href="manifest.json">
+
+  <link
+    rel="icon"
+    href="./assets/icons/icon.jpg">
+
+  <link
+    rel="apple-touch-icon"
+    href="icon.jpg">
+
+  <!-- FONT -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="./css/style.css">
+
+</head>
+
+<body>
+
+  <!-- =========================
+       SPLASH SCREEN
+  ========================== -->
+
+<div id="splashScreen">
+
+    <img
+      src="./assets/icons/icon.jpg"
+      alt="Logo">
+
+    <h1>Daily Tracker</h1>
+    <div class="splash-content">
+
+  <h2 id="splashLevelText">
+    Welcome
+  </h2>
+
+  <p id="splashQuote">
+  </p>
+
+</div>
+
+    <p>Loading...</p>
+
+  </div>
+
+  <!-- =========================
+       TITLE
+  ========================== -->
+
+  <header>Daily Tracker</header>
+
+  <!-- =========================
+       LEVEL
+  ========================== -->
+
+  <div id="levelBox">
+
+    <h2 id="levelText">
+      🏆 Level 1
+    </h2>
+
+    <div class="xp-bar">
+
+      <div id="xpFill"></div>
+
+    </div>
+
+    <p id="xpText">
+      0 / 100 XP
+    </p>
+
+  </div>
+
+  <!-- =========================
+       TOOLBAR
+  ========================== -->
+
+  <div class="toolbar">
+
+    <button id="undoBtn">
+      ↩ Undo
+    </button>
+
+    <button id="redoBtn">
+      ↪ Redo
+    </button>
+
+    <button id="toggleTheme">
+      🌙 / ☀️
+    </button>
+
+  </div>
+
+  <!-- =========================
+       BACKUP
+  ========================== -->
+
+  <div class="backup-box">
+
+    <button id="exportBtn">
+      📤 Export
+    </button>
+
+    <input
+      type="file"
+      id="importFile"
+      hidden
+      accept=".json">
+
+    <button
+      id="importBtn"
+      type="button">
+
+      📥 Import
+
+    </button>
+
+  </div>
+
+  <!-- =========================
+       SEARCH
+  ========================== -->
+
+  <div class="search-box">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search task...">
+
+  </div>
+
+  <!-- =========================
+       FILTER
+  ========================== -->
+
+  <div class="filter-box">
+
+    <button
+      id="filterAllBtn">
+
+      All
+
+    </button>
+
+    <button
+      id="filterPendingBtn">
+
+      Pending
+
+    </button>
+
+    <button
+      id="filterDoneBtn">
+
+      Done
+
+    </button>
+
+  </div>
+
+  <!-- =========================
+       STREAK
+  ========================== -->
+
+  <h2 id="streakText">
+    🔥 Streak: 0 Days
+  </h2>
+
+  <!-- =========================
+       ADD CATEGORY
+  ========================== -->
+
+  <div class="add-box">
+
+    <input
+      type="text"
+      id="categoryInput"
+      placeholder="Add category">
+
+    <button id="addCategoryBtn">
+
+      Add
+
+    </button>
+
+  </div>
+
+  <!-- =========================
+       QUOTE
+  ========================== -->
+
+  <div id="quoteContainer">
+
+    <p id="quoteText">
+      
+    </p>
+
+    <small id="quoteAuthor">
+     
+    </small>
+
+  </div>
+
+  <!-- =========================
+       HOME SECTION
+  ========================== -->
+
+  <div id="homeSection">
+    <div id="quickStats">
+
+  <div class="stat-card">
+    <h3 id="doneCount">0</h3>
+    <p>Done</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="pendingCount">0</h3>
+    <p>Pending</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="streakCount">0</h3>
+    <p>Streak</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="levelCount">1</h3>
+    <p>Level</p>
+  </div>
+
+</div>
+
+    <p id="saveStatus">
+
+      ✔ Data saved
+
+    </p>
+
+    <div id="container"></div>
+
+    <h2>
+      📅 Activity
+    </h2>
+
+    <div id="heatmap"></div>
+
+  </div>
+
+  <!-- =========================
+       CALENDAR SECTION
+  ========================== -->
+
+  <div id="calendarSection">
+
+    <h2>
+      📅 Calendar
+    </h2>
+
+     <div class="calendar-header">
+
+  <button id="prevMonthBtn">
+
+    ⬅
+
+  </button>
+
+  <h3 id="calendarMonth">
+
+    Mei 2026
+
+  </h3>
+
+  <button id="nextMonthBtn">
+
+    ➡
+
+  </button>
+
+</div>
+
+    <div id="calendarGrid"></div>
+
+  </div>
+  <div
+  id="dayTasksModal"
+  class="modal"
+>
+
+  <div class="modal-content">
+
+    <h2 id="selectedDateTitle">
+      Today's Task
+    </h2>
+
+    <div id="dayTaskList"></div>
+
+    <button
+      id="closeDayTasksModalBtn"
+      type="button"
+    >
+      Close
+    </button>
+
+  </div>
+
+</div>
+  
+
+  <!-- =========================
+       HABIT SECTION
+  ========================== -->
+
+  <div id="habitSection">
+
+    <h2>
+      🎯 Habit Tracker
+    </h2>
+
+    <div class="habit-box">
+
+  <input
+    type="text"
+    id="habitCategoryInput"
+    placeholder="Add habit category"
+  >
+
+  <button id="addHabitCategoryBtn">
+
+    Add
+
+  </button>
+
+</div>
+
+    
+<div id="habitContainer"></div>
+
+</div>
+
+  <!-- =========================
+       STATS SECTION
+  ========================== -->
+
+  <div id="statsSection">
+    
+<div class="improve-card">
+
+  <h3 id="dailyImprove">
+    There is no data today
+  </h3>
+
+  <p id="weeklyImprove">
+    There is no weekly data yet
+  </p>
+
+</div>
+
+<div class="progress-ring-box">
+
+  <svg class="progress-ring"
+    width="180"
+    height="180">
+
+    <circle
+      class="ring-bg"
+      cx="90"
+      cy="90"
+      r="70"
+    />
+
+    <circle
+      class="ring-progress"
+      cx="90"
+      cy="90"
+      r="70"
+      id="progressRing"
+    />
+
+  </svg>
+
+  <div class="ring-text">
+
+    <h2 id="ringPercent">
+      0%
+    </h2>
+
+    <p>Productivity</p>
+
+  </div>
+
+</div>
+
+    <h2>
+      📊 Statistics
+    </h2>
+
+    <div class="chart-box">
+  <canvas id="statsChart"></canvas>
+</div>
+    <h2>
+  🔥 Habit Statistics
+</h2>
+<div class="chart-box">
+  <canvas id="habitChart"></canvas>
+</div>
+
+  </div>
+
+  <!-- =========================
+       INSTALL BUTTON
+  ========================== -->
+
+  <button id="installBtn">
+
+    📲 Install App
+
+  </button>
+
+  <!-- =========================
+       FLOAT BUTTON
+  ========================== -->
+    
+    <button
+  id="floatingAddBtn">
+  +
+</button>
+  
+
+  <!-- =========================
+       BOTTOM NAV
+  ========================== -->
+
+  <div id="bottomNav">
+
+    <button
+      id="navHomeBtn">
+
+      🏠
+
+    </button>
+
+    <button
+      id="navCalendarBtn">
+
+      📅
+
+    </button>
+
+    <button
+      id="navHabitBtn">
+
+      🔥
+
+    </button>
+
+    <button
+      id="navStatsBtn">
+
+      📊
+
+    </button>
+
+  </div>
+
+  <!-- =========================
+       TASK MODAL
+  ========================== -->
+
+  <div
+    id="taskModal"
+    class="modal">
+
+    <div class="modal-content">
+
+      <h2>
+
+        Add Task
+
+      </h2>
+
+      <input
+        type="text"
+        id="taskNameInput"
+        placeholder="Task name">
+
+      <input
+        type="date"
+        id="taskDeadlineInput">
+        <input
+  type="time"
+  id="taskTimeInput"
+>
+
+<input
+  type="text"
+  id="taskLocationInput"
+  placeholder="Place "
+>
+
+<input
+  id="taskNoteInput"
+  placeholder=" Information"
+>
+
+      <select id="taskPriorityInput">
+
+        <option value="low">
+
+          🟢 Low Priority
+
+        </option>
+
+        <option value="medium">
+
+          🟡 Medium Priority
+
+        </option>
+
+        <option value="high">
+
+          🔴 High Priority
+
+        </option>
+
+      </select>
+      
+
+      <div class="modal-actions">
+
+        <button
+          id="closeTaskModalBtn"
+          type="button">
+
+          Cancel
+
+        </button>
+
+        <button
+          id="saveTaskModalBtn"
+          type="button">
+
+          Save
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+  
+  <!-- =========================
+     HABIT MODAL
+========================== -->
+
+<div
+  id="habitModal"
+  class="modal"
+>
+
+  <div class="modal-content">
+
+    <h2>
+      Add Habit
+    </h2>
+
+    <input
+      type="text"
+      id="habitInput"
+      placeholder="Nama habit"
+    >
+
+    <select
+  id="habitRepeatInput"
+>
+
+  <option value="daily">
+    Daily
+  </option>
+
+  <option value="weekly">
+    Weekly
+  </option>
+
+  <option value="monthly">
+    Monthly
+  </option>
+
+  <option value="custom">
+    Certain day
+  </option>
+
+</select>
+<div
+  id="habitDaysBox"
+  style="display:none;"
+>
+
+  <p>Choose a day:</p>
+
+  <label>
+    <input type="checkbox" value="0">
+    Sunday
+  </label>
+
+  <label>
+    <input type="checkbox" value="1">
+    Monday
+  </label>
+
+  <label>
+    <input type="checkbox" value="2">
+    Tuesday
+  </label>
+
+  <label>
+    <input type="checkbox" value="3">
+    Wednesday
+  </label>
+
+  <label>
+    <input type="checkbox" value="4">
+    Thursday
+  </label>
+
+  <label>
+    <input type="checkbox" value="5">
+    Friday
+  </label>
+
+  <label>
+    <input type="checkbox" value="6">
+    Saturday
+  </label>
+
+</div>
+
+<div
+  id="habitDateBox"
+  style="display:none;"
+>
+
+  <p>Every date:</p>
+
+  <input
+    type="number"
+    id="habitDateInput"
+    min="1"
+    max="31"
+  >
+
+</div>
+
+    <input
+      type="time"
+      id="habitTimeInput"
+    >
+
+    <div class="modal-actions">
+
+      <button
+        id="closeHabitModalBtn"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <button
+        id="addHabitBtn"
+        type="button"
+      >
+        Save
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+  
+  <div id="toast"></div>
+
+  <!-- =========================
+       CONFETTI
+  ========================== -->
+
+  <script src="./assets/libs/confetti.js"></script>
+  
+
+  <!-- =========================
+       CHART JS
+  ========================== -->
+
+  <script src="./assets/libs/chart.umd.js"></script>
+
+  <!-- =========================
+       MAIN SCRIPT
+  ========================== -->
+
+  <script type="module" src="./js/main.js"></script>
+
+  <!-- =========================
+       ERUDA DEVTOOLS
+  ========================== -->
+
+  <script>
+
+      if (
+  location.hostname === "localhost" ||
+  location.hostname === "127.0.0.1"
+) {
+      const script =
+        document.createElement("script");
+
+      script.src =
+        "https://cdn.jsdelivr.net/npm/eruda";
+
+      script.onload = () =>
+        eruda.init();
+
+      document.body.appendChild(script);
+    }
+
+  </script>
+
+  <!-- =========================
+       SERVICE WORKER
+  ========================== -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js');
+      });
+    }
+  </script>
+
+  <!-- =========================
+       NOSCRIPT
+  ========================== -->
+
+  <noscript>
+
+    Aplication needs javascript.
+
+  </noscript>
+
+</body>
+</html>
