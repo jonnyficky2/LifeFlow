@@ -38,19 +38,11 @@
 
   <link
     rel="icon"
-<<<<<<< HEAD
-    href="icon.jpg">
-
-  <link
-    rel="apple-touch-icon"
-    href="icon.jpg">
-=======
     href="./assets/icons/icon.jpg">
 
   <link
     rel="apple-touch-icon"
     href="./assets/icons/icon.jpg">
->>>>>>> versi-backup-terbaru
 
   <!-- FONT -->
   <link
@@ -69,11 +61,7 @@
   <!-- CSS -->
   <link
     rel="stylesheet"
-<<<<<<< HEAD
-    href="style.css">
-=======
     href="./css/style.css">
->>>>>>> versi-backup-terbaru
 
 </head>
 
@@ -83,17 +71,10 @@
        SPLASH SCREEN
   ========================== -->
 
-<<<<<<< HEAD
-  <div id="splashScreen">
-
-    <img
-      src="icon.jpg"
-=======
 <div id="splashScreen">
 
     <img
       src="./assets/icons/icon.jpg"
->>>>>>> versi-backup-terbaru
       alt="Logo">
 
     <h1>Daily Tracker</h1>
@@ -146,19 +127,11 @@
 
   <div class="toolbar">
 
-<<<<<<< HEAD
-    <button onclick="undo()">
-      ↩ Undo
-    </button>
-
-    <button onclick="redo()">
-=======
     <button id="undoBtn">
       ↩ Undo
     </button>
 
     <button id="redoBtn">
->>>>>>> versi-backup-terbaru
       ↪ Redo
     </button>
 
@@ -174,11 +147,7 @@
 
   <div class="backup-box">
 
-<<<<<<< HEAD
-    <button onclick="exportData()">
-=======
     <button id="exportBtn">
->>>>>>> versi-backup-terbaru
       📤 Export
     </button>
 
@@ -186,23 +155,11 @@
       type="file"
       id="importFile"
       hidden
-<<<<<<< HEAD
-      accept=".json"
-      onchange="importData(event)">
-
-    <button
-      onclick="
-      document
-      .getElementById('importFile')
-      .click()
-      ">
-=======
       accept=".json">
 
     <button
       id="importBtn"
       type="button">
->>>>>>> versi-backup-terbaru
 
       📥 Import
 
@@ -219,12 +176,7 @@
     <input
       type="text"
       id="searchInput"
-<<<<<<< HEAD
-      placeholder="Search task..."
-      oninput="searchTask()">
-=======
       placeholder="Search task...">
->>>>>>> versi-backup-terbaru
 
   </div>
 
@@ -235,33 +187,21 @@
   <div class="filter-box">
 
     <button
-<<<<<<< HEAD
-      onclick="setFilter('all')">
-=======
       id="filterAllBtn">
->>>>>>> versi-backup-terbaru
 
       All
 
     </button>
 
     <button
-<<<<<<< HEAD
-      onclick="setFilter('pending')">
-=======
       id="filterPendingBtn">
->>>>>>> versi-backup-terbaru
 
       Pending
 
     </button>
 
     <button
-<<<<<<< HEAD
-      onclick="setFilter('done')">
-=======
       id="filterDoneBtn">
->>>>>>> versi-backup-terbaru
 
       Done
 
@@ -288,11 +228,7 @@
       id="categoryInput"
       placeholder="Add category">
 
-<<<<<<< HEAD
-    <button onclick="addCategory()">
-=======
     <button id="addCategoryBtn">
->>>>>>> versi-backup-terbaru
 
       Add
 
@@ -373,11 +309,7 @@
 
      <div class="calendar-header">
 
-<<<<<<< HEAD
-  <button onclick="changeMonth(-1)">
-=======
   <button id="prevMonthBtn">
->>>>>>> versi-backup-terbaru
 
     ⬅
 
@@ -389,11 +321,7 @@
 
   </h3>
 
-<<<<<<< HEAD
-  <button onclick="changeMonth(1)">
-=======
   <button id="nextMonthBtn">
->>>>>>> versi-backup-terbaru
 
     ➡
 
@@ -418,16 +346,8 @@
     <div id="dayTaskList"></div>
 
     <button
-<<<<<<< HEAD
-      onclick="
-      document
-      .getElementById('dayTasksModal')
-      .classList.remove('show')
-      "
-=======
       id="closeDayTasksModalBtn"
       type="button"
->>>>>>> versi-backup-terbaru
     >
       Close
     </button>
@@ -436,49 +356,6 @@
 
 </div>
   
-<<<<<<< HEAD
-  <div
-  id="calendarTaskModal"
-  class="modal"
->
-
-  <div class="modal-content">
-
-    <h3>Task Details</h3>
-
-    <p id="modalCategory"></p>
-
-    <input
-      id="modalTaskName"
-      type="text"
-    >
-
-    <div style="margin-top:10px;">
-
-      <button onclick="saveCalendarTask()">
-        💾 Save
-      </button>
-
-      <button onclick="toggleCalendarTaskDone()">
-        ☑ Done
-      </button>
-
-      <button onclick="deleteCalendarTask()">
-        🗑 Delete
-      </button>
-
-      <button onclick="closeCalendarModal()">
-        ❌ Close
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-  
-=======
->>>>>>> versi-backup-terbaru
 
   <!-- =========================
        HABIT SECTION
@@ -498,11 +375,7 @@
     placeholder="Add habit category"
   >
 
-<<<<<<< HEAD
-  <button onclick="addHabitCategory()">
-=======
   <button id="addHabitCategoryBtn">
->>>>>>> versi-backup-terbaru
 
     Add
 
@@ -582,8 +455,6 @@
   <canvas id="habitChart"></canvas>
 </div>
 
-<<<<<<< HEAD
-=======
     <!-- FITUR SHARE -->
     <button id="shareStatsBtn" class="share-btn">
       📸 Share to IG Story
@@ -598,7 +469,6 @@
     <h2>📝 Catatan</h2>
     <button id="addNoteBtn" style="width: 100%; margin-bottom: 16px; padding: 16px;">+ Tulis Catatan Baru</button>
     <div id="notesContainer"></div>
->>>>>>> versi-backup-terbaru
   </div>
 
   <!-- =========================
@@ -628,58 +498,39 @@
   <div id="bottomNav">
 
     <button
-<<<<<<< HEAD
-      onclick="showSection('home')">
-=======
       id="navHomeBtn">
->>>>>>> versi-backup-terbaru
 
       🏠
 
     </button>
 
     <button
-<<<<<<< HEAD
-      onclick="showSection('calendar')">
-=======
       id="navCalendarBtn">
->>>>>>> versi-backup-terbaru
 
       📅
 
     </button>
 
     <button
-<<<<<<< HEAD
-      onclick="showSection('habit')">
-=======
       id="navHabitBtn">
->>>>>>> versi-backup-terbaru
 
       🔥
 
     </button>
 
     <button
-<<<<<<< HEAD
-      onclick="showSection('stats')">
-=======
       id="navStatsBtn">
->>>>>>> versi-backup-terbaru
 
       📊
 
     </button>
 
-<<<<<<< HEAD
-=======
     <button
       id="navNotesBtn">
 
       📝
 
     </button>
->>>>>>> versi-backup-terbaru
   </div>
 
   <!-- =========================
@@ -748,24 +599,16 @@
       <div class="modal-actions">
 
         <button
-<<<<<<< HEAD
-          onclick="closeTaskModal()">
-=======
           id="closeTaskModalBtn"
           type="button">
->>>>>>> versi-backup-terbaru
 
           Cancel
 
         </button>
 
         <button
-<<<<<<< HEAD
-          onclick="saveTaskModal()">
-=======
           id="saveTaskModalBtn"
           type="button">
->>>>>>> versi-backup-terbaru
 
           Save
 
@@ -800,10 +643,6 @@
 
     <select
   id="habitRepeatInput"
-<<<<<<< HEAD
-  onchange="toggleRepeatOptions()"
-=======
->>>>>>> versi-backup-terbaru
 >
 
   <option value="daily">
@@ -891,23 +730,15 @@
     <div class="modal-actions">
 
       <button
-<<<<<<< HEAD
-        onclick="closeHabitModal()"
-=======
         id="closeHabitModalBtn"
         type="button"
->>>>>>> versi-backup-terbaru
       >
         Cancel
       </button>
 
       <button
-<<<<<<< HEAD
-        onclick="addHabit()"
-=======
         id="addHabitBtn"
         type="button"
->>>>>>> versi-backup-terbaru
       >
         Save
       </button>
@@ -918,8 +749,6 @@
 
 </div>
   
-<<<<<<< HEAD
-=======
   <!-- =========================
      NOTE MODAL
 ========================== -->
@@ -945,45 +774,26 @@
   </div>
 </div>
 
->>>>>>> versi-backup-terbaru
   <div id="toast"></div>
 
   <!-- =========================
        CONFETTI
   ========================== -->
 
-<<<<<<< HEAD
-  <script src="./confetti.js"></script>
-=======
   <script src="./assets/libs/confetti.js"></script>
->>>>>>> versi-backup-terbaru
   
 
   <!-- =========================
        CHART JS
   ========================== -->
 
-<<<<<<< HEAD
-  <script src="./chart.umd.js"></script>
-=======
   <script src="./assets/libs/chart.umd.js"></script>
->>>>>>> versi-backup-terbaru
 
   <!-- =========================
        MAIN SCRIPT
   ========================== -->
-<<<<<<< HEAD
-  <script src="./quotes.js"></script>
-
-  <script
-    defer
-    src="script.js">
-
-  </script>
-=======
 
   <script type="module" src="./js/main.js"></script>
->>>>>>> versi-backup-terbaru
 
   <!-- =========================
        ERUDA DEVTOOLS
@@ -1012,41 +822,6 @@
   <!-- =========================
        SERVICE WORKER
   ========================== -->
-<<<<<<< HEAD
-
-  <script>
-
-    if (
-      "serviceWorker" in navigator
-    ) {
-
-      window.addEventListener(
-        "load",
-        () => {
-
-          navigator
-            .serviceWorker
-            .register("./sw.js")
-            .then(() => {
-
-              console.log(
-                "SW REGISTERED"
-              );
-
-            })
-            .catch(err => {
-
-              console.log(err);
-
-            });
-        }
-      );
-    }
-
-  </script>
-  
-  
-=======
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -1054,7 +829,6 @@
       });
     }
   </script>
->>>>>>> versi-backup-terbaru
 
   <!-- =========================
        NOSCRIPT
@@ -1067,8 +841,4 @@
   </noscript>
 
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> versi-backup-terbaru

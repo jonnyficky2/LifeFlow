@@ -1,23 +1,9 @@
-<<<<<<< HEAD
-const CACHE_NAME = "daily-tracker-v1";
-=======
 const CACHE_NAME = "daily-tracker-v6";
->>>>>>> versi-backup-terbaru
 
 const urlsToCache = [
   "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap",
   "./",
   "./index.html",
-<<<<<<< HEAD
-  "./style.css",
-  "./script.js",
-  "./icon.jpg",
-  "./chart.umd.js",
-  "./confetti.js",
-  "./manifest.json",
-  "./quotes.js",
-  "./icon2.png"
-=======
   "./css/style.css",
   "./js/main.js",
   "./js/core/state.js",
@@ -37,7 +23,6 @@ const urlsToCache = [
   "./assets/libs/confetti.js",
   "./manifest.json",
   "./js/quotes.js"
->>>>>>> versi-backup-terbaru
 ];
 
 self.addEventListener("install", event => {
@@ -48,8 +33,6 @@ self.addEventListener("install", event => {
   );
 });
 
-<<<<<<< HEAD
-=======
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -64,7 +47,6 @@ self.addEventListener("activate", event => {
   );
 });
 
->>>>>>> versi-backup-terbaru
 self.addEventListener(
   "fetch",
   event => {
@@ -89,8 +71,4 @@ self.addEventListener(
       })
     );
   }
-<<<<<<< HEAD
 );
-=======
-);
->>>>>>> versi-backup-terbaru
