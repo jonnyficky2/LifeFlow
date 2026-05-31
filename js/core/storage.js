@@ -43,6 +43,10 @@ export function saveToLocal() {
   "historyData",
   JSON.stringify(state.historyData)
 );
+  localStorage.setItem(
+  "notes",
+  JSON.stringify(state.notes)
+);
 }
 
 export function saveState(){
@@ -53,7 +57,8 @@ export function saveState(){
       xp:state.xp,
       habits:state.habits,
       historyData:state.historyData,
-      streakData:state.streakData
+      streakData:state.streakData,
+      notes:state.notes
     })
   );
   
@@ -73,7 +78,8 @@ export function exportData() {
   habits: state.habits,
   historyData: state.historyData,
   habitHistory: state.habitHistory,
-  streakData: state.streakData
+  streakData: state.streakData,
+  notes: state.notes
 });
 
   const blob =
@@ -128,6 +134,8 @@ state.habitHistory =
 state.streakData =
   imported.streakData || [];
 
+state.notes =
+  imported.notes || [];
 
 }catch(err){
 

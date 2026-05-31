@@ -24,6 +24,10 @@ export const state = {
     localStorage.getItem("historyData") || "{}"
   ),
 
+  notes: JSON.parse(
+    localStorage.getItem("notes") || "[]"
+  ),
+
   undoStack: [],
   redoStack: [],
 
@@ -35,4 +39,3 @@ export const state = {
   currentCategoryIndex: null,
   currentHabitCategoryIndex: null
 };
-
