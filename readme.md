@@ -90,25 +90,25 @@ PWA| App Installation
 
 📸 Screenshots
 
-Dashboard
+### Dashboard
 
-"Dashboard" (assets/screenshots/dashboard.png)
+![Dashboard](assets/screenshots/dashboard.jpg)
 
-Tasks
+### Tasks
 
-"Tasks" (assets/screenshots/tasks.png)
+![Tasks](assets/screenshots/tasks.jpg)
 
-Habits
+### Habits
 
-"Habits" (assets/screenshots/habits.png)
+![Habits](assets/screenshots/habits.jpg)
 
-Calendar
+### Calendar
 
-"Calendar" (assets/screenshots/calendar.png)
+![Calendar](assets/screenshots/calendar.jpg)
 
-Statistics
+### Statistics
 
-"Statistics" (assets/screenshots/statistics.png)
+![Statistics](assets/screenshots/statistics.jpg)
 
 ---
 
