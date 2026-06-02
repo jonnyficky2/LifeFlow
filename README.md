@@ -1,172 +1,86 @@
-🌊 LifeFlow
+# Daily Tracker App 🚀
 
-A modern all-in-one productivity web application designed to help users manage tasks, build habits, track progress, and stay consistent every day.
+A modern productivity and habit tracker web app built with vanilla JavaScript.
 
-🚀 Live Demo
+## ✨ Features
 
-- Demo: https://todo-app-self-tau-89.vercel.app/
-- Netlify: (your netlify link)
-- GitHub Repository: https://github.com/jonnyficky2/LifeFlow
-
----
-
-✨ Features
-
-📝 Task Management
-
-- Create, edit, delete tasks
-- Task priority system
-- Search and filter tasks
-- Due date management
-- Undo / Redo actions
-
-🎯 Habit Tracker
-
-- Daily habit tracking
-- Habit completion history
-- Streak calculation
-- Consistency monitoring
-
-📅 Calendar View
-
-- Monthly calendar interface
-- View tasks by date
-- Quick navigation between months
-
-📊 Productivity Analytics
-
-- Weekly productivity chart
-- Task completion statistics
-- Habit performance insights
-- Progress visualization
-
-📒 Notes
-
-- Create and manage personal notes
-- Quick note-taking system
-- Local storage persistence
-
-🎮 Gamification
-
-- XP system
-- Level progression
-- Productivity streak tracking
-
-🌙 User Experience
-
-- Dark / Light theme
-- Responsive mobile-first design
-- Toast notifications
-- Smooth animations
-
-📦 Progressive Web App (PWA)
-
-- Installable on mobile devices
-- Offline support
-- Fast loading experience
-
-💾 Data Management
-
-- Automatic local saving
-- Export data to JSON
-- Import backup data
-- Secure local storage
+- ✅ Daily task management
+- 🔥 Streak system
+- 📊 Productivity statistics
+- 📅 Calendar task view
+- 🎯 Habit tracker
+- 📈 Weekly progress chart
+- 🌙 Dark / Light mode
+- 📦 Offline support (PWA)
+- 🔔 Task reminder notification
+- 📱 Mobile-friendly UI
+- 💾 Local storage save system
+- ↩️ Undo / Redo system
+- 📤 Export / Import data
 
 ---
 
-🛠️ Tech Stack
+## 🛠️ Built With
 
-Technology| Purpose
-HTML5| Structure
-CSS3| Styling
-Vanilla JavaScript| Application Logic
-Chart.js| Statistics & Charts
-LocalStorage API| Data Persistence
-Notification API| Reminders
-Service Worker| Offline Support
-PWA| App Installation
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Chart.js
+- LocalStorage API
+- Notification API
+- PWA
 
 ---
 
-📸 Screenshots
+## 📸 Screenshots
 
-Dashboard
-
-"Dashboard" (assets/screenshots/dashboard.png)
-
-Tasks
-
-"Tasks" (assets/screenshots/tasks.png)
-
-Habits
-
-"Habits" (assets/screenshots/habits.png)
-
-Calendar
-
-"Calendar" (assets/screenshots/calendar.png)
-
-Statistics
-
-"Statistics" (assets/screenshots/statistics.png)
+Add screenshots here later.
 
 ---
 
-📂 Project Structure
+## 🚀 Installation
 
-LifeFlow/
-│
-├── index.html
-├── manifest.json
-├── sw.js
-│
-├── css/
-│   └── style.css
-│
-├── js/
-│   ├── core/
-│   ├── task/
-│   ├── habit/
-│   ├── stats/
-│   ├── ui/
-│   ├── modules/
-│   └── pwa/
-│
-└── assets/
+Clone this repository:
 
----
+```bash
+git clone https://github.com/USERNAME/REPOSITORY.git
+```
 
-🚀 Getting Started
+Open:
 
-Clone the repository:
-
-git clone https://github.com/jonnyficky2/LifeFlow.git
-
-Open the project:
-
+```bash
 index.html
+```
 
-Or run it using Live Server.
-
----
-
-🎯 Roadmap
-
-- Achievement & Badge System
-- Goal Tracking
-- Activity Timeline
-- Cloud Synchronization
-- Multi-device Support
-- Android APK Version
+Or use Live Server.
 
 ---
 
-👨‍💻 Developer
+## 📂 Project Structure
+
+```txt
+📦 Daily Tracker
+ ┣ 📜 index.html
+ ┣ 📜 style.css
+ ┣ 📜 script.js
+ ┣ 📜 quotes.js
+ ┣ 📜 manifest.json
+ ┣ 📜 service-worker.js
+ ┗ 📜 README.md
+```
+
+---
+
+## 🎯 Future Features
+
+- Activity timeline
+- Achievement / badge system
+- Real productivity heatmap
+- Cloud sync
+- APK Android version
+
+---
+
+## 👨‍💻 Developer
 
 Created by Jonny Ficky
-
-Information Systems Student | Web Developer | Productivity App Enthusiast
-
----
-
-⭐ If you like this project, consider giving it a star on GitHub.
