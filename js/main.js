@@ -1,6 +1,6 @@
 
 import { state } from "./core/state.js";
-import { quotes } from "./quotes.js";
+import { quotes } from "./core/quotes.js";
 import {
   getToday,
   getLocalDate,
