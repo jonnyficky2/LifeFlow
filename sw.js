@@ -1,4 +1,4 @@
-const CACHE_NAME = "daily-tracker-v6";
+const CACHE_NAME = "daily-tracker-v7";
 
 const urlsToCache = [
   "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap",
@@ -26,6 +26,7 @@ const urlsToCache = [
 ];
 
 self.addEventListener("install", event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(urlsToCache);
@@ -34,6 +35,7 @@ self.addEventListener("install", event => {
 });
 
 self.addEventListener("activate", event => {
+  self.clients.claim();
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(

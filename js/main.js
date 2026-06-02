@@ -264,10 +264,17 @@ document.addEventListener(
       "splashScreen"
     );
 
-    if (splash) {
-      setTimeout(() => {
+    const hideSplashScreen = () => {
+      if (splash && !splash.classList.contains("splash-hide")) {
         splash.classList.add("splash-hide");
-      }, 2500);
+      }
+    };
+
+    if (splash) {
+      setTimeout(hideSplashScreen, 2500);
+      window.addEventListener("load", () => {
+        setTimeout(hideSplashScreen, 2500);
+      });
     }
 
     setupUIEventListeners();

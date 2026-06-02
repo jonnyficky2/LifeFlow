@@ -1006,6 +1006,10 @@ body.light-mode #bottomNav button{
   opacity:0;
 
   visibility:hidden;
+
+  pointer-events:none;
+
+  transition:opacity .3s ease;
 }
 
 @keyframes floatLogo{
