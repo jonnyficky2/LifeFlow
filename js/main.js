@@ -281,6 +281,7 @@ document.addEventListener(
     initShare();
 
     showSection("home");
+    registerServiceWorker();
 
     window.addEventListener("popstate", (e) => {
       if (e.state && e.state.section) {
@@ -291,6 +292,35 @@ document.addEventListener(
     });
   }
 );
+
+function registerServiceWorker() {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js")
+      .then((registration) => {
+        if (registration.waiting) {
+          showToast("Update tersedia. Refresh halaman untuk versi terbaru.");
+        }
+
+        registration.addEventListener("updatefound", () => {
+          const newWorker = registration.installing;
+
+          if (newWorker) {
+            newWorker.addEventListener("statechange", () => {
+              if (
+                newWorker.state === "installed" &&
+                navigator.serviceWorker.controller
+              ) {
+                showToast("Update tersedia. Reload untuk memuat versi terbaru.");
+              }
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        console.warn("ServiceWorker registration failed:", error);
+      });
+  }
+}
 
 function resetHabitsDaily(){
 

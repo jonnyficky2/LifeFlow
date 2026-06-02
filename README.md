@@ -62,8 +62,9 @@ A modern all-in-one productivity web application designed to help users manage t
 📦 Progressive Web App (PWA)
 
 - Installable on mobile devices
-- Offline support
+- Offline support with fallback page
 - Fast loading experience
+- Automatic update checks via service worker
 
 💾 Data Management
 
