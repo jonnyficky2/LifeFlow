@@ -92,23 +92,23 @@ PWA| App Installation
 
 Dashboard
 
-"Dashboard" (assets/screenshots/dashboard.png)
+"Dashboard" (assets/screenshots/dashboard.jpg)
 
 Tasks
 
-"Tasks" (assets/screenshots/tasks.png)
+"Tasks" (assets/screenshots/tasks.jpg)
 
 Habits
 
-"Habits" (assets/screenshots/habits.png)
+"Habits" (assets/screenshots/habits.jpg)
 
 Calendar
 
-"Calendar" (assets/screenshots/calendar.png)
+"Calendar" (assets/screenshots/calendar.jpg)
 
 Statistics
 
-"Statistics" (assets/screenshots/statistics.png)
+"Statistics" (assets/screenshots/statistics.jpg)
 
 ---
 
