@@ -132,6 +132,34 @@ LifeFlow/
 
 ---
 
+## Roadmap
+
+### v1.0
+
+- Dashboard
+- Tasks
+- Habits
+- Notes
+
+### v2.0
+
+- Projects
+- Goals
+- Calendar
+
+### v3.0
+
+- Cloud Sync
+- Widget
+- PWA
+
+### v4.0
+
+- Analytics
+- AI Assistant
+
+  ---
+
 🚀 Getting Started
 
 Clone the repository:
