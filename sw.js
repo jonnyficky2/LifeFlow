@@ -22,7 +22,7 @@ const urlsToCache = [
   "./assets/libs/chart.umd.js",
   "./assets/libs/confetti.js",
   "./manifest.json",
-  "./js/quotes.js"
+  "./js/core/quotes.js"
 ];
 
 self.addEventListener("install", event => {

@@ -377,18 +377,48 @@ body.light-mode button{
 .add-box,
 .habit-box{
 
-  display:flex;
-
-  gap:10px;
-
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap:12px;
   margin:16px 0;
 }
 
 .toolbar button,
 .filter-box button,
-.backup-box button{
+.backup-box button,
+.add-box button,
+.habit-box button{
 
-  flex:1;
+  min-width:0;
+  padding:18px 22px;
+  height:64px;
+  border-radius:28px;
+  font-weight:600;
+  font-size:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+@media (max-width: 640px) {
+  .toolbar,
+  .filter-box,
+  .backup-box,
+  .add-box,
+  .habit-box{
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar button,
+  .filter-box button,
+  .backup-box button,
+  .add-box button,
+  .habit-box button{
+    height:48px;
+    padding:12px 14px;
+    font-size:14px;
+    border-radius:16px;
+  }
 }
 
 /* =========================

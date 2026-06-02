@@ -2,7 +2,7 @@ import { state } from "../core/state.js";
 import { saveToLocal } from "../core/storage.js";
 import { openHabitModal, closeHabitModal } from "../ui/modal.js";
 import { addXP, updateHabitStats, refreshStatsUI } from "../stats/stats.js";
-import { celebrate } from "../core/utils.js";
+import { celebrate, showToast } from "../core/utils.js";
 
 export let editingHabit = null;
 let dragged = null;
@@ -460,7 +460,7 @@ export function addHabit() {
       state.currentHabitCategoryIndex
     ]
   ){
-    alert("Pilih category habit dulu");
+    showToast("Pilih category habit dulu");
     return;
   }
 

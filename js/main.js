@@ -267,7 +267,7 @@ document.addEventListener(
     if (splash) {
       setTimeout(() => {
         splash.classList.add("splash-hide");
-      }, 5000);
+      }, 2500);
     }
 
     setupUIEventListeners();
@@ -541,7 +541,7 @@ document
         state.appData.length === 0
       ) {
 
-        alert(
+        showToast(
           "Buat category dulu"
         );
 
@@ -670,21 +670,7 @@ function updateSplashWelcome(){
     data.quote;
 }
 
-function hideSplashScreen() {
-  const splash =
-    document.getElementById(
-      "splashScreen"
-    );
-
-  if (splash) {
-    splash.classList.add("splash-hide");
-  }
-}
-
-window.addEventListener(
-  "load",
-  hideSplashScreen
-);
+// Removed automatic hide on window.load to ensure configured timeout applies
 
 /* =========================
    INSTALL PWA
