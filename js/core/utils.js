@@ -40,7 +40,7 @@ export function showToast(message){
       "show"
     );
 
-  },2500);
+  },3000);
 }
 
 export function celebrate() {

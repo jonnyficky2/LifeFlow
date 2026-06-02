@@ -267,7 +267,7 @@ document.addEventListener(
     if (splash) {
       setTimeout(() => {
         splash.classList.add("splash-hide");
-      }, 5000);
+      }, 3000);
     }
 
     setupUIEventListeners();
