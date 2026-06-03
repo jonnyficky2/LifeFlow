@@ -110,44 +110,52 @@
         <img src="./assets/icons/icon.jpg" alt="Logo" class="navbar-logo">
         <span class="navbar-title">Daily Tracker</span>
       </div>
-      
-      <!-- Hamburger Menu -->
-      <button id="hamburger" class="hamburger">
+
+      <!-- Sidebar Toggle Button -->
+      <button id="sidebarToggle" class="sidebar-toggle" aria-label="Open sidebar">
         <span></span>
         <span></span>
         <span></span>
       </button>
       
-      <!-- Navigation Links -->
-      <ul id="navLinks" class="nav-links">
-        <li><a href="#" class="nav-link" onclick="showSection('home')">🏠 Home</a></li>
-        <li><a href="#" class="nav-link" onclick="showSection('calendar')">📅 Calendar</a></li>
-        <li><a href="#" class="nav-link" onclick="showSection('habit')">💪 Habits</a></li>
-        <li><a href="#" class="nav-link" onclick="showSection('stats')">📊 Stats</a></li>
-        <li><a href="#" class="nav-link" onclick="showSection('notes')">📝 Notes</a></li>
-      </ul>
       
-      <!-- Quick Actions (Right Side) -->
-      <div class="navbar-actions">
-        <button class="navbar-btn" title="Notifications">
-          🔔
-        </button>
-        <button class="navbar-btn" title="Profile">
-          👤
-        </button>
-        <button class="navbar-btn" title="Settings">
-          ⚙️
-        </button>
-      </div>
       
     </div>
   </nav>
 
   <!-- =========================
-       LEVEL
+       SIDEBAR
   ========================== -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <div>
+        <p class="sidebar-label">Akun</p>
+        <h3 class="sidebar-title">Guest</h3>
+      </div>
+      <button id="sidebarClose" class="sidebar-close" aria-label="Close sidebar">×</button>
+    </div>
 
-  <div id="levelBox">
+    <div class="sidebar-content">
+      <div class="sidebar-profile">
+        <img src="./assets/icons/icon.jpg" alt="Profile" class="sidebar-profile-img">
+        <div>
+          <p class="sidebar-name">Guest User</p>
+          <p class="sidebar-email">Login untuk akses akun</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <button class="sidebar-item">Login</button>
+        <button class="sidebar-item">Profil</button>
+        <button class="sidebar-item">Akun</button>
+        <button class="sidebar-item">Pengaturan</button>
+      </nav>
+    </div>
+  </aside>
+
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- =========================
 
     <h2 id="levelText">
       🏆 Level 1
