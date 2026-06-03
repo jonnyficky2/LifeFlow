@@ -1,24 +1,24 @@
-export function initNavbar() {
-  const navbar = document.getElementById('navbar');
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  
-  // Toggle mobile menu
-  hamburger?.addEventListener('click', () => {
-    navLinks?.classList.toggle('active');
-  });
-  
-  // Close menu ketika link diklik
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks?.classList.remove('active');
-    });
-  });
-}
+export function initSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebarOverlay");
+  const toggle = document.getElementById("sidebarToggle");
+  const closeBtn = document.getElementById("sidebarClose");
+  const sidebarItems = document.querySelectorAll(".sidebar-item");
 
-export function updateNavbarUser(userName = 'User') {
-  const userNameEl = document.querySelector('.navbar-user-name');
-  if (userNameEl) {
-    userNameEl.textContent = userName;
-  }
+  const openSidebar = () => {
+    sidebar?.classList.add("sidebar-open");
+    overlay?.classList.add("sidebar-overlay-show");
+  };
+
+  const closeSidebar = () => {
+    sidebar?.classList.remove("sidebar-open");
+    overlay?.classList.remove("sidebar-overlay-show");
+  };
+
+  toggle?.addEventListener("click", openSidebar);
+  closeBtn?.addEventListener("click", closeSidebar);
+  overlay?.addEventListener("click", closeSidebar);
+  sidebarItems.forEach((item) => {
+    item.addEventListener("click", closeSidebar);
+  });
 }

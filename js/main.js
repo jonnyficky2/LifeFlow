@@ -23,7 +23,7 @@ import {
 } from "./habit/habit.js";
 
 import { openTaskModal, closeTaskModal, openHabitModal, closeHabitModal, openNoteModal, closeNoteModal } from "./ui/modal.js";
-import { initNavbar, updateNavbarUser } from "./navbar/navbar.js";
+import { initSidebar } from "./navbar/navbar.js";
 import { showSection } from "./ui/section.js";
 import { renderCalendar, changeMonth } from "./task/calendar.js";
 import { saveTaskModal, toggleTask, editTask, deleteTask, addCategory, editCategory, deleteCategory, renderTasks, searchTask, setFilter } from "./task/task.js";
@@ -293,7 +293,7 @@ document.addEventListener(
       }, 5000);
     }
 
-    initNavbar();
+    initSidebar();
     setupUIEventListeners();
     initShare();
 
