@@ -1,4 +1,4 @@
-const CACHE_NAME = "daily-tracker-v8";
+const CACHE_NAME = "daily-tracker-v10";
 
 const urlsToCache = [
   "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap",
@@ -61,6 +61,9 @@ self.addEventListener("fetch", event => {
     event.respondWith(
       fetch(request)
         .then(networkResponse => {
+          if (!networkResponse || networkResponse.status !== 200) {
+            return networkResponse;
+          }
           const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(request, responseClone));
           return networkResponse;
@@ -72,20 +75,22 @@ self.addEventListener("fetch", event => {
 
   event.respondWith(
     caches.match(request).then(response => {
-      return (
-        response ||
-        fetch(request).then(networkResponse => {
-          if (request.method === "GET") {
-            caches.open(CACHE_NAME).then(cache => cache.put(request, networkResponse.clone()));
-          }
+      if (response) {
+        return response;
+      }
+      return fetch(request).then(networkResponse => {
+        if (!networkResponse || networkResponse.status !== 200 || request.method !== "GET") {
           return networkResponse;
-        })
-      ).catch(() => {
-        if (request.destination === "image") {
-          return new Response(null, { status: 404 });
         }
-        return caches.match("./offline.html");
+        const responseClone = networkResponse.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(request, responseClone));
+        return networkResponse;
       });
+    }).catch(() => {
+      if (request.destination === "image") {
+        return new Response(null, { status: 404 });
+      }
+      return caches.match("./offline.html");
     })
   );
 });

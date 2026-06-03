@@ -251,14 +251,22 @@ function setupUIEventListeners() {
 document.addEventListener(
   "DOMContentLoaded",
   () => {
-    updateSplashWelcome();
+    try {
+      updateSplashWelcome();
+    } catch (e) {
+      console.error("Error updating splash screen:", e);
+    }
 
-    resetHabitsDaily();
-    resetTasksDaily();
-    refreshUI();
-    checkTaskReminders();
-    checkDeadlines();
-    loadTheme();
+    try {
+      resetHabitsDaily();
+      resetTasksDaily();
+      refreshUI();
+      checkTaskReminders();
+      checkDeadlines();
+      loadTheme();
+    } catch (e) {
+      console.error("Error during initialization:", e);
+    }
 
     const splash = document.getElementById(
       "splashScreen"
@@ -275,6 +283,13 @@ document.addEventListener(
       window.addEventListener("load", () => {
         setTimeout(hideSplashScreen, 2500);
       });
+      // Fallback: ensure splash hides after 5 seconds even if error occurs
+      setTimeout(() => {
+        if (splash && !splash.classList.contains("splash-hide")) {
+          console.warn("Force hiding splash screen due to timeout");
+          hideSplashScreen();
+        }
+      }, 5000);
     }
 
     setupUIEventListeners();
@@ -696,15 +711,16 @@ function updateSplashWelcome(){
   const data =
     splashData[level - 1];
 
-  document.getElementById(
-    "splashLevelText"
-  ).innerText =
-    data.title;
+  const levelEl = document.getElementById("splashLevelText");
+  const quoteEl = document.getElementById("splashQuote");
 
-  document.getElementById(
-    "splashQuote"
-  ).innerText =
-    data.quote;
+  if (levelEl && data) {
+    levelEl.innerText = data.title;
+  }
+
+  if (quoteEl && data) {
+    quoteEl.innerText = data.quote;
+  }
 }
 
 // Removed automatic hide on window.load to ensure configured timeout applies
