@@ -7,13 +7,28 @@ export function initAuth(onDataSyncedCallback) {
   const userEmailEl = document.querySelector(".sidebar-email");
   const userImgEl = document.querySelector(".sidebar-profile-img");
 
+  // Peringatan jika menggunakan 127.0.0.1 karena Firebase butuh localhost
+  if (window.location.hostname === "127.0.0.1") {
+    alert("Perhatian: Login Google Firebase mungkin gagal di 127.0.0.1. Tolong buka web ini menggunakan http://localhost:" + window.location.port);
+  }
+
+  // KODE DARURAT: Bersihkan memori sesi yang membuat aplikasi reload terus (loop)
+  sessionStorage.clear();
+
   // Fungsi Login
   loginBtn?.addEventListener("click", async () => {
     try {
+      if (loginBtn) loginBtn.textContent = "Membuka Popup Google...";
+      if (loginBtn) loginBtn.disabled = true;
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Login gagal:", error);
       alert("Gagal login: " + error.message);
+    } finally {
+      if (loginBtn && !auth.currentUser) {
+        loginBtn.textContent = "Login dengan Google";
+        loginBtn.disabled = false;
+      }
     }
   });
 

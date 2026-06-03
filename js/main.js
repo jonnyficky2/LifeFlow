@@ -340,6 +340,19 @@ document.addEventListener(
 
 function registerServiceWorker() {
   if ("serviceWorker" in navigator) {
+    // --- KODE DARURAT: Hapus Service Worker & Cache Lama Secara Paksa ---
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+    caches.keys().then((names) => {
+      for (let name of names) {
+        caches.delete(name);
+      }
+    });
+    // --------------------------------------------------------------------
+
     navigator.serviceWorker.register("./sw.js")
       .then((registration) => {
         if (registration.waiting) {

@@ -1,5 +1,6 @@
 import { state } from "./state.js";
 import { showToast } from "./utils.js";
+import { saveToCloud } from "../modules/cloud-sync.js";
 
 export function trimHistory(historyData){
 
@@ -48,6 +49,9 @@ export function saveToLocal() {
   "notes",
   JSON.stringify(state.notes)
 );
+
+  // Sinkronisasi ke Cloud secara otomatis di *background*
+  saveToCloud(state);
 }
 
 export function saveState(){

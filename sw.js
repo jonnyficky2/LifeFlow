@@ -56,6 +56,18 @@ const isNavigationRequest = request =>
 
 self.addEventListener("fetch", event => {
   const request = event.request;
+  const url = new URL(request.url);
+
+  // Bypass Firebase, Google Auth, dan URL Redirect agar login tidak loop/refresh terus
+  if (
+    url.hostname.includes("firebase") ||
+    url.hostname.includes("googleapis") ||
+    url.searchParams.has("__firebase_request_key") ||
+    url.searchParams.has("apiKey") ||
+    !url.href.startsWith(self.location.origin)
+  ) {
+    return;
+  }
 
   if (isNavigationRequest(request)) {
     event.respondWith(
