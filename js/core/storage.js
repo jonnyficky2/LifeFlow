@@ -1,4 +1,5 @@
 import { state } from "./state.js";
+import { showToast } from "./utils.js";
 
 export function trimHistory(historyData){
 
@@ -139,7 +140,7 @@ state.notes =
 
 }catch(err){
 
-  alert("File rusak");
+  showToast("File rusak");
 }
 
     saveToLocal();

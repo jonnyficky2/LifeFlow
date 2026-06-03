@@ -796,41 +796,6 @@
   <script type="module" src="./js/main.js"></script>
 
   <!-- =========================
-       ERUDA DEVTOOLS
-  ========================== -->
-
-  <script>
-
-      if (
-  location.hostname === "localhost" ||
-  location.hostname === "127.0.0.1"
-) {
-      const script =
-        document.createElement("script");
-
-      script.src =
-        "https://cdn.jsdelivr.net/npm/eruda";
-
-      script.onload = () =>
-        eruda.init();
-
-      document.body.appendChild(script);
-    }
-
-  </script>
-
-  <!-- =========================
-       SERVICE WORKER
-  ========================== -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js');
-      });
-    }
-  </script>
-
-  <!-- =========================
        NOSCRIPT
   ========================== -->
 

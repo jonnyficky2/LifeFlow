@@ -1,6 +1,6 @@
 
 import { state } from "./core/state.js";
-import { quotes } from "./quotes.js";
+import { quotes } from "./core/quotes.js";
 import {
   getToday,
   getLocalDate,
@@ -264,16 +264,24 @@ document.addEventListener(
       "splashScreen"
     );
 
-    if (splash) {
-      setTimeout(() => {
+    const hideSplashScreen = () => {
+      if (splash && !splash.classList.contains("splash-hide")) {
         splash.classList.add("splash-hide");
-      }, 3000);
+      }
+    };
+
+    if (splash) {
+      setTimeout(hideSplashScreen, 2500);
+      window.addEventListener("load", () => {
+        setTimeout(hideSplashScreen, 2500);
+      });
     }
 
     setupUIEventListeners();
     initShare();
 
     showSection("home");
+    registerServiceWorker();
 
     window.addEventListener("popstate", (e) => {
       if (e.state && e.state.section) {
@@ -284,6 +292,35 @@ document.addEventListener(
     });
   }
 );
+
+function registerServiceWorker() {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js")
+      .then((registration) => {
+        if (registration.waiting) {
+          showToast("Update tersedia. Refresh halaman untuk versi terbaru.");
+        }
+
+        registration.addEventListener("updatefound", () => {
+          const newWorker = registration.installing;
+
+          if (newWorker) {
+            newWorker.addEventListener("statechange", () => {
+              if (
+                newWorker.state === "installed" &&
+                navigator.serviceWorker.controller
+              ) {
+                showToast("Update tersedia. Reload untuk memuat versi terbaru.");
+              }
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        console.warn("ServiceWorker registration failed:", error);
+      });
+  }
+}
 
 function resetHabitsDaily(){
 
@@ -541,7 +578,7 @@ document
         state.appData.length === 0
       ) {
 
-        alert(
+        showToast(
           "Buat category dulu"
         );
 
@@ -670,21 +707,7 @@ function updateSplashWelcome(){
     data.quote;
 }
 
-function hideSplashScreen() {
-  const splash =
-    document.getElementById(
-      "splashScreen"
-    );
-
-  if (splash) {
-    splash.classList.add("splash-hide");
-  }
-}
-
-window.addEventListener(
-  "load",
-  hideSplashScreen
-);
+// Removed automatic hide on window.load to ensure configured timeout applies
 
 /* =========================
    INSTALL PWA
