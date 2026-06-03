@@ -1,3 +1,197 @@
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, #0f172a, #1e293b);
+  border-bottom: 1px solid #334155;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  flex-shrink: 0;
+}
+
+.navbar-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.navbar-title {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #60a5fa, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-link {
+  color: #cbd5e1;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  background: rgba(96, 165, 250, 0.1);
+  color: #60a5fa;
+}
+
+.nav-link.active {
+  background: rgba(96, 165, 250, 0.2);
+  color: #60a5fa;
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.navbar-btn {
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  color: #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-btn:hover {
+  background: rgba(96, 165, 250, 0.2);
+  color: #60a5fa;
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+/* Hamburger Menu (Mobile) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #60a5fa;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 12px;
+  }
+
+  .navbar-title {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+    order: 2;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: #0f172a;
+    border-bottom: 1px solid #334155;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    gap: 0;
+  }
+
+  .nav-links.active {
+    max-height: 300px;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 0;
+    border-bottom: 1px solid #1e293b;
+  }
+
+  .navbar-actions {
+    gap: 8px;
+  }
+
+  .navbar-btn {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+}
+
+/* Add padding to body untuk navbar fixed */
+body {
+  padding-top: 70px;
+}
 
 *{
   margin:0;

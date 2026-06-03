@@ -99,6 +99,50 @@
 
   <header>Daily Tracker</header>
 
+    <!-- =========================
+       NAVBAR
+  ========================== -->
+  <nav id="navbar" class="navbar">
+    <div class="navbar-container">
+      
+      <!-- Logo & Title -->
+      <div class="navbar-brand">
+        <img src="./assets/icons/icon.jpg" alt="Logo" class="navbar-logo">
+        <span class="navbar-title">Daily Tracker</span>
+      </div>
+      
+      <!-- Hamburger Menu -->
+      <button id="hamburger" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <!-- Navigation Links -->
+      <ul id="navLinks" class="nav-links">
+        <li><a href="#" class="nav-link" onclick="showSection('home')">🏠 Home</a></li>
+        <li><a href="#" class="nav-link" onclick="showSection('calendar')">📅 Calendar</a></li>
+        <li><a href="#" class="nav-link" onclick="showSection('habit')">💪 Habits</a></li>
+        <li><a href="#" class="nav-link" onclick="showSection('stats')">📊 Stats</a></li>
+        <li><a href="#" class="nav-link" onclick="showSection('notes')">📝 Notes</a></li>
+      </ul>
+      
+      <!-- Quick Actions (Right Side) -->
+      <div class="navbar-actions">
+        <button class="navbar-btn" title="Notifications">
+          🔔
+        </button>
+        <button class="navbar-btn" title="Profile">
+          👤
+        </button>
+        <button class="navbar-btn" title="Settings">
+          ⚙️
+        </button>
+      </div>
+      
+    </div>
+  </nav>
+
   <!-- =========================
        LEVEL
   ========================== -->
