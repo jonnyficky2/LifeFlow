@@ -31,6 +31,7 @@ import { getLevelData, updateLevel, updateQuickStats, updateProgressRing, genera
 import { loadTheme, toggleTheme } from "./modules/theme.js";
 import { saveNoteModal, renderNotes } from "./core/notes.js";
 import { initShare, triggerShare } from "./modules/share.js";
+import { initAuth, saveToCloud } from "./modules/cloud-sync.js";
 
 let deferredPrompt = null;
 
@@ -268,6 +269,33 @@ document.addEventListener(
     } catch (e) {
       console.error("Error during initialization:", e);
     }
+
+    // Inisialisasi Firebase Auth & Sinkronisasi
+    initAuth((cloudData) => {
+      console.log("Data berhasil ditarik dari cloud:", cloudData);
+      
+      // Update state lokal dengan data dari cloud
+      if(cloudData.appData) state.appData = cloudData.appData;
+      if(cloudData.xp) state.xp = cloudData.xp;
+      if(cloudData.habits) state.habits = cloudData.habits;
+      if(cloudData.habitHistory) state.habitHistory = cloudData.habitHistory;
+      if(cloudData.streakData) state.streakData = cloudData.streakData;
+      if(cloudData.historyData) state.historyData = cloudData.historyData;
+      if(cloudData.notes) state.notes = cloudData.notes;
+
+      // Simpan paksa ke LocalStorage agar tersinkronisasi
+      localStorage.setItem("appData", JSON.stringify(state.appData));
+      localStorage.setItem("xp", state.xp.toString());
+      localStorage.setItem("habits", JSON.stringify(state.habits));
+      localStorage.setItem("habitHistory", JSON.stringify(state.habitHistory));
+      localStorage.setItem("streakData", JSON.stringify(state.streakData));
+      localStorage.setItem("historyData", JSON.stringify(state.historyData));
+      localStorage.setItem("notes", JSON.stringify(state.notes));
+
+      // Render ulang layar
+      refreshUI();
+      showToast("Data disinkronisasi dengan Cloud!");
+    });
 
     const splash = document.getElementById(
       "splashScreen"
