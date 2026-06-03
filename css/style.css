@@ -256,6 +256,8 @@ body{
 
   padding:18px;
 
+  padding-top:88px;
+
   padding-bottom:120px;
 
   color:var(--text-dark);
@@ -1234,7 +1236,7 @@ body.light-mode #bottomNav button{
 
   position:fixed;
 
-  top:20px;
+  top:90px;
   left:20px;
 
   z-index:999;
@@ -1289,6 +1291,8 @@ body.light-mode #bottomNav button{
   body{
 
     padding:14px;
+
+    padding-top:84px;
 
     padding-bottom:120px;
   }
