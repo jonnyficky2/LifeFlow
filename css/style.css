@@ -50,142 +50,147 @@
   white-space: nowrap;
 }
 
-.nav-links {
+
+
+.sidebar-toggle {
   display: flex;
-  list-style: none;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  align-items: center;
-}
-
-.nav-link {
-  color: #cbd5e1;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.nav-link:hover {
-  background: rgba(96, 165, 250, 0.1);
-  color: #60a5fa;
-}
-
-.nav-link.active {
-  background: rgba(96, 165, 250, 0.2);
-  color: #60a5fa;
-}
-
-.navbar-actions {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.navbar-btn {
-  background: rgba(96, 165, 250, 0.1);
-  border: 1px solid rgba(96, 165, 250, 0.2);
-  color: #cbd5e1;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.navbar-btn:hover {
-  background: rgba(96, 165, 250, 0.2);
-  color: #60a5fa;
-  border-color: rgba(96, 165, 250, 0.3);
-}
-
-/* Hamburger Menu (Mobile) */
-.hamburger {
-  display: none;
   flex-direction: column;
-  background: none;
+  justify-content: space-between;
+  width: 32px;
+  height: 28px;
+  background: transparent;
   border: none;
   cursor: pointer;
-  padding: 8px;
-  gap: 5px;
+  padding: 0;
+  margin-left: 16px;
 }
 
-.hamburger span {
-  width: 25px;
+.sidebar-toggle span {
+  display: block;
+  width: 100%;
   height: 3px;
+  border-radius: 99px;
   background: #60a5fa;
-  border-radius: 2px;
-  transition: all 0.3s ease;
 }
 
-.hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(8px, 8px);
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -320px;
+  width: 320px;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.98);
+  box-shadow: 6px 0 30px rgba(0, 0, 0, 0.35);
+  z-index: 1500;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: left 0.3s ease;
 }
 
-.hamburger.active span:nth-child(2) {
+.sidebar-open {
+  left: 0;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
   opacity: 0;
+  visibility: hidden;
+  z-index: 1400;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
+.sidebar-overlay-show {
+  opacity: 1;
+  visibility: visible;
 }
 
-/* Mobile Responsive */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-label {
+  color: #94a3b8;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 4px;
+}
+
+.sidebar-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.sidebar-close {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sidebar-profile {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.sidebar-profile-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-name {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.sidebar-email {
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-item {
+  width: 100%;
+  text-align: left;
+  background: rgba(255,255,255,0.04);
+  color: #e2e8f0;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar-item:hover {
+  background: rgba(96, 165, 250, 0.14);
+  transform: translateX(2px);
+}
+
 @media (max-width: 768px) {
   .navbar-container {
     padding: 0 12px;
   }
 
-  .navbar-title {
-    display: none;
-  }
-
-  .hamburger {
-    display: flex;
-    order: 2;
-  }
-
-  .nav-links {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: #0f172a;
-    border-bottom: 1px solid #334155;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    gap: 0;
-  }
-
-  .nav-links.active {
-    max-height: 300px;
-  }
-
-  .nav-link {
-    width: 100%;
-    padding: 12px 20px;
-    border-radius: 0;
-    border-bottom: 1px solid #1e293b;
-  }
-
-  .navbar-actions {
-    gap: 8px;
-  }
-
-  .navbar-btn {
-    padding: 6px 10px;
-    font-size: 14px;
-  }
+  
 }
 
 /* Add padding to body untuk navbar fixed */
