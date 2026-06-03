@@ -1,7 +1,7 @@
 {
-  "name": "Daily Tracker",
-  "short_name": "Tracker",
-  "description": "Task dan habit tracker modern",
+  "name": "LifeFlow",
+  "short_name": "LifeFlow",
+  "description": "Aplikasi LifeFlow untuk manajemen tugas dan kebiasaan",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

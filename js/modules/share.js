@@ -90,15 +90,15 @@ function generateShareImage(bgImg) {
   ctx.textAlign = "center";
   ctx.fillStyle = "#38bdf8"; // Primary color
   ctx.font = "bold 60px Poppins, sans-serif";
-  ctx.fillText("DAILY TRACKER", canvas.width/2, 720);
+  ctx.fillText("LIFEFLOW", canvas.width/2, 720);
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 130px Poppins, sans-serif";
   ctx.fillText(`Level ${level}`, canvas.width/2, 880);
 
   ctx.font = "60px Poppins, sans-serif";
-  ctx.fillText(`🔥 Streak: ${streak} Days`, canvas.width/2, 1030);
-  ctx.fillText(`⚡ Productivity: ${prod}%`, canvas.width/2, 1140);
+  ctx.fillText(`🔥 Streak: ${streak} Days`, canvas.width/2, 1030); // Leave as-is, "Streak" is a generic term
+  ctx.fillText(`⚡ Productivity: ${prod}%`, canvas.width/2, 1140); // Leave as-is, "Productivity" is a generic term
 
   ctx.fillStyle = "rgba(255,255,255,0.6)";
   ctx.font = "italic 40px Poppins, sans-serif";
@@ -107,9 +107,9 @@ function generateShareImage(bgImg) {
   // Convert to file & Share/Download
   canvas.toBlob((blob) => {
     const url = URL.createObjectURL(blob);
-    if (navigator.share && navigator.canShare) {
-      const file = new File([blob], "daily-tracker.jpg", { type: "image/jpeg" });
-      navigator.share({ title: "My Stats", files: [file] })
+    if (navigator.share && navigator.canShare) { // Check if Web Share API is available
+      const file = new File([blob], "lifeflow-stats.jpg", { type: "image/jpeg" });
+      navigator.share({ title: "My LifeFlow Stats", files: [file] })
         .catch(err => downloadFallback(url));
     } else {
       downloadFallback(url);
@@ -119,7 +119,7 @@ function generateShareImage(bgImg) {
 
 function downloadFallback(url) {
   const a = document.createElement("a");
-  a.href = url;
-  a.download = "daily-tracker-story.jpg";
-  a.click();
+  a.href = url; // Set the URL of the generated image
+  a.download = "lifeflow-stats.jpg"; // Set the filename for download
+  a.click(); // Programmatically click the anchor to trigger download
 }
