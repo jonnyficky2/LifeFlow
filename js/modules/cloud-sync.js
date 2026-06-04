@@ -1,4 +1,4 @@
-import { auth, db, provider, signInWithPopup, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
+import { auth, db, provider, signInWithRedirect, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
 
 export function initAuth(onDataSyncedCallback) {
   const loginBtn = document.getElementById("loginBtn");
@@ -18,14 +18,14 @@ export function initAuth(onDataSyncedCallback) {
   // Fungsi Login
   loginBtn?.addEventListener("click", async () => {
     try {
-      if (loginBtn) loginBtn.textContent = "Membuka Popup Google...";
+      if (loginBtn) loginBtn.textContent = "Mengalihkan ke Google...";
       if (loginBtn) loginBtn.disabled = true;
-      await signInWithPopup(auth, provider);
+      // Gunakan Redirect agar tidak diblokir oleh GitHub Pages
+      await signInWithRedirect(auth, provider);
     } catch (error) {
       console.error("Login gagal:", error);
       alert("Gagal login: " + error.message);
-    } finally {
-      if (loginBtn && !auth.currentUser) {
+      if (loginBtn) {
         loginBtn.textContent = "Login dengan Google";
         loginBtn.disabled = false;
       }
