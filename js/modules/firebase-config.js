@@ -1,8 +1,7 @@
-// Menggunakan CDN Firebase versi 10.8.1 untuk mendukung module Vanilla JS di Browser
+// Menggunakan CDN Firebase versi 10.8.1
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-// import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js"; // Opsional
 
 const firebaseConfig = {
   apiKey: "AIzaSyBU92AgOUJQdXEAj49DcmMvIBkFohRK9oA",
@@ -14,16 +13,15 @@ const firebaseConfig = {
   measurementId: "G-MB9B1B8PSN"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const provider = new GoogleAuthProvider();
 
-// Pastikan selalu memanggil Custom Parameters untuk prompt select account
+// Kita tetap paksa dia agar memilih akun setiap kali login
 provider.setCustomParameters({
   prompt: 'select_account'
 });
 
-export { signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, doc, setDoc, getDoc };
+export { signInWithPopup, signOut, onAuthStateChanged, doc, setDoc, getDoc };
