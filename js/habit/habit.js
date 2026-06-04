@@ -16,16 +16,18 @@ export function isHabitToday(habit){
     return true;
   }
 
-  if(habit.repeatType === "weekly"){
+  if(habit.repeatType === "weekly" || habit.repeatType === "custom" || habit.repeatType === "certain_days"){
+    if (!habit.repeatDays || habit.repeatDays.length === 0) return true;
     return habit.repeatDays.includes(day);
   }
 
   if(habit.repeatType === "monthly"){
+    if (!habit.repeatDate) return true;
+    if (habit.repeatDate.includes("-")) {
+      const dayPart = parseInt(habit.repeatDate.split("-")[2], 10);
+      return dayPart === date;
+    }
     return Number(habit.repeatDate) === date;
-  }
-
-  if(habit.repeatType === "custom"){
-    return habit.repeatDays.includes(day);
   }
 
   return true;
@@ -195,8 +197,7 @@ header.appendChild(addBtn);
       let repeatText =
   habit.repeatType;
 
-if(habit.repeatType === "custom"){
-
+if(habit.repeatType === "custom" || habit.repeatType === "certain_days" || habit.repeatType === "weekly"){
   const names = [
     "Sunday",
     "Monday",
@@ -207,16 +208,19 @@ if(habit.repeatType === "custom"){
     "Saturday"
   ];
 
-  repeatText =
-    habit.repeatDays
-    .map(day=>names[day])
-    .join(", ");
+  if (habit.repeatDays && habit.repeatDays.length > 0) {
+    repeatText = habit.repeatDays.map(day=>names[day]).join(", ");
+  } else {
+    repeatText = "Setiap Hari";
+  }
 }
 
 if(habit.repeatType === "monthly"){
-
-  repeatText =
-    `Tgl ${habit.repeatDate}`;
+  let dateStr = habit.repeatDate;
+  if (dateStr && dateStr.includes("-")) {
+    dateStr = dateStr.split("-")[2];
+  }
+  repeatText = `Tgl ${dateStr || 'tertentu'}`;
 }
 
 info.innerText =
@@ -433,7 +437,7 @@ export function addHabit() {
   ].map(el => Number(el.value));
 
   if(
-    repeat === "weekly" &&
+    (repeat === "weekly" || repeat === "custom" || repeat === "certain_days") &&
     checkedDays.length === 0
   ){
     checkedDays.push(
@@ -451,7 +455,10 @@ export function addHabit() {
       "habitTimeInput"
     ).value;
 
-  if(!name.trim()) return;
+  if(!name.trim()) {
+    showToast("Nama habit tidak boleh kosong!");
+    return;
+  }
 
   // FIX
   if(
@@ -516,6 +523,14 @@ export function addHabit() {
   renderHabits();
   refreshStatsUI();
 
+  // Beri notifikasi ke user jika habit dijadwalkan, tapi bukan untuk hari ini
+  const addedHabit = category.habits[category.habits.length - 1];
+  if (!isHabitToday(addedHabit)) {
+    showToast("Tersimpan! Habit ini akan muncul di hari yang dijadwalkan.");
+  } else {
+    showToast("Habit berhasil ditambahkan!");
+  }
+
   // reset form
   document.getElementById(
     "habitInput"
@@ -545,7 +560,7 @@ export function toggleRepeatOptions(){
   const dateBox = document.getElementById("habitDateBox");
 
   daysBox.style.display =
-    repeat === "custom" ? "block" : "none";
+    (repeat === "custom" || repeat === "certain_days" || repeat === "weekly") ? "block" : "none";
 
   dateBox.style.display =
     repeat === "monthly" ? "block" : "none";
