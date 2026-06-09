@@ -78,8 +78,8 @@ export function updateLevel() {
 document.getElementById(
   "levelText"
 ).innerText =
-  `🏆 ${levelName}
-   Lv.${level}`;
+  `Lv. ${level}
+${levelName}`;
 
   document.getElementById(
     "xpText"
@@ -96,10 +96,20 @@ export function updateQuickStats(){
 
   let done = 0;
   let pending = 0;
+  let total = 0;
+  let todayTasks = 0;
+  const today =
+    new Date().toISOString().split("T")[0];
 
   state.appData.forEach(category=>{
 
     category.tasks.forEach(task=>{
+
+      total++;
+
+      if (task.deadline === today) {
+        todayTasks++;
+      }
 
       if(task.done){
 
@@ -123,14 +133,34 @@ export function updateQuickStats(){
     "pendingCount"
   ).innerText = pending;
 
-  document.getElementById(
-    "streakCount"
-  ).innerText =
-    state.streakData.length;
+  const allTaskCount =
+    document.getElementById("allTaskCount");
 
-  document.getElementById(
-    "levelCount"
-  ).innerText = level;
+  if (allTaskCount) {
+    allTaskCount.innerText = total;
+  }
+
+  const todayCount =
+    document.getElementById("todayCount");
+
+  if (todayCount) {
+    todayCount.innerText = todayTasks;
+  }
+
+  const levelCount =
+    document.getElementById("levelCount");
+
+  if (levelCount) {
+    levelCount.innerText = level;
+  }
+
+  const sidebarStreakCount =
+    document.getElementById("sidebarStreakCount");
+
+  if (sidebarStreakCount) {
+    sidebarStreakCount.innerText =
+      `${state.streakData.length} Days`;
+  }
 }
 
 export function updateProgressRing(){

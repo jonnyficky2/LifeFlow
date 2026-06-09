@@ -3,9 +3,9 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "MASUKKAN_API_KEY_ASLI_KAMU_DISINI",
-  authDomain: "MASUKKAN_AUTH_DOMAIN_ASLI_KAMU_DISINI",
-  projectId: "MASUKKAN_PROJECT_ID_ASLI_KAMU_DISINI",
+  apiKey: "AIzaSyCBYJDlQBYEN7BYqxzI6LwDW2dYeeibWLw",
+  authDomain: "lifeflow-cd351.firebaseapp.com",
+  projectId: "lifeflow-cd351",
 };
 
 const app = initializeApp(firebaseConfig);

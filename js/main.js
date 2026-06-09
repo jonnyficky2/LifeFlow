@@ -35,6 +35,28 @@ import { initAuth, saveToCloud } from "./modules/cloud-sync.js";
 
 let deferredPrompt = null;
 
+function setSidebarActive(navKey) {
+  document.querySelectorAll(".app-nav .sidebar-item").forEach((item) => {
+    if (item.dataset.nav === navKey) {
+      item.classList.add("is-active");
+    } else {
+      item.classList.remove("is-active");
+    }
+  });
+}
+
+function navigateToSection(section, navKey) {
+  showSection(section);
+  setSidebarActive(navKey ?? getNavKeyForSection(section));
+}
+
+function getNavKeyForSection(section) {
+  if (section === "home") return "dashboard";
+  if (section === "stats") return "stats";
+  if (section === "habit") return "tasks";
+  return section;
+}
+
 /* =========================
    STATE
 ========================= */
@@ -62,6 +84,16 @@ function setupUIEventListeners() {
   document.getElementById("toggleTheme")?.addEventListener(
     "click",
     toggleTheme
+  );
+
+  document.getElementById("desktopThemeToggle")?.addEventListener(
+    "click",
+    toggleTheme
+  );
+
+  document.getElementById("desktopMenuToggle")?.addEventListener(
+    "click",
+    () => document.getElementById("sidebar")?.classList.toggle("sidebar-open")
   );
 
   document.getElementById("exportBtn")?.addEventListener(
@@ -107,12 +139,93 @@ function setupUIEventListeners() {
       () => setFilter("done")
     );
 
+  document.querySelectorAll("[data-filter-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filterTab;
+      setFilter(filter);
+      document.querySelectorAll("[data-filter-tab]").forEach((tab) => {
+        if (tab === button) {
+          tab.classList.add("is-active");
+        } else {
+          tab.classList.remove("is-active");
+        }
+      });
+    });
+  });
+
   document
     .getElementById("addCategoryBtn")
     ?.addEventListener(
       "click",
       addCategory
     );
+
+  const focusCategoryInput = () => {
+    showSection("home");
+    setSidebarActive("category");
+    document.getElementById("categoryInput")?.focus();
+  };
+
+  const openTaskFromDashboard = () => {
+    if (state.appData.length === 0) {
+      showToast("Buat category dulu");
+      focusCategoryInput();
+      return;
+    }
+
+    state.currentCategoryIndex =
+      state.currentCategoryIndex ?? state.appData.length - 1;
+
+    openTaskModal();
+  };
+
+  document.getElementById("quickAddTaskBtn")?.addEventListener(
+    "click",
+    openTaskFromDashboard
+  );
+
+  document.getElementById("emptyAddTaskBtn")?.addEventListener(
+    "click",
+    openTaskFromDashboard
+  );
+
+  document.getElementById("quickAddCategoryBtn")?.addEventListener(
+    "click",
+    focusCategoryInput
+  );
+
+  document.getElementById("categoryPanelAddBtn")?.addEventListener(
+    "click",
+    focusCategoryInput
+  );
+
+  document.getElementById("viewCategoriesBtn")?.addEventListener(
+    "click",
+    focusCategoryInput
+  );
+
+  document.getElementById("quickCalendarBtn")?.addEventListener(
+    "click",
+    () => navigateToSection("calendar")
+  );
+
+  document.querySelectorAll("[data-section]").forEach((button) => {
+    button.addEventListener("click", () => {
+      navigateToSection(button.dataset.section, button.dataset.nav);
+    });
+  });
+
+  document.querySelectorAll("[data-action='category']").forEach((button) => {
+    button.addEventListener("click", () => {
+      focusCategoryInput();
+    });
+  });
+
+  document.querySelectorAll("[data-action='settings']").forEach((button) => {
+    button.addEventListener("click", () => {
+      setSidebarActive(button.dataset.nav);
+    });
+  });
 
   document
     .getElementById("prevMonthBtn")
@@ -151,35 +264,35 @@ function setupUIEventListeners() {
     .getElementById("navHomeBtn")
     ?.addEventListener(
       "click",
-      () => showSection("home")
+      () => navigateToSection("home", "dashboard")
     );
 
   document
     .getElementById("navCalendarBtn")
     ?.addEventListener(
       "click",
-      () => showSection("calendar")
+      () => navigateToSection("calendar")
     );
 
   document
     .getElementById("navHabitBtn")
     ?.addEventListener(
       "click",
-      () => showSection("habit")
+      () => navigateToSection("habit")
     );
 
   document
     .getElementById("navStatsBtn")
     ?.addEventListener(
       "click",
-      () => showSection("stats")
+      () => navigateToSection("stats")
     );
 
   document
     .getElementById("navNotesBtn")
     ?.addEventListener(
       "click",
-      () => showSection("notes")
+      () => navigateToSection("notes")
     );
 
   document
@@ -325,14 +438,16 @@ document.addEventListener(
     setupUIEventListeners();
     initShare();
 
-    showSection("home");
+    navigateToSection("home", "dashboard");
     registerServiceWorker();
 
     window.addEventListener("popstate", (e) => {
       if (e.state && e.state.section) {
         showSection(e.state.section, false);
+        setSidebarActive(getNavKeyForSection(e.state.section));
       } else {
         showSection("home", false);
+        setSidebarActive("dashboard");
       }
     });
   }
@@ -444,6 +559,12 @@ renderNotes()
 function refreshTaskUI(){
 
   renderTasks();
+
+  if (state.appData.length > 0) {
+    document.body.classList.add("has-categories");
+  } else {
+    document.body.classList.remove("has-categories");
+  }
 
   updateLevel();
   updateQuickStats();

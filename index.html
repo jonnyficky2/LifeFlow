@@ -126,35 +126,57 @@
   <!-- =========================
        SIDEBAR
   ========================== -->
-  <aside id="sidebar" class="sidebar">
+  <aside id="sidebar" class="sidebar app-sidebar">
     <div class="sidebar-header">
-      <div>
-        <p class="sidebar-label">Akun</p>
-        <h3 class="sidebar-title">Guest</h3>
+      <div class="app-sidebar-brand">
+        <img src="./assets/icons/icon.jpg" alt="LifeFlow logo" class="sidebar-profile-img">
+        <h3 class="sidebar-title">Life<span>Flow</span></h3>
       </div>
       <button id="sidebarClose" class="sidebar-close" aria-label="Close sidebar">×</button>
     </div>
 
     <div class="sidebar-content">
-      <div class="sidebar-profile">
-        <img src="./assets/icons/icon.jpg" alt="Profile" class="sidebar-profile-img">
-        <div>
-          <p class="sidebar-name">Guest User</p>
-          <p class="sidebar-email">Login untuk akses akun</p>
-        </div>
+      <nav class="sidebar-menu app-nav">
+        <button type="button" class="sidebar-item is-active" data-section="home" data-nav="dashboard">⌂ Dashboard</button>
+        <button type="button" class="sidebar-item" data-section="home" data-nav="tasks">☑ Tasks</button>
+        <button type="button" class="sidebar-item" data-section="calendar" data-nav="calendar">▦ Calendar</button>
+        <button type="button" class="sidebar-item" data-action="category" data-nav="category">▣ Categories</button>
+        <button type="button" class="sidebar-item" data-section="stats" data-nav="stats">▥ Reports</button>
+        <button type="button" class="sidebar-item" data-section="notes" data-nav="notes">✎ Notes</button>
+        <button type="button" class="sidebar-item" data-action="settings" data-nav="settings">⚙ Settings</button>
+      </nav>
+
+      <div class="sidebar-account">
+        <p class="sidebar-label">Akun</p>
+        <p class="sidebar-name">Guest User</p>
+        <p class="sidebar-email">Login untuk akses akun</p>
+        <button id="loginBtn" type="button" class="sidebar-item account-action">Login dengan Google</button>
+        <button id="logoutBtn" type="button" class="sidebar-item account-action" style="display: none;">Logout</button>
       </div>
 
-      <nav class="sidebar-menu">
-        <button id="loginBtn" type="button" class="sidebar-item">Login dengan Google</button>
-        <button id="logoutBtn" type="button" class="sidebar-item" style="display: none;">Logout</button>
-        <button class="sidebar-item">Profil</button>
-        <button class="sidebar-item">Akun</button>
-        <button class="sidebar-item">Pengaturan</button>
-      </nav>
+      <div class="sidebar-streak-card">
+        <p>🔥 Streak</p>
+        <strong id="sidebarStreakCount">0 Days</strong>
+        <span>Keep going! 🔥</span>
+        <i></i>
+      </div>
     </div>
   </aside>
 
   <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <main class="app-main">
+
+  <section class="dashboard-header">
+    <div>
+      <h1>Good morning! 👋</h1>
+      <p>Let's make today productive.</p>
+    </div>
+    <div class="dashboard-header-actions">
+      <button id="desktopThemeToggle" type="button" aria-label="Toggle theme">◐</button>
+      <button id="desktopMenuToggle" type="button" aria-label="Open menu">☰</button>
+    </div>
+  </section>
 
   <!-- =========================
        LEVEL & XP
@@ -174,6 +196,12 @@
     <p id="xpText">
       0 / 100 XP
     </p>
+
+    <button id="installBtn">
+
+      Install App
+
+    </button>
 
   </div>
 
@@ -273,39 +301,8 @@
   </h2>
 
   <!-- =========================
-       ADD CATEGORY
-  ========================== -->
-
-  <div class="add-box">
-
-    <input
-      type="text"
-      id="categoryInput"
-      placeholder="Add category">
-
-    <button id="addCategoryBtn">
-
-      Add
-
-    </button>
-
-  </div>
-
-  <!-- =========================
        QUOTE
   ========================== -->
-
-  <div id="quoteContainer">
-
-    <p id="quoteText">
-      
-    </p>
-
-    <small id="quoteAuthor">
-     
-    </small>
-
-  </div>
 
   <!-- =========================
        HOME SECTION
@@ -315,23 +312,39 @@
     <div id="quickStats">
 
   <div class="stat-card">
-    <h3 id="doneCount">0</h3>
-    <p>Done</p>
+    <span class="stat-icon stat-icon-blue">▤</span>
+    <div>
+    <p>All Tasks</p>
+    <h3 id="allTaskCount">0</h3>
+    <small>Total tasks</small>
+    </div>
   </div>
 
   <div class="stat-card">
-    <h3 id="pendingCount">0</h3>
+    <span class="stat-icon stat-icon-yellow">◷</span>
+    <div>
     <p>Pending</p>
+    <h3 id="pendingCount">0</h3>
+    <small>Tasks to do</small>
+    </div>
   </div>
 
   <div class="stat-card">
-    <h3 id="streakCount">0</h3>
-    <p>Streak</p>
+    <span class="stat-icon stat-icon-green">✓</span>
+    <div>
+    <p>Done</p>
+    <h3 id="doneCount">0</h3>
+    <small>Tasks completed</small>
+    </div>
   </div>
 
   <div class="stat-card">
-    <h3 id="levelCount">1</h3>
-    <p>Level</p>
+    <span class="stat-icon stat-icon-purple">▣</span>
+    <div>
+    <p>Today</p>
+    <h3 id="todayCount">0</h3>
+    <small>Tasks for today</small>
+    </div>
   </div>
 
 </div>
@@ -342,13 +355,81 @@
 
     </p>
 
-    <div id="container"></div>
+    <section class="dashboard-grid">
+      <div class="dashboard-panel tasks-panel">
+        <div class="panel-header">
+          <h2>Tasks</h2>
+        </div>
+        <div class="panel-tabs">
+          <button type="button" data-filter-tab="all" class="is-active">All</button>
+          <button type="button" data-filter-tab="pending">Pending</button>
+          <button type="button" data-filter-tab="done">Done</button>
+        </div>
+        <div id="container"></div>
+        <div class="tasks-empty-state">
+          <span>✓</span>
+          <strong>No tasks yet</strong>
+          <p>Add your first task to get started!</p>
+          <button id="emptyAddTaskBtn" type="button">＋ Add Task</button>
+        </div>
+      </div>
 
-    <h2>
-      📅 Activity
-    </h2>
+      <div class="dashboard-side">
+        <div id="quoteContainer" class="dashboard-panel motivation-panel">
+          <h2>Motivation</h2>
+          <p id="quoteText"></p>
+          <small id="quoteAuthor"></small>
+          <div class="mountain-art" aria-hidden="true">
+            <i></i>
+            <b></b>
+            <span>⚑</span>
+          </div>
+        </div>
 
-    <div id="heatmap"></div>
+        <div class="dashboard-panel quick-actions-panel">
+          <h2>Quick Actions</h2>
+          <div class="quick-actions">
+            <button id="quickAddTaskBtn" type="button"><span>＋</span>Add Task</button>
+            <button id="quickAddCategoryBtn" type="button"><span>▦</span>Add Category</button>
+            <button id="quickCalendarBtn" type="button"><span>▣</span>View Calendar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-panel categories-panel">
+      <div class="panel-header">
+        <h2>Categories</h2>
+        <button id="viewCategoriesBtn" type="button">View all</button>
+      </div>
+      <div class="category-empty-row">
+        <span>▱</span>
+        <div>
+          <strong>No categories yet</strong>
+          <p>Create categories to organize your tasks better.</p>
+        </div>
+        <button id="categoryPanelAddBtn" type="button">＋ Add Category</button>
+      </div>
+      <div class="add-box">
+
+        <input
+          type="text"
+          id="categoryInput"
+          placeholder="Add category">
+
+        <button id="addCategoryBtn">
+
+          Add
+
+        </button>
+
+      </div>
+    </section>
+
+    <section class="dashboard-panel activity-panel">
+      <h2>Activity</h2>
+      <div id="heatmap"></div>
+    </section>
 
   </div>
 
@@ -526,15 +607,11 @@
     <div id="notesContainer"></div>
   </div>
 
+  </main>
+
   <!-- =========================
        INSTALL BUTTON
   ========================== -->
-
-  <button id="installBtn">
-
-    📲 Install App
-
-  </button>
 
   <!-- =========================
        FLOAT BUTTON

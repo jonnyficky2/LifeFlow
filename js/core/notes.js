@@ -1,6 +1,7 @@
 import { state } from "./state.js";
 import { saveToLocal, saveState } from "./storage.js";
 import { openNoteModal, closeNoteModal } from "../ui/modal.js";
+import { showToast } from "./utils.js";
 
 export let editingNoteIndex = null;
 
@@ -25,6 +26,8 @@ export function renderNotes() {
       if (!a.note.pinned && b.note.pinned) return 1;
       return 0;
     });
+
+  const fragment = document.createDocumentFragment();
 
   sortedNotes.forEach(({ note, index }) => {
     const card = document.createElement("div");
@@ -52,15 +55,17 @@ export function renderNotes() {
     delBtn.innerText = "🗑";
     delBtn.onclick = () => deleteNote(index);
 
-    actions.append(editBtn, delBtn);
+    actions.append(copyBtn, editBtn, delBtn);
     header.append(titleBox, actions);
 
     const content = document.createElement("p");
     content.innerText = note.content;
 
     card.append(header, content);
-    container.appendChild(card);
+    fragment.appendChild(card);
   });
+
+  container.appendChild(fragment);
 }
 
 export function saveNoteModal() {
@@ -105,4 +110,13 @@ export function deleteNote(index) {
   state.notes.splice(index, 1);
   saveToLocal();
   renderNotes();
+}
+
+export function copyNoteContent(content) {
+  navigator.clipboard.writeText(content).then(() => {
+    showToast("Catatan berhasil disalin!");
+  }).catch(err => {
+    console.error("Gagal menyalin: ", err);
+    showToast("Gagal menyalin catatan.");
+  });
 }

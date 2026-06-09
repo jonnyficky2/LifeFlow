@@ -1,4 +1,5 @@
 import { auth, db, provider, signInWithPopup, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
+import { showToast } from "../core/utils.js";
 
 export function initAuth(onDataSyncedCallback) {
   const loginBtn = document.getElementById("loginBtn");
@@ -74,6 +75,7 @@ export async function saveToCloud(appStateData) {
     await setDoc(doc(db, "users", user.uid), { data: appStateData }, { merge: true });
   } catch (error) {
     console.error("Gagal menyimpan ke cloud:", error);
+    showToast("Gagal menyimpan ke Cloud. Periksa koneksi Anda.");
   }
 }
 
