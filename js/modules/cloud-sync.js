@@ -61,7 +61,7 @@ export function initAuth(onDataSyncedCallback) {
       if(logoutBtn) logoutBtn.style.display = "none";
       if(userNameEl) userNameEl.textContent = "Guest User";
       if(userEmailEl) userEmailEl.textContent = "Login to save data online";
-      if(userImgEl) userImgEl.src = "./assets/icons/icon2.svg";
+      if(userImgEl) userImgEl.src = "./assets/icons/icon.svg";
     }
   });
 }
