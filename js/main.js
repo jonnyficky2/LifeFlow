@@ -48,7 +48,18 @@ function setSidebarActive(navKey) {
 function navigateToSection(section, navKey) {
   showSection(section);
   setSidebarActive(navKey ?? getNavKeyForSection(section));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (navKey === "tasks") {
+    const taskPanel = document.querySelector('.tasks-panel');
+    if (taskPanel) {
+      const offset = 100; // Jarak aman agar tidak tertutup Navbar
+      const topPos = taskPanel.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: topPos, behavior: 'smooth' });
+      return;
+    }
+  }
+  
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 }
 
 function getNavKeyForSection(section) {
