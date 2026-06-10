@@ -2163,9 +2163,16 @@ body.light-mode .task:hover{
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   transition: 0.3s;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
 }
 .note-card:hover {
   transform: translateY(-4px);
+}
+.note-card-body {
+  flex: 1;
+  min-width: 0;
 }
 .note-card-header {
   display: flex;
@@ -2182,6 +2189,17 @@ body.light-mode .task:hover{
   margin: 12px 0;
   white-space: pre-wrap;
   line-height: 1.6;
+}
+.note-card.done h3,
+.note-card.done p {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.note-checkbox {
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  cursor: pointer;
 }
 .note-card small {
   font-size: 12px;

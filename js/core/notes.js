@@ -31,7 +31,16 @@ export function renderNotes() {
 
   sortedNotes.forEach(({ note, index }) => {
     const card = document.createElement("div");
-    card.className = "note-card" + (note.pinned ? " pinned" : "");
+    card.className = "note-card" + (note.pinned ? " pinned" : "") + (note.done ? " done" : "");
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "note-checkbox";
+    checkbox.checked = note.done || false;
+    checkbox.onclick = () => toggleNoteDone(index);
+
+    const body = document.createElement("div");
+    body.className = "note-card-body";
 
     const header = document.createElement("div");
     header.className = "note-card-header";
@@ -65,11 +74,19 @@ export function renderNotes() {
     const content = document.createElement("p");
     content.innerText = note.content;
 
-    card.append(header, content);
+    body.append(header, content);
+    card.append(checkbox, body);
     fragment.appendChild(card);
   });
 
   container.appendChild(fragment);
+}
+
+export function toggleNoteDone(index) {
+  saveState();
+  state.notes[index].done = !state.notes[index].done;
+  saveToLocal();
+  renderNotes();
 }
 
 export function saveNoteModal() {
@@ -87,7 +104,13 @@ export function saveNoteModal() {
     state.notes[editingNoteIndex].pinned = pinned;
     editingNoteIndex = null;
   } else {
-    state.notes.unshift({ title, content, date: new Date().toLocaleString("id-ID"), pinned });
+    state.notes.unshift({
+      title,
+      content,
+      date: new Date().toLocaleString("id-ID"),
+      pinned,
+      done: false
+    });
   }
 
   saveToLocal();
