@@ -79,7 +79,7 @@ editBtn.onclick = ()=>{
 
   const newName =
     prompt(
-      "Edit category habit:",
+      "Edit habit category:",
       category.category
     );
 
@@ -103,7 +103,7 @@ delBtn.onclick = ()=>{
 
   if(
     !confirm(
-      "Hapus category habit?"
+      "Delete habit category?"
     )
   ) return;
 
@@ -211,7 +211,7 @@ if(habit.repeatType === "custom" || habit.repeatType === "certain_days" || habit
   if (habit.repeatDays && habit.repeatDays.length > 0) {
     repeatText = habit.repeatDays.map(day=>names[day]).join(", ");
   } else {
-    repeatText = "Setiap Hari";
+    repeatText = "Everyday";
   }
 }
 
@@ -220,7 +220,7 @@ if(habit.repeatType === "monthly"){
   if (dateStr && dateStr.includes("-")) {
     dateStr = dateStr.split("-")[2];
   }
-  repeatText = `Tgl ${dateStr || 'tertentu'}`;
+  repeatText = `Date ${dateStr || 'specific'}`;
 }
 
 info.innerText =
@@ -456,7 +456,7 @@ export function addHabit() {
     ).value;
 
   if(!name.trim()) {
-    showToast("Nama habit tidak boleh kosong!");
+    showToast("Habit name cannot be empty!");
     return;
   }
 
@@ -467,7 +467,7 @@ export function addHabit() {
       state.currentHabitCategoryIndex
     ]
   ){
-    showToast("Pilih category habit dulu");
+    showToast("Select a habit category first");
     return;
   }
 
@@ -526,9 +526,9 @@ export function addHabit() {
   // Beri notifikasi ke user jika habit dijadwalkan, tapi bukan untuk hari ini
   const addedHabit = category.habits[category.habits.length - 1];
   if (!isHabitToday(addedHabit)) {
-    showToast("Tersimpan! Habit ini akan muncul di hari yang dijadwalkan.");
+    showToast("Saved! This habit will appear on its scheduled day.");
   } else {
-    showToast("Habit berhasil ditambahkan!");
+    showToast("Habit added successfully!");
   }
 
   // reset form

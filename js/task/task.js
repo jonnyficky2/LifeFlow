@@ -175,11 +175,11 @@ export function renderTasks() {
 
         if(diff < 0){
           deadlineText.classList.add("overdue");
-          deadlineText.innerText = "⚠️ Deadline lewat";
+          deadlineText.innerText = "⚠️ Deadline passed";
         } else if(diff === 0){
-          deadlineText.innerText = "⏰ Deadline hari ini";
+          deadlineText.innerText = "⏰ Deadline today";
         } else {
-          deadlineText.innerText = `📅 ${diff} hari lagi`;
+          deadlineText.innerText = `📅 ${diff} days left`;
         }
         textWrapper.appendChild(deadlineText);
       }
@@ -205,7 +205,7 @@ export function renderTasks() {
 
     /* ADD TASK */
     const addTaskBtn = document.createElement("button");
-    addTaskBtn.innerText = "+ Tambah Task";
+    addTaskBtn.innerText = "+ Add Task";
     addTaskBtn.onclick = () => {
       state.currentCategoryIndex = catIndex;
       openTaskModal();
@@ -278,7 +278,7 @@ export function editTask(catIndex, taskIndex) {
 }
 
 export function deleteTask(catIndex, taskIndex) {
-  if (!confirm("Hapus task?")) return;
+  if (!confirm("Delete task?")) return;
   saveState();
   state.appData[catIndex].tasks.splice(taskIndex, 1);
   saveToLocal();
@@ -304,7 +304,7 @@ export function editCategory(index) {
 }
 
 export function deleteCategory(index) {
-  if (!confirm("Hapus category?")) return;
+  if (!confirm("Delete category?")) return;
   saveState();
   state.appData.splice(index, 1);
   saveToLocal();

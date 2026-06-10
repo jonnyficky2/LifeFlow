@@ -36,7 +36,7 @@ import { initAuth, saveToCloud } from "./modules/cloud-sync.js";
 let deferredPrompt = null;
 
 function setSidebarActive(navKey) {
-  document.querySelectorAll(".app-nav .sidebar-item").forEach((item) => {
+  document.querySelectorAll(".sidebar-item").forEach((item) => {
     if (item.dataset.nav === navKey) {
       item.classList.add("is-active");
     } else {
@@ -48,6 +48,7 @@ function setSidebarActive(navKey) {
 function navigateToSection(section, navKey) {
   showSection(section);
   setSidebarActive(navKey ?? getNavKeyForSection(section));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function getNavKeyForSection(section) {
@@ -168,7 +169,7 @@ function setupUIEventListeners() {
 
   const openTaskFromDashboard = () => {
     if (state.appData.length === 0) {
-      showToast("Buat category dulu");
+      showToast("Create a category first");
       focusCategoryInput();
       return;
     }
@@ -407,7 +408,7 @@ document.addEventListener(
 
       // Render ulang layar
       refreshUI();
-      showToast("Data disinkronisasi dengan Cloud!");
+      showToast("Data synced with Cloud!");
     });
 
     const splash = document.getElementById(
@@ -459,7 +460,7 @@ function registerServiceWorker() {
     navigator.serviceWorker.register("./sw.js")
       .then((registration) => {
         if (registration.waiting) {
-          showToast("Update tersedia. Refresh halaman untuk versi terbaru.");
+          showToast("Update available. Refresh page for the latest version.");
         }
 
         registration.addEventListener("updatefound", () => {
@@ -471,7 +472,7 @@ function registerServiceWorker() {
                 newWorker.state === "installed" &&
                 navigator.serviceWorker.controller
               ) {
-                showToast("Update tersedia. Reload untuk memuat versi terbaru.");
+                showToast("Update available. Reload to load the latest version.");
               }
             });
           }
@@ -659,7 +660,9 @@ function undo() {
       xp: state.xp,
       habits: state.habits,
       historyData: state.historyData,
-      streakData: state.streakData
+      habitHistory: state.habitHistory,
+      streakData: state.streakData,
+      notes: state.notes
     })
   );
 
@@ -680,8 +683,20 @@ function undo() {
   state.historyData =
     prev.historyData;
 
+  state.habitHistory =
+    prev.habitHistory || state.habitHistory;
+
   state.streakData =
     prev.streakData;
+
+  state.notes =
+    prev.notes || state.notes;
+    
+  if (state.appData.length > 0) {
+    document.body.classList.add("has-categories");
+  } else {
+    document.body.classList.remove("has-categories");
+  }
 
   saveToLocal();
 
@@ -699,7 +714,9 @@ function redo() {
       xp: state.xp,
       habits: state.habits,
       historyData: state.historyData,
-      streakData: state.streakData
+      habitHistory: state.habitHistory,
+      streakData: state.streakData,
+      notes: state.notes
     })
   );
 
@@ -720,8 +737,20 @@ function redo() {
   state.historyData =
     next.historyData;
 
+  state.habitHistory =
+    next.habitHistory || state.habitHistory;
+
   state.streakData =
     next.streakData;
+
+  state.notes =
+    next.notes || state.notes;
+    
+  if (state.appData.length > 0) {
+    document.body.classList.add("has-categories");
+  } else {
+    document.body.classList.remove("has-categories");
+  }
 
   saveToLocal();
 
@@ -746,7 +775,7 @@ document
       ) {
 
         showToast(
-          "Buat category dulu"
+          "Create a category first"
         );
 
         return;
@@ -942,10 +971,10 @@ function checkDeadlines(){
         if (localStorage.getItem(notifyKey)) return;
 
         localStorage.setItem(notifyKey, "sent");
-        new Notification("⏰ Deadline Hari Ini", {
+        new Notification("⏰ Deadline Today", {
           body: task.name
         });
-        showToast("Deadline hari ini!");
+        showToast("Deadline today!");
       }
     });
   });

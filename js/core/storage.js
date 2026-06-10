@@ -28,18 +28,18 @@ export function saveToLocal() {
     try {
       saveToCloud(state);
     } catch (error) {
-      console.error("Gagal sinkronisasi ke Cloud:", error);
+      console.error("Failed to sync to Cloud:", error);
     }
   } else {
-    console.warn("Sedang offline: Data tetap aman di penyimpanan lokal.");
+    console.warn("Offline: Data remains safe in local storage.");
   }
 }
 
 // Otomatis sinkronisasi data saat koneksi internet kembali (online)
 window.addEventListener("online", () => {
-  console.log("Koneksi kembali! Mensinkronkan data...");
+  console.log("Connection restored! Syncing data...");
   saveToCloud(state);
-  showToast("Kembali online! Data disinkronkan ke Cloud.");
+  showToast("Back online! Data synced to Cloud.");
 });
 
 // Menyimpan riwayat perubahan untuk fitur Undo
@@ -49,6 +49,7 @@ export function saveState() {
     xp: state.xp,
     habits: state.habits,
     historyData: state.historyData,
+    habitHistory: state.habitHistory,
     streakData: state.streakData,
     notes: state.notes
   });
@@ -111,14 +112,14 @@ export function importData(event) {
       // Simpan perubahan ke Local & Cloud
       saveToLocal();
       
-      showToast("Data berhasil dipulihkan!");
+      showToast("Data restored successfully!");
       
       // Reload halaman agar UI merender ulang dengan data baru
       setTimeout(() => window.location.reload(), 1000);
 
     } catch (err) {
-      console.error("Error import:", err);
-      showToast("File rusak atau tidak valid.");
+      console.error("Import error:", err);
+      showToast("Corrupted or invalid file.");
     }
   };
 

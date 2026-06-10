@@ -71,10 +71,10 @@ function generateShareImage(bgImg) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Gather Stats
-  const level = getLevelData().level;
-  const streak = state.streakData.length;
+  const level = getLevelData()?.level || 1;
+  const streak = state.streakData?.length || 0;
   let totalTasks = 0, doneTasks = 0;
-  state.appData.forEach(cat => cat.tasks.forEach(t => { totalTasks++; if (t.done) doneTasks++; }));
+  (state.appData || []).forEach(cat => (cat.tasks || []).forEach(t => { totalTasks++; if (t.done) doneTasks++; }));
   const prod = totalTasks ? Math.round((doneTasks/totalTasks)*100) : 0;
 
   // Draw Glassmorphism Card
@@ -107,8 +107,8 @@ function generateShareImage(bgImg) {
   // Convert to file & Share/Download
   canvas.toBlob((blob) => {
     const url = URL.createObjectURL(blob);
-    if (navigator.share && navigator.canShare) { // Check if Web Share API is available
-      const file = new File([blob], "lifeflow-stats.jpg", { type: "image/jpeg" });
+    const file = new File([blob], "lifeflow-stats.jpg", { type: "image/jpeg" });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { // Cek validasi Web Share API yang benar
       navigator.share({ title: "My LifeFlow Stats", files: [file] })
         .catch(err => downloadFallback(url));
     } else {

@@ -15,7 +15,7 @@ export function renderNotes() {
   container.innerHTML = "";
 
   if (state.notes.length === 0) {
-    container.innerHTML = "<p style='text-align:center; opacity:0.6; margin-top:20px;'>Belum ada catatan. Tambahkan sekarang!</p>";
+    container.innerHTML = "<p style='text-align:center; opacity:0.6; margin-top:20px;'>No notes yet. Add one now!</p>";
     return;
   }
 
@@ -38,7 +38,7 @@ export function renderNotes() {
 
     const titleBox = document.createElement("div");
     const title = document.createElement("h3");
-    title.innerText = (note.pinned ? "📌 " : "") + (note.title || "Tanpa Judul");
+    title.innerText = (note.pinned ? "📌 " : "") + (note.title || "Untitled");
     
     const date = document.createElement("small");
     date.innerText = note.date || new Date().toLocaleString("id-ID");
@@ -47,6 +47,10 @@ export function renderNotes() {
     const actions = document.createElement("div");
     actions.className = "task-right";
     
+    const copyBtn = document.createElement("button");
+    copyBtn.innerText = "📋";
+    copyBtn.onclick = () => copyNoteContent(note.content);
+
     const editBtn = document.createElement("button");
     editBtn.innerText = "✏️";
     editBtn.onclick = () => editNote(index);
@@ -105,7 +109,7 @@ export function editNote(index) {
 }
 
 export function deleteNote(index) {
-  if (!confirm("Hapus catatan ini?")) return;
+  if (!confirm("Delete this note?")) return;
   saveState();
   state.notes.splice(index, 1);
   saveToLocal();
@@ -114,9 +118,9 @@ export function deleteNote(index) {
 
 export function copyNoteContent(content) {
   navigator.clipboard.writeText(content).then(() => {
-    showToast("Catatan berhasil disalin!");
+    showToast("Note copied successfully!");
   }).catch(err => {
     console.error("Gagal menyalin: ", err);
-    showToast("Gagal menyalin catatan.");
+    showToast("Failed to copy note.");
   });
 }

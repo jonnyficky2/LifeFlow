@@ -103,12 +103,13 @@ export function openDayTasks(year, month, day) {
   });
 
   if (!found) {
-    list.innerHTML = "<p>Tidak ada task</p>";
+    list.innerHTML = "<p>No tasks</p>";
   }
   document.getElementById("dayTasksModal").classList.add("show");
 }
 
 export function changeMonth(step) {
+  state.currentDate.setDate(1); // Set ke tanggal 1 untuk mencegah bug lompat bulan (misal 31 Jan -> 3 Mar)
   state.currentDate.setMonth(state.currentDate.getMonth() + step);
   renderCalendar();
 }

@@ -9,26 +9,26 @@ export function initAuth(onDataSyncedCallback) {
   const userImgEl = document.querySelector(".sidebar-profile-img");
 
   if (window.location.hostname === "127.0.0.1") {
-    console.warn("Perhatian: Login Google Firebase mungkin gagal di 127.0.0.1. Buka via localhost.");
+    console.warn("Warning: Google Firebase login might fail on 127.0.0.1. Use localhost.");
   }
 
   // Fungsi Login Menggunakan Popup
   loginBtn?.addEventListener("click", async () => {
     try {
       if (loginBtn) {
-        loginBtn.textContent = "Membuka Popup...";
+        loginBtn.textContent = "Opening Popup...";
         loginBtn.disabled = true;
       }
       
       const result = await signInWithPopup(auth, provider);
-      console.log("Login sukses:", result.user.email);
+      console.log("Login successful:", result.user.email);
 
     } catch (error) {
-      console.error("Login gagal:", error);
-      alert("Gagal login. Jika Popup diblokir, pastikan Anda mengizinkan popup untuk situs ini. Error: " + error.message);
+      console.error("Login failed:", error);
+      alert("Failed to login. If popup is blocked, please allow popups for this site. Error: " + error.message);
       
       if (loginBtn) {
-        loginBtn.textContent = "Login dengan Google";
+        loginBtn.textContent = "Login with Google";
         loginBtn.disabled = false;
       }
     }
@@ -36,7 +36,7 @@ export function initAuth(onDataSyncedCallback) {
 
   // Fungsi Logout
   logoutBtn?.addEventListener("click", () => {
-    signOut(auth).catch((err) => console.error("Gagal logout", err));
+    signOut(auth).catch((err) => console.error("Failed to logout", err));
   });
 
   // Listener Perubahan Status Akun
@@ -55,12 +55,12 @@ export function initAuth(onDataSyncedCallback) {
       // Tidak login / Guest
       if(loginBtn) {
         loginBtn.style.display = "block";
-        loginBtn.textContent = "Login dengan Google";
+        loginBtn.textContent = "Login with Google";
         loginBtn.disabled = false;
       }
       if(logoutBtn) logoutBtn.style.display = "none";
       if(userNameEl) userNameEl.textContent = "Guest User";
-      if(userEmailEl) userEmailEl.textContent = "Login untuk simpan data online";
+      if(userEmailEl) userEmailEl.textContent = "Login to save data online";
       if(userImgEl) userImgEl.src = "./assets/icons/icon.jpg";
     }
   });
@@ -74,8 +74,8 @@ export async function saveToCloud(appStateData) {
   try {
     await setDoc(doc(db, "users", user.uid), { data: appStateData }, { merge: true });
   } catch (error) {
-    console.error("Gagal menyimpan ke cloud:", error);
-    showToast("Gagal menyimpan ke Cloud. Periksa koneksi Anda.");
+    console.error("Failed to save to cloud:", error);
+    showToast("Failed to save to Cloud. Check your connection.");
   }
 }
 
@@ -87,6 +87,6 @@ async function syncDataFromCloud(uid, callback) {
       callback(docSnap.data().data);
     }
   } catch (error) {
-    console.error("Gagal mengambil data dari cloud:", error);
+    console.error("Failed to fetch data from cloud:", error);
   }
 }

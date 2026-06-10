@@ -2768,8 +2768,8 @@ header {
 
 .mountain-art span {
   position: absolute;
-  right: 66px;
-  top: 20px;
+  right: 52px;
+  top: -18px;
   color: #a465ff;
   font-size: 34px;
 }
@@ -2891,7 +2891,8 @@ body.light-mode .app-sidebar,
 body.light-mode #levelBox,
 body.light-mode .dashboard-panel,
 body.light-mode .stat-card,
-body.light-mode .add-box {
+body.light-mode .add-box,
+body.light-mode .sidebar-streak-card {
   background: rgba(255, 255, 255, 0.86);
   border-color: rgba(30, 41, 59, 0.12);
 }
@@ -2911,7 +2912,9 @@ body.light-mode .stat-card p,
 body.light-mode .stat-card small,
 body.light-mode #quoteText,
 body.light-mode #quoteAuthor,
-body.light-mode .category-empty-row p {
+body.light-mode .category-empty-row p,
+body.light-mode .sidebar-streak-card p,
+body.light-mode .sidebar-streak-card span {
   color: #5d6b82;
 }
 
