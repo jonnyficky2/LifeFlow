@@ -2294,7 +2294,7 @@ header {
 .app-main {
   width: min(100%, 1480px);
   margin: 0 auto;
-  padding: 38px 30px 0;
+  padding: 116px 30px 0; /* Ditambah agar tidak tertutup Navbar yang tingginya 96px */
 }
 
 .navbar {
@@ -2915,6 +2915,37 @@ body.light-mode .sidebar-streak-card {
   border-color: rgba(30, 41, 59, 0.12);
 }
 
+/* Fix Navbar & Toggle Button for Light Mode */
+body.light-mode .navbar {
+  background: rgba(248, 250, 252, 0.95) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+body.light-mode .navbar-brand {
+  color: #0f172a;
+}
+
+body.light-mode .sidebar-toggle {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .sidebar-toggle span {
+  background: #000000; /* Garis tiga menjadi hitam pekat */
+}
+
+body.light-mode .dashboard-header-actions button {
+  background: #ffffff !important;
+  color: #000000 !important; /* Hitam pekat agar sangat kontras */
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 20px; /* Perbesar ukuran simbol */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 body.light-mode .dashboard-header h1,
 body.light-mode .panel-header h2,
 body.light-mode .dashboard-panel h2,
@@ -2939,11 +2970,11 @@ body.light-mode .sidebar-streak-card span {
 @media (max-width: 1100px) {
   body {
     padding-left: 0;
-    padding-top: 82px;
+    padding-top: 0;
   }
 
   .app-main {
-    padding: 18px 16px 0;
+    padding: 90px 16px 0; /* Ditambah agar tidak tertutup Navbar mobile yang tingginya 70px */
   }
 
   .navbar {
