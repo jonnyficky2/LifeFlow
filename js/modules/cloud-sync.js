@@ -44,7 +44,11 @@ export function initAuth(onDataSyncedCallback) {
   // Event Listeners for Login
   loginBtn?.addEventListener("click", () => handleLogin(loginBtn));
   modalLoginBtn?.addEventListener("click", () => handleLogin(modalLoginBtn));
-  navLoginBtn?.addEventListener("click", () => handleLogin(navLoginBtn));
+  
+  // Navbar button opens choices modal
+  navLoginBtn?.addEventListener("click", () => {
+    if (authModal) authModal.style.display = "flex";
+  });
 
   // Klik foto profil di navbar untuk buka sidebar
   navUserImg?.addEventListener("click", () => {
