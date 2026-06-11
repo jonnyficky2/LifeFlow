@@ -886,6 +886,45 @@
   </div>
 </div>
 
+  <!-- =========================
+     AUTH MODAL
+========================== -->
+<div id="authModal" class="modal">
+  <div class="modal-content">
+    <div style="text-align: center; margin-bottom: 24px;">
+      <img src="./assets/icons/icon.svg" alt="LifeFlow Logo" style="width: 64px; margin-bottom: 16px;">
+      <h2 style="margin: 0;">Welcome to LifeFlow</h2>
+      <p style="color: #64748b; margin-top: 8px;">Sync your data across devices and never lose progress.</p>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <button id="modalLoginBtn" type="button" style="
+        background: #fff; 
+        color: #1e293b; 
+        border: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-weight: 500;
+      ">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18">
+        Login with Google
+      </button>
+      
+      <button id="skipAuthBtn" type="button" style="
+        background: transparent;
+        color: #94a3b8;
+        border: none;
+        text-decoration: underline;
+        font-size: 0.9rem;
+      ">
+        Continue as Guest
+      </button>
+    </div>
+  </div>
+</div>
+
   <div id="toast"></div>
 
   <!-- =========================
