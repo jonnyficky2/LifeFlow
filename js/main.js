@@ -601,6 +601,15 @@ function refreshCalendarUI(){
   renderCalendar();
 }
 
+function updateSidebarData() {
+  const streakCountEl = document.getElementById("sidebarStreakCount");
+  const streakTextEl = document.getElementById("streakText");
+  const streak = state.streakData ? state.streakData.length : 0;
+
+  if (streakCountEl) streakCountEl.innerText = `${streak} Days`;
+  if (streakTextEl) streakTextEl.innerText = `🔥 Streak: ${streak} Days`;
+}
+
 function loadRandomQuote() {
 
   if (!quotes.length) return;
