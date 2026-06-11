@@ -28,11 +28,17 @@ export function initAuth(onDataSyncedCallback) {
       
       const result = await signInWithPopup(auth, provider);
       console.log("Login successful:", result.user.email);
+      sessionStorage.removeItem("guestMode"); // Hapus mode guest jika login berhasil
       if (authModal) authModal.style.display = "none";
 
     } catch (error) {
-      console.error("Login failed:", error);
-      showToast("Login failed. Please check your connection.");
+      console.error("Firebase Login Error:", error.code, error.message);
+      
+      if (error.code === 'auth/unauthorized-domain') {
+        showToast("Error: This domain is not authorized in Firebase Console.");
+      } else {
+        showToast("Login failed. Check console for details.");
+      }
       
       if (btn) {
         btn.textContent = originalText;
@@ -77,6 +83,7 @@ export function initAuth(onDataSyncedCallback) {
       if(userEmailEl) userEmailEl.textContent = user.email;
       if(userImgEl) userImgEl.src = user.photoURL;
       if(authModal) authModal.style.display = "none";
+      sessionStorage.removeItem("guestMode");
       
       if(navLoginBtn) navLoginBtn.style.display = "none";
       if(navUserImg) {
