@@ -2765,12 +2765,13 @@ header {
 .mountain-art i,
 .mountain-art b {
   position: absolute;
-  bottom: -14px;
+  bottom: -50px;
   width: 170px;
   height: 170px;
   transform: rotate(45deg);
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(85, 116, 255, 0.9), rgba(31, 50, 112, 0.2));
+  background: linear-gradient(135deg, rgba(85, 116, 255, 1), rgba(31, 50, 112, 1));
+  box-shadow: none; /* Menghilangkan bayangan */
 }
 
 .mountain-art i {
@@ -2780,6 +2781,7 @@ header {
 .mountain-art b {
   right: 120px;
   bottom: -62px;
+  bottom: -67px; /* Menurunkan mount b sebesar 5px */
   width: 130px;
   height: 130px;
 }
@@ -2787,7 +2789,7 @@ header {
 .mountain-art span {
   position: absolute;
   right: 38px; 
-  top: -72px; 
+  top: -35px; 
   color: #a465ff;
   font-size: 34px;
 }
