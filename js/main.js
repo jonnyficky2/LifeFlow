@@ -65,7 +65,7 @@ function navigateToSection(section, navKey) {
 function getNavKeyForSection(section) {
   if (section === "home") return "dashboard";
   if (section === "stats") return "stats";
-  if (section === "habit") return "tasks";
+  if (section === "habit") return "habit";
   return section;
 }
 
@@ -565,6 +565,7 @@ refreshStatsUI()
 refreshHabitUI()
 refreshCalendarUI()
 renderNotes()
+updateSidebarData()
   
 }
 
