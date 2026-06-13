@@ -40,22 +40,27 @@ export function initAuth(onDataSyncedCallback) {
     const originalText = btn?.textContent || "Login";
     try {
       if (btn) {
-        btn.textContent = "Redirecting...";
+        btn.textContent = "Membuka Popup...";
         btn.disabled = true;
       }
       
-      // Selalu gunakan Redirect untuk menghindari isu freeze pada Mac/Safari (Third-party cookies blocked)
-      await signInWithRedirect(auth, provider);
+      // Kita kembali menggunakan Popup karena signInWithRedirect 
+      // TIDAK didukung di Github Pages oleh browser modern (karena Third-Party Cookies diblokir).
+      // Jika popup ini stuck/hang, itu berarti domain Github Pages atau localhost Anda BELUM ditambahkan 
+      // ke "Authorized Domains" di Firebase Console.
+      await signInWithPopup(auth, provider);
       
-      sessionStorage.removeItem("guestMode"); // Clear guest mode when login starts
+      sessionStorage.removeItem("guestMode");
       if (authModal) authModal.style.display = "none";
     } catch (error) {
       console.error("Firebase Login Error:", error.code, error.message);
       
-      if (error.code === 'auth/unauthorized-domain') {
-        showToast("Error: This domain is not authorized in Firebase Console.");
+      if (error.code === 'auth/popup-closed-by-user') {
+        showToast("Login dibatalkan.");
+      } else if (error.code === 'auth/unauthorized-domain') {
+        showToast("Error: Domain ini belum diizinkan di Firebase Console.");
       } else {
-        showToast("Login failed. Check console for details.");
+        showToast("Login gagal. Periksa koneksi atau console.");
       }
       
       if (btn) {
