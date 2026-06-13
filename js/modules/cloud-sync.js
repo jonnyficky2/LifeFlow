@@ -107,11 +107,6 @@ export function initAuth(onDataSyncedCallback) {
       
       if(navLoginBtn) navLoginBtn.style.display = "block";
       if(navUserImg) navUserImg.style.display = "none";
-
-      // Prompt login if not in guest mode for this session
-      if (authModal && !sessionStorage.getItem("guestMode")) {
-        authModal.style.display = "flex";
-      }
     }
   });
 }

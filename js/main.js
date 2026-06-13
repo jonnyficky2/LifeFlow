@@ -58,6 +58,16 @@ function navigateToSection(section, navKey) {
       return;
     }
   }
+
+  if (section === "calendar") {
+    const calendarEl = document.getElementById("calendarSection") || document.querySelector(".calendar-header");
+    if (calendarEl) {
+      const offset = 100; // Jarak aman agar tidak tertutup Navbar
+      const topPos = calendarEl.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: topPos, behavior: 'smooth' });
+      return;
+    }
+  }
   
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 }
