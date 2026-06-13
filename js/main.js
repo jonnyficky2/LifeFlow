@@ -76,6 +76,7 @@ function getNavKeyForSection(section) {
   if (section === "home") return "dashboard";
   if (section === "stats") return "stats";
   if (section === "habit") return "habit";
+  if (section === "settings" || section === "notes") return section;
   return section;
 }
 
