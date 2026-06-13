@@ -1,4 +1,4 @@
-import { auth, db, provider, signInWithRedirect, signInWithPopup, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
+import { auth, db, provider, signInWithRedirect, signInWithPopup, getRedirectResult, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
 import { showToast } from "../core/utils.js";
 import { state } from "../core/state.js";
 
@@ -21,6 +21,20 @@ export function initAuth(onDataSyncedCallback) {
   if (window.location.hostname === "127.0.0.1") {
     console.warn("Warning: Google Firebase login might fail on 127.0.0.1. Use localhost.");
   }
+
+  // Handle redirect result from previous redirect login
+  getRedirectResult(auth)
+    .then((result) => {
+      if (result) {
+        console.log("Redirect login successful:", result.user);
+        sessionStorage.removeItem("guestMode");
+        if (authModal) authModal.style.display = "none";
+      }
+    })
+    .catch((error) => {
+      console.error("Redirect login error:", error);
+      showToast("Login failed. Check console for details.");
+    });
 
   const handleLogin = async (btn) => {
     const originalText = btn?.textContent || "Login";
