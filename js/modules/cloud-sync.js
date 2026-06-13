@@ -13,6 +13,10 @@ export function initAuth(onDataSyncedCallback) {
   const skipAuthBtn = document.getElementById("skipAuthBtn");
   const navLoginBtn = document.getElementById("navLoginBtn");
   const navUserImg = document.getElementById("navUserImg");
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+  if ((isStandalone || window.innerWidth <= 1100) && authModal) {
+    authModal.style.display = "none";
+  }
 
   if (window.location.hostname === "127.0.0.1") {
     console.warn("Warning: Google Firebase login might fail on 127.0.0.1. Use localhost.");
