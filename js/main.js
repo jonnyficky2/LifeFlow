@@ -399,27 +399,27 @@ document.addEventListener(
   "DOMContentLoaded",
   () => {
     const splash = document.getElementById("splashScreen");
+    
+    // Jalankan update tampilan splash segera
+    try {
+      updateSplashWelcome();
+    } catch (e) {
+      console.warn("Splash welcome failed to render, using default:", e);
+    }
+
     const hideSplashScreen = () => {
       if (splash && !splash.classList.contains("splash-hide")) {
         splash.classList.add("splash-hide");
       }
     };
 
-    // Safety Net: Sembunyikan splash screen setelah 3.5 detik apa pun yang terjadi
-    // Ini mencegah aplikasi stuck jika ada SyntaxError pada modul
     if (splash) {
-      setTimeout(hideSplashScreen, 3500);
+      setTimeout(hideSplashScreen, 3500); // Fail-safe timeout
     }
 
     // Jalankan timer persembunyian normal
     if (splash) {
       setTimeout(hideSplashScreen, 2000);
-    }
-
-    try {
-      updateSplashWelcome();
-    } catch (e) {
-      console.error("Error updating splash screen:", e);
     }
 
     try {
@@ -830,12 +830,14 @@ document
 ========================= */
 
 function updateSplashWelcome(){
-
-  let level =
-    getLevelData().level;
-
-  if(level > 10){
-    level = 10;
+  // Tambahkan pengecekan agar tidak error jika getLevelData() gagal
+  let level = 1;
+  try {
+    const levelData = getLevelData();
+    level = levelData ? levelData.level : 1;
+    if(level > 10) level = 10;
+  } catch(e) {
+    level = 1;
   }
 
   const splashData = [

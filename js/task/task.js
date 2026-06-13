@@ -305,6 +305,51 @@ export function updateTaskStreak(task){
   task.lastCompleted = getToday();
 }
 
+export function renderSubtasksInModal() {
+  const list = document.getElementById("subtaskModalList");
+  if (!list) return;
+  list.innerHTML = "";
+  tempSubtasks.forEach((sub, index) => {
+    const item = document.createElement("div");
+    item.style.display = "flex";
+    item.style.justifyContent = "space-between";
+    item.style.alignItems = "center";
+    item.style.marginBottom = "8px";
+    item.style.padding = "8px";
+    item.style.background = "var(--bg-secondary, #f0f0f0)";
+    item.style.borderRadius = "8px";
+    
+    const nameSpan = document.createElement("span");
+    nameSpan.innerText = sub.name;
+
+    const delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.innerText = "✖";
+    delBtn.style.border = "none";
+    delBtn.style.background = "none";
+    delBtn.style.color = "var(--danger-color, #ff4d4d)";
+    delBtn.style.cursor = "pointer";
+    delBtn.onclick = () => {
+      tempSubtasks.splice(index, 1);
+      renderSubtasksInModal();
+    };
+
+    item.append(nameSpan, delBtn);
+    list.appendChild(item);
+  });
+}
+
+export function addSubtaskToTemp() {
+  const input = document.getElementById("newSubtaskInput");
+  if (!input) return;
+  const name = input.value.trim();
+  if (name) {
+    tempSubtasks.push({ name, done: false });
+    input.value = "";
+    renderSubtasksInModal();
+  }
+}
+
 export function editTask(catIndex, taskIndex) {
   const task = state.appData[catIndex].tasks[taskIndex];
   editingTask = { catIndex, taskIndex };

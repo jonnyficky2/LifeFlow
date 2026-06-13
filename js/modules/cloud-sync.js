@@ -117,7 +117,6 @@ export function initAuth(onDataSyncedCallback) {
       if(navLoginBtn) navLoginBtn.style.display = "block";
       if(navUserImg) navUserImg.style.display = "none";
 
-      // Pastikan UI di-refresh jika masuk sebagai guest
       if (typeof onDataSyncedCallback === 'function') onDataSyncedCallback(state);
     }
   });

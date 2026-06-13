@@ -63,6 +63,7 @@ self.addEventListener("fetch", event => {
     url.hostname.includes("firebase") ||
     url.hostname.includes("googleapis") ||
     url.pathname.includes("/__/auth") ||
+    url.pathname.includes("firebase-config.js") || // Jangan cache config agar export selalu up-to-date
     url.hostname.includes("googleusercontent.com") || 
     url.searchParams.has("__firebase_request_key") ||
     url.searchParams.has("apiKey") ||
