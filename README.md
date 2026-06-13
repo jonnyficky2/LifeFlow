@@ -5,7 +5,7 @@ A modern all-in-one productivity web application designed to help users manage t
 🚀 Demo Aplikasi LifeFlow
 
 - Demo: https://todo-app-self-tau-89.vercel.app/
-- Netlify: (your netlify link)
+- Netlify: ...
 - GitHub Repository: https://github.com/jonnyficky2/LifeFlow
 
 ---
