@@ -408,7 +408,7 @@ document.addEventListener(
 
     // Inisialisasi Firebase Auth & Sinkronisasi
     initAuth((cloudData) => {
-      console.log("Data berhasil ditarik dari cloud:", cloudData);
+      console.log("Data successfully pulled from cloud:", cloudData);
       
       // Update state lokal dengan data dari cloud
       if(cloudData.appData) state.appData = cloudData.appData;

@@ -124,6 +124,40 @@ export async function saveToCloud(appStateData) {
   }
 }
 
+/**
+ * Merges local state with cloud data to prevent data loss.
+ * Simple strategy: Cloud data takes precedence for existing tasks, 
+ * but local categories/tasks not in cloud are preserved.
+ */
+function mergeState(local, cloud) {
+  if (!cloud) return local;
+  
+  const mergedAppData = [...cloud.appData || []];
+  
+  // Add local categories that don't exist in cloud (by name)
+  if (local.appData) {
+    local.appData.forEach(localCat => {
+      const cloudCat = mergedAppData.find(c => c.name === localCat.name);
+      if (!cloudCat) {
+        mergedAppData.push(localCat);
+      } else {
+        // Merge tasks within the same category
+        localCat.tasks.forEach(localTask => {
+          const hasTask = cloudCat.tasks.some(t => t.name === localTask.name);
+          if (!hasTask) cloudCat.tasks.push(localTask);
+        });
+      }
+    });
+  }
+
+  return {
+    ...local,
+    ...cloud,
+    appData: mergedAppData,
+    xp: Math.max(local.xp || 0, cloud.xp || 0)
+  };
+}
+
 // Fungsi Tarik Data
 async function syncDataFromCloud(uid, callback) {
   try {
@@ -133,7 +167,8 @@ async function syncDataFromCloud(uid, callback) {
     if (docSnap.exists()) {
       const cloudData = docSnap.data().data;
       if (cloudData) {
-        callback(cloudData);
+        const mergedData = mergeState(state, cloudData);
+        callback(mergedData);
         showToast("Data synced from cloud");
       }
     } else {

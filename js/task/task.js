@@ -36,7 +36,9 @@ export function saveTaskModal() {
   } else {
     state.appData[state.currentCategoryIndex].tasks.push({
       name, deadline, time, location, note, priority,
-      done: false, completedDates: [], streak: 0, lastCompleted: null
+      done: false, completedDates: [], streak: 0, lastCompleted: null,
+      subtasks: [], // New Feature
+      tags: []      // New Feature
     });
   }
 
@@ -184,6 +186,19 @@ export function renderTasks() {
         textWrapper.appendChild(deadlineText);
       }
 
+      /* TAGS */
+      if (task.tags && task.tags.length > 0) {
+        const tagContainer = document.createElement("div");
+        tagContainer.className = "task-tags";
+        task.tags.forEach(tag => {
+          const span = document.createElement("span");
+          span.className = "tag-item";
+          span.innerText = `#${tag}`;
+          tagContainer.appendChild(span);
+        });
+        textWrapper.appendChild(tagContainer);
+      }
+
       left.append(checkbox, textWrapper);
 
       /* RIGHT */
@@ -277,8 +292,16 @@ export function editTask(catIndex, taskIndex) {
   openTaskModal();
 }
 
+export function toggleSubtask(catIndex, taskIndex, subIndex) {
+  saveState();
+  const subtask = state.appData[catIndex].tasks[taskIndex].subtasks[subIndex];
+  subtask.done = !subtask.done;
+  saveToLocal();
+  refreshUI();
+}
+
 export function deleteTask(catIndex, taskIndex) {
-  if (!confirm("Delete task?")) return;
+  if (!confirm("Are you sure you want to delete this task?")) return;
   saveState();
   state.appData[catIndex].tasks.splice(taskIndex, 1);
   saveToLocal();
@@ -296,7 +319,7 @@ export function addCategory() {
 }
 
 export function editCategory(index) {
-  const newName = prompt("Edit category:", state.appData[index].name);
+  const newName = prompt("Enter new category name:", state.appData[index].name);
   if (!newName) return;
   state.appData[index].name = newName;
   saveToLocal();
@@ -304,7 +327,7 @@ export function editCategory(index) {
 }
 
 export function deleteCategory(index) {
-  if (!confirm("Delete category?")) return;
+  if (!confirm("Delete this category and all tasks inside?")) return;
   saveState();
   state.appData.splice(index, 1);
   saveToLocal();

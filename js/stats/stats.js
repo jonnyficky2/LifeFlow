@@ -372,12 +372,12 @@ export function updateImproveStats(){
   if(weekDiff > 0){
 
     weeklyText =
-      `🚀 Minggu ini naik ${weekDiff}%`;
+      `🚀 This week is up ${weekDiff}%`;
 
   }else if(weekDiff < 0){
 
     weeklyText =
-      `📉 This week doen ${Math.abs(weekDiff)}%`;
+      `📉 This week is down ${Math.abs(weekDiff)}%`;
 
   }else{
 
@@ -745,7 +745,7 @@ export function updateStreak(){
   document.getElementById(
     "streakText"
   ).innerText =
-    `🔥 Streak: ${state.streakData.length} hari`;
+    `🔥 Streak: ${state.streakData.length} Days`;
 }
 
 export function refreshStatsUI(){
