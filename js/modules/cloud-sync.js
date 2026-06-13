@@ -1,4 +1,4 @@
-import { auth, db, provider, signInWithPopup, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
+import { auth, db, provider, signInWithRedirect, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
 import { showToast } from "../core/utils.js";
 import { state } from "../core/state.js";
 
@@ -22,15 +22,13 @@ export function initAuth(onDataSyncedCallback) {
     const originalText = btn?.textContent || "Login";
     try {
       if (btn) {
-        btn.textContent = "Connecting...";
+        btn.textContent = "Redirecting...";
         btn.disabled = true;
       }
       
-      const result = await signInWithPopup(auth, provider);
-      console.log("Login successful:", result.user.email);
-      sessionStorage.removeItem("guestMode"); // Hapus mode guest jika login berhasil
+      await signInWithRedirect(auth, provider);
+      sessionStorage.removeItem("guestMode"); // Clear guest mode when login starts
       if (authModal) authModal.style.display = "none";
-
     } catch (error) {
       console.error("Firebase Login Error:", error.code, error.message);
       
@@ -56,7 +54,7 @@ export function initAuth(onDataSyncedCallback) {
     if (authModal) authModal.style.display = "flex";
   });
 
-  // Klik foto profil di navbar untuk buka sidebar
+  // Click profile photo in navbar to open sidebar
   navUserImg?.addEventListener("click", () => {
     document.getElementById("sidebarToggle")?.click();
   });
@@ -67,16 +65,16 @@ export function initAuth(onDataSyncedCallback) {
     sessionStorage.setItem("guestMode", "true");
   });
 
-  // Fungsi Logout
+  // Logout Function
   logoutBtn?.addEventListener("click", () => {
     sessionStorage.removeItem("guestMode");
     signOut(auth).catch((err) => console.error("Failed to logout", err));
   });
 
-  // Listener Perubahan Status Akun
+  // Account Status Change Listener
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // Sedang login
+      // Logged in
       if(loginBtn) loginBtn.style.display = "none";
       if(logoutBtn) logoutBtn.style.display = "block";
       if(userNameEl) userNameEl.textContent = user.displayName;
@@ -91,10 +89,10 @@ export function initAuth(onDataSyncedCallback) {
         navUserImg.src = user.photoURL;
       }
 
-      // Tarik data
+      // Pull data
       await syncDataFromCloud(user.uid, onDataSyncedCallback);
     } else {
-      // Tidak login / Guest
+      // Not logged in / Guest
       if(loginBtn) {
         loginBtn.style.display = "block";
         loginBtn.textContent = "Login with Google";
@@ -111,7 +109,7 @@ export function initAuth(onDataSyncedCallback) {
   });
 }
 
-// Fungsi Simpan Data
+// Save Data Function
 export async function saveToCloud(appStateData) {
   const user = auth.currentUser;
   if (!user) return; 
@@ -158,7 +156,7 @@ function mergeState(local, cloud) {
   };
 }
 
-// Fungsi Tarik Data
+// Pull Data Function
 async function syncDataFromCloud(uid, callback) {
   try {
     const userRef = doc(db, "users", uid);
@@ -172,8 +170,8 @@ async function syncDataFromCloud(uid, callback) {
         showToast("Data synced from cloud");
       }
     } else {
-      // Jika user baru (belum ada data di cloud), 
-      // segera upload data lokal (guest data) ke akun baru mereka
+      // If new user (no data in cloud yet), 
+      // immediately upload local data (guest data) to their new account
       console.log("New user detected, uploading local data...");
       await saveToCloud(state);
       showToast("Account initialized with your local data");
