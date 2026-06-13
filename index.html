@@ -587,8 +587,8 @@
        NOTES SECTION
   ========================== -->
   <div id="notesSection" style="display: none;">
-    <h2>📝 Catatan</h2>
-    <button id="addNoteBtn" style="width: 100%; margin-bottom: 16px; padding: 16px;">+ Tulis Catatan Baru</button>
+    <h2>📝 Notes</h2>
+    <button id="addNoteBtn" style="width: 100%; margin-bottom: 16px; padding: 16px;">+ Add New Note</button>
     <div id="notesContainer"></div>
   </div>
 
@@ -672,6 +672,11 @@
         placeholder="Task name">
 
       <input
+        type="text"
+        id="taskTagsInput"
+        placeholder="Tags (comma separated)">
+
+      <input
         type="date"
         id="taskDeadlineInput">
         <input
@@ -712,6 +717,14 @@
 
       </select>
       
+      <div class="subtask-modal-section">
+        <label>Subtasks</label>
+        <div id="subtaskModalList" class="subtask-modal-list"></div>
+        <div class="subtask-input-group">
+          <input type="text" id="newSubtaskInput" placeholder="Add subtask...">
+          <button type="button" id="addSubtaskBtn">+</button>
+        </div>
+      </div>
 
       <div class="modal-actions">
 
@@ -871,21 +884,21 @@
 ========================== -->
 <div id="noteModal" class="modal">
   <div class="modal-content">
-    <h2>Tulis Catatan</h2>
-    <input type="text" id="noteTitleInput" placeholder="Judul (Opsional)">
-    <textarea id="noteContentInput" placeholder="Mulai mengetik ide atau catatanmu di sini..."></textarea>
+    <h2>Write Note</h2>
+    <input type="text" id="noteTitleInput" placeholder="Title (Optional)">
+    <textarea id="noteContentInput" placeholder="Start typing your ideas or notes here..."></textarea>
     
     <label class="pin-label">
       <input type="checkbox" id="notePinInput"> 
-      📌 Sematkan Catatan
+      📌 Pin Note
     </label>
     
     <div class="modal-actions" style="margin-top: 16px;">
       <button id="closeNoteModalBtn" type="button">
-        Batal
+        Cancel
       </button>
       <button id="saveNoteModalBtn" type="button">
-        Simpan
+        Save
       </button>
     </div>
   </div>

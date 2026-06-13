@@ -50,7 +50,7 @@ export function renderNotes() {
     title.innerText = (note.pinned ? "📌 " : "") + (note.title || "Untitled");
     
     const date = document.createElement("small");
-    date.innerText = note.date || new Date().toLocaleString("id-ID");
+    date.innerText = note.date || new Date().toLocaleString("en-US");
     titleBox.append(title, date);
 
     const actions = document.createElement("div");
@@ -100,14 +100,14 @@ export function saveNoteModal() {
   if (editingNoteIndex !== null) {
     state.notes[editingNoteIndex].title = title;
     state.notes[editingNoteIndex].content = content;
-    state.notes[editingNoteIndex].date = new Date().toLocaleString("id-ID");
+    state.notes[editingNoteIndex].date = new Date().toLocaleString("en-US");
     state.notes[editingNoteIndex].pinned = pinned;
     editingNoteIndex = null;
   } else {
     state.notes.unshift({
       title,
       content,
-      date: new Date().toLocaleString("id-ID"),
+      date: new Date().toLocaleString("en-US"),
       pinned,
       done: false
     });

@@ -26,7 +26,7 @@ import { openTaskModal, closeTaskModal, openHabitModal, closeHabitModal, openNot
 import { initSidebar } from "./navbar/navbar.js";
 import { showSection } from "./ui/section.js";
 import { renderCalendar, changeMonth } from "./task/calendar.js";
-import { saveTaskModal, toggleTask, editTask, deleteTask, addCategory, editCategory, deleteCategory, renderTasks, searchTask, setFilter } from "./task/task.js";
+import { saveTaskModal, toggleTask, editTask, deleteTask, addCategory, editCategory, deleteCategory, renderTasks, searchTask, setFilter, resetEditingTask, addSubtaskToTemp, renderSubtasksInModal } from "./task/task.js";
 import { getLevelData, updateLevel, updateQuickStats, updateProgressRing, generateHeatmap, updateImproveStats, refreshStatsUI } from "./stats/stats.js";
 import { loadTheme, toggleTheme } from "./modules/theme.js";
 import { saveNoteModal, renderNotes } from "./core/notes.js";
@@ -199,6 +199,8 @@ function setupUIEventListeners() {
     state.currentCategoryIndex =
       state.currentCategoryIndex ?? state.appData.length - 1;
 
+    resetEditingTask();
+    renderSubtasksInModal();
     openTaskModal();
   };
 
@@ -330,6 +332,13 @@ function setupUIEventListeners() {
     ?.addEventListener(
       "click",
       saveTaskModal
+    );
+
+  document
+    .getElementById("addSubtaskBtn")
+    ?.addEventListener(
+      "click",
+      addSubtaskToTemp
     );
 
   document
@@ -817,6 +826,8 @@ document
       state.currentCategoryIndex = 
       state.appData.length -1;
 
+      resetEditingTask();
+      renderSubtasksInModal();
       openTaskModal();
     }
   );

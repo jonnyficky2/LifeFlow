@@ -7,9 +7,11 @@ import { refreshUI } from "../main.js";
 
 export let editingTask = null;
 let dragged = null;
+let tempSubtasks = [];
 
 export function resetEditingTask() {
   editingTask = null;
+  tempSubtasks = [];
 }
 
 export function saveTaskModal() {
@@ -19,6 +21,8 @@ export function saveTaskModal() {
   const location = document.getElementById("taskLocationInput").value;
   const note = document.getElementById("taskNoteInput").value;
   const priority = document.getElementById("taskPriorityInput").value;
+  const tagsInput = document.getElementById("taskTagsInput").value;
+  const tags = tagsInput ? tagsInput.split(",").map(t => t.trim()).filter(t => t) : [];
 
   if (!name.trim()) return;
 
@@ -32,13 +36,15 @@ export function saveTaskModal() {
     task.location = location;
     task.note = note;
     task.priority = priority;
+    task.tags = tags;
+    task.subtasks = [...tempSubtasks];
     editingTask = null;
   } else {
     state.appData[state.currentCategoryIndex].tasks.push({
       name, deadline, time, location, note, priority,
       done: false, completedDates: [], streak: 0, lastCompleted: null,
-      subtasks: [], // New Feature
-      tags: []      // New Feature
+      subtasks: [...tempSubtasks],
+      tags: tags
     });
   }
 
@@ -51,6 +57,8 @@ export function saveTaskModal() {
   document.getElementById("taskTimeInput").value = "";
   document.getElementById("taskLocationInput").value = "";
   document.getElementById("taskNoteInput").value = "";
+  document.getElementById("taskTagsInput").value = "";
+  tempSubtasks = [];
   document.getElementById("taskPriorityInput").value = "low";
 
   closeTaskModal();
@@ -186,6 +194,25 @@ export function renderTasks() {
         textWrapper.appendChild(deadlineText);
       }
 
+      /* SUBTASKS */
+      if (task.subtasks && task.subtasks.length > 0) {
+        const subContainer = document.createElement("div");
+        subContainer.className = "task-subtasks";
+        task.subtasks.forEach((sub, subIndex) => {
+          const subRow = document.createElement("div");
+          subRow.className = `subtask-row ${sub.done ? "done" : ""}`;
+          const subCheck = document.createElement("input");
+          subCheck.type = "checkbox";
+          subCheck.checked = sub.done;
+          subCheck.onchange = () => toggleSubtask(catIndex, taskIndex, subIndex);
+          const subName = document.createElement("span");
+          subName.innerText = sub.name;
+          subRow.append(subCheck, subName);
+          subContainer.appendChild(subRow);
+        });
+        textWrapper.appendChild(subContainer);
+      }
+
       /* TAGS */
       if (task.tags && task.tags.length > 0) {
         const tagContainer = document.createElement("div");
@@ -288,6 +315,9 @@ export function editTask(catIndex, taskIndex) {
   document.getElementById("taskLocationInput").value = task.location || "";
   document.getElementById("taskNoteInput").value = task.note || "";
   document.getElementById("taskPriorityInput").value = task.priority || "low";
+  document.getElementById("taskTagsInput").value = task.tags ? task.tags.join(", ") : "";
+  tempSubtasks = task.subtasks ? [...task.subtasks] : [];
+  renderSubtasksInModal();
 
   openTaskModal();
 }
