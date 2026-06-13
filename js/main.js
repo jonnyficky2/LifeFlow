@@ -398,6 +398,24 @@ function setupUIEventListeners() {
 document.addEventListener(
   "DOMContentLoaded",
   () => {
+    const splash = document.getElementById("splashScreen");
+    const hideSplashScreen = () => {
+      if (splash && !splash.classList.contains("splash-hide")) {
+        splash.classList.add("splash-hide");
+      }
+    };
+
+    // Safety Net: Sembunyikan splash screen setelah 3.5 detik apa pun yang terjadi
+    // Ini mencegah aplikasi stuck jika ada SyntaxError pada modul
+    if (splash) {
+      setTimeout(hideSplashScreen, 3500);
+    }
+
+    // Jalankan timer persembunyian normal
+    if (splash) {
+      setTimeout(hideSplashScreen, 2000);
+    }
+
     try {
       updateSplashWelcome();
     } catch (e) {
@@ -413,13 +431,10 @@ document.addEventListener(
       loadTheme();
     } catch (e) {
       console.error("Error during initialization:", e);
-    }
+    };
 
     // Inisialisasi Firebase Auth & Sinkronisasi
     initAuth((cloudData) => {
-      console.log("Data successfully pulled from cloud:", cloudData);
-      
-      // Update state lokal dengan data dari cloud
       if(cloudData.appData) state.appData = cloudData.appData;
       if(cloudData.xp) state.xp = cloudData.xp;
       if(cloudData.habits) state.habits = cloudData.habits;
@@ -428,7 +443,6 @@ document.addEventListener(
       if(cloudData.historyData) state.historyData = cloudData.historyData;
       if(cloudData.notes) state.notes = cloudData.notes;
 
-      // Simpan paksa ke LocalStorage agar tersinkronisasi
       localStorage.setItem("appData", JSON.stringify(state.appData));
       localStorage.setItem("xp", state.xp.toString());
       localStorage.setItem("habits", JSON.stringify(state.habits));
@@ -437,34 +451,9 @@ document.addEventListener(
       localStorage.setItem("historyData", JSON.stringify(state.historyData));
       localStorage.setItem("notes", JSON.stringify(state.notes));
 
-      // Render ulang layar
       refreshUI();
       showToast("Data synced with Cloud!");
     });
-
-    const splash = document.getElementById(
-      "splashScreen"
-    );
-
-    const hideSplashScreen = () => {
-      if (splash && !splash.classList.contains("splash-hide")) {
-        splash.classList.add("splash-hide");
-      }
-    };
-
-    if (splash) {
-      setTimeout(hideSplashScreen, 2500);
-      window.addEventListener("load", () => {
-        setTimeout(hideSplashScreen, 2500);
-      });
-      // Fallback: ensure splash hides after 5 seconds even if error occurs
-      setTimeout(() => {
-        if (splash && !splash.classList.contains("splash-hide")) {
-          console.warn("Force hiding splash screen due to timeout");
-          hideSplashScreen();
-        }
-      }, 5000);
-    }
 
     initSidebar();
     setupUIEventListeners();
