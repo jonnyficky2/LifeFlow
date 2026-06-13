@@ -62,6 +62,8 @@ self.addEventListener("fetch", event => {
   if (
     url.hostname.includes("firebase") ||
     url.hostname.includes("googleapis") ||
+    url.pathname.includes("/__/auth") ||
+    url.hostname.includes("googleusercontent.com") || 
     url.searchParams.has("__firebase_request_key") ||
     url.searchParams.has("apiKey") ||
     !url.href.startsWith(self.location.origin)

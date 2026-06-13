@@ -1,4 +1,4 @@
-import { auth, db, provider, signInWithRedirect, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
+import { auth, db, provider, signInWithRedirect, signInWithPopup, signOut, onAuthStateChanged, doc, setDoc, getDoc } from "./firebase-config.js";
 import { showToast } from "../core/utils.js";
 import { state } from "../core/state.js";
 
@@ -30,7 +30,14 @@ export function initAuth(onDataSyncedCallback) {
         btn.disabled = true;
       }
       
-      await signInWithRedirect(auth, provider);
+      // Gunakan Popup untuk Desktop (Mac/Windows) agar lebih stabil
+      // Gunakan Redirect untuk Mobile/Standalone
+      if (window.innerWidth > 1100 && !isStandalone) {
+        await signInWithPopup(auth, provider);
+      } else {
+        await signInWithRedirect(auth, provider);
+      }
+      
       sessionStorage.removeItem("guestMode"); // Clear guest mode when login starts
       if (authModal) authModal.style.display = "none";
     } catch (error) {
