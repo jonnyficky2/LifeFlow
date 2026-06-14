@@ -2439,6 +2439,8 @@ header {
 .app-nav {
   gap: 10px;
   margin-top: 28px;
+  padding: 10px;
+  border-radius: var(--dash-radius);
 }
 
 .sidebar-item {
@@ -2467,9 +2469,6 @@ header {
 .sidebar-streak-card {
   margin: 16px 8px 0;
   padding: 18px 20px;
-  border-radius: 8px;
-  background: linear-gradient(145deg, rgba(20, 37, 68, 0.88), rgba(10, 24, 45, 0.84));
-  border: 1px solid var(--dash-border);
   opacity: 0;
   transform: translateY(15px);
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2546,7 +2545,9 @@ header {
 .toolbar,
 .backup-box,
 .filter-box,
-.search-box {
+.search-box,
+.app-nav,
+.sidebar-streak-card {
   border-radius: var(--dash-radius);
   background: linear-gradient(145deg, rgba(15, 30, 55, 0.82), rgba(8, 19, 36, 0.78));
   border: 1px solid var(--dash-border);
@@ -2977,7 +2978,8 @@ body.light-mode #levelBox,
 body.light-mode .dashboard-panel,
 body.light-mode .stat-card,
 body.light-mode .add-box,
-body.light-mode .sidebar-streak-card {
+body.light-mode .sidebar-streak-card,
+body.light-mode .app-nav {
   background: rgba(255, 255, 255, 0.86);
   border-color: rgba(30, 41, 59, 0.12);
 }
