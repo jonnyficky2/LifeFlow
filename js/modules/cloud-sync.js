@@ -111,7 +111,8 @@ export function initAuth(onDataSyncedCallback) {
       if(navLoginBtn) navLoginBtn.style.display = "none";
       if(navUserImg) {
         navUserImg.style.display = "block";
-        navUserImg.src = user.photoURL;
+        navUserImg.src = user.photoURL || "./assets/icons/icon.svg";
+        navUserImg.onerror = () => { navUserImg.src = "./assets/icons/icon.svg"; };
       }
 
       // Pull data

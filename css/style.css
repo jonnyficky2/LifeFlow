@@ -96,13 +96,15 @@
 .sidebar-toggle {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 32px;
-  height: 28px;
-  background: transparent;
-  border: none;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
   cursor: pointer;
-  padding: 0;
+  padding: 8px;
   margin-left: 4px;
 }
 
@@ -2365,8 +2367,8 @@ header {
   gap: 5px;
   padding: 8px;
   border-radius: 8px;
-  background: rgba(17, 33, 60, 0.7);
-  border: 1px solid var(--dash-border);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-toggle span {
@@ -2441,6 +2443,8 @@ header {
   margin-top: 28px;
   padding: 10px;
   border-radius: var(--dash-radius);
+  background: var(--dash-panel);
+  border: 1px solid var(--dash-border);
 }
 
 .sidebar-item {
@@ -2469,6 +2473,9 @@ header {
 .sidebar-streak-card {
   margin: 16px 8px 0;
   padding: 18px 20px;
+  background: var(--dash-panel);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius);
   opacity: 0;
   transform: translateY(15px);
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
