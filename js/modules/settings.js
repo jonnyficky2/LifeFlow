@@ -6,7 +6,7 @@ import { onAuthStateChanged } from "./firebase-config.js";
 import { saveToCloud } from "./cloud-sync.js";
 
 const VERSION = "1.2.0";
-const BUILD_NUMBER = "20260615";
+const BUILD_NUMBER = "20260515";
 
 export function initSettings() {
   const settingsGrid = document.getElementById("settingsGrid");
@@ -238,28 +238,32 @@ function renderSettingsUI(container) {
           <span class="settings-row-title">FAQ</span>
           <span class="settings-row-desc">Frequently asked questions</span>
         </div>
-        <button class="settings-btn outline">View</button>
+        <button class="settings-btn outline" id="setFaqBtn">View</button>
       </div>
       <div class="settings-row">
         <div class="settings-row-label">
           <span class="settings-row-title">Report a Bug</span>
           <span class="settings-row-desc">Help us improve</span>
         </div>
-        <button class="settings-btn outline">Report</button>
+        <button class="settings-btn outline" id="setReportBtn">Report</button>
       </div>
       <div class="settings-row">
         <div class="settings-row-label">
           <span class="settings-row-title">Request Feature</span>
           <span class="settings-row-desc">Suggest a new idea</span>
         </div>
-        <button class="settings-btn outline">Request</button>
+        <button class="settings-btn outline" id="setRequestBtn">Request</button>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="flex-direction: column; align-items: flex-start; gap: 12px;">
         <div class="settings-row-label">
           <span class="settings-row-title">Contact Developer</span>
-          <span class="settings-row-desc">Get in touch with us</span>
+          <span class="settings-row-desc">Connect with me on social media</span>
         </div>
-        <button class="settings-btn outline">Contact</button>
+        <div style="display: flex; gap: 8px; width: 100%; flex-wrap: wrap;">
+          <button class="settings-btn outline" id="setInstaBtn" style="flex: 1; min-width: 100px;">Instagram</button>
+          <button class="settings-btn outline" id="setLinkedinBtn" style="flex: 1; min-width: 100px;">LinkedIn</button>
+          <button class="settings-btn outline" id="setGithubBtn" style="flex: 1; min-width: 100px;">GitHub</button>
+        </div>
       </div>
     </div>
 
@@ -475,6 +479,34 @@ function bindSettingsEvents() {
     if (e.target.files.length > 0) {
       importData(e);
     }
+  });
+
+  // Help & Support Actions
+  document.getElementById("setFaqBtn")?.addEventListener("click", () => {
+    showToast("FAQ akan segera hadir!");
+  });
+
+  document.getElementById("setReportBtn")?.addEventListener("click", () => {
+    showToast("Membuka formulir pelaporan bug...");
+    // Anda bisa mengganti URL di bawah dengan link Google Form atau sistem report Anda
+    window.open("https://github.com/jonnyficky2", "_blank");
+  });
+
+  document.getElementById("setRequestBtn")?.addEventListener("click", () => {
+    showToast("Membuka formulir permintaan fitur...");
+    window.open("https://github.com/jonnyficky2", "_blank");
+  });
+
+  document.getElementById("setInstaBtn")?.addEventListener("click", () => {
+    window.open("https://www.instagram.com/jonny.ficky", "_blank");
+  });
+
+  document.getElementById("setLinkedinBtn")?.addEventListener("click", () => {
+    window.open("https://www.linkedin.com/in/jonnyficky-felyang-0a2654416", "_blank");
+  });
+
+  document.getElementById("setGithubBtn")?.addEventListener("click", () => {
+    window.open("https://github.com/jonnyficky2", "_blank");
   });
 }
 
