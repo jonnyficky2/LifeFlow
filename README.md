@@ -93,7 +93,11 @@ PWA| App Installation
 
 ### Dashboard
 
-![Dashboard](assets/screenshots/dashboard.jpg)
+![Dashboard](assets/screenshots/Dashboard.jpg)
+
+### Menu
+
+![Menu](assets/screenshots/Menu.jpg)
 
 ### Tasks
 
