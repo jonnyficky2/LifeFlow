@@ -32,6 +32,7 @@ import { loadTheme, toggleTheme } from "./modules/theme.js";
 import { saveNoteModal, renderNotes } from "./core/notes.js";
 import { initShare, triggerShare } from "./modules/share.js";
 import { initAuth, saveToCloud } from "./modules/cloud-sync.js";
+import { initSettings } from "./modules/settings.js";
 
 let deferredPrompt = null;
 
@@ -429,6 +430,7 @@ document.addEventListener(
       checkTaskReminders();
       checkDeadlines();
       loadTheme();
+      initSettings();
     } catch (e) {
       console.error("Error during initialization:", e);
     };
@@ -1019,40 +1021,52 @@ function checkDeadlines(){
 ========================= */
 
 function checkTaskReminders(){
-
-  if(
-    !("Notification" in window)
-  ) return;
-
-  if(
-    Notification.permission !==
-    "granted"
-  ) return;
-
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  
   const now = new Date();
-  const currentDate = getLocalDate(now);
-  const currentHour = String(now.getHours()).padStart(2, "0");
-  const currentMinute = String(now.getMinutes()).padStart(2, "0");
-  const currentTime = `${currentHour}:${currentMinute}`;
+  
+  const processItem = (item, type) => {
+    // Cek apakah item valid untuk dikirimkan notifikasi
+    if ((type === 'task' && item.done) || !item.deadline || !item.time || !item.reminder || item.reminder === 'none') return;
+    
+    // Parsing tanggal dan waktu target
+    const [year, month, day] = item.deadline.split('-').map(Number);
+    const [hours, mins] = item.time.split(':').map(Number);
+    const targetDate = new Date(year, month - 1, day, hours, mins);
+    
+    // Hitung kapan notifikasi harus muncul berdasarkan offset (dalam menit)
+    const offsetMinutes = parseInt(item.reminder);
+    const triggerDate = new Date(targetDate.getTime() - offsetMinutes * 60000);
+    
+    // Bandingkan waktu sekarang dengan waktu pemicu (sampai presisi menit)
+    const isTriggerTime = 
+      now.getFullYear() === triggerDate.getFullYear() &&
+      now.getMonth() === triggerDate.getMonth() &&
+      now.getDate() === triggerDate.getDate() &&
+      now.getHours() === triggerDate.getHours() &&
+      now.getMinutes() === triggerDate.getMinutes();
 
-  state.appData.forEach((category) => {
-    category.tasks.forEach((task) => {
-      if (task.done || !task.deadline || !task.time) return;
-      if (task.deadline !== currentDate) return;
+    if (isTriggerTime) {
+      const itemTitle = item.name || item.title || "Untitled";
+      const notifyKey = `rem_${type}_${itemTitle}_${item.deadline}_${item.time}_${item.reminder}`;
+      if (localStorage.getItem(notifyKey)) return;
 
-      if (task.time === currentTime) {
-        const notifyKey = `notif_${task.name}_${currentDate}_${currentTime}`;
-        if (localStorage.getItem(notifyKey)) return;
+      const title = type === 'task' ? "⏰ Task Reminder" : "📝 Note Reminder";
+      const message = offsetMinutes === 0 ? 
+        `${itemTitle} starts now!` : 
+        `${itemTitle} starts in ${offsetMinutes} minutes`;
 
-        new Notification("🔔 Reminder Task", {
-          body: `${task.name}\n• ${task.time}`
-        });
+      new Notification(title, { body: message });
+      showToast(message);
+      localStorage.setItem(notifyKey, "sent");
+    }
+  };
 
-        showToast(`Reminder:\n${task.name}`);
-        localStorage.setItem(notifyKey, "sent");
-      }
-    });
-  });
+  // Periksa semua task di setiap kategori
+  state.appData.forEach(cat => cat.tasks.forEach(task => processItem(task, 'task')));
+  
+  // Periksa semua notes
+  if (state.notes) state.notes.forEach(note => processItem(note, 'note'));
 }
 
 document.addEventListener(

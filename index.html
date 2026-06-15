@@ -113,7 +113,7 @@
 
       <div class="navbar-actions">
         <button id="navLoginBtn" type="button" class="nav-login-btn">Sign In</button>
-        <img id="navUserImg" src="./assets/icons/icon.svg" alt="Profile" class="nav-user-img" style="display: none;">
+        <img id="navUserImg" src="./assets/icons/icon.svg" alt="Profile" class="nav-user-img" style="display: none;" referrerpolicy="no-referrer">
       
         <!-- Sidebar Toggle Button -->
         <button id="sidebarToggle" class="sidebar-toggle" aria-label="Open sidebar">
@@ -147,7 +147,7 @@
         <button type="button" class="sidebar-item" data-action="category" data-nav="category">▣ Categories</button>
         <button type="button" class="sidebar-item" data-section="stats" data-nav="stats">▥ Reports</button>
         <button type="button" class="sidebar-item" data-section="notes" data-nav="notes">✎ Notes</button>
-        <button type="button" class="sidebar-item" data-action="settings" data-nav="settings">⚙ Settings</button>
+        <button type="button" class="sidebar-item" data-section="settings" data-nav="settings">⚙ Settings</button>
       </nav>
 
       <div class="sidebar-account">
@@ -171,6 +171,7 @@
 
   <main class="app-main">
 
+  <div id="homeSection">
   <section class="dashboard-header">
     <div>
       <h1>Good morning! </h1>
@@ -293,7 +294,6 @@
        HOME SECTION
   ========================== -->
 
-  <div id="homeSection">
     <div id="quickStats">
 
   <div class="stat-card">
@@ -592,6 +592,19 @@
     <div id="notesContainer"></div>
   </div>
 
+  <!-- =========================
+       SETTINGS SECTION
+  ========================== -->
+  <div id="settingsSection" style="display: none;" class="settings-wrapper">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+      <div>
+        <h1>⚙ Settings</h1>
+        <p>Manage your preferences, account, and data</p>
+      </div>
+    </div>
+    <div id="settingsGrid" class="settings-grid"></div>
+  </div>
+
   </main>
 
   <!-- =========================
@@ -689,6 +702,16 @@
   id="taskLocationInput"
   placeholder="Place "
 >
+
+<select id="taskReminderInput">
+  <option value="none">No Reminder</option>
+  <option value="0">At time of event</option>
+  <option value="5">5 minutes before</option>
+  <option value="10">10 minutes before</option>
+  <option value="30">30 minutes before</option>
+  <option value="60">1 hour before</option>
+  <option value="1440">1 day before</option>
+</select>
 
 <input
   id="taskNoteInput"
@@ -888,6 +911,20 @@
     <input type="text" id="noteTitleInput" placeholder="Title (Optional)">
     <textarea id="noteContentInput" placeholder="Start typing your ideas or notes here..."></textarea>
     
+    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+      <input type="date" id="noteDeadlineInput" style="flex: 1;">
+      <input type="time" id="noteTimeInput" style="flex: 1;">
+    </div>
+    
+    <select id="noteReminderInput" style="width: 100%; margin-bottom: 12px;">
+      <option value="none">No Reminder</option>
+      <option value="0">At time of event</option>
+      <option value="5">5 minutes before</option>
+      <option value="15">15 minutes before</option>
+      <option value="60">1 hour before</option>
+      <option value="1440">1 day before</option>
+    </select>
+
     <label class="pin-label">
       <input type="checkbox" id="notePinInput"> 
       📌 Pin Note

@@ -7,7 +7,8 @@ export const STORAGE_KEYS = {
   HABIT_HISTORY: "habitHistory",
   STREAK_DATA: "streakData",
   HISTORY_DATA: "historyData",
-  NOTES: "notes"
+  NOTES: "notes",
+  SETTINGS: "settings"
 };
 
 // Fungsi helper kecil untuk mengambil dan parse JSON dari LocalStorage dengan aman
@@ -31,6 +32,7 @@ export const state = {
   streakData: getLocalData(STORAGE_KEYS.STREAK_DATA, []),
   historyData: getLocalData(STORAGE_KEYS.HISTORY_DATA, {}),
   notes: getLocalData(STORAGE_KEYS.NOTES, []),
+  settings: getLocalData(STORAGE_KEYS.SETTINGS, {}),
 
   // --- Temporary Data (Hanya saat aplikasi berjalan) ---
   undoStack: [],

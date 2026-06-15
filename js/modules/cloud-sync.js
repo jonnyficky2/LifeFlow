@@ -104,7 +104,10 @@ export function initAuth(onDataSyncedCallback) {
       if(logoutBtn) logoutBtn.style.display = "block";
       if(userNameEl) userNameEl.textContent = user.displayName;
       if(userEmailEl) userEmailEl.textContent = user.email;
-      if(userImgEl) userImgEl.src = user.photoURL;
+      if(userImgEl) {
+        userImgEl.src = user.photoURL || "./assets/icons/icon.svg";
+        userImgEl.onerror = () => { userImgEl.src = "./assets/icons/icon.svg"; };
+      }
       if(authModal) authModal.style.display = "none";
       sessionStorage.removeItem("guestMode");
       

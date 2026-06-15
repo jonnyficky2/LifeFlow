@@ -21,6 +21,7 @@ export function saveTaskModal() {
   const location = document.getElementById("taskLocationInput").value;
   const note = document.getElementById("taskNoteInput").value;
   const priority = document.getElementById("taskPriorityInput").value;
+  const reminder = document.getElementById("taskReminderInput").value;
   const tagsInput = document.getElementById("taskTagsInput").value;
   const tags = tagsInput ? tagsInput.split(",").map(t => t.trim()).filter(t => t) : [];
 
@@ -37,6 +38,7 @@ export function saveTaskModal() {
     task.note = note;
     task.priority = priority;
     task.tags = tags;
+    task.reminder = reminder;
     task.subtasks = [...tempSubtasks];
     editingTask = null;
   } else {
@@ -44,6 +46,7 @@ export function saveTaskModal() {
       name, deadline, time, location, note, priority,
       done: false, completedDates: [], streak: 0, lastCompleted: null,
       subtasks: [...tempSubtasks],
+      reminder: reminder,
       tags: tags
     });
   }
@@ -58,6 +61,7 @@ export function saveTaskModal() {
   document.getElementById("taskLocationInput").value = "";
   document.getElementById("taskNoteInput").value = "";
   document.getElementById("taskTagsInput").value = "";
+  document.getElementById("taskReminderInput").value = "none";
   tempSubtasks = [];
   document.getElementById("taskPriorityInput").value = "low";
 
@@ -360,6 +364,7 @@ export function editTask(catIndex, taskIndex) {
   document.getElementById("taskLocationInput").value = task.location || "";
   document.getElementById("taskNoteInput").value = task.note || "";
   document.getElementById("taskPriorityInput").value = task.priority || "low";
+  document.getElementById("taskReminderInput").value = task.reminder || "none";
   document.getElementById("taskTagsInput").value = task.tags ? task.tags.join(", ") : "";
   tempSubtasks = task.subtasks ? [...task.subtasks] : [];
   renderSubtasksInModal();
