@@ -261,6 +261,7 @@ function renderSettingsUI(container) {
         </div>
         <div style="display: flex; gap: 8px; width: 100%; flex-wrap: wrap;">
           <button class="settings-btn outline" id="setInstaBtn" style="flex: 1; min-width: 100px;">Instagram</button>
+          <button class="settings-btn outline" id="setEmailBtn" style="flex: 1; min-width: 100px;">Email</button>
           <button class="settings-btn outline" id="setLinkedinBtn" style="flex: 1; min-width: 100px;">LinkedIn</button>
           <button class="settings-btn outline" id="setGithubBtn" style="flex: 1; min-width: 100px;">GitHub</button>
         </div>
@@ -499,6 +500,10 @@ function bindSettingsEvents() {
 
   document.getElementById("setInstaBtn")?.addEventListener("click", () => {
     window.open("https://www.instagram.com/jonny.ficky", "_blank");
+  });
+
+  document.getElementById("setEmailBtn")?.addEventListener("click", () => {
+    window.open("mailto:jonnyficky2@gmail.com", "_blank");
   });
 
   document.getElementById("setLinkedinBtn")?.addEventListener("click", () => {
