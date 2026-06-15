@@ -556,6 +556,8 @@ function bindSettingsEvents() {
   document.getElementById("setReportBtn")?.addEventListener("click", () => {
     if (!auth.currentUser) {
       showToast("Silakan login terlebih dahulu untuk melaporkan bug.");
+      const authModal = document.getElementById("authModal");
+      if (authModal) authModal.style.display = "flex";
       return;
     }
     
@@ -577,8 +579,10 @@ function bindSettingsEvents() {
       return;
     }
 
+    const userEmail = auth.currentUser ? auth.currentUser.email : "Guest";
     const prefix = currentSubmissionType === "Report" ? "[LifeFlow Report] " : "[LifeFlow Request] ";
-    const mailtoLink = `mailto:jonnyficky2@gmail.com?subject=${encodeURIComponent(prefix + subject)}&body=${encodeURIComponent(description)}`;
+    const bodyContent = `From: ${userEmail}\n\nDescription:\n${description}`;
+    const mailtoLink = `mailto:jonnyficky2@gmail.com?subject=${encodeURIComponent(prefix + subject)}&body=${encodeURIComponent(bodyContent)}`;
     window.location.href = mailtoLink;
 
     showToast("Membuka email client...");
@@ -592,6 +596,8 @@ function bindSettingsEvents() {
   document.getElementById("setRequestBtn")?.addEventListener("click", () => {
     if (!auth.currentUser) {
       showToast("Silakan login terlebih dahulu untuk mengirim permintaan fitur.");
+      const authModal = document.getElementById("authModal");
+      if (authModal) authModal.style.display = "flex";
       return;
     }
 
