@@ -3,6 +3,7 @@ import { saveState, exportData, importData } from "../core/storage.js";
 import { showToast } from "../core/utils.js";
 import { auth, db, signOut, doc, setDoc } from "./firebase-config.js";
 import { onAuthStateChanged } from "./firebase-config.js";
+import { sendEmailVerification, deleteUser } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { saveToCloud } from "./cloud-sync.js";
 
 const VERSION = "1.2.0";
@@ -363,33 +364,39 @@ function updateAccountCard(user) {
 }
 
 function updateStatsUI() {
-  const tasks = state.tasks || [];
-  const habits = state.habits || [];
+  // Hitung Task dari appData
+  let totalTasks = 0;
+  let completedTasks = 0;
+  (state.appData || []).forEach(cat => {
+    (cat.tasks || []).forEach(t => {
+      totalTasks++;
+      if (t.done) completedTasks++;
+    });
+  });
+
+  const habits = (state.habits || []).flatMap(cat => cat.habits || []);
   const notes = state.notes || [];
   
-  const completedTasks = tasks.filter(t => t.completed).length;
-  document.getElementById("setStatTotalTasks").textContent = tasks.length;
+  document.getElementById("setStatTotalTasks").textContent = totalTasks;
   document.getElementById("setStatCompletedTasks").textContent = completedTasks;
   
-  // A habit is considered 'completed' if its current status is done today (for simplicity), or just total count vs completed logs
-  const completedHabits = habits.filter(h => {
-      const todayStr = new Date().toISOString().split('T')[0];
-      return h.logs && h.logs.includes(todayStr);
-  }).length;
-
+  const completedHabits = habits.filter(h => h.done).length;
   document.getElementById("setStatHabits").textContent = habits.length;
   document.getElementById("setStatCompletedHabits").textContent = completedHabits;
   
-  const streaks = habits.map(h => h.streak || 0);
+  // Streak dari data global
+  const currentStreak = state.streakData ? state.streakData.length : 0;
+  document.getElementById("setStatCurrStreak").textContent = currentStreak + " Days";
+
+  // Hitung rekor streak tertinggi
+  let streaks = habits.map(h => h.streak || 0);
+  if (currentStreak > 0) streaks.push(currentStreak);
   const longestStreak = streaks.length > 0 ? Math.max(...streaks) : 0;
-  const currentTotalStreak = streaks.reduce((sum, s) => sum + s, 0); // rough estimation of active current streak
-  
   document.getElementById("setStatStreak").textContent = longestStreak + " Days";
-  document.getElementById("setStatCurrStreak").textContent = currentTotalStreak + " Days";
 
   document.getElementById("setStatNotes").textContent = notes.length;
 
-  const prodScore = Math.floor((completedTasks * 10) + (completedHabits * 15) + (currentTotalStreak * 5));
+  const prodScore = Math.floor((completedTasks * 10) + (completedHabits * 15) + (currentStreak * 5));
   document.getElementById("setStatProdScore").textContent = prodScore;
 }
 
@@ -447,9 +454,53 @@ function bindSettingsEvents() {
     }
   });
 
-  document.getElementById("setDeleteAccBtn")?.addEventListener("click", () => {
-    if (confirm("Are you sure you want to permanently delete your account and all data? This cannot be undone.")) {
-      showToast("Account deletion requested. (Action stubbed for safety)");
+  // Account Management
+  document.getElementById("setEditProfileBtn")?.addEventListener("click", () => {
+    // Karena menggunakan Google Auth, profil dikelola via Google
+    window.open("https://myaccount.google.com/personal-info", "_blank");
+    showToast("Mengalihkan ke pengaturan profil Google...");
+  });
+
+  document.getElementById("setChangePwdBtn")?.addEventListener("click", () => {
+    window.open("https://myaccount.google.com/security", "_blank");
+    showToast("Mengalihkan ke pengaturan keamanan Google...");
+  });
+
+  document.getElementById("setVerifyBtn")?.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        await sendEmailVerification(user);
+        showToast("Email verifikasi telah dikirim ke " + user.email);
+      } catch (err) {
+        showToast("Gagal mengirim email: " + err.message);
+      }
+    }
+  });
+
+  document.getElementById("setDeleteAccBtn")?.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      // Jika guest, cukup hapus local storage
+      if (confirm("Hapus semua data lokal? Tindakan ini tidak bisa dibatalkan.")) {
+        localStorage.clear();
+        location.reload();
+      }
+      return;
+    }
+
+    if (confirm("Hapus Akun Permanen? Semua data di cloud akan ikut terhapus.")) {
+      try {
+        await deleteUser(user);
+        showToast("Akun berhasil dihapus.");
+        setTimeout(() => location.reload(), 1500);
+      } catch (err) {
+        if (err.code === "auth/requires-recent-login") {
+          showToast("Error: Silakan login ulang sebelum menghapus akun.");
+        } else {
+          showToast("Gagal menghapus akun: " + err.message);
+        }
+      }
     }
   });
 
@@ -496,17 +547,17 @@ function bindSettingsEvents() {
 
   // Help & Support Actions
   document.getElementById("setFaqBtn")?.addEventListener("click", () => {
-    showToast("FAQ akan segera hadir!");
+    // Simulasi membuka bantuan
+    window.open("https://github.com/jonnyficky2/LifeFlow#readme", "_blank");
   });
 
   document.getElementById("setReportBtn")?.addEventListener("click", () => {
-    showToast("Membuka formulir pelaporan bug...");
-    // Anda bisa mengganti URL di bawah dengan link Google Form atau sistem report Anda
-    window.open("https://github.com/jonnyficky2", "_blank");
+    showToast("Membuka pelaporan bug di GitHub...");
+    window.open("https://github.com/jonnyficky2/LifeFlow/issues", "_blank");
   });
 
   document.getElementById("setRequestBtn")?.addEventListener("click", () => {
-    showToast("Membuka formulir permintaan fitur...");
+    showToast("Kirim saran fitur Anda!");
     window.open("https://github.com/jonnyficky2", "_blank");
   });
 
