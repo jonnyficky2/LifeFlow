@@ -9,6 +9,8 @@ import { saveToCloud } from "./cloud-sync.js";
 const VERSION = "1.2.0";
 const BUILD_NUMBER = "20260515";
 
+let currentSubmissionType = "Report"; // Flag untuk membedakan Report vs Request
+
 export function initSettings() {
   const settingsGrid = document.getElementById("settingsGrid");
   if (!settingsGrid) return;
@@ -552,13 +554,50 @@ function bindSettingsEvents() {
   });
 
   document.getElementById("setReportBtn")?.addEventListener("click", () => {
-    showToast("Membuka pelaporan bug di GitHub...");
-    window.open("https://github.com/jonnyficky2/LifeFlow/issues", "_blank");
+    if (!auth.currentUser) {
+      showToast("Silakan login terlebih dahulu untuk melaporkan bug.");
+      return;
+    }
+    
+    currentSubmissionType = "Report";
+    document.getElementById("reportModalTitle").textContent = "Report Bug / Issue";
+    document.getElementById("reportModal")?.classList.add("show");
+  });
+
+  document.getElementById("closeReportModalBtn")?.addEventListener("click", () => {
+    document.getElementById("reportModal")?.classList.remove("show");
+  });
+
+  document.getElementById("submitReportBtn")?.addEventListener("click", () => {
+    const subject = document.getElementById("reportSubject").value.trim();
+    const description = document.getElementById("reportDescription").value.trim();
+
+    if (!subject || !description) {
+      showToast("Harap isi subjek dan keterangan laporan.");
+      return;
+    }
+
+    const prefix = currentSubmissionType === "Report" ? "[LifeFlow Report] " : "[LifeFlow Request] ";
+    const mailtoLink = `mailto:jonnyficky2@gmail.com?subject=${encodeURIComponent(prefix + subject)}&body=${encodeURIComponent(description)}`;
+    window.location.href = mailtoLink;
+
+    showToast("Membuka email client...");
+    document.getElementById("reportModal").classList.remove("show");
+    
+    // Reset input setelah dikirim
+    document.getElementById("reportSubject").value = "";
+    document.getElementById("reportDescription").value = "";
   });
 
   document.getElementById("setRequestBtn")?.addEventListener("click", () => {
-    showToast("Kirim saran fitur Anda!");
-    window.open("https://github.com/jonnyficky2", "_blank");
+    if (!auth.currentUser) {
+      showToast("Silakan login terlebih dahulu untuk mengirim permintaan fitur.");
+      return;
+    }
+
+    currentSubmissionType = "Request";
+    document.getElementById("reportModalTitle").textContent = "Request New Feature";
+    document.getElementById("reportModal")?.classList.add("show");
   });
 
   document.getElementById("setInstaBtn")?.addEventListener("click", () => {

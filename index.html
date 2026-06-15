@@ -942,6 +942,23 @@
 </div>
 
   <!-- =========================
+     REPORT MODAL
+========================== -->
+<div id="reportModal" class="modal">
+  <div class="modal-content">
+    <h2 id="reportModalTitle">Report Bug / Issue</h2>
+    <input type="text" id="reportSubject" placeholder="Subject / Bug Title">
+    <textarea id="reportDescription" placeholder="Please describe the issue in detail..." 
+      style="width: 100%; min-height: 120px; padding: 14px; border: 1px solid var(--card-border); border-radius: 18px; background: var(--card); color: var(--text); font-family: inherit; resize: vertical; outline: none; margin-top: 10px; transition: 0.25s;"></textarea>
+    
+    <div class="modal-actions" style="margin-top: 16px;">
+      <button id="closeReportModalBtn" type="button">Cancel</button>
+      <button id="submitReportBtn" type="button" style="background: var(--dash-blue);">Send Report</button>
+    </div>
+  </div>
+</div>
+
+  <!-- =========================
      AUTH MODAL
 ========================== -->
 <div id="authModal" class="modal">
