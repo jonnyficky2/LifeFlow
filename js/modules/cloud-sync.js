@@ -80,9 +80,10 @@ export function initAuth(onDataSyncedCallback) {
     if (authModal) authModal.style.display = "flex";
   });
 
-  // Click profile photo in navbar to open sidebar
+  // Klik foto profil di navbar untuk masuk ke pengaturan akun
   navUserImg?.addEventListener("click", () => {
-    document.getElementById("sidebarToggle")?.click();
+    const settingsBtn = document.querySelector('.sidebar-item[data-nav="settings"]');
+    if (settingsBtn) settingsBtn.click();
   });
 
   // Skip Auth / Guest Mode

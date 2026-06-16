@@ -3190,6 +3190,7 @@ body.light-mode .sidebar-streak-card span {
   align-items: center;
   padding: 16px 0;
   border-bottom: 1px solid var(--dash-border);
+  gap: 12px;
 }
 
 .settings-row:last-child {
@@ -3257,6 +3258,7 @@ body.light-mode .sidebar-streak-card span {
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .settings-btn:hover {
@@ -3322,5 +3324,11 @@ body.light-mode .settings-profile-info p {
 body.light-mode .settings-select {
   background: #ffffff;
   border-color: rgba(30, 41, 59, 0.2);
+  color: #172033;
+}
+
+body.light-mode .settings-btn.outline {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   color: #172033;
 }
