@@ -7,6 +7,7 @@ export function initAuth(onDataSyncedCallback) {
   const modalLoginBtn = document.getElementById("modalLoginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
   const userNameEl = document.querySelector(".sidebar-name");
+  const sidebarTitleEl = document.querySelector(".sidebar-title");
   const userEmailEl = document.querySelector(".sidebar-email");
   const userImgEl = document.querySelector(".sidebar-profile-img");
   const authModal = document.getElementById("authModal");
@@ -102,7 +103,10 @@ export function initAuth(onDataSyncedCallback) {
       // Logged in
       if(loginBtn) loginBtn.style.display = "none";
       if(logoutBtn) logoutBtn.style.display = "block";
-      if(userNameEl) userNameEl.textContent = user.displayName;
+      
+      const name = user.displayName || (user.email ? user.email.split('@')[0] : "User");
+      if(userNameEl) userNameEl.textContent = name;
+      if(sidebarTitleEl) sidebarTitleEl.textContent = name;
       if(userEmailEl) userEmailEl.textContent = user.email;
       if(userImgEl) {
         userImgEl.src = user.photoURL || "./assets/icons/icon.svg";
@@ -129,6 +133,7 @@ export function initAuth(onDataSyncedCallback) {
       }
       if(logoutBtn) logoutBtn.style.display = "none";
       if(userNameEl) userNameEl.textContent = "Guest User";
+      if(sidebarTitleEl) sidebarTitleEl.innerHTML = 'Life<span>Flow</span>';
       if(userEmailEl) userEmailEl.textContent = "Login to save data online";
       if(userImgEl) userImgEl.src = "./assets/icons/icon.svg";
       

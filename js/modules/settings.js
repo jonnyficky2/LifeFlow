@@ -334,7 +334,8 @@ function updateAccountCard(user) {
   const actionsContainer = document.getElementById("setAccountActions");
   
   if (user) {
-    document.getElementById("setProfileName").textContent = user.displayName || "User";
+    const name = user.displayName || (user.email ? user.email.split('@')[0] : "User");
+    document.getElementById("setProfileName").textContent = name;
     document.getElementById("setProfileEmail").textContent = user.email;
     const imgEl = document.getElementById("setProfileImg");
     imgEl.src = user.photoURL || "./assets/icons/icon.svg";
