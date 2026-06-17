@@ -32,7 +32,7 @@ function renderSettingsUI(container) {
     <div class="settings-card" id="accountCard">
       <h3>👤 Account</h3>
       <div class="settings-profile">
-        <img id="setProfileImg" src="./assets/icons/icon.svg" alt="Profile" referrerpolicy="no-referrer">
+        <img id="setProfileImg" src="./assets/icons/L.jpg" alt="Profile" referrerpolicy="no-referrer">
         <div class="settings-profile-info">
           <h4 id="setProfileName">Guest User</h4>
           <p id="setProfileEmail">Local Data Only</p>
@@ -338,8 +338,8 @@ function updateAccountCard(user) {
     document.getElementById("setProfileName").textContent = name;
     document.getElementById("setProfileEmail").textContent = user.email;
     const imgEl = document.getElementById("setProfileImg");
-    imgEl.src = user.photoURL || "./assets/icons/icon.svg";
-    imgEl.onerror = () => { imgEl.src = "./assets/icons/icon.svg"; };
+    imgEl.src = user.photoURL || "./assets/icons/L.jpg";
+    imgEl.onerror = () => { imgEl.src = "./assets/icons/L.jpg"; };
     
     document.getElementById("setVerifyDesc").textContent = user.emailVerified ? "Email verified" : "Email not verified";
     document.getElementById("setVerifyBtn").style.display = user.emailVerified ? "none" : "block";
@@ -355,7 +355,7 @@ function updateAccountCard(user) {
   } else {
     document.getElementById("setProfileName").textContent = "Guest User";
     document.getElementById("setProfileEmail").textContent = "Local Data Only";
-    document.getElementById("setProfileImg").src = "./assets/icons/icon.svg";
+    document.getElementById("setProfileImg").src = "./assets/icons/L.jpg";
     document.getElementById("setProfileStatus").textContent = "";
     document.getElementById("setSyncStatusDesc").textContent = "Not synced (Guest)";
     const lastSyncEl = document.getElementById("setLastSyncTime");

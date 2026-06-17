@@ -110,8 +110,8 @@ export function initAuth(onDataSyncedCallback) {
       if(sidebarTitleEl) sidebarTitleEl.textContent = name;
       if(userEmailEl) userEmailEl.textContent = user.email;
       if(userImgEl) {
-        userImgEl.src = user.photoURL || "./assets/icons/icon.svg";
-        userImgEl.onerror = () => { userImgEl.src = "./assets/icons/icon.svg"; };
+        userImgEl.src = user.photoURL || "./assets/icons/L.jpg";
+        userImgEl.onerror = () => { userImgEl.src = "./assets/icons/L.jpg"; };
       }
       if(authModal) authModal.style.display = "none";
       sessionStorage.removeItem("guestMode");
@@ -119,8 +119,8 @@ export function initAuth(onDataSyncedCallback) {
       if(navLoginBtn) navLoginBtn.style.display = "none";
       if(navUserImg) {
         navUserImg.style.display = "block";
-        navUserImg.src = user.photoURL || "./assets/icons/icon.svg";
-        navUserImg.onerror = () => { navUserImg.src = "./assets/icons/icon.svg"; };
+        navUserImg.src = user.photoURL || "./assets/icons/L.jpg";
+        navUserImg.onerror = () => { navUserImg.src = "./assets/icons/L.jpg"; };
       }
 
       // Pull data
@@ -136,7 +136,7 @@ export function initAuth(onDataSyncedCallback) {
       if(userNameEl) userNameEl.textContent = "Guest User";
       if(sidebarTitleEl) sidebarTitleEl.innerHTML = 'Life<span>Flow</span>';
       if(userEmailEl) userEmailEl.textContent = "Login to save data online";
-      if(userImgEl) userImgEl.src = "./assets/icons/icon.svg";
+      if(userImgEl) userImgEl.src = "./assets/icons/L.jpg";
       
       if(navLoginBtn) navLoginBtn.style.display = "block";
       if(navUserImg) navUserImg.style.display = "none";

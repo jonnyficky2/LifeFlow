@@ -11,15 +11,15 @@
 
   "icons": [
     {
-      "src": "assets/icons/icon.svg",
+      "src": "assets/icons/L.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/icons/icon.svg",
+      "src": "assets/icons/L.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ]
