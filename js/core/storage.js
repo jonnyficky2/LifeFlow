@@ -38,8 +38,8 @@ export function saveToLocal() {
 // Otomatis sinkronisasi data saat koneksi internet kembali (online)
 window.addEventListener("online", () => {
   console.log("Connection restored! Syncing data...");
-  saveToCloud(state);
-  showToast("Back online! Data synced to Cloud.");
+  saveToCloud(state); // saveToCloud is from cloud-sync.js
+  showToast("Back online! Data synced to Cloud.", 'success');
 });
 
 // Menyimpan riwayat perubahan untuk fitur Undo
@@ -87,6 +87,7 @@ export function exportData() {
   
   // Bersihkan URL object dari memori
   URL.revokeObjectURL(a.href);
+  showToast("Data exported successfully!", 'success');
 }
 
 // Membaca dan menerapkan data dari file JSON
@@ -115,11 +116,11 @@ export function importData(event) {
       showToast("Data restored successfully!");
       
       // Reload halaman agar UI merender ulang dengan data baru
-      setTimeout(() => window.location.reload(), 1000);
+      setTimeout(() => window.location.reload(), 1000); // Reload to apply changes
 
     } catch (err) {
       console.error("Import error:", err);
-      showToast("Corrupted or invalid file.");
+      showToast("Corrupted or invalid file.", 'error');
     }
   };
 

@@ -347,11 +347,11 @@
           <button type="button" data-filter-tab="done">Done</button>
         </div>
         <div id="container"></div>
-        <div class="tasks-empty-state">
-          <span>✓</span>
-          <strong>No tasks yet</strong>
-          <p>Add your first task to get started!</p>
-          <button id="emptyAddTaskBtn" type="button">＋ Add Task</button>
+        <div class="empty-state tasks-empty-state">
+          <div class="empty-state__icon">✓</div>
+          <h3 class="empty-state__title">No Tasks Yet</h3>
+          <p class="empty-state__description">Create your first task to get started on your productivity journey.</p>
+          <button id="emptyAddTaskBtn" type="button" class="btn empty-state__cta">＋ Add Task</button>
         </div>
       </div>
 
@@ -383,13 +383,13 @@
         <h2>Categories</h2>
         <button id="viewCategoriesBtn" type="button">View all</button>
       </div>
-      <div class="category-empty-row">
-        <span>▱</span>
-        <div>
-          <strong>No categories yet</strong>
-          <p>Create categories to organize your tasks better.</p>
+      <div class="empty-state category-empty-row">
+        <div class="empty-state__icon">▱</div>
+        <div class="empty-state__content">
+          <h3 class="empty-state__title">No Categories Yet</h3>
+          <p class="empty-state__description">Organize your life by grouping tasks into categories.</p>
         </div>
-        <button id="categoryPanelAddBtn" type="button">＋ Add Category</button>
+        <button id="categoryPanelAddBtn" type="button" class="btn empty-state__cta">＋ Add Category</button>
       </div>
       <div class="add-box">
 
@@ -509,8 +509,17 @@
        STATS SECTION
   ========================== -->
 
-  <div id="statsSection">
+  <div id="statsSection" style="display: none;">
     
+    <div id="statsEmptyState" class="empty-state" style="display: none;">
+      <div class="empty-state__icon">📊</div>
+      <h3 class="empty-state__title">No Analytics Yet</h3>
+      <p class="empty-state__description">Complete tasks and build habits to generate your productivity reports.</p>
+      <button class="btn empty-state__cta" id="statsGoToDashboardBtn">Go to Dashboard</button>
+    </div>
+
+    <div id="statsContent">
+
 <div class="improve-card">
 
   <h3 id="dailyImprove">
@@ -577,6 +586,7 @@
       📸 Share to IG Story
     </button>
     <input type="file" id="shareBgInput" accept="image/*" hidden>
+    </div>
   </div>
 
   <!-- =========================
@@ -1033,7 +1043,7 @@
   </div>
 </div>
 
-  <div id="toast"></div>
+  <div id="toast-container"></div>
 
   <!-- =========================
        FOOTER / COPYRIGHT

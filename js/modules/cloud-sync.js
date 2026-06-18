@@ -44,26 +44,40 @@ export function initAuth(onDataSyncedCallback) {
         btn.textContent = "Membuka Popup...";
         btn.disabled = true;
       }
-      
-      // Kita kembali menggunakan Popup karena signInWithRedirect 
-      // TIDAK didukung di Github Pages oleh browser modern (karena Third-Party Cookies diblokir).
-      // Jika popup ini stuck/hang, itu berarti domain Github Pages atau localhost Anda BELUM ditambahkan 
-      // ke "Authorized Domains" di Firebase Console.
+
+      if (!navigator.onLine) {
+        showToast("You are offline. Please check your internet connection to sign in.", 'warning');
+        if (btn) {
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }
+        return;
+      }
+
       await signInWithPopup(auth, provider);
-      
       sessionStorage.removeItem("guestMode");
       if (authModal) authModal.style.display = "none";
     } catch (error) {
       console.error("Firebase Login Error:", error.code, error.message);
-      
-      if (error.code === 'auth/popup-closed-by-user') {
-        showToast("Login cancelled.");
+
+      let userMessage = "Login failed. Please try again.";
+      if (error.code === 'auth/network-request-failed') {
+        userMessage = "Network error. Please check your internet connection."; // Error type
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        showToast("Login cancelled.", 'info');
+        userMessage = "Login cancelled by user.";
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        userMessage = "Login popup was closed before completion. Please try again.";
+      } else if (error.code === 'auth/user-disabled') {
+        userMessage = "Your account has been disabled. Please contact support.";
+      } else if (error.code === 'auth/account-exists-with-different-credential') {
+        userMessage = "An account with this email already exists using different credentials.";
       } else if (error.code === 'auth/unauthorized-domain') {
-        showToast("Error: This domain is not authorized in Firebase Console.");
+        userMessage = "Error: This domain is not authorized in Firebase Console. Please contact support."; // Error type
       } else {
-        showToast("Login failed. Check connection or console.");
+        userMessage = `Login failed: ${error.message}`;
       }
-      
+      showToast(userMessage);
       if (btn) {
         btn.textContent = originalText;
         btn.disabled = false;
@@ -149,13 +163,18 @@ export function initAuth(onDataSyncedCallback) {
 // Save Data Function
 export async function saveToCloud(appStateData) {
   const user = auth.currentUser;
-  if (!user) return; 
-  
+  if (!user) return;
+
+  if (!navigator.onLine) {
+    showToast("You are offline. Data will sync when connection is restored.", 'info');
+    return;
+  }
+
   try {
     await setDoc(doc(db, "users", user.uid), { data: appStateData }, { merge: true });
   } catch (error) {
     console.error("Failed to save to cloud:", error);
-    showToast("Failed to save to Cloud. Check your connection.");
+    showToast("Failed to save to Cloud. Check your connection.", 'error');
   }
 }
 
@@ -195,6 +214,11 @@ function mergeState(local, cloud) {
 
 // Pull Data Function
 async function syncDataFromCloud(uid, callback) {
+  if (!navigator.onLine) {
+    showToast("You are offline. Cannot sync data from cloud.", 'warning');
+    return;
+  }
+
   try {
     const userRef = doc(db, "users", uid);
     const docSnap = await getDoc(userRef);
@@ -214,7 +238,11 @@ async function syncDataFromCloud(uid, callback) {
       showToast("Account initialized with your local data");
     }
   } catch (error) {
-    console.error("Failed to fetch data from cloud:", error);
-    showToast("Sync failed. Using local data.");
+    console.error("Failed to sync data from cloud:", error);
+    let userMessage = "Sync failed. Using local data.";
+    if (error.code === 'unavailable' || error.code === 'internal') { // Common Firestore network errors
+      userMessage = "Network error during sync. Using local data.";
+    }
+    showToast(userMessage);
   }
 }

@@ -15,7 +15,14 @@ export function renderNotes() {
   container.innerHTML = "";
 
   if (state.notes.length === 0) {
-    container.innerHTML = "<p style='text-align:center; opacity:0.6; margin-top:20px;'>No notes yet. Add one now!</p>";
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state__icon">✎</div>
+        <h3 class="empty-state__title">Your Notebook is Empty</h3>
+        <p class="empty-state__description">Capture your thoughts, ideas, or reminders here.</p>
+        <button class="btn empty-state__cta" onclick="document.getElementById('addNoteBtn').click()">+ Add New Note</button>
+      </div>
+    `;
     return;
   }
 
@@ -141,7 +148,7 @@ export function deleteNote(index) {
 
 export function copyNoteContent(content) {
   navigator.clipboard.writeText(content).then(() => {
-    showToast("Note copied successfully!");
+    showToast("Note copied successfully!", 'success');
   }).catch(err => {
     console.error("Gagal menyalin: ", err);
     showToast("Failed to copy note.");

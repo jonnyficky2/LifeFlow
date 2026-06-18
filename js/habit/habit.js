@@ -456,7 +456,7 @@ export function addHabit() {
     ).value;
 
   if(!name.trim()) {
-    showToast("Habit name cannot be empty!");
+    showToast("Habit name cannot be empty!", 'warning');
     return;
   }
 
@@ -465,7 +465,7 @@ export function addHabit() {
     state.currentHabitCategoryIndex === null ||
     !state.habits[
       state.currentHabitCategoryIndex
-    ]
+    ] // Check if category exists
   ){
     showToast("Select a habit category first");
     return;
@@ -526,7 +526,7 @@ export function addHabit() {
   // Beri notifikasi ke user jika habit dijadwalkan, tapi bukan untuk hari ini
   const addedHabit = category.habits[category.habits.length - 1];
   if (!isHabitToday(addedHabit)) {
-    showToast("Saved! This habit will appear on its scheduled day.");
+    showToast("Saved! This habit will appear on its scheduled day.", 'info');
   } else {
     showToast("Habit added successfully!");
   }

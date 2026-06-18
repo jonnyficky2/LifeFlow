@@ -129,26 +129,9 @@
   display: flex;
 }
 
+/* Tasks empty state inherited from .empty-state component */
 .tasks-empty-state {
   display: none;
-  min-height: 220px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  text-align: center;
-  color: var(--dash-muted);
-}
-
-.tasks-empty-state span {
-  display: grid;
-  place-items: center;
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  color: #6d92ff;
-  border: 6px solid rgba(82, 109, 255, 0.14);
-  box-shadow: 0 0 0 8px rgba(82, 109, 255, 0.08);
 }
 
 .tasks-empty-state strong {

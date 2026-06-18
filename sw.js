@@ -1,29 +1,32 @@
-const CACHE_NAME = "lifeflow-v14";
+const CACHE_NAME = "lifeflow-v15"; // Increment cache version for new file structure
 
 const urlsToCache = [
   "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap",
   "./",
   "./index.html",
   "./offline.html",
-  "./css/style.css",
-  "./js/main.js",
+  "./css/style.css", // This now imports all other CSS files
+  // New modular JS files
+  "./js/app.js",
+  "./js/auth.js",
+  "./js/firebase.js",
+  "./js/task.js",
+  "./js/calendar.js",
+  "./js/notes.js",
+  "./js/stats.js",
+  "./js/settings.js",
+  "./js/storage.js",
+  "./js/notification.js",
+  "./js/modal.js",
+  "./js/utils.js",
+  "./js/habit.js",
   "./js/core/state.js",
-  "./js/core/storage.js",
-  "./js/core/utils.js",
-  "./js/task/task.js",
-  "./js/task/calendar.js",
-  "./js/habit/habit.js",
-  "./js/stats/stats.js",
-  "./js/core/notes.js",
-  "./js/modules/share.js",
-  "./js/ui/modal.js",
-  "./js/ui/section.js",
-  "./js/modules/theme.js",
+  "./js/core/quotes.js",
+  // Assets
   "./assets/icons/people.png",
   "./assets/libs/chart.umd.js",
   "./assets/libs/confetti.js",
   "./manifest.json",
-  "./js/core/quotes.js"
 ];
 
 self.addEventListener("install", event => {

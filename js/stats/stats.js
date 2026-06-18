@@ -316,7 +316,7 @@ export function updateImproveStats(){
   if(diff > 0){
 
     text =
-      `🔥 Today ${diff}% is better than yestersay`;
+      `🔥 Today ${diff}% is better than yesterday`;
 
   }else if(diff < 0){
 
@@ -749,6 +749,20 @@ export function updateStreak(){
 }
 
 export function refreshStatsUI(){
+
+  const hasData = state.appData.some(cat => cat.tasks.length > 0) || state.habits.some(cat => cat.habits.length > 0);
+  const emptyState = document.getElementById("statsEmptyState");
+  const content = document.getElementById("statsContent");
+
+  if (emptyState && content) {
+    if (!hasData) {
+      emptyState.style.display = "flex";
+      content.style.display = "none";
+      return;
+    }
+    emptyState.style.display = "none";
+    content.style.display = "block";
+  }
 
   requestAnimationFrame(()=>{
 

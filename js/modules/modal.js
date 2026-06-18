@@ -1,4 +1,5 @@
 function openTaskModal() {
+  // Assumes editingTask and tempSubtasks are managed by task.js
 
   document
     .getElementById(
@@ -36,6 +37,8 @@ function closeHabitModal(){
 }
 
 function openCalendarModal() {
+  // This function seems to be for editing a task from the calendar view.
+  // It should ideally be in task.js or calendar.js and call openTaskModal.
 
   const task =
     state.appData[

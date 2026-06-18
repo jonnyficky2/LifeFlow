@@ -34,6 +34,7 @@ export const state = {
   notes: getLocalData(STORAGE_KEYS.NOTES, []),
   settings: getLocalData(STORAGE_KEYS.SETTINGS, {}),
 
+  isLoading: true,
   // --- Temporary Data (Hanya saat aplikasi berjalan) ---
   undoStack: [],
   redoStack: [],

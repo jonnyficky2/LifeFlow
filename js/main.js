@@ -437,6 +437,7 @@ document.addEventListener(
 
     // Inisialisasi Firebase Auth & Sinkronisasi
     initAuth((cloudData) => {
+      state.isLoading = false;
       if(cloudData.appData) state.appData = cloudData.appData;
       if(cloudData.xp) state.xp = cloudData.xp;
       if(cloudData.habits) state.habits = cloudData.habits;
@@ -454,7 +455,7 @@ document.addEventListener(
       localStorage.setItem("notes", JSON.stringify(state.notes));
 
       refreshUI();
-      showToast("Data synced with Cloud!"); // Keep this toast as it's a success message
+      showToast("Data synced with Cloud!", 'success'); // Keep this toast as it's a success message
     });
 
     initSidebar();
@@ -571,6 +572,11 @@ function resetTasksDaily(){
 
 export function refreshUI() {
   
+  if (state.isLoading) {
+    renderDashboardSkeletons();
+    return;
+  }
+
   refreshTaskUI()
 refreshStatsUI()
 refreshHabitUI()
@@ -578,6 +584,36 @@ refreshCalendarUI()
 renderNotes()
 updateSidebarData()
   
+}
+
+function renderDashboardSkeletons() {
+  const containers = {
+    quickStats: document.getElementById("quickStats"),
+    container: document.getElementById("container")
+  };
+
+  if (containers.quickStats) {
+    containers.quickStats.innerHTML = Array(4).fill(`
+      <div class="card stat-card skeleton">
+        <div class="stat-icon skeleton" style="width: 64px; height: 64px;"></div>
+        <div style="flex: 1;">
+          <div class="skeleton-text" style="width: 40px;"></div>
+          <div class="skeleton-title" style="width: 60px;"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  if (containers.container) {
+    containers.container.innerHTML = `
+      <div class="category">
+        <div class="skeleton-title" style="width: 150px;"></div>
+        <div class="task skeleton" style="height: 60px; margin-top: 12px;"></div>
+        <div class="task skeleton" style="height: 60px; margin-top: 12px;"></div>
+        <div class="task skeleton" style="height: 60px; margin-top: 12px;"></div>
+      </div>
+    `;
+  }
 }
 
 function refreshTaskUI(){
@@ -805,10 +841,7 @@ document
       if (
         state.appData.length === 0
       ) {
-
-        showToast(
-          "Create a category first"
-        );
+        showToast("Create a category first", 'warning');
 
         return;
       }
@@ -1010,7 +1043,7 @@ function checkDeadlines(){
         new Notification("⏰ Deadline Today", {
           body: task.name
         });
-        showToast("Deadline today!");
+        showToast("Deadline today!", 'warning');
       }
     });
   });
@@ -1057,7 +1090,7 @@ function checkTaskReminders(){
         `${itemTitle} starts in ${offsetMinutes} minutes`;
 
       new Notification(title, { body: message });
-      showToast(message);
+      showToast(message, 'info');
       localStorage.setItem(notifyKey, "sent");
     }
   };

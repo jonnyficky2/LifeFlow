@@ -391,7 +391,7 @@ export function deleteTask(catIndex, taskIndex) {
 export function addCategory() {
   const input = document.getElementById("categoryInput");
   if (!input.value.trim()) return;
-  saveState();
+  saveState(); // saveState is from storage.js
   state.appData.push({ name: input.value, tasks: [] });
   input.value = "";
   saveToLocal();

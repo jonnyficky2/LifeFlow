@@ -103,7 +103,13 @@ export function openDayTasks(year, month, day) {
   });
 
   if (!found) {
-    list.innerHTML = "<p>No tasks</p>";
+    list.innerHTML = `
+      <div class="empty-state" style="padding: 20px 0;">
+        <div class="empty-state__icon" style="width: 48px; height: 48px; font-size: 24px; margin-bottom: 12px;">📅</div>
+        <h3 class="empty-state__title" style="font-size: 16px;">Rest Day</h3>
+        <p class="empty-state__description" style="font-size: 12px; margin-bottom: 16px;">No tasks scheduled for this day.</p>
+      </div>
+    `;
   }
   document.getElementById("dayTasksModal").classList.add("show");
 }
