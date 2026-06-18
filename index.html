@@ -44,6 +44,8 @@
     rel="apple-touch-icon"
     href="./assets/icons/icon.svg">
 
+  <link rel="preload" href="./assets/icons/icon.svg" as="image">
+
   <!-- FONT -->
   <link
     rel="preconnect"
@@ -61,7 +63,7 @@
   <!-- CSS -->
   <link
     rel="stylesheet"
-    href="./css/style.css?v=1">
+    href="./css/style.css">
 
 </head>
 
@@ -111,7 +113,7 @@
 
       <div class="navbar-actions">
         <button id="navLoginBtn" type="button" class="nav-login-btn">Sign In</button>
-        <img id="navUserImg" src="./assets/icons/icon.svg" alt="Profile" class="nav-user-img" style="display: none;" referrerpolicy="no-referrer">
+        <img id="navUserImg" src="./assets/icons/icon.svg" alt="Profile" class="nav-user-img" style="display: none;" referrerpolicy="no-referrer" loading="lazy">
       
         <!-- Sidebar Toggle Button -->
         <button id="sidebarToggle" class="sidebar-toggle" aria-label="Open sidebar">
@@ -172,9 +174,9 @@
       <p>Let's make today productive.</p>
     </div>
     <div class="dashboard-header-actions">
-      <button id="undoBtn" type="button" title="Undo">↩</button>
-      <button id="redoBtn" type="button" title="Redo">↪</button>
-      <button id="desktopThemeToggle" type="button" aria-label="Toggle theme">◐</button>
+      <button id="undoBtn" type="button" class="btn btn--icon" title="Undo">↩</button>
+      <button id="redoBtn" type="button" class="btn btn--icon" title="Redo">↪</button>
+      <button id="desktopThemeToggle" type="button" class="btn btn--icon" aria-label="Toggle theme">◐</button>
     </div>
   </section>
 
@@ -597,6 +599,32 @@
       </div>
     </div>
     <div id="settingsGrid" class="settings-grid"></div>
+
+    <!-- Legal & Information Section -->
+    <div class="settings-card" style="margin-top: 24px;">
+      <h3>📄 Legal & Information</h3>
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <span class="settings-row-title">Privacy Policy</span>
+          <span class="settings-row-desc">Privacy policy and user data protection.</span>
+        </div>
+        <button id="privacyPolicyBtn" class="settings-btn outline">View</button>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <span class="settings-row-title">Terms of Service</span>
+          <span class="settings-row-desc">Terms and conditions for using LifeFlow.</span>
+        </div>
+        <button id="termsOfServiceBtn" class="settings-btn outline">View</button>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <span class="settings-row-title">Open Source Licenses</span>
+          <span class="settings-row-desc">Licenses for third-party libraries used.</span>
+        </div>
+        <button id="openSourceBtn" class="settings-btn outline">View</button>
+      </div>
+    </div>
   </div>
 
   </main>
@@ -974,11 +1002,11 @@
         gap: 10px;
         font-weight: 500;
       ">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18" loading="lazy">
         Login with Google
       </button>
       
-      <button id="skipAuthBtn" type="button" style="
+      <button id="skipAuthBtn" type="button" class="btn" style="
         background: transparent;
         color: #94a3b8;
         border: none;
@@ -991,12 +1019,26 @@
   </div>
 </div>
 
+<!-- =========================
+     LEGAL MODAL
+========================== -->
+<div id="legalModal" class="modal">
+  <div class="card modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+    <h2 id="legalModalTitle">Legal Information</h2>
+    <div id="legalModalBody" style="font-size: 0.9rem; line-height: 1.6; color: var(--color-muted); margin-bottom: 20px; text-align: left;">
+    </div>
+    <div class="modal-actions">
+      <button id="closeLegalModalBtn" type="button" class="btn" style="width: 100%;">Close</button>
+    </div>
+  </div>
+</div>
+
   <div id="toast"></div>
 
   <!-- =========================
        FOOTER / COPYRIGHT
   ========================== -->
-  <footer style="text-align: center; padding: 20px; font-size: 0.8em; color: var(--dash-muted);">
+  <footer style="text-align: center; padding: 20px; font-size: 0.8em; color: var(--color-muted);">
     &copy; 2024 LifeFlow. All rights reserved.
   </footer>
 
@@ -1004,14 +1046,14 @@
        CONFETTI
   ========================== -->
 
-  <script src="./assets/libs/confetti.js"></script>
+  <script defer src="./assets/libs/confetti.js"></script>
   
 
   <!-- =========================
        CHART JS
   ========================== -->
 
-  <script src="./assets/libs/chart.umd.js"></script>
+  <script defer src="./assets/libs/chart.umd.js"></script>
 
   <!-- =========================
        MAIN SCRIPT

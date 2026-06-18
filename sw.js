@@ -19,7 +19,7 @@ const urlsToCache = [
   "./js/ui/modal.js",
   "./js/ui/section.js",
   "./js/modules/theme.js",
-  "./assets/icons/L.jpg",
+  "./assets/icons/people.png",
   "./assets/libs/chart.umd.js",
   "./assets/libs/confetti.js",
   "./manifest.json",

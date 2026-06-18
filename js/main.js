@@ -37,7 +37,7 @@ import { initSettings } from "./modules/settings.js";
 let deferredPrompt = null;
 
 function setSidebarActive(navKey) {
-  document.querySelectorAll(".sidebar-item").forEach((item) => {
+  document.querySelectorAll(".sidebar-main__item").forEach((item) => {
     if (item.dataset.nav === navKey) {
       item.classList.add("is-active");
     } else {
@@ -454,7 +454,7 @@ document.addEventListener(
       localStorage.setItem("notes", JSON.stringify(state.notes));
 
       refreshUI();
-      showToast("Data synced with Cloud!");
+      showToast("Data synced with Cloud!"); // Keep this toast as it's a success message
     });
 
     initSidebar();

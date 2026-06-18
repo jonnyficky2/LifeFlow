@@ -7,10 +7,10 @@
   top: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(90deg, #0f172a, #1e293b);
-  border-bottom: 1px solid #334155;
+  background: transparent;
+  border-bottom: none;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 
 .navbar-container {
@@ -3059,8 +3059,8 @@ body.light-mode .sidebar-streak-card span {
   .navbar {
     left: 0;
     height: 70px;
-    background: rgba(6, 16, 31, 0.9);
-    border-bottom: 1px solid var(--dash-border);
+    background: transparent;
+    border-bottom: none;
     pointer-events: auto;
   }
 

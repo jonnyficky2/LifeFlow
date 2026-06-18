@@ -1,0 +1,55 @@
+/* ========================= STATS ========================= */
+
+#statsSection {
+  margin-top: 20px;
+}
+
+/* Stats Chart Fix (old style) */
+#statsChart {
+  width: 100% !important;
+  height: 260px !important;
+  max-height: 260px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 15px;
+}
+
+/* Progress Ring */
+.progress-ring-box {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 30px auto;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 12;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  transition: 1s;
+}
+
+.chart-box {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  margin-top: 16px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  padding: 16px;
+}

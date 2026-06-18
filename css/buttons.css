@@ -1,0 +1,142 @@
+/* ========================= BUTTONS ========================= */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-weight: 600;
+  color: var(--color-text);
+  background: linear-gradient(135deg, var(--color-button-bg-1), var(--color-button-bg-2));
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.25s ease, 
+              filter 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: scale(.96);
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: .5s;
+  pointer-events: none;
+}
+
+.btn:hover::before {
+  left: 120%;
+}
+
+/* ========================= FLOAT BUTTON ========================= */
+#floatingAddBtn {
+  position: fixed;
+  right: 20px;
+  bottom: 90px;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  font-size: 34px;
+  z-index: 9999;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: 0 15px 35px rgba(0, 0, 0, .35);
+  /* Animation handled in animations.css */
+}
+
+/* ========================= INSTALL BUTTON ========================= */
+
+#installBtn {
+  position: fixed;
+  top: 90px;
+  left: 20px;
+  z-index: 999;
+  background: linear-gradient(135deg, var(--primary), #2563eb);
+}
+
+/* ======================================== MODERN UI THEME SYSTEM - BUTTONS ======================================== */
+/* These styles override previous button styles */
+
+button {
+  background: linear-gradient(135deg, var(--button1), var(--button2)); /* Uses new theme variables */
+  color: var(--text); /* Uses new theme variable */
+  border: 1px solid var(--card-border); /* Uses new theme variable */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, .12);
+}
+
+/* Toolbar Button (specific override for new design) */
+.toolbar button,
+.filter-box button,
+.backup-box button {
+  min-height: 48px;
+  border-radius: 18px;
+}
+
+/* Dashboard Redesign specific buttons */
+#installBtn {
+  position: static; /* Override fixed position */
+  width: 140px;
+  justify-self: end;
+  grid-column: 3;
+  grid-row: 1;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary)); /* Simplified gradient */
+  border: 0;
+}
+
+.add-box button,
+.category-empty-row button,
+.quick-actions button,
+#emptyAddTaskBtn {
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4d70ff, #4562ed);
+  border: 0;
+  box-shadow: 0 12px 30px rgba(78, 112, 255, 0.22);
+}
+
+#floatingAddBtn {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  box-shadow: 0 15px 35px rgba(56, 189, 248, .35);
+  display: none; /* Hidden in desktop view of this redesign */
+}
+
+#bottomNav button {
+  border-radius: 16px;
+  width: 52px;
+  height: 52px;
+}
+
+#bottomNav button:hover {
+  background: rgba(255, 255, 255, .08);
+}
+
+.share-btn {
+  width: 100%;
+  margin: 20px 0;
+  padding: 18px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #ec4899, #f43f5e);
+  border-radius: 20px;
+}

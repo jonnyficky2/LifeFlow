@@ -1,0 +1,72 @@
+/* ========================= BASE ========================= */
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: radial-gradient(circle at 22% 20%, rgba(63, 102, 196, 0.18), transparent 26%), 
+              radial-gradient(circle at 78% 0%, rgba(115, 64, 198, 0.16), transparent 28%), 
+              linear-gradient(135deg, var(--color-bg), var(--color-bg-deep) 72%);
+  color: var(--color-text);
+  padding: 0;
+  padding-bottom: 48px;
+  transition: background 0.35s, color 0.35s;
+}
+
+/* Accessibility: Focus visible for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+button, a, input, select, textarea {
+  cursor: pointer;
+}
+
+/* ======================================== TEXT ======================================== */
+
+h1, h2, h3, p, span, strong, small, label {
+  color: var(--color-text);
+}
+
+#quoteAuthor,
+#xpText {
+  color: var(--color-muted);
+}
+
+/* ========================= TYPOGRAPHY ========================= */
+
+h1 {
+  text-align: center;
+  margin-bottom: 26px;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+/* ========================= SCROLLBAR ========================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background: linear-gradient(var(--color-primary), var(--color-secondary));
+}

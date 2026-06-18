@@ -57,11 +57,11 @@ export function initAuth(onDataSyncedCallback) {
       console.error("Firebase Login Error:", error.code, error.message);
       
       if (error.code === 'auth/popup-closed-by-user') {
-        showToast("Login dibatalkan.");
+        showToast("Login cancelled.");
       } else if (error.code === 'auth/unauthorized-domain') {
-        showToast("Error: Domain ini belum diizinkan di Firebase Console.");
+        showToast("Error: This domain is not authorized in Firebase Console.");
       } else {
-        showToast("Login gagal. Periksa koneksi atau console.");
+        showToast("Login failed. Check connection or console.");
       }
       
       if (btn) {
@@ -77,7 +77,7 @@ export function initAuth(onDataSyncedCallback) {
   
   // Navbar button opens choices modal
   navLoginBtn?.addEventListener("click", () => {
-    if (authModal) authModal.style.display = "flex";
+    if (authModal) authModal.style.display = "flex"; // Ensure authModal is defined
   });
 
   // Klik foto profil di navbar untuk masuk ke pengaturan akun
@@ -107,11 +107,11 @@ export function initAuth(onDataSyncedCallback) {
       
       const name = user.displayName || (user.email ? user.email.split('@')[0] : "User");
       if(userNameEl) userNameEl.textContent = name;
-      if(sidebarTitleEl) sidebarTitleEl.textContent = name;
+      if(sidebarTitleEl) sidebarTitleEl.textContent = name; // Update sidebar title
       if(userEmailEl) userEmailEl.textContent = user.email;
       if(userImgEl) {
-        userImgEl.src = user.photoURL || "./assets/icons/L.jpg";
-        userImgEl.onerror = () => { userImgEl.src = "./assets/icons/L.jpg"; };
+        userImgEl.src = user.photoURL || "./assets/icons/people.png";
+        userImgEl.onerror = () => { userImgEl.src = "./assets/icons/people.png"; };
       }
       if(authModal) authModal.style.display = "none";
       sessionStorage.removeItem("guestMode");
@@ -119,8 +119,8 @@ export function initAuth(onDataSyncedCallback) {
       if(navLoginBtn) navLoginBtn.style.display = "none";
       if(navUserImg) {
         navUserImg.style.display = "block";
-        navUserImg.src = user.photoURL || "./assets/icons/L.jpg";
-        navUserImg.onerror = () => { navUserImg.src = "./assets/icons/L.jpg"; };
+        navUserImg.src = user.photoURL || "./assets/icons/people.png";
+        navUserImg.onerror = () => { navUserImg.src = "./assets/icons/people.png"; };
       }
 
       // Pull data
@@ -134,9 +134,9 @@ export function initAuth(onDataSyncedCallback) {
       }
       if(logoutBtn) logoutBtn.style.display = "none";
       if(userNameEl) userNameEl.textContent = "Guest User";
-      if(sidebarTitleEl) sidebarTitleEl.innerHTML = 'Life<span>Flow</span>';
+      if(sidebarTitleEl) sidebarTitleEl.innerHTML = 'Life<span>Flow</span>'; // Reset sidebar title
       if(userEmailEl) userEmailEl.textContent = "Login to save data online";
-      if(userImgEl) userImgEl.src = "./assets/icons/L.jpg";
+      if(userImgEl) userImgEl.src = "./assets/icons/people.png";
       
       if(navLoginBtn) navLoginBtn.style.display = "block";
       if(navUserImg) navUserImg.style.display = "none";
