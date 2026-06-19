@@ -174,9 +174,24 @@ export function renderTasks() {
       checkbox.onchange = () => toggleTask(catIndex, taskIndex);
 
       const textWrapper = document.createElement("div");
+      
+      const titleWrapper = document.createElement("div");
+      titleWrapper.style.display = "flex";
+      titleWrapper.style.alignItems = "center";
+      titleWrapper.style.gap = "8px";
+
       const text = document.createElement("span");
       text.innerText = task.name;
-      textWrapper.appendChild(text);
+      titleWrapper.appendChild(text);
+
+      if (task.time) {
+        const timeBadge = document.createElement("span");
+        timeBadge.className = "task-time-badge";
+        timeBadge.innerText = `⏰ ${task.time}`;
+        titleWrapper.appendChild(timeBadge);
+      }
+      
+      textWrapper.appendChild(titleWrapper);
 
       /* DEADLINE */
       if(task.deadline){

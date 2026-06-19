@@ -135,6 +135,14 @@ addBtn.onclick = ()=>{
   state.currentHabitCategoryIndex =
     catIndex;
 
+  editingHabit = null;
+  document.getElementById("habitInput").value = "";
+  document.getElementById("habitRepeatInput").value = "daily";
+  document.querySelectorAll("#habitDaysBox input").forEach(el => el.checked = false);
+  document.getElementById("habitDateInput").value = "";
+  document.getElementById("habitTimeInput").value = "";
+  toggleRepeatOptions();
+
   openHabitModal();
 };
 
@@ -186,11 +194,25 @@ header.appendChild(addBtn);
       const wrapper =
         document.createElement("div");
 
+      const titleWrapper = document.createElement("div");
+      titleWrapper.style.display = "flex";
+      titleWrapper.style.alignItems = "center";
+      titleWrapper.style.gap = "8px";
+
       const text =
         document.createElement("span");
 
       text.innerText =
         habit.name;
+
+      titleWrapper.appendChild(text);
+
+      if (habit.time) {
+        const timeBadge = document.createElement("span");
+        timeBadge.className = "task-time-badge";
+        timeBadge.innerText = `⏰ ${habit.time}`;
+        titleWrapper.appendChild(timeBadge);
+      }
 
       const info =
         document.createElement("small");
@@ -228,7 +250,7 @@ info.innerText =
   `${repeatText} • 🔥 ${habit.streak}`;
 
       wrapper.append(
-        text,
+        titleWrapper,
         info
       );
 
@@ -315,20 +337,27 @@ const edit =
 edit.innerText = "✏️";
 
 edit.onclick = ()=>{
+  editingHabit = { catIndex, habitIndex };
 
-  const newName =
-    prompt(
-      "Edit habit:",
-      habit.name
-    );
+  document.getElementById("habitInput").value = habit.name || "";
+  document.getElementById("habitRepeatInput").value = habit.repeatType || "daily";
+  
+  document.querySelectorAll("#habitDaysBox input").forEach(el => {
+    el.checked = false;
+  });
+  
+  if (habit.repeatDays) {
+    habit.repeatDays.forEach(day => {
+      const checkbox = document.querySelector(`#habitDaysBox input[value="${day}"]`);
+      if (checkbox) checkbox.checked = true;
+    });
+  }
+  
+  document.getElementById("habitDateInput").value = habit.repeatDate || "";
+  document.getElementById("habitTimeInput").value = habit.time || "";
 
-  if(!newName) return;
-
-  habit.name = newName;
-
-  saveToLocal();
-
-  renderHabits();
+  toggleRepeatOptions();
+  openHabitModal();
 };
 
 const del =
