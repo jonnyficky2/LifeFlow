@@ -1,8 +1,21 @@
 import { saveToLocal } from "../core/storage.js";
 import { state } from "../core/state.js";
+import { loadScript } from "../core/utils.js";
 
 let chart = null;
 let habitChart = null;
+let chartLoadPromise = null;
+
+function ensureChartLoaded() {
+  if (typeof Chart !== "undefined") return Promise.resolve();
+  if (chartLoadPromise) return chartLoadPromise;
+
+  chartLoadPromise = loadScript("./assets/libs/chart.umd.js").catch(err => {
+    chartLoadPromise = null;
+    throw err;
+  });
+  return chartLoadPromise;
+}
 
 export function getLevelData(){
 
@@ -75,21 +88,20 @@ export function updateLevel() {
     Math.min(level - 1, 9)
   ];
 
-document.getElementById(
-  "levelText"
-).innerText =
-  `Lv. ${level}
-${levelName}`;
+  const levelTextEl = document.getElementById("levelText");
+  if (levelTextEl) {
+    levelTextEl.innerText = `Lv. ${level}\n${levelName}`;
+  }
 
-  document.getElementById(
-    "xpText"
-  ).innerText =
-    `${remainingXP} / ${xpNeeded} XP`;
+  const xpTextEl = document.getElementById("xpText");
+  if (xpTextEl) {
+    xpTextEl.innerText = `${remainingXP} / ${xpNeeded} XP`;
+  }
 
-  document.getElementById(
-    "xpFill"
-  ).style.width =
-    `${percent}%`;
+  const xpFillEl = document.getElementById("xpFill");
+  if (xpFillEl) {
+    xpFillEl.style.width = `${percent}%`;
+  }
 }
 
 export function updateQuickStats(){
@@ -125,26 +137,54 @@ export function updateQuickStats(){
   const level =
     getLevelData().level;
 
-  document.getElementById(
-    "doneCount"
-  ).innerText = done;
+  const quickStatsEl = document.getElementById("quickStats");
+  const doneCountEl = document.getElementById("doneCount");
+  const pendingCountEl = document.getElementById("pendingCount");
 
-  document.getElementById(
-    "pendingCount"
-  ).innerText = pending;
+  if (quickStatsEl && (!doneCountEl || !pendingCountEl)) {
+    quickStatsEl.innerHTML = `
+      <div class="stat-card">
+        <span class="stat-icon stat-icon-blue">▤</span>
+        <div>
+          <p>All Tasks</p>
+          <h3 id="allTaskCount">${total}</h3>
+          <small>Total tasks</small>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon stat-icon-yellow">◷</span>
+        <div>
+          <p>Pending</p>
+          <h3 id="pendingCount">${pending}</h3>
+          <small>Tasks to do</small>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon stat-icon-green">✓</span>
+        <div>
+          <p>Done</p>
+          <h3 id="doneCount">${done}</h3>
+          <small>Tasks completed</small>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon stat-icon-purple">▣</span>
+        <div>
+          <p>Today</p>
+          <h3 id="todayCount">${todayTasks}</h3>
+          <small>Tasks for today</small>
+        </div>
+      </div>
+    `;
+  } else {
+    if (doneCountEl) doneCountEl.innerText = done;
+    if (pendingCountEl) pendingCountEl.innerText = pending;
+    
+    const allTaskCount = document.getElementById("allTaskCount");
+    if (allTaskCount) allTaskCount.innerText = total;
 
-  const allTaskCount =
-    document.getElementById("allTaskCount");
-
-  if (allTaskCount) {
-    allTaskCount.innerText = total;
-  }
-
-  const todayCount =
-    document.getElementById("todayCount");
-
-  if (todayCount) {
-    todayCount.innerText = todayTasks;
+    const todayCount = document.getElementById("todayCount");
+    if (todayCount) todayCount.innerText = todayTasks;
   }
 
   const levelCount =
@@ -193,13 +233,18 @@ export function updateProgressRing(){
   const offset =
     440 - (440 * percent / 100);
 
-  circle.style.strokeDashoffset =
-    offset;
+  if (circle) {
+    circle.style.strokeDashoffset =
+      offset;
+  }
 
-  document.getElementById(
+  const ringPercentEl = document.getElementById(
     "ringPercent"
-  ).innerText =
-    `${percent}%`;
+  );
+  if (ringPercentEl) {
+    ringPercentEl.innerText =
+      `${percent}%`;
+  }
 }
 
 /* =========================
@@ -329,9 +374,12 @@ export function updateImproveStats(){
       `⚖️ progress is the same as yesterday`;
   }
 
-  document.getElementById(
+  const dailyImproveEl = document.getElementById(
     "dailyImprove"
-  ).innerText = text;
+  );
+  if (dailyImproveEl) {
+    dailyImproveEl.innerText = text;
+  }
 
   /* WEEK */
 
@@ -385,20 +433,26 @@ export function updateImproveStats(){
       `📊 This week it's stable`;
   }
 
-  document.getElementById(
+  const weeklyImproveEl = document.getElementById(
     "weeklyImprove"
-  ).innerText =
-    weeklyText;
+  );
+  if (weeklyImproveEl) {
+    weeklyImproveEl.innerText =
+      weeklyText;
+  }
 }
 
 /* =========================
    CHART
 ========================= */
 
-export function updateChart(){
-
-  if(typeof Chart === "undefined")
+export async function updateChart(){
+  try {
+    await ensureChartLoaded();
+  } catch (e) {
+    console.error("Failed to load Chart.js", e);
     return;
+  }
 
   const canvas =
     document.getElementById(
@@ -536,7 +590,14 @@ for(let i = 6; i >= 0; i--){
   });
 }
 
-export function updateHabitChart(){
+export async function updateHabitChart(){
+
+  try {
+    await ensureChartLoaded();
+  } catch (e) {
+    console.error("Failed to load Chart.js", e);
+    return;
+  }
 
   const canvas =
     document.getElementById(
@@ -742,10 +803,13 @@ export function updateStreak(){
     saveToLocal();
   }
 
-  document.getElementById(
+  const streakTextEl = document.getElementById(
     "streakText"
-  ).innerText =
-    `🔥 Streak: ${state.streakData.length} Days`;
+  );
+  if (streakTextEl) {
+    streakTextEl.innerText =
+      `🔥 Streak: ${state.streakData.length} Days`;
+  }
 }
 
 export function refreshStatsUI(){

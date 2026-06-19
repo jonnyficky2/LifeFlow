@@ -123,3 +123,19 @@ export function getOpenSourceLicensesContent() {
     <p>For full details on each license, please refer to the respective project's documentation.</p>
   `;
 }
+
+/**
+ * Performance helper to dynamically load scripts (Lazy Loading)
+ * @param {string} src - Path to the script
+ * @returns {Promise}
+ */
+export function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) return resolve();
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}

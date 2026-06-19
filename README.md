@@ -1,12 +1,11 @@
-🌊 LifeFlow
+# LifeFlow: Your Personal Productivity Companion
 
-A modern all-in-one productivity web application designed to help users manage tasks, build habits, track progress, and stay consistent every day.
+LifeFlow is a modern, all-in-one productivity web application designed to help you manage tasks, build healthy habits, track your progress, and stay consistent every day. It's built as a Progressive Web App (PWA) for a seamless, native-like experience across all your devices.
 
-🚀 Demo Aplikasi LifeFlow
+## 🚀 Live Demo
 
-- Demo: https://todo-app-self-tau-89.vercel.app/
-- Netlify: ...
-- GitHub Repository: https://github.com/jonnyficky2/LifeFlow
+-   **Demo**: https://todo-app-self-tau-89.vercel.app/
+-   **GitHub Repository**: https://github.com/jonnyficky2/LifeFlow
 
 ---
 
@@ -18,6 +17,7 @@ A modern all-in-one productivity web application designed to help users manage t
 - Task priority system
 - Search and filter tasks
 - Due date management
+- Subtask management
 - Undo / Redo actions
 
 🎯 Habit Tracker
@@ -39,6 +39,7 @@ A modern all-in-one productivity web application designed to help users manage t
 - Task completion statistics
 - Habit performance insights
 - Progress visualization
+- Dynamic charts (lazy-loaded)
 
 📒 Notes
 
@@ -49,12 +50,13 @@ A modern all-in-one productivity web application designed to help users manage t
 🎮 Gamification
 
 - XP system
-- Level progression
+- Level progression with unique titles
 - Productivity streak tracking
 
 🌙 User Experience
 
 - Dark / Light theme
+- System theme preference
 - Responsive mobile-first design
 - Toast notifications
 - Smooth animations

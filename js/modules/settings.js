@@ -20,14 +20,7 @@ export function initSettings() {
   } else {
     renderSettingsUI(settingsGrid);
     bindSettingsEvents();
-  }
-
-  // Listen for auth state changes to update the Account card
-  if (typeof onAuthStateChanged === "function") {
-    onAuthStateChanged(auth, (user) => {
-      if (state.isLoading) return;
-      updateAccountCard(user);
-    });
+    updateAccountCard(auth.currentUser);
   }
 }
 
@@ -359,20 +352,34 @@ function renderSettingsUI(container) {
 function updateAccountCard(user) {
   const loginBtnContainer = document.getElementById("setLoginBtn")?.parentElement;
   const actionsContainer = document.getElementById("setAccountActions");
-  
+
   if (user) {
     const name = user.displayName || (user.email ? user.email.split('@')[0] : "User");
-    document.getElementById("setProfileName").textContent = name;
-    document.getElementById("setProfileEmail").textContent = user.email;
-    const imgEl = document.getElementById("setProfileImg");
-    imgEl.src = user.photoURL || "./assets/icons/people.png";
-    imgEl.onerror = () => { imgEl.src = "./assets/icons/people.png"; };
     
-    document.getElementById("setVerifyDesc").textContent = user.emailVerified ? "Email verified" : "Email not verified";
-    document.getElementById("setVerifyBtn").style.display = user.emailVerified ? "none" : "block";
-    document.getElementById("setProfileStatus").textContent = user.emailVerified ? "✓ Verified" : "";
+    const nameEl = document.getElementById("setProfileName");
+    if (nameEl) nameEl.textContent = name;
+    
+    const emailEl = document.getElementById("setProfileEmail");
+    if (emailEl) emailEl.textContent = user.email;
+    
+    const imgEl = document.getElementById("setProfileImg");
+    if (imgEl) {
+      imgEl.src = user.photoURL || "./assets/icons/people.png";
+      imgEl.onerror = () => { imgEl.src = "./assets/icons/people.png"; };
+    }
 
-    document.getElementById("setSyncStatusDesc").textContent = `Synced with ${user.email}`;
+    const verifyDescEl = document.getElementById("setVerifyDesc");
+    if (verifyDescEl) verifyDescEl.textContent = user.emailVerified ? "Email verified" : "Email not verified";
+    
+    const verifyBtnEl = document.getElementById("setVerifyBtn");
+    if (verifyBtnEl) verifyBtnEl.style.display = user.emailVerified ? "none" : "block";
+    
+    const profileStatusEl = document.getElementById("setProfileStatus");
+    if (profileStatusEl) profileStatusEl.textContent = user.emailVerified ? "✓ Verified" : "";
+
+    const syncStatusDescEl = document.getElementById("setSyncStatusDesc");
+    if (syncStatusDescEl) syncStatusDescEl.textContent = `Synced with ${user.email}`;
+    
     const lastSync = state.lastSync ? new Date(state.lastSync).toLocaleString() : "Never";
     const lastSyncEl = document.getElementById("setLastSyncTime");
     if (lastSyncEl) lastSyncEl.textContent = `Last sync: ${lastSync}`;
@@ -380,11 +387,21 @@ function updateAccountCard(user) {
     if (loginBtnContainer) loginBtnContainer.style.display = "none";
     if (actionsContainer) actionsContainer.style.display = "flex";
   } else {
-    document.getElementById("setProfileName").textContent = "Guest User";
-    document.getElementById("setProfileEmail").textContent = "Local Data Only";
-    document.getElementById("setProfileImg").src = "./assets/icons/people.png";
-    document.getElementById("setProfileStatus").textContent = "";
-    document.getElementById("setSyncStatusDesc").textContent = "Not synced (Guest)";
+    const nameEl = document.getElementById("setProfileName");
+    if (nameEl) nameEl.textContent = "Guest User";
+    
+    const emailEl = document.getElementById("setProfileEmail");
+    if (emailEl) emailEl.textContent = "Local Data Only";
+    
+    const imgEl = document.getElementById("setProfileImg");
+    if (imgEl) imgEl.src = "./assets/icons/people.png";
+    
+    const profileStatusEl = document.getElementById("setProfileStatus");
+    if (profileStatusEl) profileStatusEl.textContent = "";
+    
+    const syncStatusDescEl = document.getElementById("setSyncStatusDesc");
+    if (syncStatusDescEl) syncStatusDescEl.textContent = "Not synced (Guest)";
+    
     const lastSyncEl = document.getElementById("setLastSyncTime");
     if (lastSyncEl) lastSyncEl.textContent = "";
 
@@ -393,7 +410,7 @@ function updateAccountCard(user) {
   }
 }
 
-function updateStatsUI() {
+export function updateStatsUI() {
   // Hitung Task dari appData
   let totalTasks = 0;
   let completedTasks = 0;
@@ -406,28 +423,42 @@ function updateStatsUI() {
 
   const habits = (state.habits || []).flatMap(cat => cat.habits || []);
   const notes = state.notes || [];
-  
-  document.getElementById("setStatTotalTasks").textContent = totalTasks;
-  document.getElementById("setStatCompletedTasks").textContent = completedTasks;
-  
+
+  const totalTasksEl = document.getElementById("setStatTotalTasks");
+  if (totalTasksEl) totalTasksEl.textContent = totalTasks;
+
+  const completedTasksEl = document.getElementById("setStatCompletedTasks");
+  if (completedTasksEl) completedTasksEl.textContent = completedTasks;
+
   const completedHabits = habits.filter(h => h.done).length;
-  document.getElementById("setStatHabits").textContent = habits.length;
-  document.getElementById("setStatCompletedHabits").textContent = completedHabits;
   
+  const habitsEl = document.getElementById("setStatHabits");
+  if (habitsEl) habitsEl.textContent = habits.length;
+
+  const completedHabitsEl = document.getElementById("setStatCompletedHabits");
+  if (completedHabitsEl) completedHabitsEl.textContent = completedHabits;
+
   // Streak dari data global
   const currentStreak = state.streakData ? state.streakData.length : 0;
-  document.getElementById("setStatCurrStreak").textContent = currentStreak + " Days";
+  
+  const currStreakEl = document.getElementById("setStatCurrStreak");
+  if (currStreakEl) currStreakEl.textContent = currentStreak + " Days";
 
   // Hitung rekor streak tertinggi
   let streaks = habits.map(h => h.streak || 0);
   if (currentStreak > 0) streaks.push(currentStreak);
   const longestStreak = streaks.length > 0 ? Math.max(...streaks) : 0;
-  document.getElementById("setStatStreak").textContent = longestStreak + " Days";
+  
+  const longestStreakEl = document.getElementById("setStatStreak");
+  if (longestStreakEl) longestStreakEl.textContent = longestStreak + " Days";
 
-  document.getElementById("setStatNotes").textContent = notes.length;
+  const notesEl = document.getElementById("setStatNotes");
+  if (notesEl) notesEl.textContent = notes.length;
 
   const prodScore = Math.floor((completedTasks * 10) + (completedHabits * 15) + (currentStreak * 5));
-  document.getElementById("setStatProdScore").textContent = prodScore;
+  
+  const prodScoreEl = document.getElementById("setStatProdScore");
+  if (prodScoreEl) prodScoreEl.textContent = prodScore;
 }
 
 function bindSettingsEvents() {
@@ -470,7 +501,7 @@ function bindSettingsEvents() {
     const authModal = document.getElementById("authModal");
     if (authModal) authModal.style.display = "flex";
   }); // openAuthModal is now in modal.js
-  
+
   document.getElementById("setLogoutBtn")?.addEventListener("click", async () => {
     try {
       if (typeof signOut === "function" && auth) {
@@ -568,12 +599,12 @@ function bindSettingsEvents() {
         btn.textContent = "Syncing...";
         btn.disabled = true;
         await saveToCloud(state);
-        
+
         state.lastSync = new Date().toISOString();
         saveState();
         const lastSyncEl = document.getElementById("setLastSyncTime");
         if (lastSyncEl) lastSyncEl.textContent = `Last sync: ${new Date(state.lastSync).toLocaleString()}`;
-        
+
         showToast("Data synced to cloud successfully!");
         btn.textContent = "Sync Now";
         btn.disabled = false;
@@ -590,7 +621,7 @@ function bindSettingsEvents() {
 
   // Export / Import
   document.getElementById("setExportBtn")?.addEventListener("click", exportData);
-  
+
   const importInput = document.getElementById("setImportInput");
   document.getElementById("setImportBtn")?.addEventListener("click", () => {
     importInput.click();
@@ -614,7 +645,7 @@ function bindSettingsEvents() {
       if (authModal) authModal.style.display = "flex";
       return;
     }
-    
+
     currentSubmissionType = "Report";
     document.getElementById("reportModalTitle").textContent = "Report Bug / Issue";
     document.getElementById("reportModal")?.classList.add("show");
@@ -640,7 +671,7 @@ function bindSettingsEvents() {
     window.location.href = mailtoLink;
     showToast("Opening email client...", 'info');
     document.getElementById("reportModal").classList.remove("show");
-    
+
     // Reset input setelah dikirim
     document.getElementById("reportSubject").value = "";
     document.getElementById("reportDescription").value = "";
@@ -680,3 +711,20 @@ function openLegalModal(title, content) {
   const legalModal = document.getElementById("legalModal");
   const legalModalTitle = document.getElementById("legalModalTitle");
   const legalModalBody = document.getElementById("legalModalBody");
+
+  if (legalModalTitle) legalModalTitle.textContent = title;
+  if (legalModalBody) legalModalBody.innerHTML = content;
+  if (legalModal) legalModal.classList.add("show");
+}
+
+function closeLegalModal() {
+  const legalModal = document.getElementById("legalModal");
+  if (legalModal) legalModal.classList.remove("show");
+}
+
+// Register auth listener once at module level
+if (typeof onAuthStateChanged === "function") {
+  onAuthStateChanged(auth, (user) => {
+    updateAccountCard(user);
+  });
+}

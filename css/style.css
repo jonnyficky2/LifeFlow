@@ -2407,7 +2407,7 @@ header {
 
 .sidebar-header {
   padding: 0 16px;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .app-sidebar-brand {

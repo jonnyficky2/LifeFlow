@@ -41,7 +41,8 @@ export function renderHabits() {
 
   if(!container) return;
 
-  container.innerHTML = "";
+  // Performance: Use DocumentFragment for batch DOM updates
+  const fragment = document.createDocumentFragment();
 
   state.habits.forEach(
     (category,catIndex)=>{
@@ -359,10 +360,13 @@ card.appendChild(right);
       );
     });
 
-    container.appendChild(
+    fragment.appendChild(
       categoryDiv
     );
   });
+
+  container.innerHTML = "";
+  container.appendChild(fragment);
 }
 
 export function toggleHabit(

@@ -2,10 +2,8 @@
 import { state } from "./core/state.js";
 import { quotes } from "./core/quotes.js";
 import {
-  getToday,
-  getLocalDate,
   showToast,
-  celebrate
+  getToday,
 } from "./core/utils.js";
 import {
   saveToLocal,
@@ -32,9 +30,22 @@ import { loadTheme, toggleTheme } from "./modules/theme.js";
 import { saveNoteModal, renderNotes } from "./core/notes.js";
 import { initShare, triggerShare } from "./modules/share.js";
 import { initAuth, saveToCloud } from "./modules/cloud-sync.js";
-import { initSettings } from "./modules/settings.js";
+import { initSettings, updateStatsUI } from "./modules/settings.js";
 
 let deferredPrompt = null;
+
+// Performance: Cache frequently used UI elements
+const UI = {
+  sidebar: document.getElementById("sidebar"),
+  sidebarOverlay: document.getElementById("sidebarOverlay"),
+  splash: document.getElementById("splashScreen"),
+  taskContainer: document.getElementById("container"),
+  habitContainer: document.getElementById("habitContainer"),
+  quickStats: document.getElementById("quickStats"),
+  installBtn: document.getElementById("installBtn"),
+  searchInput: document.getElementById("searchInput"),
+  saveStatus: document.getElementById("saveStatus")
+};
 
 function setSidebarActive(navKey) {
   document.querySelectorAll(".sidebar-main__item").forEach((item) => {
@@ -117,7 +128,7 @@ function setupUIEventListeners() {
 
   document.getElementById("desktopMenuToggle")?.addEventListener(
     "click",
-    () => document.getElementById("sidebar")?.classList.toggle("sidebar-open")
+    () => UI.sidebar?.classList.toggle("sidebar-open")
   );
 
   document.getElementById("exportBtn")?.addEventListener(
@@ -135,8 +146,7 @@ function setupUIEventListeners() {
     importData
   );
 
-  document
-    .getElementById("searchInput")
+  UI.searchInput
     ?.addEventListener(
       "input",
       searchTask
@@ -399,7 +409,7 @@ function setupUIEventListeners() {
 document.addEventListener(
   "DOMContentLoaded",
   () => {
-    const splash = document.getElementById("splashScreen");
+    const splash = UI.splash;
     
     // Jalankan update tampilan splash segera
     try {
@@ -455,6 +465,7 @@ document.addEventListener(
       localStorage.setItem("notes", JSON.stringify(state.notes));
 
       refreshUI();
+      initSettings();
       showToast("Data synced with Cloud!", 'success'); // Keep this toast as it's a success message
     });
 
@@ -578,22 +589,17 @@ export function refreshUI() {
   }
 
   refreshTaskUI()
-refreshStatsUI()
-refreshHabitUI()
-refreshCalendarUI()
-renderNotes()
-updateSidebarData()
-  
+  refreshStatsUI()
+  refreshHabitUI()
+  refreshCalendarUI()
+  renderNotes()
+  updateSidebarData()
+  updateStatsUI()
 }
 
 function renderDashboardSkeletons() {
-  const containers = {
-    quickStats: document.getElementById("quickStats"),
-    container: document.getElementById("container")
-  };
-
-  if (containers.quickStats) {
-    containers.quickStats.innerHTML = Array(4).fill(`
+  if (UI.quickStats) {
+    UI.quickStats.innerHTML = Array(4).fill(`
       <div class="card stat-card skeleton">
         <div class="stat-icon skeleton" style="width: 64px; height: 64px;"></div>
         <div style="flex: 1;">
@@ -604,8 +610,8 @@ function renderDashboardSkeletons() {
     `).join('');
   }
 
-  if (containers.container) {
-    containers.container.innerHTML = `
+  if (UI.taskContainer) {
+    UI.taskContainer.innerHTML = `
       <div class="category">
         <div class="skeleton-title" style="width: 150px;"></div>
         <div class="task skeleton" style="height: 60px; margin-top: 12px;"></div>
