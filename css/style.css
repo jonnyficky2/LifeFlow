@@ -3351,3 +3351,49 @@ body.light-mode .task-time-badge {
   background: rgba(0, 0, 0, 0.04);
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
+
+/* =========================
+   FOCUS TIMER
+========================= */
+
+.focus-timer-container {
+  position: relative;
+  display: inline-block;
+  margin: 20px auto;
+  width: 220px;
+  height: 220px;
+}
+
+.focus-timer-container .progress-ring {
+  transform: rotate(-90deg);
+}
+
+.focus-timer-container .ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 10;
+}
+
+body.light-mode .focus-timer-container .ring-bg {
+  stroke: rgba(0, 0, 0, 0.05);
+}
+
+.focus-timer-container .ring-progress {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.focus-timer-text {
+  text-align: center;
+}
+
+.focus-duration-btn {
+  min-width: 80px;
+  text-align: center;
+  padding: 8px 16px !important;
+  font-size: 0.9rem !important;
+  height: auto !important;
+  border-radius: 50px !important;
+}

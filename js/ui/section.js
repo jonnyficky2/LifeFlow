@@ -9,6 +9,7 @@ export function showSection(section, addToHistory = true) {
   const statsSection = document.getElementById("statsSection");
   const notesSection = document.getElementById("notesSection");
   const settingsSection = document.getElementById("settingsSection");
+  const focusSection = document.getElementById("focusSection");
 
   if (homeSection) homeSection.style.display = "none";
   if (calendarSection) calendarSection.style.display = "none";
@@ -16,6 +17,7 @@ export function showSection(section, addToHistory = true) {
   if (statsSection) statsSection.style.display = "none";
   if (notesSection) notesSection.style.display = "none";
   if (settingsSection) settingsSection.style.display = "none";
+  if (focusSection) focusSection.style.display = "none";
 
   if (section === "home" && homeSection) {
     homeSection.style.display = "block";
@@ -32,6 +34,8 @@ export function showSection(section, addToHistory = true) {
     renderNotes();
   } else if (section === "settings" && settingsSection) {
     settingsSection.style.display = "block";
+  } else if (section === "focus" && focusSection) {
+    focusSection.style.display = "block";
   }
 
   if (addToHistory) {

@@ -1,15 +1,42 @@
 import { state } from "../core/state.js";
-import { saveState, exportData, importData } from "../core/storage.js";
+import { saveState, exportData, importData, saveToLocal } from "../core/storage.js";
 import { showToast, getPrivacyPolicyContent, getTermsOfServiceContent, getOpenSourceLicensesContent } from "../core/utils.js";
 import { auth, db, signOut, doc, setDoc } from "./firebase-config.js";
 import { onAuthStateChanged } from "./firebase-config.js";
 import { sendEmailVerification, deleteUser } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { saveToCloud } from "./cloud-sync.js";
+import { refreshStatsUI } from "../stats/stats.js";
 
 const VERSION = "1.2.0";
 const BUILD_NUMBER = "20260516"; // Updated build number for this refactor
 
 let currentSubmissionType = "Report"; // Flag untuk membedakan Report vs Request
+
+function saveSetting(key, value) {
+  if (!state.settings) {
+    state.settings = {};
+  }
+  state.settings[key] = value;
+  saveToLocal();
+}
+
+function applyTheme(theme) {
+  if (theme === "light") {
+    document.body.classList.add("light-mode");
+  } else if (theme === "dark") {
+    document.body.classList.remove("light-mode");
+  } else if (theme === "system") {
+    const isSystemLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    if (isSystemLight) {
+      document.body.classList.add("light-mode");
+    } else {
+      document.body.classList.remove("light-mode");
+    }
+  }
+  if (typeof refreshStatsUI === "function") {
+    refreshStatsUI();
+  }
+}
 
 export function initSettings() {
   const settingsGrid = document.getElementById("settingsGrid");

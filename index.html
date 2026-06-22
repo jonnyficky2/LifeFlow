@@ -143,6 +143,7 @@
         <button type="button" class="sidebar-item is-active" data-section="home" data-nav="dashboard">⌂ Dashboard</button>
         <button type="button" class="sidebar-item" data-section="home" data-nav="tasks">☑ Tasks</button>
         <button type="button" class="sidebar-item" data-section="habit" data-nav="habit">◈ Habits</button>
+        <button type="button" class="sidebar-item" data-section="focus" data-nav="focus">⏱ Focus Timer</button>
         <button type="button" class="sidebar-item" data-section="calendar" data-nav="calendar">▦ Calendar</button>
         <button type="button" class="sidebar-item" data-action="category" data-nav="category">▣ Categories</button>
         <button type="button" class="sidebar-item" data-section="stats" data-nav="stats">▥ Reports</button>
@@ -600,6 +601,44 @@
     <h2>📝 Notes</h2>
     <button id="addNoteBtn" style="width: 100%; margin-bottom: 16px; padding: 16px;">+ Add New Note</button>
     <div id="notesContainer"></div>
+  </div>
+
+  <!-- =========================
+       FOCUS TIMER SECTION
+  ========================== -->
+  <div id="focusSection" style="display: none;">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+      <div>
+        <h1>⏱ Focus Timer</h1>
+        <p>Stay focused and complete your Pomodoro sessions to gain XP</p>
+      </div>
+    </div>
+
+    <div class="card settings-card" style="max-width: 600px; margin: 0 auto; text-align: center; padding: 40px 24px;">
+      <div class="focus-timer-container">
+        <svg class="progress-ring" width="220" height="220">
+          <circle class="ring-bg" cx="110" cy="110" r="90"></circle>
+          <circle class="ring-progress" cx="110" cy="110" r="90" id="focusProgressRing" style="stroke: #a855f7; stroke-dasharray: 565.48; stroke-dashoffset: 0; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 0.1s linear;"></circle>
+        </svg>
+        <div class="focus-timer-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+          <h2 id="focusTimeDisplay" style="font-size: 3rem; font-weight: 700; margin: 0; line-height: 1;">25:00</h2>
+          <p id="focusStatusDisplay" style="margin: 8px 0 0; font-size: 0.9rem; color: var(--dash-muted); letter-spacing: 1px; text-transform: uppercase;">Time to focus</p>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 16px; margin: 30px 0;">
+        <button id="focusStartBtn" class="btn" style="background: linear-gradient(135deg, #a855f7, #8b5cf6); padding: 12px 30px; font-size: 1.1rem; border-radius: 50px;">▶ Start</button>
+        <button id="focusPauseBtn" class="btn outline" style="padding: 12px 30px; font-size: 1.1rem; border-radius: 50px; display: none;">⏸ Pause</button>
+        <button id="focusResetBtn" class="btn outline" style="padding: 12px 30px; font-size: 1.1rem; border-radius: 50px;">↩ Reset</button>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+        <button type="button" class="settings-btn outline focus-duration-btn" data-minutes="25">25 Min</button>
+        <button type="button" class="settings-btn outline focus-duration-btn" data-minutes="50">50 Min</button>
+        <button type="button" class="settings-btn outline focus-duration-btn" data-minutes="15">15 Min</button>
+        <button type="button" class="settings-btn outline focus-duration-btn" data-minutes="5">5 Min</button>
+      </div>
+    </div>
   </div>
 
   <!-- =========================

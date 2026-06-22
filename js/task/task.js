@@ -87,6 +87,7 @@ export function toggleTask(catIndex, taskIndex) {
   } else {
     addXP(-reward);
     task.completedDates = task.completedDates.filter(date => date !== today);
+    updateTaskStreak(task);
   }
 
   updateDailyHistory();
@@ -199,7 +200,8 @@ export function renderTasks() {
         deadlineText.className = "deadline-warning";
 
         const today = new Date();
-        const deadline = new Date(task.deadline);
+        today.setHours(0, 0, 0, 0);
+        const deadline = new Date(task.deadline + "T00:00:00");
         const diff = Math.ceil((deadline - today) / (1000*60*60*24));
 
         if(diff < 0){
@@ -304,16 +306,28 @@ export function setFilter(filter) {
 }
 
 export function updateTaskStreak(task){
-  const dates = [...task.completedDates].sort();
+  const dates = [...new Set(task.completedDates)].sort();
   if(dates.length === 0){
     task.streak = 0;
+    task.lastCompleted = null;
     return;
   }
+  
+  const today = new Date(getToday() + "T00:00:00");
+  const lastCompletedDate = new Date(dates[dates.length - 1] + "T00:00:00");
+  const daysSinceLastCompleted = Math.round((today - lastCompletedDate) / (1000 * 60 * 60 * 24));
+  
+  if (daysSinceLastCompleted > 1) {
+    task.streak = 0;
+    task.lastCompleted = dates[dates.length - 1];
+    return;
+  }
+
   let streak = 1;
   for(let i = dates.length - 1; i > 0; i--){
-    const current = new Date(dates[i]);
-    const prev = new Date(dates[i - 1]);
-    const diff = (current - prev) / (1000 * 60 * 60 * 24);
+    const current = new Date(dates[i] + "T00:00:00");
+    const prev = new Date(dates[i - 1] + "T00:00:00");
+    const diff = Math.round((current - prev) / (1000 * 60 * 60 * 24));
     if(diff === 1) {
       streak++;
     } else {
@@ -321,7 +335,7 @@ export function updateTaskStreak(task){
     }
   }
   task.streak = streak;
-  task.lastCompleted = getToday();
+  task.lastCompleted = dates[dates.length - 1];
 }
 
 export function renderSubtasksInModal() {

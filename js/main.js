@@ -31,6 +31,7 @@ import { saveNoteModal, renderNotes } from "./core/notes.js";
 import { initShare, triggerShare } from "./modules/share.js";
 import { initAuth, saveToCloud } from "./modules/cloud-sync.js";
 import { initSettings, updateStatsUI } from "./modules/settings.js";
+import { initFocusTimer } from "./modules/focus.js";
 
 let deferredPrompt = null;
 
@@ -48,7 +49,7 @@ const UI = {
 };
 
 function setSidebarActive(navKey) {
-  document.querySelectorAll(".sidebar-main__item").forEach((item) => {
+  document.querySelectorAll(".sidebar-item").forEach((item) => {
     if (item.dataset.nav === navKey) {
       item.classList.add("is-active");
     } else {
@@ -441,6 +442,7 @@ document.addEventListener(
       checkDeadlines();
       loadTheme();
       initSettings();
+      initFocusTimer();
     } catch (e) {
       console.error("Error during initialization:", e);
     };
@@ -455,6 +457,7 @@ document.addEventListener(
       if(cloudData.streakData) state.streakData = cloudData.streakData;
       if(cloudData.historyData) state.historyData = cloudData.historyData;
       if(cloudData.notes) state.notes = cloudData.notes;
+      if(cloudData.settings) state.settings = cloudData.settings;
 
       localStorage.setItem("appData", JSON.stringify(state.appData));
       localStorage.setItem("xp", state.xp.toString());
@@ -463,6 +466,7 @@ document.addEventListener(
       localStorage.setItem("streakData", JSON.stringify(state.streakData));
       localStorage.setItem("historyData", JSON.stringify(state.historyData));
       localStorage.setItem("notes", JSON.stringify(state.notes));
+      localStorage.setItem("settings", JSON.stringify(state.settings));
 
       refreshUI();
       initSettings();
@@ -518,24 +522,64 @@ function registerServiceWorker() {
   }
 }
 
+function isHabitOnDate(habit, date) {
+  const day = date.getDay();
+  const dateNum = date.getDate();
+
+  if(habit.repeatType === "daily"){
+    return true;
+  }
+
+  if(habit.repeatType === "weekly" || habit.repeatType === "custom" || habit.repeatType === "certain_days"){
+    if (!habit.repeatDays || habit.repeatDays.length === 0) return true;
+    return habit.repeatDays.includes(day);
+  }
+
+  if(habit.repeatType === "monthly"){
+    if (!habit.repeatDate) return true;
+    if (habit.repeatDate.includes("-")) {
+      const dayPart = parseInt(habit.repeatDate.split("-")[2], 10);
+      return dayPart === dateNum;
+    }
+    return Number(habit.repeatDate) === dateNum;
+  }
+
+  return true;
+}
+
 function resetHabitsDaily(){
+  const todayStr = getToday();
+  const lastReset = localStorage.getItem("habitResetDate");
 
-  const today =
-    new Date()
-    .toISOString()
-    .split("T")[0];
-
-  const lastReset =
-    localStorage.getItem(
-      "habitResetDate"
-    );
-
-  if(lastReset === today)
+  if(lastReset === todayStr)
     return;
 
-  state.habits.forEach(category=>{
+  const today = new Date(todayStr + "T00:00:00");
 
+  state.habits.forEach(category=>{
     category.habits.forEach(habit=>{
+      // Check if streak is broken
+      if (habit.streak > 0) {
+        if (!habit.lastDoneDate) {
+          habit.streak = 0;
+        } else {
+          const lastDone = new Date(habit.lastDoneDate + "T00:00:00");
+          // Check days between lastDone and yesterday
+          const checkDate = new Date(lastDone);
+          checkDate.setDate(checkDate.getDate() + 1);
+          
+          const yesterday = new Date(today);
+          yesterday.setDate(yesterday.getDate() - 1);
+          
+          while (checkDate <= yesterday) {
+            if (isHabitOnDate(habit, checkDate)) {
+              habit.streak = 0;
+              break;
+            }
+            checkDate.setDate(checkDate.getDate() + 1);
+          }
+        }
+      }
 
       habit.done = false;
     });
@@ -543,7 +587,7 @@ function resetHabitsDaily(){
 
   localStorage.setItem(
     "habitResetDate",
-    today
+    todayStr
   );
   saveToLocal();
 }
@@ -1033,12 +1077,13 @@ function checkDeadlines(){
   ) return;
 
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   state.appData.forEach((category) => {
     category.tasks.forEach((task) => {
       if (task.done || !task.deadline) return;
 
-      const deadline = new Date(task.deadline);
+      const deadline = new Date(task.deadline + "T00:00:00");
       const diff = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
 
       if (diff === 0) {

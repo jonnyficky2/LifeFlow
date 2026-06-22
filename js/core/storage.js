@@ -22,6 +22,7 @@ export function saveToLocal() {
   localStorage.setItem(STORAGE_KEYS.STREAK_DATA, JSON.stringify(state.streakData));
   localStorage.setItem(STORAGE_KEYS.HISTORY_DATA, JSON.stringify(state.historyData));
   localStorage.setItem(STORAGE_KEYS.NOTES, JSON.stringify(state.notes));
+  localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(state.settings));
 
   // Sinkronisasi ke Cloud secara otomatis hanya jika sedang online
   if (navigator.onLine) {
