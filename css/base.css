@@ -26,11 +26,12 @@ body {
 
 /* Accessibility: Focus visible for keyboard users */
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-button, a, input, select, textarea {
+button, a, input, select, textarea {  transition: all 0.2s ease-in-out;
+
   cursor: pointer;
 }
 
@@ -52,7 +53,7 @@ h1 {
   margin-bottom: 26px;
   font-size: 38px;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 h2 {
@@ -68,5 +69,5 @@ h2 {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 20px;
-  background: linear-gradient(var(--color-primary), var(--color-secondary));
+  background: linear-gradient(var(--primary), var(--color-secondary));
 }

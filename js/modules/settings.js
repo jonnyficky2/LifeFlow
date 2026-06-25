@@ -355,7 +355,7 @@ function renderSettingsUI(container) {
           <span class="settings-row-title" style="color: #ff4d4d;">Delete Account</span>
           <span class="settings-row-desc">Permanently delete all your data</span>
         </div>
-        <button class="settings-btn danger" id="setDeleteAccBtn">Delete</button>
+        <button class="settings-btn danger" id="setDeleteAccBtn">Delete Account</button>
       </div>
     </div>
   `;

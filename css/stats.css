@@ -1,7 +1,7 @@
 /* ========================= STATS ========================= */
 
 #statsSection {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 /* Stats Chart Fix (old style) */
@@ -19,7 +19,7 @@
   position: relative;
   width: 180px;
   height: 180px;
-  margin: 30px auto;
+  margin: 32px auto;
 }
 
 .progress-ring {
@@ -34,7 +34,7 @@
 
 .ring-progress {
   fill: none;
-  stroke: var(--color-primary);
+  stroke: var(--primary);
   stroke-width: 12;
   stroke-linecap: round;
   stroke-dasharray: 440;

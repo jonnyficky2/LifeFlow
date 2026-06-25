@@ -21,12 +21,14 @@
   gap: 8px;
 }
 
-.btn:hover {
+.btn:hover {  transition: all 0.2s ease-in-out;
+
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
 }
 
-.btn:active {
+.btn:active {  transition: all 0.2s ease-in-out;
+
   transform: scale(.96);
 }
 
@@ -42,7 +44,8 @@
   pointer-events: none;
 }
 
-.btn:hover::before {
+.btn:hover::before {  transition: all 0.2s ease-in-out;
+
   left: 120%;
 }
 
@@ -74,14 +77,16 @@
 /* ======================================== MODERN UI THEME SYSTEM - BUTTONS ======================================== */
 /* These styles override previous button styles */
 
-button {
+button {  transition: all 0.2s ease-in-out;
+
   background: linear-gradient(135deg, var(--button1), var(--button2)); /* Uses new theme variables */
   color: var(--text); /* Uses new theme variable */
   border: 1px solid var(--card-border); /* Uses new theme variable */
   box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
 }
 
-button:hover {
+button:hover {  transition: all 0.2s ease-in-out;
+
   transform: translateY(-3px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, .12);
 }
@@ -101,7 +106,7 @@ button:hover {
   justify-self: end;
   grid-column: 3;
   grid-row: 1;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary)); /* Simplified gradient */
+  background: linear-gradient(135deg, var(--primary), var(--primary)); /* Simplified gradient */
   border: 0;
 }
 
@@ -110,7 +115,7 @@ button:hover {
 .quick-actions button,
 #emptyAddTaskBtn {
   border-radius: 8px;
-  background: linear-gradient(135deg, #4d70ff, #4562ed);
+  background: linear-gradient(135deg, var(--primary), var(--primary));
   border: 0;
   box-shadow: 0 12px 30px rgba(78, 112, 255, 0.22);
 }
@@ -134,8 +139,8 @@ button:hover {
 
 .share-btn {
   width: 100%;
-  margin: 20px 0;
-  padding: 18px;
+  margin: 24px 0;
+  padding: 16px;
   font-size: 16px;
   background: linear-gradient(135deg, #ec4899, #f43f5e);
   border-radius: 20px;

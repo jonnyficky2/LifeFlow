@@ -3,7 +3,7 @@
 /* Base Input Field Style */
 .input-field {
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   border: none;
   outline: none;
   border-radius: var(--radius-md);
@@ -21,8 +21,8 @@
 
 /* Focus style for all input fields */
 .input-field:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(var(--color-primary), 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(var(--primary), 0.15);
 }
 
 .search-box input {
@@ -38,7 +38,7 @@
 #noteContentInput {
   width: 100%;
   min-height: 120px;
-  padding: 14px;
+  padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
@@ -46,19 +46,19 @@
   font-family: inherit;
   resize: vertical;
   outline: none;
-  margin-top: 10px;
+  margin-top: 8px;
   transition: 0.25s;
 }
 
 #noteContentInput:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(var(--color-primary), 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(var(--primary), 0.15);
 }
 
 .pin-label {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 14px;
+  gap: 8px;
+  margin-top: 16px;
   cursor: pointer;
 }

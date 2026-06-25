@@ -2,9 +2,10 @@
 
 /* Category (old style) */
 .category {
-  padding: 22px;
+  padding: 24px;
   margin-top: 24px;
   /* Inherits from .card */
+  border-radius: 16px;
 }
 
 .category-header {
@@ -26,7 +27,7 @@
   align-items: center;
   gap: 12px;
   margin-top: 12px;
-  padding: 14px;
+  padding: 16px;
   border-radius: 20px;
   background: rgba(255, 255, 255, .05); /* Initial dark theme task background */
   border: 1px solid rgba(255, 255, 255, .05); /* Initial dark theme task border */
@@ -66,7 +67,7 @@
 }
 
 .task-right button {
-  padding: 10px 12px;
+  padding: 8px 12px;
 }
 
 /* ========================= PRIORITY ========================= */
@@ -102,7 +103,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   max-width: 455px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.16);
 }
 
@@ -143,7 +144,7 @@
   display: grid;
   grid-template-columns: 54px 1fr auto;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   min-height: 96px;
   color: var(--dash-muted);
 }
@@ -169,9 +170,9 @@ body.has-categories .category-empty-row {
 }
 
 .category {
-  margin-top: 14px;
-  padding: 18px;
-  border-radius: 8px;
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 16px;
   background: rgba(13, 26, 49, 0.72);
 }
 

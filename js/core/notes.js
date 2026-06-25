@@ -38,13 +38,7 @@ export function renderNotes() {
 
   sortedNotes.forEach(({ note, index }) => {
     const card = document.createElement("div");
-    card.className = "note-card" + (note.pinned ? " pinned" : "") + (note.done ? " done" : "");
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.className = "note-checkbox";
-    checkbox.checked = note.done || false;
-    checkbox.onclick = () => toggleNoteDone(index);
+    card.className = "note-card" + (note.pinned ? " pinned" : "");
 
     const body = document.createElement("div");
     body.className = "note-card-body";
@@ -82,7 +76,7 @@ export function renderNotes() {
     content.innerText = note.content;
 
     body.append(header, content);
-    card.append(checkbox, body);
+    card.append(body);
     fragment.appendChild(card);
   });
 

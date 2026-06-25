@@ -6,15 +6,15 @@
   right: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   z-index: 999999;
   pointer-events: none; /* Allow clicks to pass through container */
 }
 
 .toast-message {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-info-dark)); /* Default info style */
+  background: linear-gradient(135deg, var(--primary), var(--color-info-dark)); /* Default info style */
   color: var(--color-white);
-  padding: 14px 20px;
+  padding: 16px 24px;
   border-radius: var(--radius-md);
   font-weight: 600;
   box-shadow: var(--shadow-md);
@@ -50,5 +50,5 @@
 }
 
 .toast-message--info {
-  background: linear-gradient(135deg, var(--color-primary), #17a2b8);
+  background: linear-gradient(135deg, var(--primary), #17a2b8);
 }

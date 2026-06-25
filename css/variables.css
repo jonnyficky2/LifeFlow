@@ -1,8 +1,9 @@
 /* ========================= VARIABLES ========================= */
 
 :root {
+  --primary: #5574ff;
   /* Brand Colors */
-  --color-primary: #5574ff; /* Main accent color, e.g., for active states, primary buttons */
+  --color-primary: var(--primary); /* Main accent color, e.g., for active states, primary buttons */
   --color-secondary: #8e5cff; /* Secondary accent color, e.g., for some gradients */
   --color-success: #48d66d; /* Green for success/completion */
   --color-warning: #f2c94c; /* Yellow for warnings */

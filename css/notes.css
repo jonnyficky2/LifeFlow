@@ -3,8 +3,8 @@
 .note-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 20px;
+  border-radius: 16px;
+  padding: 24px;
   margin-bottom: 16px;
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(18px);
@@ -58,10 +58,10 @@
 
 .note-card small {
   font-size: 12px;
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 .note-card.pinned {
-  border: 1px solid var(--color-primary);
-  box-shadow: 0 0 20px rgba(var(--color-primary), 0.15);
+  border: 1px solid var(--primary);
+  box-shadow: 0 0 20px rgba(var(--primary), 0.15);
 }

@@ -4,6 +4,8 @@ import { renderNotes } from "../core/notes.js";
 
 export function showSection(section, addToHistory = true) {
   const homeSection = document.getElementById("homeSection");
+  const tasksSection = document.getElementById("tasksSection");
+  const categoriesSection = document.getElementById("categoriesSection");
   const calendarSection = document.getElementById("calendarSection");
   const habitSection = document.getElementById("habitSection");
   const statsSection = document.getElementById("statsSection");
@@ -12,6 +14,8 @@ export function showSection(section, addToHistory = true) {
   const focusSection = document.getElementById("focusSection");
 
   if (homeSection) homeSection.style.display = "none";
+  if (tasksSection) tasksSection.style.display = "none";
+  if (categoriesSection) categoriesSection.style.display = "none";
   if (calendarSection) calendarSection.style.display = "none";
   if (habitSection) habitSection.style.display = "none";
   if (statsSection) statsSection.style.display = "none";
@@ -21,6 +25,10 @@ export function showSection(section, addToHistory = true) {
 
   if (section === "home" && homeSection) {
     homeSection.style.display = "block";
+  } else if (section === "tasks" && tasksSection) {
+    tasksSection.style.display = "block";
+  } else if (section === "categories" && categoriesSection) {
+    categoriesSection.style.display = "block";
   } else if (section === "calendar" && calendarSection) {
     calendarSection.style.display = "block";
     renderCalendar();

@@ -14,7 +14,7 @@
 
 #xpFill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(90deg, var(--primary), var(--color-secondary));
   transition: width 0.35s;
 }
 
@@ -51,17 +51,18 @@
 
 #quickStats {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
-  margin: 24px 0 20px;
+  gap: 16px;
+  margin: 24px 0 24px;
 }
 
 .stat-card {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   min-height: 126px;
   padding: 24px;
   text-align: left;
+  border-radius: 16px;
 }
 
 .stat-card h3 {
@@ -86,7 +87,7 @@
   color: white;
 }
 
-.stat-icon-blue { background: linear-gradient(135deg, var(--color-primary), #2c458f); }
+.stat-icon-blue { background: linear-gradient(135deg, var(--primary), #2c458f); }
 .stat-icon-yellow { background: linear-gradient(135deg, #826d25, #4e4523); color: #ffd84d; }
 .stat-icon-green { background: linear-gradient(135deg, #2f8e55, #1d5c40); color: #62f079; }
 .stat-icon-purple { background: linear-gradient(135deg, #5637aa, #3d2b84); }
@@ -138,7 +139,7 @@
   height: 170px;
   transform: rotate(45deg);
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--color-primary), rgba(31, 50, 112, 1));
+  background: linear-gradient(135deg, var(--primary), rgba(31, 50, 112, 1));
   box-shadow: none;
 }
 

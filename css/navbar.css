@@ -14,7 +14,7 @@
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,7 +41,7 @@
 .navbar-title {
   font-size: 18px;
   font-weight: 700;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(90deg, var(--primary), var(--color-secondary));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -94,7 +94,7 @@
   width: 100%;
   height: 3px;
   border-radius: 99px;
-  background: var(--color-primary);
+  background: var(--primary);
 }
 
 /* ========================= SIDEBAR ========================= */
@@ -111,7 +111,7 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -165,7 +165,7 @@
 
 .sidebar-profile {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: center;
 }
 
@@ -191,7 +191,7 @@
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .sidebar-item {
@@ -201,7 +201,7 @@
   color: #e2e8f0;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  padding: 14px 18px;
+  padding: 16px 16px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -220,7 +220,7 @@
   bottom: 12px;
   width: 92%;
   max-width: 450px;
-  padding: 14px;
+  padding: 16px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -247,7 +247,7 @@
   max-width: 1480px;
   height: 96px;
   justify-content: space-between;
-  padding: 0 30px;
+  padding: 0 32px;
 }
 
 .navbar-brand {
@@ -276,7 +276,7 @@
 .app-sidebar {
   left: -288px;
   width: 288px;
-  padding: 30px 14px 24px;
+  padding: 32px 16px 24px;
   background: rgba(6, 16, 31, 0.92);
   border-right: 1px solid var(--dash-border);
   box-shadow: 18px 0 50px rgba(0, 0, 0, 0.24);
@@ -294,7 +294,7 @@
 .app-sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .app-sidebar-brand .sidebar-profile-img {
@@ -323,8 +323,8 @@
 .app-nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 28px;
+  gap: 8px;
+  margin-top: 24px;
   padding: 12px;
   border-radius: var(--dash-radius);
   background: var(--dash-panel);
@@ -334,7 +334,7 @@
 .sidebar-item {
   min-height: 56px;
   border-radius: 8px;
-  padding: 0 20px;
+  padding: 0 24px;
   color: #c6d2e8;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -356,7 +356,7 @@
 
 .sidebar-streak-card {
   margin: 16px 8px 0;
-  padding: 18px 20px;
+  padding: 16px 24px;
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
   border-radius: var(--dash-radius);
@@ -386,7 +386,7 @@
 .sidebar-streak-card i {
   display: block;
   height: 8px;
-  margin-top: 14px;
+  margin-top: 16px;
   border-radius: 99px;
   background: rgba(148, 163, 184, 0.16);
 }

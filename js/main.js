@@ -61,27 +61,6 @@ function setSidebarActive(navKey) {
 function navigateToSection(section, navKey) {
   showSection(section);
   setSidebarActive(navKey ?? getNavKeyForSection(section));
-
-  if (navKey === "tasks") {
-    const taskPanel = document.querySelector('.tasks-panel');
-    if (taskPanel) {
-      const offset = 100; // Jarak aman agar tidak tertutup Navbar
-      const topPos = taskPanel.getBoundingClientRect().top + window.pageYOffset - offset;
-      window.scrollTo({ top: topPos, behavior: 'smooth' });
-      return;
-    }
-  }
-
-  if (section === "calendar") {
-    const calendarEl = document.getElementById("calendarSection") || document.querySelector(".calendar-header");
-    if (calendarEl) {
-      const offset = 100; // Jarak aman agar tidak tertutup Navbar
-      const topPos = calendarEl.getBoundingClientRect().top + window.pageYOffset - offset;
-      window.scrollTo({ top: topPos, behavior: 'smooth' });
-      return;
-    }
-  }
-  
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 }
 
@@ -202,48 +181,38 @@ function setupUIEventListeners() {
   };
 
   const openTaskFromDashboard = () => {
-    if (state.appData.length === 0) {
-      showToast("Create a category first");
-      focusCategoryInput();
-      return;
+    if (!state.appData || state.appData.length === 0) {
+      state.appData = [{ name: "Inbox", tasks: [] }];
+      state.currentCategoryIndex = 0;
+      saveToLocal();
+      refreshUI();
     }
 
     state.currentCategoryIndex =
       state.currentCategoryIndex ?? state.appData.length - 1;
+
+    if (
+      state.currentCategoryIndex === null ||
+      state.currentCategoryIndex === undefined ||
+      state.currentCategoryIndex < 0 ||
+      state.currentCategoryIndex >= state.appData.length
+    ) {
+      state.currentCategoryIndex = 0;
+    }
 
     resetEditingTask();
     renderSubtasksInModal();
     openTaskModal();
   };
 
-  document.getElementById("quickAddTaskBtn")?.addEventListener(
-    "click",
-    openTaskFromDashboard
-  );
-
   document.getElementById("emptyAddTaskBtn")?.addEventListener(
     "click",
     openTaskFromDashboard
   );
 
-  document.getElementById("quickAddCategoryBtn")?.addEventListener(
-    "click",
-    focusCategoryInput
-  );
-
   document.getElementById("categoryPanelAddBtn")?.addEventListener(
     "click",
     focusCategoryInput
-  );
-
-  document.getElementById("viewCategoriesBtn")?.addEventListener(
-    "click",
-    focusCategoryInput
-  );
-
-  document.getElementById("quickCalendarBtn")?.addEventListener(
-    "click",
-    () => navigateToSection("calendar")
   );
 
   document.querySelectorAll("[data-section]").forEach((button) => {
@@ -875,36 +844,6 @@ function redo() {
   refreshUI();
 }
 
-/* =========================
-   FLOATING BUTTON
-========================= */
-
-document
-  .getElementById(
-    "floatingAddBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      // CEK CATEGORY ADA
-      if (
-        state.appData.length === 0
-      ) {
-        showToast("Create a category first", 'warning');
-
-        return;
-      }
-
-      // DEFAULT KE CATEGORY PERTAMA
-      state.currentCategoryIndex = 
-      state.appData.length -1;
-
-      resetEditingTask();
-      renderSubtasksInModal();
-      openTaskModal();
-    }
-  );
 
 /* =========================
    SPLASH
@@ -1037,10 +976,11 @@ window.addEventListener(
 
     deferredPrompt = e;
 
-    document.getElementById(
-      "installBtn"
-    ).style.display =
-      "block";
+    const installCard = document.getElementById("pwaInstallCard");
+    if (installCard) installCard.style.display = "block";
+
+    const installBtn = document.getElementById("installBtn");
+    if (installBtn) installBtn.style.display = "block";
   }
 );
 
@@ -1048,7 +988,7 @@ document
   .getElementById(
     "installBtn"
   )
-  .addEventListener(
+  ?.addEventListener(
     "click",
     async () => {
 
@@ -1058,6 +998,12 @@ document
       deferredPrompt.prompt();
 
       deferredPrompt = null;
+
+      const installCard = document.getElementById("pwaInstallCard");
+      if (installCard) installCard.style.display = "none";
+
+      const installBtn = document.getElementById("installBtn");
+      if (installBtn) installBtn.style.display = "none";
     }
   );
   

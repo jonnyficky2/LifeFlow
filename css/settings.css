@@ -13,13 +13,13 @@
 .settings-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: 16px;
   padding: 24px;
 }
 
 .settings-card h3 {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   font-size: 18px;
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@
 .settings-profile {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   margin-bottom: 24px;
   padding-bottom: 24px;
   border-bottom: 1px solid var(--color-border);
@@ -92,7 +92,7 @@
 }
 
 .settings-btn {
-  background: var(--color-primary);
+  background: var(--primary);
   color: #fff;
   border: none;
   padding: 8px 16px; /* Override default button padding */
@@ -104,27 +104,32 @@
   white-space: nowrap;
 }
 
-.settings-btn:hover {
+.settings-btn:hover {  transition: all 0.2s ease-in-out;
+
   filter: brightness(1.1);
 }
 
-.settings-btn.danger {
+.settings-btn.danger {  transition: all 0.2s ease-in-out;
+
   background: rgba(var(--color-danger), 0.1);
   color: var(--color-danger);
   border: 1px solid rgba(var(--color-danger), 0.2);
 }
 
-.settings-btn.danger:hover {
+.settings-btn.danger:hover {  transition: all 0.2s ease-in-out;
+
   background: rgba(var(--color-danger), 0.2);
 }
 
-.settings-btn.outline {
+.settings-btn.outline {  transition: all 0.2s ease-in-out;
+
   background: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-text);
 }
 
-.settings-btn.outline:hover {
+.settings-btn.outline:hover {  transition: all 0.2s ease-in-out;
+
   background: rgba(255, 255, 255, 0.05);
 }
 

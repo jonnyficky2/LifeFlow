@@ -141,11 +141,11 @@
     <div class="sidebar-content">
       <nav class="sidebar-menu app-nav">
         <button type="button" class="sidebar-item is-active" data-section="home" data-nav="dashboard">⌂ Dashboard</button>
-        <button type="button" class="sidebar-item" data-section="home" data-nav="tasks">☑ Tasks</button>
+        <button type="button" class="sidebar-item" data-section="tasks" data-nav="tasks">☑ Tasks</button>
         <button type="button" class="sidebar-item" data-section="habit" data-nav="habit">◈ Habits</button>
         <button type="button" class="sidebar-item" data-section="focus" data-nav="focus">⏱ Focus Timer</button>
         <button type="button" class="sidebar-item" data-section="calendar" data-nav="calendar">▦ Calendar</button>
-        <button type="button" class="sidebar-item" data-action="category" data-nav="category">▣ Categories</button>
+        <button type="button" class="sidebar-item" data-section="categories" data-nav="categories">▣ Categories</button>
         <button type="button" class="sidebar-item" data-section="stats" data-nav="stats">▥ Reports</button>
         <button type="button" class="sidebar-item" data-section="notes" data-nav="notes">✎ Notes</button>
         <button type="button" class="sidebar-item" data-section="settings" data-nav="settings">⚙ Settings</button>
@@ -194,88 +194,14 @@
       🏆 Level 1
     </h2>
 
-    <div class="xp-bar">
-
-      <div id="xpFill"></div>
-
+    <div class="xp-progress-container">
+      <div class="xp-bar">
+        <div id="xpFill"></div>
+      </div>
+      <p id="xpText">
+        0 / 100 XP
+      </p>
     </div>
-
-    <p id="xpText">
-      0 / 100 XP
-    </p>
-
-    <button id="installBtn">
-
-      Install App
-
-    </button>
-
-  </div>
-
-  <!-- =========================
-       BACKUP
-  ========================== -->
-
-  <div class="backup-box">
-
-    <button id="exportBtn">
-      📤 Export
-    </button>
-    <input
-      type="file"
-      id="importFile"
-      hidden
-      accept=".json">
-
-    <button
-      id="importBtn"
-      type="button">
-
-      📥 Import
-
-    </button>
-
-  </div>
-
-  <!-- =========================
-       SEARCH
-  ========================== -->
-
-  <div class="search-box">
-
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Search task...">
-
-  </div>
-
-  <!-- =========================
-       FILTER
-  ========================== -->
-
-  <div class="filter-box">
-
-    <button
-      id="filterAllBtn">
-
-      All
-
-    </button>
-
-    <button
-      id="filterPendingBtn">
-
-      Pending
-
-    </button>
-
-    <button
-      id="filterDoneBtn">
-
-      Done
-
-    </button>
 
   </div>
 
@@ -342,23 +268,11 @@
     </p>
 
     <section class="dashboard-grid">
-      <div class="dashboard-panel tasks-panel">
-        <div class="panel-header">
-          <h2>Tasks</h2>
-        </div>
-        <div class="panel-tabs">
-          <button type="button" data-filter-tab="all" class="is-active">All</button>
-          <button type="button" data-filter-tab="pending">Pending</button>
-          <button type="button" data-filter-tab="done">Done</button>
-        </div>
-        <div id="container"></div>
-        <div class="empty-state tasks-empty-state">
-          <div class="empty-state__icon">✓</div>
-          <h3 class="empty-state__title">No Tasks Yet</h3>
-          <p class="empty-state__description">Create your first task to get started on your productivity journey.</p>
-          <button id="emptyAddTaskBtn" type="button" class="btn empty-state__cta">＋ Add Task</button>
-        </div>
-      </div>
+      <!-- Activity Panel (Heatmap) relocated inside the dashboard-grid for balance -->
+      <section class="dashboard-panel activity-panel" style="margin-bottom: 0;">
+        <h2>Activity</h2>
+        <div id="heatmap"></div>
+      </section>
 
       <div class="dashboard-side">
         <div id="quoteContainer" class="dashboard-panel motivation-panel">
@@ -371,22 +285,69 @@
             <span>⚑</span>
           </div>
         </div>
-
-        <div class="dashboard-panel quick-actions-panel">
-          <h2>Quick Actions</h2>
-          <div class="quick-actions">
-            <button id="quickAddTaskBtn" type="button"><span>＋</span>Add Task</button>
-            <button id="quickAddCategoryBtn" type="button"><span>▦</span>Add Category</button>
-            <button id="quickCalendarBtn" type="button"><span>▣</span>View Calendar</button>
-          </div>
-        </div>
       </div>
     </section>
 
+  </div>
+
+  <!-- =========================
+       TASKS SECTION
+  ========================== -->
+  <div id="tasksSection" style="display: none;" class="tasks-wrapper">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+      <div>
+        <h1>☑ Tasks</h1>
+        <p>Manage and track your tasks</p>
+      </div>
+    </div>
+
+    <div class="search-box" style="display: block; margin-bottom: 20px;">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search task...">
+    </div>
+
+    <!-- Hidden native filter box for compatibility with event bindings -->
+    <div class="filter-box" style="display: none;">
+      <button id="filterAllBtn">All</button>
+      <button id="filterPendingBtn">Pending</button>
+      <button id="filterDoneBtn">Done</button>
+    </div>
+
+    <div class="dashboard-panel tasks-panel">
+      <div class="panel-header">
+        <h2>Active Tasks</h2>
+      </div>
+      <div class="panel-tabs">
+        <button type="button" data-filter-tab="all" class="is-active">All</button>
+        <button type="button" data-filter-tab="pending">Pending</button>
+        <button type="button" data-filter-tab="done">Done</button>
+      </div>
+      <div id="container"></div>
+      <div class="empty-state tasks-empty-state">
+        <div class="empty-state__icon">✓</div>
+        <h3 class="empty-state__title">No Tasks Yet</h3>
+        <p class="empty-state__description">Create your first task to get started on your productivity journey.</p>
+        <button id="emptyAddTaskBtn" type="button" class="btn empty-state__cta">＋ Add Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================
+       CATEGORIES SECTION
+  ========================== -->
+  <div id="categoriesSection" style="display: none;" class="categories-wrapper">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+      <div>
+        <h1>▣ Categories</h1>
+        <p>Organize your tasks into custom categories</p>
+      </div>
+    </div>
+
     <section class="dashboard-panel categories-panel">
       <div class="panel-header">
-        <h2>Categories</h2>
-        <button id="viewCategoriesBtn" type="button">View all</button>
+        <h2>Categories List</h2>
       </div>
       <div class="empty-state category-empty-row">
         <div class="empty-state__icon">▱</div>
@@ -397,26 +358,13 @@
         <button id="categoryPanelAddBtn" type="button" class="btn empty-state__cta">＋ Add Category</button>
       </div>
       <div class="add-box">
-
         <input
           type="text"
           id="categoryInput"
           placeholder="Add category">
-
-        <button id="addCategoryBtn">
-
-          Add
-
-        </button>
-
+        <button id="addCategoryBtn">Add</button>
       </div>
     </section>
-
-    <section class="dashboard-panel activity-panel">
-      <h2>Activity</h2>
-      <div id="heatmap"></div>
-    </section>
-
   </div>
 
   <!-- =========================
@@ -678,6 +626,18 @@
         <button id="openSourceBtn" class="settings-btn outline">View</button>
       </div>
     </div>
+
+    <!-- App Installation Section -->
+    <div id="pwaInstallCard" class="settings-card" style="margin-top: 24px; display: none;">
+      <h3>📱 App Installation</h3>
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <span class="settings-row-title">PWA Application</span>
+          <span class="settings-row-desc">Install LifeFlow on your device for offline access.</span>
+        </div>
+        <button id="installBtn" class="settings-btn" style="display: none;">Install App</button>
+      </div>
+    </div>
   </div>
 
   </main>
@@ -686,15 +646,7 @@
        INSTALL BUTTON
   ========================== -->
 
-  <!-- =========================
-       FLOAT BUTTON
-  ========================== -->
-    
-    <button
-  id="floatingAddBtn">
-  +
-</button>
-  
+
 
   <!-- =========================
        BOTTOM NAV
@@ -760,69 +712,54 @@
         placeholder="Task name">
 
       <input
-        type="text"
-        id="taskTagsInput"
-        placeholder="Tags (comma separated)">
+        id="taskNoteInput"
+        placeholder="Description">
 
-      <input
-        type="date"
-        id="taskDeadlineInput">
-        <input
-  type="time"
-  id="taskTimeInput"
->
+      <details class="advanced-task-options" style="margin-top: 16px; margin-bottom: 16px; padding: 12px; background: var(--dash-bg); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1);">
+        <summary style="cursor: pointer; font-weight: 500; color: var(--dash-text); outline: none;">Advanced Options</summary>
+        
+        <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
+          <div class="task-date-time-group" style="display: flex; gap: 10px;">
+            <input type="date" id="taskDeadlineInput" style="flex: 1;">
+            <input type="time" id="taskTimeInput" style="flex: 1;">
+          </div>
 
-<input
-  type="text"
-  id="taskLocationInput"
-  placeholder="Place "
->
+          <select id="taskPriorityInput">
+            <option value="low">🟢 Low Priority</option>
+            <option value="medium">🟡 Medium Priority</option>
+            <option value="high">🔴 High Priority</option>
+          </select>
 
-<select id="taskReminderInput">
-  <option value="none">No Reminder</option>
-  <option value="0">At time of event</option>
-  <option value="5">5 minutes before</option>
-  <option value="10">10 minutes before</option>
-  <option value="30">30 minutes before</option>
-  <option value="60">1 hour before</option>
-  <option value="1440">1 day before</option>
-</select>
+          <input
+            type="text"
+            id="taskTagsInput"
+            placeholder="Tags (comma separated)">
 
-<input
-  id="taskNoteInput"
-  placeholder=" Information"
->
+          <input
+            type="text"
+            id="taskLocationInput"
+            placeholder="Location">
 
-      <select id="taskPriorityInput">
+          <select id="taskReminderInput">
+            <option value="none">No Reminder</option>
+            <option value="0">At time of event</option>
+            <option value="5">5 minutes before</option>
+            <option value="10">10 minutes before</option>
+            <option value="30">30 minutes before</option>
+            <option value="60">1 hour before</option>
+            <option value="1440">1 day before</option>
+          </select>
 
-        <option value="low">
-
-          🟢 Low Priority
-
-        </option>
-
-        <option value="medium">
-
-          🟡 Medium Priority
-
-        </option>
-
-        <option value="high">
-
-          🔴 High Priority
-
-        </option>
-
-      </select>
-      
-      <div class="subtask-modal-section">
-        <label>Subtasks</label>
-        <div id="subtaskModalList" class="subtask-modal-list"></div>
-        <div class="subtask-input-group">
-          <input type="text" id="newSubtaskInput" placeholder="Add subtask...">
-          <button type="button" id="addSubtaskBtn">+</button>
+          <div class="subtask-modal-section">
+            <label>Subtasks</label>
+            <div id="subtaskModalList" class="subtask-modal-list"></div>
+            <div class="subtask-input-group">
+              <input type="text" id="newSubtaskInput" placeholder="Add subtask...">
+              <button type="button" id="addSubtaskBtn">+</button>
+            </div>
+          </div>
         </div>
-      </div>
+      </details>
 
       <div class="modal-actions">
 

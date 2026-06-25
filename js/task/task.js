@@ -42,6 +42,18 @@ export function saveTaskModal() {
     task.subtasks = [...tempSubtasks];
     editingTask = null;
   } else {
+    if (!state.appData || state.appData.length === 0) {
+      state.appData = [{ name: "Inbox", tasks: [] }];
+      state.currentCategoryIndex = 0;
+    } else if (
+      state.currentCategoryIndex === null ||
+      state.currentCategoryIndex === undefined ||
+      state.currentCategoryIndex < 0 ||
+      state.currentCategoryIndex >= state.appData.length
+    ) {
+      state.currentCategoryIndex = 0;
+    }
+
     state.appData[state.currentCategoryIndex].tasks.push({
       name, deadline, time, location, note, priority,
       done: false, completedDates: [], streak: 0, lastCompleted: null,
