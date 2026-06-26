@@ -32,3 +32,10 @@
   - Membuat `useHabits.ts` untuk menangani toggle habit dengan fitur *Undo/Redo* bawaan.
   - Membangun UI *Github-style contribution grid* sepanjang 90 hari di komponen `<Habits />` dengan dukungan *Optimistic Update*.
   - Menerima *"PASS"* pada saat UAT manual. Melakukan Commit & Push ke branch main. Tugas selesai (DONE).
+
+- **M5 Notes Editor (Execution Mode v1.0):**
+  - Mengimplementasikan `[TASK-501] Two-Pane Notes Editor`.
+  - Membuat `Note` interface dan hook `useNotes.ts` di dalam `AppContext.tsx`.
+  - Merancang *Split Layout* murni menggunakan `<textarea>` native untuk menjaga performa dan kesederhanaan sistem.
+  - Memasang logika *Debounced Auto-Save* 500ms agar aplikasi tidak memuat ulang (*re-render*) secara membabi buta ketika pengguna mengetik dengan cepat.
+  - Menerima *"PASS"* pada saat UAT manual. Melakukan Commit & Push ke branch main. Tugas selesai (DONE).

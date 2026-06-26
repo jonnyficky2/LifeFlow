@@ -91,12 +91,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-501] Two-Pane Notes Editor
 - **Description:** Layar Notes terbagi dua (Daftar Note di Sidebar kiri, Editor Markdown di kanan).
 - **Priority:** Low
-- **Status:** BUILD PASS
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** Bisa membuat note baru, list note ter-render di kiri, mengetik di kanan akan tersimpan otomatis (auto-save).
-- **Progress:** 95%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Menggunakan textarea native murni sesuai kesepakatan simplicity. Menunggu UAT.
+- **Notes:** UAT Lulus. M5 telah di-push ke main.
 
 ---
 
