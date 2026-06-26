@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>LifeFlow</title>
+
+  <!-- PWA -->
+  <meta
+    name="theme-color"
+    content="#181818">
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default">
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="LifeFlow">
+
+  <link
+    rel="manifest"
+    href="manifest.json">
+
+  <link
+    rel="icon"
+    href="./assets/icons/icon.svg">
+
+  <link
+    rel="apple-touch-icon"
+    href="./assets/icons/icon.svg">
+
+  <link rel="preload" href="./assets/icons/icon.svg" as="image">
+
+  <!-- FONT -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="./css/style.css">
+
+</head>
+
+<body>
+
+  <!-- =========================
+       SPLASH SCREEN
+  ========================== -->
+
+<div id="splashScreen">
+
+    <img
+      src="./assets/icons/icon.svg"
+      alt="Logo">
+
+    <h1>LifeFlow</h1>
+    <div class="splash-content">
+
+  <h2 id="splashLevelText">
+    Welcome
+  </h2>
+
+  <p id="splashQuote">
+  </p>
+
+</div>
+
+    <p>Loading...</p>
+
+  </div>
+
+  <!-- =========================
+       TITLE
+  ========================== -->
+
+    <!-- =========================
+       NAVBAR
+  ========================== -->
+  <nav id="navbar" class="navbar">
+    <div class="navbar-container">
+      
+      <!-- Logo & Title -->
+      <div class="navbar-brand">
+        <img src="./assets/icons/icon.svg" alt="Logo" class="navbar-logo">
+        <span class="navbar-title sidebar-title">Life<span>Flow</span></span>
+      </div>
+
+      <div class="navbar-actions">
+        <button id="navLoginBtn" type="button" class="nav-login-btn">Sign In</button>
+        <img id="navUserImg" src="./assets/icons/icon.svg" alt="Profile" class="nav-user-img" style="display: none;" referrerpolicy="no-referrer" loading="lazy">
+      
+        <!-- Sidebar Toggle Button -->
+        <button id="sidebarToggle" class="sidebar-toggle" aria-label="Open sidebar">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      
+    </div>
+  </nav>
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+  <aside id="sidebar" class="sidebar app-sidebar">
+    <div class="sidebar-header">
+      <div class="app-sidebar-brand">
+        <img src="./assets/icons/icon.svg" alt="Logo" class="sidebar-profile-img">
+        <span class="sidebar-title">Life<span>Flow</span></span>
+      </div>
+      <button id="sidebarClose" class="sidebar-close" aria-label="Close sidebar">×</button>
+    </div>
+
+    <div class="sidebar-content">
+      <nav class="sidebar-menu app-nav">
+        <button type="button" class="sidebar-item is-active" data-section="home" data-nav="dashboard">⌂ Dashboard</button>
+        <button type="button" class="sidebar-item" data-section="tasks" data-nav="tasks">☑ Tasks</button>
+        <button type="button" class="sidebar-item" data-section="habit" data-nav="habit">◈ Habits</button>
+        <button type="button" class="sidebar-item" data-section="focus" data-nav="focus">⏱ Focus Timer</button>
+        <button type="button" class="sidebar-item" data-section="calendar" data-nav="calendar">▦ Calendar</button>
+        <button type="button" class="sidebar-item" data-section="categories" data-nav="categories">▣ Categories</button>
+        <button type="button" class="sidebar-item" data-section="stats" data-nav="stats">▥ Reports</button>
+        <button type="button" class="sidebar-item" data-section="notes" data-nav="notes">✎ Notes</button>
+        <button type="button" class="sidebar-item" data-section="settings" data-nav="settings">⚙ Settings</button>
+      </nav>
+
+      <div class="sidebar-account">
+        <p class="sidebar-label">Akun</p>
+        <p class="sidebar-name">Guest User</p>
+        <p class="sidebar-email">Login untuk akses akun</p>
+        <button id="loginBtn" type="button" class="sidebar-item account-action">Login dengan Google</button>
+        <button id="logoutBtn" type="button" class="sidebar-item account-action" style="display: none;">Logout</button>
+      </div>
+
+      <div class="sidebar-streak-card">
+        <p>🔥 Streak</p>
+        <strong id="sidebarStreakCount">0 Days</strong>
+        <span>Keep going! 🔥</span>
+        <i></i>
+      </div>
+    </div>
+  </aside>
+
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <main class="app-main">
+
+  <div id="homeSection">
+  <section class="dashboard-header">
+    <div>
+      <h1>Good morning! </h1>
+      <p>Let's make today productive.</p>
+    </div>
+    <div class="dashboard-header-actions">
+      <button id="undoBtn" type="button" class="btn btn--icon" title="Undo">↩</button>
+      <button id="redoBtn" type="button" class="btn btn--icon" title="Redo">↪</button>
+      <button id="desktopThemeToggle" type="button" class="btn btn--icon" aria-label="Toggle theme">◐</button>
+    </div>
+  </section>
+
+  <!-- =========================
+       LEVEL & XP
+  ========================== -->
+  <div id="levelBox">
+
+    <h2 id="levelText">
+      🏆 Level 1
+    </h2>
+
+    <div class="xp-progress-container">
+      <div class="xp-bar">
+        <div id="xpFill"></div>
+      </div>
+      <p id="xpText">
+        0 / 100 XP
+      </p>
+    </div>
+
+  </div>
+
+  <!-- =========================
+       STREAK
+  ========================== -->
+
+  <h2 id="streakText">
+    🔥 Streak: 0 Days
+  </h2>
+
+  <!-- =========================
+       QUOTE
+  ========================== -->
+
+  <!-- =========================
+       HOME SECTION
+  ========================== -->
+
+    <div id="quickStats">
+
+  <div class="stat-card">
+    <span class="stat-icon stat-icon-blue">▤</span>
+    <div>
+    <p>All Tasks</p>
+    <h3 id="allTaskCount">0</h3>
+    <small>Total tasks</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <span class="stat-icon stat-icon-yellow">◷</span>
+    <div>
+    <p>Pending</p>
+    <h3 id="pendingCount">0</h3>
+    <small>Tasks to do</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <span class="stat-icon stat-icon-green">✓</span>
+    <div>
+    <p>Done</p>
+    <h3 id="doneCount">0</h3>
+    <small>Tasks completed</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <span class="stat-icon stat-icon-purple">▣</span>
+    <div>
+    <p>Today</p>
+    <h3 id="todayCount">0</h3>
+    <small>Tasks for today</small>
+    </div>
+  </div>
+
+</div>
+
+    <p id="saveStatus">
+
+      ✔ Data saved
+
+    </p>
+
+    <section class="dashboard-grid">
+      <!-- Activity Panel (Heatmap) relocated inside the dashboard-grid for balance -->
+      <section class="dashboard-panel activity-panel" style="margin-bottom: 0;">
+        <h2>Activity</h2>
+        <div id="heatmap"></div>
+      </section>
+
+      <div class="dashboard-side">
+        <div id="quoteContainer" class="dashboard-panel motivation-panel">
+          <h2>Motivation</h2>
+          <p id="quoteText"></p>
+          <small id="quoteAuthor"></small>
+          <div class="mountain-art" aria-hidden="true">
+            <i></i>
+            <b></b>
+            <span>⚑</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- =========================
+       TASKS SECTION
+  ========================== -->
+  <div id="tasksSection" style="display: none;" class="tasks-wrapper">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+      <div>
+        <h1>☑ Tasks</h1>
+        <p>Manage and track your tasks</p>
+      </div>
+    </div>
+
+    <div class="search-box" style="display: block; margin-bottom: 20px;">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search task...">
+    </div>
+
+    <!-- Hidden native filter box for compatibility with event bindings -->
+    <div class="filter-box" style="display: none;">
+      <button id="filterAllBtn">All</button>
+      <button id="filterPendingBtn">Pending</button>
+      <button id="filterDoneBtn">Done</button>
+    </div>
+
+    <div class="dashboard-panel tasks-panel">
+      <div class="panel-header">
+        <h2>Active Tasks</h2>
+      </div>
+      <div class="panel-tabs">
+        <button type="button" data-filter-tab="all" class="is-active">All</button>
+        <button type="button" data-filter-tab="pending">Pending</button>
+        <button type="button" data-filter-tab="done">Done</button>
+      </div>
+      <div id="container"></div>
+      <div class="empty-state tasks-empty-state">
+        <div class="empty-state__icon">✓</div>
+        <h3 class="empty-state__title">No Tasks Yet</h3>
+        <p class="empty-state__description">Create your first task to get started on your productivity journey.</p>
+        <button id="emptyAddTaskBtn" type="button" class="btn empty-state__cta">＋ Add Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================
+       CATEGORIES SECTION
+  ========================== -->
+  <div id="categoriesSection" style="display: none;" class="categories-wrapper">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+      <div>
+        <h1>▣ Categories</h1>
+        <p>Organize your tasks into custom categories</p>
+      </div>
+    </div>
+
+    <section class="dashboard-panel categories-panel">
+      <div class="panel-header">
+        <h2>Categories List</h2>
+      </div>
+      <div class="empty-state category-empty-row">
+        <div class="empty-state__icon">▱</div>
+        <div class="empty-state__content">
+          <h3 class="empty-state__title">No Categories Yet</h3>
+          <p class="empty-state__description">Organize your life by grouping tasks into categories.</p>
+        </div>
+        <button id="categoryPanelAddBtn" type="button" class="btn empty-state__cta">＋ Add Category</button>
+      </div>
+      <div class="add-box">
+        <input
+          type="text"
+          id="categoryInput"
+          placeholder="Add category">
+        <button id="addCategoryBtn">Add</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- =========================
+       CALENDAR SECTION
+  ========================== -->
+
+  <div id="calendarSection">
+
+    <h2>
+      📅 Calendar
+    </h2>
+
+     <div class="calendar-header">
+
+  <button id="prevMonthBtn">
+
+    ⬅
+
+  </button>
+
+  <h3 id="calendarMonth">
+
+    Mei 2026
+
+  </h3>
+
+  <button id="nextMonthBtn">
+
+    ➡
+
+  </button>
+
+</div>
+
+    <div id="calendarGrid"></div>
+
+  </div>
+  <div
+  id="dayTasksModal"
+  class="modal"
+>
+
+  <div class="modal-content">
+
+    <h2 id="selectedDateTitle">
+      Today's Task
+    </h2>
+
+    <div id="dayTaskList"></div>
+
+    <button
+      id="closeDayTasksModalBtn"
+      type="button"
+    >
+      Close
+    </button>
+
+  </div>
+
+</div>
+  
+
+  <!-- =========================
+       HABIT SECTION
+  ========================== -->
+
+  <div id="habitSection">
+
+    <h2>
+       Habit Tracker
+    </h2>
+
+    <div class="habit-box">
+
+  <input
+    type="text"
+    id="habitCategoryInput"
+    placeholder="Add habit category"
+  >
+
+  <button id="addHabitCategoryBtn">
+
+    Add
+
+  </button>
+
+</div>
+
+    
+<div id="habitContainer"></div>
+
+</div>
+
+  <!-- =========================
+       STATS SECTION
+  ========================== -->
+
+  <div id="statsSection" style="display: none;">
+    
+    <div id="statsEmptyState" class="empty-state" style="display: none;">
+      <div class="empty-state__icon">📊</div>
+      <h3 class="empty-state__title">No Analytics Yet</h3>
+      <p class="empty-state__description">Complete tasks and build habits to generate your productivity reports.</p>
+      <button class="btn empty-state__cta" id="statsGoToDashboardBtn">Go to Dashboard</button>
+    </div>
+
+    <div id="statsContent">
+
+<div class="improve-card">
+
+  <h3 id="dailyImprove">
+    There is no data today
+  </h3>
+
+  <p id="weeklyImprove">
+    There is no weekly data yet
+  </p>
+
+</div>
+
+<div class="progress-ring-box">
+
+  <svg class="progress-ring"
+    width="180"
+    height="180">
+
+    <circle
+      class="ring-bg"
+      cx="90"
+      cy="90"
+      r="70"
+    />
+
+    <circle
+      class="ring-progress"
+      cx="90"
+      cy="90"
+      r="70"
+      id="progressRing"
+    />
+
+  </svg>
+
+  <div class="ring-text">
+
+    <h2 id="ringPercent">
+      0%
+    </h2>
+
+    <p>Productivity</p>
+
+  </div>
+
+</div>
+
+    <h2>
+      📊 Statistics
+    </h2>
+
+    <div class="chart-box">
+  <canvas id="statsChart"></canvas>
+</div>
+    <h2>
+  🔥 Habit Statistics
+</h2>
+<div class="chart-box">
+  <canvas id="habitChart"></canvas>
+</div>
+
+    <!-- FITUR SHARE -->
+    <button id="shareStatsBtn" class="share-btn">
+      📸 Share to IG Story
+    </button>
+    <input type="file" id="shareBgInput" accept="image/*" hidden>
+    </div>
+  </div>
+
+  <!-- =========================
+       NOTES SECTION
+  ========================== -->
+  <div id="notesSection" style="display: none;">
+    <h2>📝 Notes</h2>
+    <button id="addNoteBtn" style="width: 100%; margin-bottom: 16px; padding: 16px;">+ Add New Note</button>
+    <div id="notesContainer"></div>
+  </div>
+
+  <!-- =========================
+       FOCUS TIMER SECTION
+  ========================== -->
+  <div id="focusSection" style="display: none;">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+      <div>
+        <h1>⏱ Focus Timer</h1>
+        <p>Stay focused and complete your Pomodoro sessions to gain XP</p>
+      </div>
+    </div>
+
+    <div class="card settings-card" style="max-width: 600px; margin: 0 auto; text-align: center; padding: 40px 24px;">
+      <div class="focus-timer-container">
+        <svg class="progress-ring" width="220" height="220">
+          <circle class="ring-bg" cx="110" cy="110" r="90"></circle>
+          <circle class="ring-progress" cx="110" cy="110" r="90" id="focusProgressRing" style="stroke: #a855f7; stroke-dasharray: 565.48; stroke-dashoffset: 0; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 0.1s linear;"></circle>
+        </svg>
+        <div class="focus-timer-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+          <h2 id="focusTimeDisplay" style="font-size: 3rem; font-weight: 700; margin: 0; line-height: 1;">25:00</h2>
+          <p id="focusStatusDisplay" style="margin: 8px 0 0; font-size: 0.9rem; color: var(--dash-muted); letter-spacing: 1px; text-transform: uppercase;">Time to focus</p>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 16px; margin: 30px 0;">
+        <button id="focusStartBtn" class="btn" style="background: linear-gradient(135deg, #a855f7, #8b5cf6); padding: 12px 30px; font-size: 1.1rem; border-radius: 50px;">▶ Start</button>
+        <button id="focusPauseBtn" class="btn outline" style="padding: 12px 30px; font-size: 1.1rem; border-radius: 50px; display: none;">⏸ Pause</button>
+        <button id="focusResetBtn" class="btn outline" style="padding: 12px 30px; font-size: 1.1rem; border-radius: 50px;">↩ Reset</button>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+        <button type="button" class="settings-btn outline focus-duration-btn" data-minutes="25">25 Min</button>
+        <button type="button" class="settings-btn outline focus-duration-btn" data-minutes="50">50 Min</button>
+        <button type="button" class="settings-btn outline focus-duration-btn" data-minutes="15">15 Min</button>
+        <button type="button" class="settings-btn outline focus-duration-btn" data-minutes="5">5 Min</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================
+       SETTINGS SECTION
+  ========================== -->
+  <div id="settingsSection" style="display: none;" class="settings-wrapper">
+    <div class="dashboard-header" style="margin-bottom: 24px;">
+      <div>
+        <h1>⚙ Settings</h1>
+        <p>Manage your preferences, account, and data</p>
+      </div>
+    </div>
+    <div id="settingsGrid" class="settings-grid"></div>
+
+    <!-- Legal & Information Section -->
+    <div class="settings-card" style="margin-top: 24px;">
+      <h3>📄 Legal & Information</h3>
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <span class="settings-row-title">Privacy Policy</span>
+          <span class="settings-row-desc">Privacy policy and user data protection.</span>
+        </div>
+        <button id="privacyPolicyBtn" class="settings-btn outline">View</button>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <span class="settings-row-title">Terms of Service</span>
+          <span class="settings-row-desc">Terms and conditions for using LifeFlow.</span>
+        </div>
+        <button id="termsOfServiceBtn" class="settings-btn outline">View</button>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <span class="settings-row-title">Open Source Licenses</span>
+          <span class="settings-row-desc">Licenses for third-party libraries used.</span>
+        </div>
+        <button id="openSourceBtn" class="settings-btn outline">View</button>
+      </div>
+    </div>
+
+    <!-- App Installation Section -->
+    <div id="pwaInstallCard" class="settings-card" style="margin-top: 24px; display: none;">
+      <h3>📱 App Installation</h3>
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <span class="settings-row-title">PWA Application</span>
+          <span class="settings-row-desc">Install LifeFlow on your device for offline access.</span>
+        </div>
+        <button id="installBtn" class="settings-btn" style="display: none;">Install App</button>
+      </div>
+    </div>
+  </div>
+
+  </main>
+
+  <!-- =========================
+       INSTALL BUTTON
+  ========================== -->
+
+
+
+  <!-- =========================
+       BOTTOM NAV
+  ========================== -->
+
+  <div id="bottomNav">
+
+    <button
+      id="navHomeBtn">
+
+      🏠
+
+    </button>
+
+    <button
+      id="navCalendarBtn">
+
+      📅
+
+    </button>
+
+    <button
+      id="navHabitBtn">
+
+      🔥
+
+    </button>
+
+    <button
+      id="navStatsBtn">
+
+      📊
+
+    </button>
+
+    <button
+      id="navNotesBtn">
+
+      📝
+
+    </button>
+  </div>
+
+  <!-- =========================
+       TASK MODAL
+  ========================== -->
+
+  <div
+    id="taskModal"
+    class="modal">
+
+    <div class="modal-content">
+
+      <h2>
+
+        Add Task
+
+      </h2>
+
+      <input
+        type="text"
+        id="taskNameInput"
+        placeholder="Task name">
+
+      <input
+        id="taskNoteInput"
+        placeholder="Description">
+
+      <details class="advanced-task-options" style="margin-top: 16px; margin-bottom: 16px; padding: 12px; background: var(--dash-bg); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1);">
+        <summary style="cursor: pointer; font-weight: 500; color: var(--dash-text); outline: none;">Advanced Options</summary>
+        
+        <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
+          <div class="task-date-time-group" style="display: flex; gap: 10px;">
+            <input type="date" id="taskDeadlineInput" style="flex: 1;">
+            <input type="time" id="taskTimeInput" style="flex: 1;">
+          </div>
+
+          <select id="taskPriorityInput">
+            <option value="low">🟢 Low Priority</option>
+            <option value="medium">🟡 Medium Priority</option>
+            <option value="high">🔴 High Priority</option>
+          </select>
+
+          <input
+            type="text"
+            id="taskTagsInput"
+            placeholder="Tags (comma separated)">
+
+          <input
+            type="text"
+            id="taskLocationInput"
+            placeholder="Location">
+
+          <select id="taskReminderInput">
+            <option value="none">No Reminder</option>
+            <option value="0">At time of event</option>
+            <option value="5">5 minutes before</option>
+            <option value="10">10 minutes before</option>
+            <option value="30">30 minutes before</option>
+            <option value="60">1 hour before</option>
+            <option value="1440">1 day before</option>
+          </select>
+
+          <div class="subtask-modal-section">
+            <label>Subtasks</label>
+            <div id="subtaskModalList" class="subtask-modal-list"></div>
+            <div class="subtask-input-group">
+              <input type="text" id="newSubtaskInput" placeholder="Add subtask...">
+              <button type="button" id="addSubtaskBtn">+</button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div class="modal-actions">
+
+        <button
+          id="closeTaskModalBtn"
+          type="button">
+
+          Cancel
+
+        </button>
+
+        <button
+          id="saveTaskModalBtn"
+          type="button">
+
+          Save
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+  
+  <!-- =========================
+     HABIT MODAL
+========================== -->
+
+<div
+  id="habitModal"
+  class="modal"
+>
+
+  <div class="modal-content">
+
+    <h2>
+      Add Habit
+    </h2>
+
+    <input
+      type="text"
+      id="habitInput"
+      placeholder="Nama habit"
+    >
+
+    <select
+  id="habitRepeatInput"
+>
+
+  <option value="daily">
+    Daily
+  </option>
+
+  <option value="weekly">
+    Weekly
+  </option>
+
+  <option value="monthly">
+    Monthly
+  </option>
+
+  <option value="custom">
+    Certain day
+  </option>
+
+</select>
+<div
+  id="habitDaysBox"
+  style="display:none;"
+>
+
+  <p>Choose a day:</p>
+
+  <label>
+    <input type="checkbox" value="0">
+    Sunday
+  </label>
+
+  <label>
+    <input type="checkbox" value="1">
+    Monday
+  </label>
+
+  <label>
+    <input type="checkbox" value="2">
+    Tuesday
+  </label>
+
+  <label>
+    <input type="checkbox" value="3">
+    Wednesday
+  </label>
+
+  <label>
+    <input type="checkbox" value="4">
+    Thursday
+  </label>
+
+  <label>
+    <input type="checkbox" value="5">
+    Friday
+  </label>
+
+  <label>
+    <input type="checkbox" value="6">
+    Saturday
+  </label>
+
+</div>
+
+<div
+  id="habitDateBox"
+  style="display:none;"
+>
+
+  <p>Every date:</p>
+
+  <input
+    type="number"
+    id="habitDateInput"
+    min="1"
+    max="31"
+  >
+
+</div>
+
+    <input
+      type="time"
+      id="habitTimeInput"
+    >
+
+    <div class="modal-actions">
+
+      <button
+        id="closeHabitModalBtn"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <button
+        id="addHabitBtn"
+        type="button"
+      >
+        Save
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+  
+  <!-- =========================
+     NOTE MODAL
+========================== -->
+<div id="noteModal" class="modal">
+  <div class="modal-content">
+    <h2>Write Note</h2>
+    <input type="text" id="noteTitleInput" placeholder="Title (Optional)">
+    <textarea id="noteContentInput" placeholder="Start typing your ideas or notes here..."></textarea>
+    
+    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+      <input type="date" id="noteDeadlineInput" style="flex: 1;">
+      <input type="time" id="noteTimeInput" style="flex: 1;">
+    </div>
+    
+    <select id="noteReminderInput" style="width: 100%; margin-bottom: 12px;">
+      <option value="none">No Reminder</option>
+      <option value="0">At time of event</option>
+      <option value="5">5 minutes before</option>
+      <option value="15">15 minutes before</option>
+      <option value="60">1 hour before</option>
+      <option value="1440">1 day before</option>
+    </select>
+
+    <label class="pin-label">
+      <input type="checkbox" id="notePinInput"> 
+      📌 Pin Note
+    </label>
+    
+    <div class="modal-actions" style="margin-top: 16px;">
+      <button id="closeNoteModalBtn" type="button">
+        Cancel
+      </button>
+      <button id="saveNoteModalBtn" type="button">
+        Save
+      </button>
+    </div>
+  </div>
+</div>
+
+  <!-- =========================
+     REPORT MODAL
+========================== -->
+<div id="reportModal" class="modal">
+  <div class="modal-content">
+    <h2 id="reportModalTitle">Report Bug / Issue</h2>
+    <input type="text" id="reportSubject" placeholder="Subject / Bug Title">
+    <textarea id="reportDescription" placeholder="Please describe the issue in detail..." 
+      style="width: 100%; min-height: 120px; padding: 14px; border: 1px solid var(--card-border); border-radius: 18px; background: var(--card); color: var(--text); font-family: inherit; resize: vertical; outline: none; margin-top: 10px; transition: 0.25s;"></textarea>
+    
+    <div class="modal-actions" style="margin-top: 16px;">
+      <button id="closeReportModalBtn" type="button">Cancel</button>
+      <button id="submitReportBtn" type="button" style="background: var(--dash-blue);">Send Report</button>
+    </div>
+  </div>
+</div>
+
+  <!-- =========================
+     AUTH MODAL
+========================== -->
+<div id="authModal" class="modal">
+  <div class="modal-content">
+    <div style="text-align: center; margin-bottom: 24px;">
+      <img src="./assets/icons/icon.svg" alt="LifeFlow Logo" style="width: 64px; margin-bottom: 16px;">
+      <h2 style="margin: 0;">Welcome to LifeFlow</h2>
+      <p style="color: #64748b; margin-top: 8px;">Sync your data across devices and never lose progress.</p>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <button id="modalLoginBtn" type="button" style="
+        background: #fff; 
+        color: #1e293b; 
+        border: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-weight: 500;
+      ">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18" loading="lazy">
+        Login with Google
+      </button>
+      
+      <button id="skipAuthBtn" type="button" class="btn" style="
+        background: transparent;
+        color: #94a3b8;
+        border: none;
+        text-decoration: underline;
+        font-size: 0.9rem;
+      ">
+        Continue as Guest
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================
+     LEGAL MODAL
+========================== -->
+<div id="legalModal" class="modal">
+  <div class="card modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+    <h2 id="legalModalTitle">Legal Information</h2>
+    <div id="legalModalBody" style="font-size: 0.9rem; line-height: 1.6; color: var(--color-muted); margin-bottom: 20px; text-align: left;">
+    </div>
+    <div class="modal-actions">
+      <button id="closeLegalModalBtn" type="button" class="btn" style="width: 100%;">Close</button>
+    </div>
+  </div>
+</div>
+
+  <div id="toast-container"></div>
+
+  <!-- =========================
+       FOOTER / COPYRIGHT
+  ========================== -->
+  <footer style="text-align: center; padding: 20px; font-size: 0.8em; color: var(--color-muted);">
+    &copy; 2024 LifeFlow. All rights reserved.
+  </footer>
+
+  <!-- =========================
+       CONFETTI
+  ========================== -->
+
+  <script defer src="./assets/libs/confetti.js"></script>
+  
+
+  <!-- =========================
+       MAIN SCRIPT
+  ========================== -->
+
+  <script type="module" src="./js/main.js"></script>
+
+  <!-- =========================
+       NOSCRIPT
+  ========================== -->
+
+  <noscript>
+
+    Aplication needs javascript.
+
+  </noscript>
+
+</body>
+</html>
