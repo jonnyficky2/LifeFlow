@@ -36,12 +36,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-201] Migrasi Logic & Komponen UI Tasks
 - **Description:** Implementasikan fitur utama CRUD tugas, integrasikan Modal, dan pasang manajemen State di AppContext dengan dukungan LocalStorage, fitur Undo/Redo, dan Dark Mode.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-102
 - **Acceptance Criteria:** Fitur berjalan identik dengan legacy. UI sesuai dengan style.css.
-- **Progress:** 95%
+- **Progress:** 100%
 - **Related Docs:** [UAT_CHECKLIST_PHASE2.md](../testing/UAT_CHECKLIST_PHASE2.md)
-- **Notes:** Pengembangan selesai, saat ini menahan status di TESTING menunggu kelulusan Checklist UAT dari user.
+- **Notes:** UAT Lulus. UX friction resolved (inline category creation).
 
 ### [TASK-202] Inline Task Input (Zero-Friction)
 - **Description:** Hapus sistem penambahan Task tradisional (modal panjang) untuk penambahan cepat. Buat input satu baris (command line style) persis di atas halaman Tasks.
@@ -61,27 +61,27 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-301] Foundation Calendar Module
 - **Description:** Implementasi halaman kalender bulanan, integrasi AppContext untuk membaca task berdasarkan deadline, highlight tanggal, dan empty state.
 - **Priority:** High
-- **Status:** BUILD PASS
+- **Status:** DONE
 - **Dependencies:** TASK-201
 - **Acceptance Criteria:** Render kalender bulan ini, tugas muncul di dalam tanggal yang tepat.
-- **Progress:** 95%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Menunggu Manual UAT dari pengguna.
+- **Notes:** UAT Lulus (Visual grid border perlu penyesuaian CSS global nanti, namun fungsionalitas kalender dan klik modal lulus).
 
 ---
 
-## M4 - Habit Tracker
+## M4 - Habit Tracker (IN PROGRESS)
 *(Grid Kontribusi Github-style)*
 
 ### [TASK-401] Habit Tracker Grid UI
 - **Description:** Bangun antarmuka Habit berupa kalender kontribusi bergaya GitHub (grid baris mingguan) dan persentase sukses bulanan.
 - **Priority:** Medium
-- **Status:** BACKLOG
+- **Status:** BUILD PASS
 - **Dependencies:** TASK-102
 - **Acceptance Criteria:** Render daftar Habit, kotak grid bisa diklik (Optimistic UI Update).
-- **Progress:** 0%
+- **Progress:** 95%
 - **Related Docs:** None
-- **Notes:** Hindari spinner, simpan via LocalStorage seketika.
+- **Notes:** Fitur selesai di-build, menunggu UAT manual pengguna.
 
 ---
 

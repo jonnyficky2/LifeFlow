@@ -6,6 +6,7 @@ import { Tasks } from './pages/Tasks/Tasks';
 import { Categories } from './pages/Categories/Categories';
 import { TaskModal } from './components/modals/TaskModal';
 import { Calendar } from './pages/Calendar/Calendar';
+import { Habits } from './pages/Habits/Habits';
 
 const AppContent: React.FC = () => {
   const { activeSection, settings } = useAppContext();
@@ -23,7 +24,7 @@ const AppContent: React.FC = () => {
       <Layout>
         {activeSection === 'home' && <Dashboard />}
         {activeSection === 'tasks' && <Tasks />}
-        {activeSection === 'habit' && <div style={{ padding: '24px' }}>Habit Component Placeholder</div>}
+        {activeSection === 'habit' && <Habits />}
         {activeSection === 'focus' && <div style={{ padding: '24px' }}>Focus Component Placeholder</div>}
         {activeSection === 'calendar' && <Calendar />}
         {activeSection === 'categories' && <Categories />}

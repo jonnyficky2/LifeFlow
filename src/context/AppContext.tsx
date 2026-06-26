@@ -48,15 +48,25 @@ export interface Category {
   tasks: Task[];
 }
 
+export interface Habit {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+  createdAt: string;
+}
+
+export type HabitHistory = Record<string, string[]>;
+
 interface AppContextType {
   appData: Category[];
   setAppData: React.Dispatch<React.SetStateAction<Category[]>>;
   xp: number;
   setXp: React.Dispatch<React.SetStateAction<number>>;
-  habits: any[];
-  setHabits: React.Dispatch<React.SetStateAction<any[]>>;
-  habitHistory: any;
-  setHabitHistory: React.Dispatch<React.SetStateAction<any>>;
+  habits: Habit[];
+  setHabits: React.Dispatch<React.SetStateAction<Habit[]>>;
+  habitHistory: HabitHistory;
+  setHabitHistory: React.Dispatch<React.SetStateAction<HabitHistory>>;
   streakData: any[];
   setStreakData: React.Dispatch<React.SetStateAction<any[]>>;
   historyData: any;
@@ -90,8 +100,8 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [appData, setAppData] = useState<Category[]>(getLocalData(STORAGE_KEYS.APP_DATA, [{ name: "Inbox", tasks: [] }]));
   const [xp, setXp] = useState<number>(Number(localStorage.getItem(STORAGE_KEYS.XP)) || 0);
-  const [habits, setHabits] = useState<any[]>(getLocalData(STORAGE_KEYS.HABITS, []));
-  const [habitHistory, setHabitHistory] = useState<any>(getLocalData(STORAGE_KEYS.HABIT_HISTORY, {}));
+  const [habits, setHabits] = useState<Habit[]>(getLocalData(STORAGE_KEYS.HABITS, []));
+  const [habitHistory, setHabitHistory] = useState<HabitHistory>(getLocalData(STORAGE_KEYS.HABIT_HISTORY, {}));
   const [streakData, setStreakData] = useState<any[]>(getLocalData(STORAGE_KEYS.STREAK_DATA, []));
   const [historyData, setHistoryData] = useState<any>(getLocalData(STORAGE_KEYS.HISTORY_DATA, {}));
   const [notes, setNotes] = useState<any[]>(getLocalData(STORAGE_KEYS.NOTES, []));

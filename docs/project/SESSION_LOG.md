@@ -17,3 +17,12 @@
   - Menganalisis `package.json` dan `.gitignore`, lalu menambahkan folder-folder `build`, `cache`, dan temporary.
   - Menulis laporan kebersihan di `REPOSITORY_AUDIT.md`.
   - Persiapan akhir sebelum fokus penuh ke fase testing/implementasi lanjutan.
+
+- **M2 Bug Fix & M3 Calendar Foundation (Execution Mode v1.0):**
+  - Memperbaiki *bug* duplikasi pembuatan *task* yang disebabkan oleh mutasi referensi objek pada *React Strict Mode* (TASK-201 disahkan ke DONE).
+  - Mengimplementasikan `Calendar.tsx` dan `Calendar.css` untuk pondasi Milestone 3.
+  - Mengintegrasikan data sinkron dari `appData` (berdasarkan `deadline`) ke dalam bentuk *grid* bulanan.
+  - Menyelesaikan dua gesekan UX dari *feedback* UAT:
+    1. Menyambungkan `TaskModal` ke tugas di Kalender agar dapat diedit langsung.
+    2. Menambahkan fungsionalitas pembuatan kategori secara *inline* dari halaman Tugas (Tasks) menggunakan fungsi `addCategory`.
+  - TASK-301 telah di-commit, push, dan statusnya resmi menjadi DONE.
