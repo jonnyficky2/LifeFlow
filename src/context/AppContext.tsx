@@ -58,6 +58,14 @@ export interface Habit {
 
 export type HabitHistory = Record<string, string[]>;
 
+export interface Note {
+  id: string;
+  title: string;
+  content: string; // Teks raw Markdown
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface AppContextType {
   appData: Category[];
   setAppData: React.Dispatch<React.SetStateAction<Category[]>>;
@@ -71,8 +79,8 @@ interface AppContextType {
   setStreakData: React.Dispatch<React.SetStateAction<any[]>>;
   historyData: any;
   setHistoryData: React.Dispatch<React.SetStateAction<any>>;
-  notes: any[];
-  setNotes: React.Dispatch<React.SetStateAction<any[]>>;
+  notes: Note[];
+  setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
   settings: any;
   setSettings: React.Dispatch<React.SetStateAction<any>>;
   
@@ -104,7 +112,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [habitHistory, setHabitHistory] = useState<HabitHistory>(getLocalData(STORAGE_KEYS.HABIT_HISTORY, {}));
   const [streakData, setStreakData] = useState<any[]>(getLocalData(STORAGE_KEYS.STREAK_DATA, []));
   const [historyData, setHistoryData] = useState<any>(getLocalData(STORAGE_KEYS.HISTORY_DATA, {}));
-  const [notes, setNotes] = useState<any[]>(getLocalData(STORAGE_KEYS.NOTES, []));
+  const [notes, setNotes] = useState<Note[]>(getLocalData(STORAGE_KEYS.NOTES, []));
   const [settings, setSettings] = useState<any>(getLocalData(STORAGE_KEYS.SETTINGS, {}));
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);

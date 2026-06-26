@@ -7,6 +7,7 @@ import { Categories } from './pages/Categories/Categories';
 import { TaskModal } from './components/modals/TaskModal';
 import { Calendar } from './pages/Calendar/Calendar';
 import { Habits } from './pages/Habits/Habits';
+import { Notes } from './pages/Notes/Notes';
 
 const AppContent: React.FC = () => {
   const { activeSection, settings } = useAppContext();
@@ -29,7 +30,7 @@ const AppContent: React.FC = () => {
         {activeSection === 'calendar' && <Calendar />}
         {activeSection === 'categories' && <Categories />}
         {activeSection === 'stats' && <div style={{ padding: '24px' }}>Stats Component Placeholder</div>}
-        {activeSection === 'notes' && <div style={{ padding: '24px' }}>Notes Component Placeholder</div>}
+        {activeSection === 'notes' && <Notes />}
         {activeSection === 'settings' && <div style={{ padding: '24px' }}>Settings Component Placeholder</div>}
       </Layout>
       <TaskModal />

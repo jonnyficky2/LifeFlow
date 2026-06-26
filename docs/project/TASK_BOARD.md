@@ -76,27 +76,27 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-401] Habit Tracker Grid UI
 - **Description:** Bangun antarmuka Habit berupa kalender kontribusi bergaya GitHub (grid baris mingguan) dan persentase sukses bulanan.
 - **Priority:** Medium
-- **Status:** BUILD PASS
+- **Status:** DONE
 - **Dependencies:** TASK-102
 - **Acceptance Criteria:** Render daftar Habit, kotak grid bisa diklik (Optimistic UI Update).
-- **Progress:** 95%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Fitur selesai di-build, menunggu UAT manual pengguna.
+- **Notes:** UAT Lulus. Kode telah di-push ke main.
 
 ---
 
-## M5 - Notes
-*(Penyimpanan Jurnal dan Teks)*
+## M5 - Notes (IN PROGRESS)
+*(Area catatan bebas berbasis Markdown)*
 
 ### [TASK-501] Two-Pane Notes Editor
 - **Description:** Layar Notes terbagi dua (Daftar Note di Sidebar kiri, Editor Markdown di kanan).
-- **Priority:** Medium
-- **Status:** BACKLOG
-- **Dependencies:** TASK-102
-- **Acceptance Criteria:** List notes di kiri bisa diklik, auto-save teks yang diketik.
-- **Progress:** 0%
+- **Priority:** Low
+- **Status:** BUILD PASS
+- **Dependencies:** None
+- **Acceptance Criteria:** Bisa membuat note baru, list note ter-render di kiri, mengetik di kanan akan tersimpan otomatis (auto-save).
+- **Progress:** 95%
 - **Related Docs:** None
-- **Notes:** Gunakan Markdown Editor yang ringan, jangan WYSIWYG berat.
+- **Notes:** Menggunakan textarea native murni sesuai kesepakatan simplicity. Menunggu UAT.
 
 ---
 

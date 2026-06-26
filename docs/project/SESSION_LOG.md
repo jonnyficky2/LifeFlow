@@ -24,5 +24,11 @@
   - Mengintegrasikan data sinkron dari `appData` (berdasarkan `deadline`) ke dalam bentuk *grid* bulanan.
   - Menyelesaikan dua gesekan UX dari *feedback* UAT:
     1. Menyambungkan `TaskModal` ke tugas di Kalender agar dapat diedit langsung.
-    2. Menambahkan fungsionalitas pembuatan kategori secara *inline* dari halaman Tugas (Tasks) menggunakan fungsi `addCategory`.
   - TASK-301 telah di-commit, push, dan statusnya resmi menjadi DONE.
+
+- **M4 Habit Tracker (Execution Mode v1.0):**
+  - Mengimplementasikan `[TASK-401] Habit Tracker Grid UI`.
+  - Merancang arsitektur data `Habit` dan `HabitHistory` berbasis Record di `AppContext.tsx`.
+  - Membuat `useHabits.ts` untuk menangani toggle habit dengan fitur *Undo/Redo* bawaan.
+  - Membangun UI *Github-style contribution grid* sepanjang 90 hari di komponen `<Habits />` dengan dukungan *Optimistic Update*.
+  - Menerima *"PASS"* pada saat UAT manual. Melakukan Commit & Push ke branch main. Tugas selesai (DONE).
