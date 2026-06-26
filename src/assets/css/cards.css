@@ -1,0 +1,40 @@
+/* ========================= CARDS ========================= */
+
+/* Base Card/Panel Style */
+.card {
+  border-radius: 16px; /* Default radius for cards */
+  background: var(--color-surface); /* Default background for cards */
+  border: 1px solid var(--color-border); /* Default border for cards */
+  box-shadow: var(--shadow-lg); /* Default shadow for cards */
+  backdrop-filter: blur(18px); /* Glassmorphism effect */
+  -webkit-backdrop-filter: blur(18px);
+  transition: transform 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Hover effect for interactive cards */
+.card-hover:hover {
+  transform: translateY(-4px);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.improve-card {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, .18), rgba(168, 85, 247, .18));
+  border: 1px solid rgba(255, 255, 255, .08);
+  backdrop-filter: blur(12px);
+}
+
+.improve-card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.improve-card p {
+  opacity: .8;
+  font-size: 14px;
+}

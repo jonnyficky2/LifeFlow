@@ -1,0 +1,35 @@
+/* ========================= MODAL ========================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, .45);
+  backdrop-filter: blur(10px);
+  z-index: 99999;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 420px;
+  padding: 25px;
+}
+
+/* Specific modal styles */
+#dayTasksModal {
+  /* No specific styles here, uses general modal styles */
+}
+
+#reportModal {
+  /* No specific styles here, uses general modal styles */
+}
+
+#authModal {
+  /* No specific styles here, uses general modal styles */
+}

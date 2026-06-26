@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>LifeFlow</title>
+
+  <!-- PWA -->
+  <meta
+    name="theme-color"
+    content="#181818">
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default">
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="LifeFlow">
+
+  <link
+    rel="manifest"
+    href="manifest.json">
+
+  <link
+    rel="icon"
+    href="./assets/icons/icon.svg">
+
+  <link
+    rel="apple-touch-icon"
+    href="./assets/icons/icon.svg">
+
+  <!-- FONT -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS -->
+  <link
+    rel="stylesheet"
+    href="./css/style.css?v=1">
+
+</head>
+
+<body>
+
+  <!-- =========================
+       SPLASH SCREEN
+  ========================== -->
+
+<div id="splashScreen">
+
+    <img
+      src="./assets/icons/icon.svg"
+      alt="Logo">
+
+    <h1>LifeFlow</h1>
+    <div class="splash-content">
+
+  <h2 id="splashLevelText">
+    Welcome
+  </h2>
+
+  <p id="splashQuote">
+  </p>
+
+</div>
+
+    <p>Loading...</p>
+
+  </div>
+
+  <!-- =========================
+       TITLE
+  ========================== -->
+
+  <header>LifeFlow</header>
+
+    <!-- =========================
+       NAVBAR
+  ========================== -->
+  <nav id="navbar" class="navbar">
+    <div class="navbar-container">
+      
+      <!-- Logo & Title -->
+      <div class="navbar-brand">
+        <img src="./assets/icons/icon.svg" alt="Logo" class="navbar-logo">
+        <span class="navbar-title">LifeFlow</span>
+      </div>
+
+      <!-- Sidebar Toggle Button -->
+      <button id="sidebarToggle" class="sidebar-toggle" aria-label="Open sidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+    </div>
+  </nav>
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+  <aside id="sidebar" class="sidebar app-sidebar">
+    <div class="sidebar-header">
+      <div class="app-sidebar-brand">
+        <img src="./assets/icons/icon.svg" alt="LifeFlow logo" class="sidebar-profile-img">
+        <h3 class="sidebar-title">Life<span>Flow</span></h3>
+      </div>
+      <button id="sidebarClose" class="sidebar-close" aria-label="Close sidebar">×</button>
+    </div>
+
+    <div class="sidebar-content">
+      <nav class="sidebar-menu app-nav">
+        <button type="button" class="sidebar-item is-active" data-section="home" data-nav="dashboard">⌂ Dashboard</button>
+        <button type="button" class="sidebar-item" data-section="home" data-nav="tasks">☑ Tasks</button>
+        <button type="button" class="sidebar-item" data-section="calendar" data-nav="calendar">▦ Calendar</button>
+        <button type="button" class="sidebar-item" data-action="category" data-nav="category">▣ Categories</button>
+        <button type="button" class="sidebar-item" data-section="stats" data-nav="stats">▥ Reports</button>
+        <button type="button" class="sidebar-item" data-section="notes" data-nav="notes">✎ Notes</button>
+        <button type="button" class="sidebar-item" data-action="settings" data-nav="settings">⚙ Settings</button>
+      </nav>
+
+      <div class="sidebar-account">
+        <p class="sidebar-label">Akun</p>
+        <p class="sidebar-name">Guest User</p>
+        <p class="sidebar-email">Login untuk akses akun</p>
+        <button id="loginBtn" type="button" class="sidebar-item account-action">Login dengan Google</button>
+        <button id="logoutBtn" type="button" class="sidebar-item account-action" style="display: none;">Logout</button>
+      </div>
+
+      <div class="sidebar-streak-card">
+        <p>🔥 Streak</p>
+        <strong id="sidebarStreakCount">0 Days</strong>
+        <span>Keep going! 🔥</span>
+        <i></i>
+      </div>
+    </div>
+  </aside>
+
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <main class="app-main">
+
+  <section class="dashboard-header">
+    <div>
+      <h1>Good morning! </h1>
+      <p>Let's make today productive.</p>
+    </div>
+    <div class="dashboard-header-actions">
+      <button id="undoBtn" type="button" title="Undo">↩</button>
+      <button id="redoBtn" type="button" title="Redo">↪</button>
+      <button id="desktopThemeToggle" type="button" aria-label="Toggle theme">◐</button>
+    </div>
+  </section>
+
+  <!-- =========================
+       LEVEL & XP
+  ========================== -->
+  <div id="levelBox">
+
+    <h2 id="levelText">
+      🏆 Level 1
+    </h2>
+
+    <div class="xp-bar">
+
+      <div id="xpFill"></div>
+
+    </div>
+
+    <p id="xpText">
+      0 / 100 XP
+    </p>
+
+    <button id="installBtn">
+
+      Install App
+
+    </button>
+
+  </div>
+
+  <!-- =========================
+       BACKUP
+  ========================== -->
+
+  <div class="backup-box">
+
+    <button id="exportBtn">
+      📤 Export
+    </button>
+    <input
+      type="file"
+      id="importFile"
+      hidden
+      accept=".json">
+
+    <button
+      id="importBtn"
+      type="button">
+
+      📥 Import
+
+    </button>
+
+  </div>
+
+  <!-- =========================
+       SEARCH
+  ========================== -->
+
+  <div class="search-box">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search task...">
+
+  </div>
+
+  <!-- =========================
+       FILTER
+  ========================== -->
+
+  <div class="filter-box">
+
+    <button
+      id="filterAllBtn">
+
+      All
+
+    </button>
+
+    <button
+      id="filterPendingBtn">
+
+      Pending
+
+    </button>
+
+    <button
+      id="filterDoneBtn">
+
+      Done
+
+    </button>
+
+  </div>
+
+  <!-- =========================
+       STREAK
+  ========================== -->
+
+  <h2 id="streakText">
+    🔥 Streak: 0 Days
+  </h2>
+
+  <!-- =========================
+       QUOTE
+  ========================== -->
+
+  <!-- =========================
+       HOME SECTION
+  ========================== -->
+
+  <div id="homeSection">
+    <div id="quickStats">
+
+  <div class="stat-card">
+    <span class="stat-icon stat-icon-blue">▤</span>
+    <div>
+    <p>All Tasks</p>
+    <h3 id="allTaskCount">0</h3>
+    <small>Total tasks</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <span class="stat-icon stat-icon-yellow">◷</span>
+    <div>
+    <p>Pending</p>
+    <h3 id="pendingCount">0</h3>
+    <small>Tasks to do</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <span class="stat-icon stat-icon-green">✓</span>
+    <div>
+    <p>Done</p>
+    <h3 id="doneCount">0</h3>
+    <small>Tasks completed</small>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <span class="stat-icon stat-icon-purple">▣</span>
+    <div>
+    <p>Today</p>
+    <h3 id="todayCount">0</h3>
+    <small>Tasks for today</small>
+    </div>
+  </div>
+
+</div>
+
+    <p id="saveStatus">
+
+      ✔ Data saved
+
+    </p>
+
+    <section class="dashboard-grid">
+      <div class="dashboard-panel tasks-panel">
+        <div class="panel-header">
+          <h2>Tasks</h2>
+        </div>
+        <div class="panel-tabs">
+          <button type="button" data-filter-tab="all" class="is-active">All</button>
+          <button type="button" data-filter-tab="pending">Pending</button>
+          <button type="button" data-filter-tab="done">Done</button>
+        </div>
+        <div id="container"></div>
+        <div class="tasks-empty-state">
+          <span>✓</span>
+          <strong>No tasks yet</strong>
+          <p>Add your first task to get started!</p>
+          <button id="emptyAddTaskBtn" type="button">＋ Add Task</button>
+        </div>
+      </div>
+
+      <div class="dashboard-side">
+        <div id="quoteContainer" class="dashboard-panel motivation-panel">
+          <h2>Motivation</h2>
+          <p id="quoteText"></p>
+          <small id="quoteAuthor"></small>
+          <div class="mountain-art" aria-hidden="true">
+            <i></i>
+            <b></b>
+            <span>⚑</span>
+          </div>
+        </div>
+
+        <div class="dashboard-panel quick-actions-panel">
+          <h2>Quick Actions</h2>
+          <div class="quick-actions">
+            <button id="quickAddTaskBtn" type="button"><span>＋</span>Add Task</button>
+            <button id="quickAddCategoryBtn" type="button"><span>▦</span>Add Category</button>
+            <button id="quickCalendarBtn" type="button"><span>▣</span>View Calendar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-panel categories-panel">
+      <div class="panel-header">
+        <h2>Categories</h2>
+        <button id="viewCategoriesBtn" type="button">View all</button>
+      </div>
+      <div class="category-empty-row">
+        <span>▱</span>
+        <div>
+          <strong>No categories yet</strong>
+          <p>Create categories to organize your tasks better.</p>
+        </div>
+        <button id="categoryPanelAddBtn" type="button">＋ Add Category</button>
+      </div>
+      <div class="add-box">
+
+        <input
+          type="text"
+          id="categoryInput"
+          placeholder="Add category">
+
+        <button id="addCategoryBtn">
+
+          Add
+
+        </button>
+
+      </div>
+    </section>
+
+    <section class="dashboard-panel activity-panel">
+      <h2>Activity</h2>
+      <div id="heatmap"></div>
+    </section>
+
+  </div>
+
+  <!-- =========================
+       CALENDAR SECTION
+  ========================== -->
+
+  <div id="calendarSection">
+
+    <h2>
+      📅 Calendar
+    </h2>
+
+     <div class="calendar-header">
+
+  <button id="prevMonthBtn">
+
+    ⬅
+
+  </button>
+
+  <h3 id="calendarMonth">
+
+    Mei 2026
+
+  </h3>
+
+  <button id="nextMonthBtn">
+
+    ➡
+
+  </button>
+
+</div>
+
+    <div id="calendarGrid"></div>
+
+  </div>
+  <div
+  id="dayTasksModal"
+  class="modal"
+>
+
+  <div class="modal-content">
+
+    <h2 id="selectedDateTitle">
+      Today's Task
+    </h2>
+
+    <div id="dayTaskList"></div>
+
+    <button
+      id="closeDayTasksModalBtn"
+      type="button"
+    >
+      Close
+    </button>
+
+  </div>
+
+</div>
+  
+
+  <!-- =========================
+       HABIT SECTION
+  ========================== -->
+
+  <div id="habitSection">
+
+    <h2>
+      🎯 Habit Tracker
+    </h2>
+
+    <div class="habit-box">
+
+  <input
+    type="text"
+    id="habitCategoryInput"
+    placeholder="Add habit category"
+  >
+
+  <button id="addHabitCategoryBtn">
+
+    Add
+
+  </button>
+
+</div>
+
+    
+<div id="habitContainer"></div>
+
+</div>
+
+  <!-- =========================
+       STATS SECTION
+  ========================== -->
+
+  <div id="statsSection">
+    
+<div class="improve-card">
+
+  <h3 id="dailyImprove">
+    There is no data today
+  </h3>
+
+  <p id="weeklyImprove">
+    There is no weekly data yet
+  </p>
+
+</div>
+
+<div class="progress-ring-box">
+
+  <svg class="progress-ring"
+    width="180"
+    height="180">
+
+    <circle
+      class="ring-bg"
+      cx="90"
+      cy="90"
+      r="70"
+    />
+
+    <circle
+      class="ring-progress"
+      cx="90"
+      cy="90"
+      r="70"
+      id="progressRing"
+    />
+
+  </svg>
+
+  <div class="ring-text">
+
+    <h2 id="ringPercent">
+      0%
+    </h2>
+
+    <p>Productivity</p>
+
+  </div>
+
+</div>
+
+    <h2>
+      📊 Statistics
+    </h2>
+
+    <div class="chart-box">
+  <canvas id="statsChart"></canvas>
+</div>
+    <h2>
+  🔥 Habit Statistics
+</h2>
+<div class="chart-box">
+  <canvas id="habitChart"></canvas>
+</div>
+
+    <!-- FITUR SHARE -->
+    <button id="shareStatsBtn" class="share-btn">
+      📸 Share to IG Story
+    </button>
+    <input type="file" id="shareBgInput" accept="image/*" hidden>
+  </div>
+
+  <!-- =========================
+       NOTES SECTION
+  ========================== -->
+  <div id="notesSection" style="display: none;">
+    <h2>📝 Catatan</h2>
+    <button id="addNoteBtn" style="width: 100%; margin-bottom: 16px; padding: 16px;">+ Tulis Catatan Baru</button>
+    <div id="notesContainer"></div>
+  </div>
+
+  </main>
+
+  <!-- =========================
+       INSTALL BUTTON
+  ========================== -->
+
+  <!-- =========================
+       FLOAT BUTTON
+  ========================== -->
+    
+    <button
+  id="floatingAddBtn">
+  +
+</button>
+  
+
+  <!-- =========================
+       BOTTOM NAV
+  ========================== -->
+
+  <div id="bottomNav">
+
+    <button
+      id="navHomeBtn">
+
+      🏠
+
+    </button>
+
+    <button
+      id="navCalendarBtn">
+
+      📅
+
+    </button>
+
+    <button
+      id="navHabitBtn">
+
+      🔥
+
+    </button>
+
+    <button
+      id="navStatsBtn">
+
+      📊
+
+    </button>
+
+    <button
+      id="navNotesBtn">
+
+      📝
+
+    </button>
+  </div>
+
+  <!-- =========================
+       TASK MODAL
+  ========================== -->
+
+  <div
+    id="taskModal"
+    class="modal">
+
+    <div class="modal-content">
+
+      <h2>
+
+        Add Task
+
+      </h2>
+
+      <input
+        type="text"
+        id="taskNameInput"
+        placeholder="Task name">
+
+      <input
+        type="date"
+        id="taskDeadlineInput">
+        <input
+  type="time"
+  id="taskTimeInput"
+>
+
+<input
+  type="text"
+  id="taskLocationInput"
+  placeholder="Place "
+>
+
+<input
+  id="taskNoteInput"
+  placeholder=" Information"
+>
+
+      <select id="taskPriorityInput">
+
+        <option value="low">
+
+          🟢 Low Priority
+
+        </option>
+
+        <option value="medium">
+
+          🟡 Medium Priority
+
+        </option>
+
+        <option value="high">
+
+          🔴 High Priority
+
+        </option>
+
+      </select>
+      
+
+      <div class="modal-actions">
+
+        <button
+          id="closeTaskModalBtn"
+          type="button">
+
+          Cancel
+
+        </button>
+
+        <button
+          id="saveTaskModalBtn"
+          type="button">
+
+          Save
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+  
+  <!-- =========================
+     HABIT MODAL
+========================== -->
+
+<div
+  id="habitModal"
+  class="modal"
+>
+
+  <div class="modal-content">
+
+    <h2>
+      Add Habit
+    </h2>
+
+    <input
+      type="text"
+      id="habitInput"
+      placeholder="Nama habit"
+    >
+
+    <select
+  id="habitRepeatInput"
+>
+
+  <option value="daily">
+    Daily
+  </option>
+
+  <option value="weekly">
+    Weekly
+  </option>
+
+  <option value="monthly">
+    Monthly
+  </option>
+
+  <option value="custom">
+    Certain day
+  </option>
+
+</select>
+<div
+  id="habitDaysBox"
+  style="display:none;"
+>
+
+  <p>Choose a day:</p>
+
+  <label>
+    <input type="checkbox" value="0">
+    Sunday
+  </label>
+
+  <label>
+    <input type="checkbox" value="1">
+    Monday
+  </label>
+
+  <label>
+    <input type="checkbox" value="2">
+    Tuesday
+  </label>
+
+  <label>
+    <input type="checkbox" value="3">
+    Wednesday
+  </label>
+
+  <label>
+    <input type="checkbox" value="4">
+    Thursday
+  </label>
+
+  <label>
+    <input type="checkbox" value="5">
+    Friday
+  </label>
+
+  <label>
+    <input type="checkbox" value="6">
+    Saturday
+  </label>
+
+</div>
+
+<div
+  id="habitDateBox"
+  style="display:none;"
+>
+
+  <p>Every date:</p>
+
+  <input
+    type="number"
+    id="habitDateInput"
+    min="1"
+    max="31"
+  >
+
+</div>
+
+    <input
+      type="time"
+      id="habitTimeInput"
+    >
+
+    <div class="modal-actions">
+
+      <button
+        id="closeHabitModalBtn"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <button
+        id="addHabitBtn"
+        type="button"
+      >
+        Save
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+  
+  <!-- =========================
+     NOTE MODAL
+========================== -->
+<div id="noteModal" class="modal">
+  <div class="modal-content">
+    <h2>Tulis Catatan</h2>
+    <input type="text" id="noteTitleInput" placeholder="Judul (Opsional)">
+    <textarea id="noteContentInput" placeholder="Mulai mengetik ide atau catatanmu di sini..."></textarea>
+    
+    <label class="pin-label">
+      <input type="checkbox" id="notePinInput"> 
+      📌 Sematkan Catatan
+    </label>
+    
+    <div class="modal-actions" style="margin-top: 16px;">
+      <button id="closeNoteModalBtn" type="button">
+        Batal
+      </button>
+      <button id="saveNoteModalBtn" type="button">
+        Simpan
+      </button>
+    </div>
+  </div>
+</div>
+
+  <div id="toast"></div>
+
+  <!-- =========================
+       CONFETTI
+  ========================== -->
+
+  <script src="./assets/libs/confetti.js"></script>
+  
+
+  <!-- =========================
+       CHART JS
+  ========================== -->
+
+  <script src="./assets/libs/chart.umd.js"></script>
+
+  <!-- =========================
+       MAIN SCRIPT
+  ========================== -->
+
+  <script type="module" src="./js/main.js"></script>
+
+  <!-- =========================
+       NOSCRIPT
+  ========================== -->
+
+  <noscript>
+
+    Aplication needs javascript.
+
+  </noscript>
+
+</body>
+</html>

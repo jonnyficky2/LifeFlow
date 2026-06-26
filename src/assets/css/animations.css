@@ -1,0 +1,106 @@
+/* ========================= ANIMATIONS ========================= */
+
+/* Button Hover Shine Effect */
+button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .1), transparent);
+  transition: .5s;
+}
+
+button:hover::before {  transition: all 0.2s ease-in-out;
+
+  left: 120%;
+}
+
+/* Floating Add Button Pulse */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#floatingAddBtn {
+  animation: pulse 2s infinite;
+}
+
+/* Splash Screen Logo Float */
+@keyframes floatLogo {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+#splashScreen img {
+  animation: floatLogo 2s infinite ease-in-out;
+}
+
+/* Splash Screen Content Fade In */
+@keyframes splashFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.splash-content {
+  animation: splashFade .8s ease;
+}
+
+/* Splash Screen Hide */
+.splash-hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+
+/* Toast Notification */
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(10px);
+}
+
+/* Stats Section Fade In */
+@keyframes fadeStats {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#statsSection {
+  animation: fadeStats .5s ease;
+}
+
+/* Sidebar Toggle (Hamburger to X) Animation */
+.sidebar-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.sidebar-toggle.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.sidebar-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
