@@ -1,179 +1,32 @@
-# LifeFlow: Your Personal Productivity Companion
+# React + TypeScript + Vite
 
-LifeFlow is a modern, all-in-one productivity web application designed to help you manage tasks, build healthy habits, track your progress, and stay consistent every day. It's built as a Progressive Web App (PWA) for a seamless, native-like experience across all your devices.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-## 🚀 Live Demo
+Currently, two official plugins are available:
 
--   **Demo**: https://todo-app-self-tau-89.vercel.app/
--   **GitHub Repository**: https://github.com/jonnyficky2/LifeFlow
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
----
+## React Compiler
 
-✨ Features
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-📝 Task Management
+## Expanding the Oxlint configuration
 
-- Create, edit, delete tasks
-- Task priority system
-- Search and filter tasks
-- Due date management
-- Subtask management
-- Undo / Redo actions
+If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
 
-🎯 Habit Tracker
+```json
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "options": {
+    "typeAware": true
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
+```
 
-- Daily habit tracking
-- Habit completion history
-- Streak calculation
-- Consistency monitoring
-
-📅 Calendar View
-
-- Monthly calendar interface
-- View tasks by date
-- Quick navigation between months
-
-📊 Productivity Analytics
-
-- Weekly productivity chart
-- Task completion statistics
-- Habit performance insights
-- Progress visualization
-- Dynamic charts (lazy-loaded)
-
-📒 Notes
-
-- Create and manage personal notes
-- Quick note-taking system
-- Local storage persistence
-
-🎮 Gamification
-
-- XP system
-- Level progression with unique titles
-- Productivity streak tracking
-
-🌙 User Experience
-
-- Dark / Light theme
-- System theme preference
-- Responsive mobile-first design
-- Toast notifications
-- Smooth animations
-
-📦 Progressive Web App (PWA)
-
-- Installable on mobile devices
-- Offline support with fallback page
-- Fast loading experience
-- Automatic update checks via service worker
-
-💾 Data Management
-
-- Automatic local saving
-- Export data to JSON
-- Import backup data
-- Secure local storage
-
----
-
-🛠️ Tech Stack
-
-Technology| Purpose
-HTML5| Structure
-CSS3| Styling
-Vanilla JavaScript| Application Logic
-Chart.js| Statistics & Charts
-LocalStorage API| Data Persistence
-Notification API| Reminders
-Service Worker| Offline Support
-PWA| App Installation
-
----
-
-📸 Screenshots
-
-### Dashboard
-
-![Dashboard](assets/screenshots/Dashboard.jpg)
-
-### Menu
-
-![Menu](assets/screenshots/Menu.jpg)
-
-### Tasks
-
-![Tasks](assets/screenshots/tasks.jpg)
-
-### Habits
-
-![Habits](assets/screenshots/habits.jpg)
-
-### Calendar
-
-![Calendar](assets/screenshots/calendar.jpg)
-
-### Statistics
-
-![Statistics](assets/screenshots/statistics.jpg)
-
----
-
-📂 Project Structure
-
-LifeFlow/
-│
-├── index.html
-├── manifest.json
-├── sw.js
-│
-├── css/
-│   └── style.css
-│
-├── js/
-│   ├── core/
-│   ├── task/
-│   ├── habit/
-│   ├── stats/
-│   ├── ui/
-│   ├── modules/
-│   └── pwa/
-│
-└── assets/
-
----
-
-🚀 Getting Started
-
-Clone the repository:
-
-git clone https://github.com/jonnyficky2/LifeFlow.git
-
-Open the project:
-
-index.html
-
-Or run it using Live Server.
-
----
-
-🎯 Roadmap
-
-- Achievement & Badge System
-- Goal Tracking
-- Activity Timeline
-- Cloud Synchronization
-- Multi-device Support
-- Android APK Version
-
----
-
-👨‍💻 Developer
-
-Created by Jonny Ficky
-
-Information Systems Student | Web Developer | Productivity App Enthusiast
-
----
-
-⭐ If you like this project, consider giving it a star on GitHub.
+See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.

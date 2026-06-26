@@ -53,3 +53,59 @@ Output:
 * Perubahan TASK_BOARD.md
 * Catatan SESSION_LOG.md
 * Next Action untuk sesi berikutnya
+
+TASK_BOARD
+=
+Apa yang dikerjakan
+
+MODULES
+=
+Status fitur
+
+PROJECT_STATE
+=
+Kondisi project
+
+ROADMAP
+=
+Arah jangka panjang
+
+
+start:
+1. Baca AGENTS.md
+
+↓
+
+2. Baca TASK_BOARD.md
+
+↓
+
+3. Kerjakan SATU task
+
+↓
+
+4. Build
+
+↓
+
+5. QA
+
+↓
+
+6. Saya (User) UAT
+
+↓
+
+7. PASS
+
+↓
+
+8. Commit
+
+↓
+
+9. Push
+
+↓
+
+10. SESSION_LOG update

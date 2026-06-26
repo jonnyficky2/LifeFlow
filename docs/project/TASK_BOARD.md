@@ -1,171 +1,128 @@
 # 📌 LifeFlow Single Source of Truth: TASK BOARD
 
-Dokumen ini adalah papan kendali utama (Single Source of Truth) untuk pengembangan LifeFlow. Selalu ambil tugas dari kolom **READY**, pindahkan ke **IN_PROGRESS** saat dikerjakan, dan ke **DONE** setelah divalidasi. Jangan biarkan tugas tersebar di catatan lain.
+Dokumen ini adalah papan kendali operasional untuk pengembangan LifeFlow.
+Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengikuti [DEVELOPMENT_WORKFLOW.md](./DEVELOPMENT_WORKFLOW.md). Status Lifecycle fitur keseluruhan ada di [MODULES.md](./MODULES.md).
 
 ---
 
-## 🟡 IN_PROGRESS
-*(Maksimal 1-2 task di sini agar tetap fokus)*
+## M1 - Foundation
+*(Setup Project, App Shell, & Global CSS)*
 
-### [CORE-001] Setup Project & Global CSS Foundation
-- **Description:** Inisialisasi repository aplikasi, instalasi dependensi utama (misal Vite/Next.js/React), dan konfigurasi CSS variabel berdasarkan `DESIGN_SYSTEM.md`.
-- **Priority:** Critical
-- **Status:** IN_PROGRESS
+### [TASK-101] Setup Project & Global CSS Foundation (Vite + React + TS)
+- **Description:** Inisialisasi arsitektur React dan adaptasi `style.css` legacy.
+- **Priority:** High
+- **Status:** DONE
 - **Dependencies:** None
-- **Notes:** Pastikan font 'Inter' dan 'JetBrains Mono' terhubung.
-- **Acceptance Criteria:**
-  - [ ] Aplikasi bisa berjalan dengan command dev (localhost).
-  - [ ] Variabel warna (Primary, Secondary, Accent, Background, Text) terdaftar di global CSS.
-  - [ ] Sistem grid dan border-radius standar sudah terkonfigurasi.
+- **Acceptance Criteria:** Build sukses tanpa error, global styling konsisten.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** Diselesaikan di iterasi awal.
+
+### [TASK-102] Simplify Navigation & App Shell
+- **Description:** Buat layout utama aplikasi (Sidebar + Main Content). Berdasarkan audit UX, sisakan menu Dashboard, Tasks, Notes, Habits, dan Settings.
+- **Priority:** High
+- **Status:** DONE
+- **Dependencies:** TASK-101
+- **Acceptance Criteria:** Sidebar merender menu utama dengan visual Active/Inactive, navigasi berpindah komponen.
+- **Progress:** 100%
+- **Related Docs:** UI Patterns, Design System.
+- **Notes:** Menggunakan background `#F9FAFB`. Mobile layout responsif diimplementasikan.
 
 ---
 
-## 🟢 READY
-*(Siap dikerjakan segera di sprint ini. Prioritas tertinggi)*
+## M2 - Task Management
+*(Migrasi Core Task Logic, UI Tasks, dan Modal)*
 
-### [UX-001] Simplify Navigation & App Shell 🎯 (UX Audit)
-- **Description:** Buat layout utama aplikasi (Sidebar + Main Content). Berdasarkan audit, cukup sisakan menu Dashboard, Tasks, Notes, Habits, dan Settings. Hapus menu AI dan Analytics mandiri.
+### [TASK-201] Migrasi Logic & Komponen UI Tasks
+- **Description:** Implementasikan fitur utama CRUD tugas, integrasikan Modal, dan pasang manajemen State di AppContext dengan dukungan LocalStorage, fitur Undo/Redo, dan Dark Mode.
 - **Priority:** High
-- **Status:** READY
-- **Dependencies:** [CORE-001]
-- **Notes:** Gunakan ikon minimalis. Gaya sidebar harus *clean* dengan background `#F9FAFB` (Light).
-- **Acceptance Criteria:**
-  - [ ] Sidebar me-render menu utama.
-  - [ ] Terdapat status *Active/Inactive* saat menu diklik.
-  - [ ] Navigasi berfungsi pindah antar komponen/halaman kosong.
+- **Status:** TESTING
+- **Dependencies:** TASK-102
+- **Acceptance Criteria:** Fitur berjalan identik dengan legacy. UI sesuai dengan style.css.
+- **Progress:** 95%
+- **Related Docs:** [UAT_CHECKLIST_PHASE2.md](../testing/UAT_CHECKLIST_PHASE2.md)
+- **Notes:** Pengembangan selesai, saat ini menahan status di TESTING menunggu kelulusan Checklist UAT dari user.
 
-### [UX-002] Build Base UI Components (Remove Heavy Shadows) 🎯 (UX Audit)
-- **Description:** Buat re-usable component utama (Button, Input, Card) dengan filosofi desain "Flat & Clean" (1px border, shadow seminimal mungkin).
-- **Priority:** High
-- **Status:** READY
-- **Dependencies:** [CORE-001]
-- **Notes:** Fokus pada state *Hover* (misal button berubah warna sedikit) untuk menciptakan sensasi aplikasi yang super responsif (*snappy*).
-- **Acceptance Criteria:**
-  - [ ] Tersedia Button component (Primary, Secondary, Ghost).
-  - [ ] Tersedia Card component (dengan border `#E5E7EB`).
-  - [ ] Tersedia Input text standard.
-
-### [UX-003] Mobile Layout View Force 🎯 (UX Audit)
-- **Description:** Implementasikan layout responsif. Di bawah lebar 768px, sembunyikan sidebar jadi bottom nav bar atau hamburger menu.
-- **Priority:** High
-- **Status:** READY
-- **Dependencies:** [UX-001]
-- **Notes:** Persiapan agar Kanban board tidak rusak saat dibuka di HP nantinya.
-- **Acceptance Criteria:**
-  - [ ] Ketika layar di-resize ke ukuran *mobile*, sidebar beradaptasi dan tidak berantakan.
-  - [ ] Tidak ada konten yang tumpah secara horizontal (overflow-x).
-
----
-
-## 🔴 BLOCKED
-*(Tugas yang terhenti karena masalah teknis/menunggu)*
-- *(Tidak ada task yang diblokir saat ini)*
-
----
-
-## ⚪ TESTING
-*(Tugas yang baru saja selesai coding dan butuh validasi UI/UX di berbagai layar)*
-- *(Kosong)*
-
----
-
-## 📦 BACKLOG
-*(Ide, tugas, dan fitur yang sudah didefinisikan, siap ditarik ke READY)*
-
-### [CORE-002] Inisialisasi Database Local-First
-- **Description:** Pasang arsitektur penyimpanan (IndexedDB / SQLite WASM) agar aplikasi bisa menyimpan dan meload data secara offline dengan kecepatan 0ms (tanpa loading).
-- **Priority:** High
-- **Status:** BACKLOG
-- **Dependencies:** [CORE-001]
-- **Notes:** Hindari fetch API dari backend server di tahap ini. Simpan murni di peramban (browser) user.
-- **Acceptance Criteria:**
-  - [ ] Bisa melakukan operasi CRUD dasar pada data *dummy* tanpa error.
-  - [ ] Data persisten walau tab browser ditutup/refresh.
-
-### [UX-006] Inline Task Input (Zero-Friction) 🎯 (UX Audit)
-- **Description:** Hapus sistem penambahan Task tradisional (yang pakai *modal pop-up* panjang). Buat input satu baris (seperti command line) persis di bagian atas halaman Tasks.
+### [TASK-202] Inline Task Input (Zero-Friction)
+- **Description:** Hapus sistem penambahan Task tradisional (modal panjang) untuk penambahan cepat. Buat input satu baris (command line style) persis di atas halaman Tasks.
 - **Priority:** Medium
 - **Status:** BACKLOG
-- **Dependencies:** [UX-002], [CORE-002]
-- **Notes:** Alur: Ketik judul -> Tekan Enter -> Langsung submit.
-- **Acceptance Criteria:**
-  - [ ] Menekan tombol "Enter" akan membuat task baru dan langsung muncul di bawahnya.
-  - [ ] Field input langsung bersih kembali setelah tekan enter.
+- **Dependencies:** TASK-201
+- **Acceptance Criteria:** Menekan "Enter" membuat task baru, field langsung bersih.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** Optimalisasi User Experience (UX) lanjutan.
 
-### [FEAT-001] Habit Tracker Grid UI
+---
+
+## M3 - Calendar
+*(Tampilan Kalender & Sinkronisasi Deadline)*
+
+*(Belum ada task spesifik dijadwalkan, menanti inisiasi)*
+
+---
+
+## M4 - Habit Tracker
+*(Grid Kontribusi Github-style)*
+
+### [TASK-401] Habit Tracker Grid UI
 - **Description:** Bangun antarmuka Habit berupa kalender kontribusi bergaya GitHub (grid baris mingguan) dan persentase sukses bulanan.
 - **Priority:** Medium
 - **Status:** BACKLOG
-- **Dependencies:** [UX-001], [CORE-002]
-- **Notes:** Implementasikan *Optimistic UI Updates* (kotak langsung berubah centang hijau saat diklik, tanpa spinner, abaikan jeda penyimpanan data).
-- **Acceptance Criteria:**
-  - [ ] Render daftar Habit.
-  - [ ] Kotak grid bisa diklik untuk mengubah status Selesai/Belum.
+- **Dependencies:** TASK-102
+- **Acceptance Criteria:** Render daftar Habit, kotak grid bisa diklik (Optimistic UI Update).
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** Hindari spinner, simpan via LocalStorage seketika.
 
-### [UX-008] Omnibar (Cmd+K) Navigation 🎯 (UX Audit)
-- **Description:** Buat *modal global* yang akan muncul saat user menekan shortcut keyboard `Cmd/Ctrl + K`.
+---
+
+## M5 - Notes
+*(Penyimpanan Jurnal dan Teks)*
+
+### [TASK-501] Two-Pane Notes Editor
+- **Description:** Layar Notes terbagi dua (Daftar Note di Sidebar kiri, Editor Markdown di kanan).
 - **Priority:** Medium
 - **Status:** BACKLOG
-- **Dependencies:** [UX-002]
-- **Notes:** Ini krusial bagi sasaran power users (mahasiswa SI). Bisa dipakai untuk ganti halaman atau lapor perintah cepat.
-- **Acceptance Criteria:**
-  - [ ] Tekan Cmd+K memunculkan modal di layar mana saja.
-  - [ ] Menggunakan panah atas-bawah dan menekan Enter akan berpindah rute (route).
+- **Dependencies:** TASK-102
+- **Acceptance Criteria:** List notes di kiri bisa diklik, auto-save teks yang diketik.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** Gunakan Markdown Editor yang ringan, jangan WYSIWYG berat.
 
-### [FEAT-002] Two-Pane Notes Editor
-- **Description:** Layar Notes terbagi dua (Daftar Note di Sidebar kiri, Editor *Rich Text / Markdown* besar di sebelah kanan).
-- **Priority:** Medium
-- **Status:** BACKLOG
-- **Dependencies:** [UX-001]
-- **Notes:** Hindari editor WYSIWYG yang berat, cari *Markdown Editor* yang ringkas.
-- **Acceptance Criteria:**
-  - [ ] List notes di kiri bisa diklik untuk membuka isinya di kanan.
-  - [ ] Teks yang diketik tersimpan otomatis (auto-save).
+---
 
-### [UX-005] Empty States Minimalist 🎯 (UX Audit)
-- **Description:** Buat ilustrasi grafis kecil (SVG) dan sebuah tombol tindakan (*Call to Action*) untuk memandu pengguna baru jika Tasks, Notes, atau Habits masih kosong.
+## M6 - Analytics
+*(Global Analytics & Focus Timer)*
+
+### [TASK-601] Focus Timer
+- **Description:** Pomodoro-style timer yang terhubung langsung dengan penyelesaian Tasks.
 - **Priority:** Low
 - **Status:** BACKLOG
-- **Dependencies:** [UX-002]
-- **Notes:** Penting mengatasi "Blank Canvas Syndrome".
-- **Acceptance Criteria:**
-  - [ ] Tampilan yang kosong memiliki panduan, bukan sekadar "Data not found".
+- **Dependencies:** TASK-201
+- **Acceptance Criteria:** Timer dapat dihitung mundur, sesi dicatat ke data harian.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
 
-### [AI-001] Invisible AI: Extract Tasks from Notes 🎯 (UX Audit)
-- **Description:** Tambahkan tombol (✨ AI) di dalam editor Notes yang bisa mengekstrak paragraf teks panjang menjadi item *To-Do list* dan mengirimnya ke modul Tasks.
+---
+
+## M7 - AI Workspace
+*(Ekstraksi otomatis dan generative features)*
+
+### [TASK-701] Invisible AI: Extract Tasks from Notes
+- **Description:** Tambahkan tombol (✨ AI) di dalam editor Notes untuk mengekstrak paragraf menjadi To-Do list dan dikirim ke modul Tasks.
 - **Priority:** Low
 - **Status:** BACKLOG
-- **Dependencies:** [FEAT-002], [CORE-002]
-- **Notes:** Ini mewujudkan AI yang *background/invisible* dibanding fitur chat. Gunakan Gemini/OpenAI API.
-- **Acceptance Criteria:**
-  - [ ] AI bisa mendeteksi kata berunsur aksi (misal: "jangan lupa kumpul laporan") menjadi Task Item bernama "Kumpul Laporan".
+- **Dependencies:** TASK-501, TASK-201
+- **Acceptance Criteria:** API mendeteksi frasa aksi dan meresolusi menjadi Task Item terstruktur.
+- **Progress:** 0%
+- **Related Docs:** API Docs (Gemini/OpenAI)
+- **Notes:** Fokus pada "Invisible AI", bukan antarmuka chatbot full-screen.
 
 ---
 
-## 🔵 DONE
-*(Tugas yang sudah divalidasi dan diimplementasikan secara live/dirilis)*
-- `[DOC-001]` Pembuatan Visi, PRD, dan Struktur Folder.
-- `[DOC-002]` Pembuatan UI/UX Documents (Screen Inventory, User Flows, Design System, UI Patterns, Wireframes).
-- `[DOC-003]` Eksekusi Senior UX Audit & Prioritization Action Plan.
+## M8 - Team Collaboration
+*(Fase lanjut skalabilitas)*
 
----
-
-## 📁 ARCHIVED
-*(Fitur yang digugurkan, dibatalkan, atau dibekukan / Icebox)*
-- ❌ Halaman Chatbot AI khusus *Full Screen* (Di-drop berdasarkan UX Audit).
-- ❌ Global Analytics Menu (Di-drop berdasarkan UX Audit).
-- ❌ Sinkronisasi 2 arah dengan Google Calendar (Ditunda untuk versi 2.0).
-
----
-
-## 💡 Rekomendasi Urutan Pengerjaan
-Gunakan pedoman urutan (*Pipeline*) berikut agar momentum Anda sebagai Solo Developer tidak mandek:
-
-1.  **[CORE-001]** Bangun inisiasi file repositori.
-2.  **[UX-001], [UX-002], [UX-003]** Selesaikan visual "App Shell" dan *routing* halamannya. (Minggu Pertama).
-3.  **[CORE-002]** Pasang skema penyimpanan lokal agar Anda bisa memasukkan data tes mandiri.
-4.  **[UX-006]** Langsung hantam fitur buat Task *Inline* (Tes seberapa cepat rasanya menggunakan penyimpanan lokal).
-5.  **[FEAT-001], [FEAT-002]** Bangun tampilan modul sisanya (Habit & Notes).
-6.  **[UX-008]** Menjahit semua sistem dengan pergerakan *Omnibar* (Membuat semuanya terhubung).
-7.  **[UX-005]** Poles keadaan kosong (*Empty States*).
-8.  **[AI-001]** Hadirkan sulap AI sebagai sentuhan akhir MVP.
+*(Fitur berbagi dan kolaborasi ditangguhkan ke masa depan)*
