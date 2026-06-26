@@ -5,7 +5,7 @@ import { useTasks } from '../../hooks/useTasks';
 
 export const Tasks: React.FC = () => {
   const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask } = useAppContext();
-  const { toggleTask, toggleSubtask, deleteTask, deleteCategory } = useTasks();
+  const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory } = useTasks();
 
   const [filter, setFilter] = useState<'all' | 'pending' | 'done'>('all');
   const [search, setSearch] = useState('');
@@ -170,6 +170,22 @@ export const Tasks: React.FC = () => {
               </div>
             );
           })}
+        </div>
+
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <button 
+            type="button" 
+            className="btn" 
+            style={{ padding: '8px 16px', background: 'var(--bg-secondary)', border: '1px dashed var(--border-color)', color: 'var(--text-color)', width: '100%', borderRadius: '8px', cursor: 'pointer' }}
+            onClick={() => {
+              const name = window.prompt("Enter new category name:");
+              if (name && name.trim()) {
+                addCategory(name.trim());
+              }
+            }}
+          >
+            + Create New Category
+          </button>
         </div>
 
         {!hasVisibleTasks && appData.length > 0 && (

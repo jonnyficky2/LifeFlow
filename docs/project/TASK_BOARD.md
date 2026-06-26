@@ -58,7 +58,15 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ## M3 - Calendar
 *(Tampilan Kalender & Sinkronisasi Deadline)*
 
-*(Belum ada task spesifik dijadwalkan, menanti inisiasi)*
+### [TASK-301] Foundation Calendar Module
+- **Description:** Implementasi halaman kalender bulanan, integrasi AppContext untuk membaca task berdasarkan deadline, highlight tanggal, dan empty state.
+- **Priority:** High
+- **Status:** BUILD PASS
+- **Dependencies:** TASK-201
+- **Acceptance Criteria:** Render kalender bulan ini, tugas muncul di dalam tanggal yang tepat.
+- **Progress:** 95%
+- **Related Docs:** None
+- **Notes:** Menunggu Manual UAT dari pengguna.
 
 ---
 
