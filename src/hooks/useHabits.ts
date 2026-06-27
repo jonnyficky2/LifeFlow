@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useAppContext } from '../context/AppContext';
 import type { Habit } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
@@ -6,7 +7,7 @@ export const useHabits = () => {
   const { habits, setHabits, habitHistory, setHabitHistory, saveHistorySnapshot } = useAppContext();
   const { showToast } = useToast();
 
-  const addHabit = (name: string, color: string = 'var(--primary-color)', icon: string = '🎯') => {
+  const addHabit = useCallback((name: string, color: string = 'var(--primary-color)', icon: string = '🎯') => {
     saveHistorySnapshot();
     const newHabit: Habit = {
       id: `habit_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
@@ -17,9 +18,9 @@ export const useHabits = () => {
     };
     setHabits([...habits, newHabit]);
     showToast(`Habit "${name}" added`, 'success');
-  };
+  }, [saveHistorySnapshot, setHabits, habits, showToast]);
 
-  const deleteHabit = (habitId: string) => {
+  const deleteHabit = useCallback((habitId: string) => {
     saveHistorySnapshot();
     setHabits(habits.filter(h => h.id !== habitId));
     
@@ -28,9 +29,9 @@ export const useHabits = () => {
     delete newHistory[habitId];
     setHabitHistory(newHistory);
     showToast('Habit deleted', 'warning');
-  };
+  }, [saveHistorySnapshot, setHabits, habits, habitHistory, setHabitHistory, showToast]);
 
-  const toggleHabitDate = (habitId: string, dateString: string) => {
+  const toggleHabitDate = useCallback((habitId: string, dateString: string) => {
     saveHistorySnapshot();
     
     const newHistory = { ...habitHistory };
@@ -47,7 +48,7 @@ export const useHabits = () => {
     }
     
     setHabitHistory(newHistory);
-  };
+  }, [saveHistorySnapshot, habitHistory, setHabitHistory, showToast]);
 
   const getCompletionRate = (habitId: string, days: number = 30): number => {
     const dates = habitHistory[habitId] || [];

@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useAppContext } from '../context/AppContext';
 import type { Note } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
@@ -6,7 +7,7 @@ export const useNotes = () => {
   const { notes, setNotes, saveHistorySnapshot } = useAppContext();
   const { showToast } = useToast();
 
-  const addNote = (title: string = 'Untitled Note') => {
+  const addNote = useCallback((title: string = 'Untitled Note') => {
     saveHistorySnapshot();
     const newNote: Note = {
       id: `note_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
@@ -18,9 +19,9 @@ export const useNotes = () => {
     setNotes([newNote, ...notes]);
     showToast('Note created', 'success');
     return newNote.id;
-  };
+  }, [saveHistorySnapshot, setNotes, notes, showToast]);
 
-  const updateNote = (id: string, updates: Partial<Note>) => {
+  const updateNote = useCallback((id: string, updates: Partial<Note>) => {
     // Only call saveHistorySnapshot if this is a meaningful manual action, 
     // but for real-time auto-save we don't want to spam the undo stack on every keystroke.
     // The UI should handle undo/redo stack grouping, or we just rely on standard input undo.
@@ -33,13 +34,13 @@ export const useNotes = () => {
           : note
       )
     );
-  };
+  }, [setNotes]);
 
-  const deleteNote = (id: string) => {
+  const deleteNote = useCallback((id: string) => {
     saveHistorySnapshot();
     setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
     showToast('Note deleted', 'warning');
-  };
+  }, [saveHistorySnapshot, setNotes, showToast]);
 
   return {
     addNote,
