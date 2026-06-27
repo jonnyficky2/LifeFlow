@@ -81,11 +81,11 @@ export const Calendar: React.FC = () => {
   return (
     <div className="calendar-container">
       <div className="calendar-header">
-        <button className="calendar-nav-btn" onClick={prevMonth}>&lt; Prev</button>
+        <button className="calendar-nav-btn" aria-label="Previous Month" onClick={prevMonth}>&lt; Prev</button>
         <h2>
           {currentDate.toLocaleString('default', { month: 'long' })} {year}
         </h2>
-        <button className="calendar-nav-btn" onClick={nextMonth}>Next &gt;</button>
+        <button className="calendar-nav-btn" aria-label="Next Month" onClick={nextMonth}>Next &gt;</button>
       </div>
 
       <div className="calendar-grid-header">
@@ -144,9 +144,12 @@ export const Calendar: React.FC = () => {
           
           {selectedTasks.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {selectedTasks.map((t, idx) => (
+               {selectedTasks.map((t, idx) => (
                 <div 
                   key={idx} 
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Edit task ${t.name}`}
                   style={{ 
                     padding: '12px', 
                     background: 'var(--bg-primary)', 
@@ -158,6 +161,12 @@ export const Calendar: React.FC = () => {
                     cursor: 'pointer'
                   }}
                   onClick={(e) => handleTaskClick(e, t.catIndex, t.taskIndex)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleTaskClick(e as any, t.catIndex, t.taskIndex);
+                    }
+                  }}
                 >
                   <div style={{
                     width: '12px',

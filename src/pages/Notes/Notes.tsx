@@ -83,6 +83,7 @@ export const Notes: React.FC = () => {
           <input 
             type="text" 
             placeholder="Search notes..." 
+            aria-label="Search notes"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -141,7 +142,7 @@ export const Notes: React.FC = () => {
                 onChange={(e) => setLocalTitle(e.target.value)}
                 placeholder="Note Title"
               />
-              <button className="btn-delete-note" onClick={handleDelete} title="Delete Note">
+              <button className="btn-delete-note" onClick={handleDelete} title="Delete Note" aria-label="Delete note">
                 🗑
               </button>
             </div>

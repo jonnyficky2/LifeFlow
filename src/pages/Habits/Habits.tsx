@@ -116,7 +116,7 @@ export const Habits: React.FC = () => {
                     </div>
                   </div>
                   <div className="habit-actions">
-                    <button onClick={() => {
+                    <button aria-label={`Delete habit ${habit.name}`} onClick={() => {
                       if (window.confirm(`Delete habit "${habit.name}"? This action cannot be undone.`)) {
                         deleteHabit(habit.id);
                       }

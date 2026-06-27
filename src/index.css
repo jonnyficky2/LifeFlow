@@ -87,3 +87,15 @@ a {
   color: var(--primary);
   text-decoration: none;
 }
+
+/* Accessibility overrides for keyboard users */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--primary) !important;
+  outline-offset: 2px !important;
+}

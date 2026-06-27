@@ -73,8 +73,8 @@ export const Dashboard: React.FC = () => {
           <p>Let's make today productive.</p>
         </div>
         <div className="dashboard-header-actions">
-          <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" onClick={undo}>↩</button>
-          <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" onClick={redo}>↪</button>
+          <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" aria-label="Undo last action" onClick={undo}>↩</button>
+          <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" aria-label="Redo last action" onClick={redo}>↪</button>
           <button id="desktopThemeToggle" type="button" className="btn btn--icon" aria-label="Toggle theme" onClick={toggleTheme}>◐</button>
         </div>
       </section>

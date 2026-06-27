@@ -138,12 +138,12 @@ Deskripsi: "Milestone ini berfokus pada peningkatan kualitas, performa, konsiste
 ### [TASK-554] Accessibility Audit
 - **Description:** Pastikan aksesibilitas aplikasi terpenuhi.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** keyboard navigation, focus indicator, aria label yang diperlukan, color contrast layak, responsive tetap baik.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** Indikator fokus terstandarisasi, pelabelan ARIA terpasang di semua halaman.
 
 ### [TASK-555] Performance Optimization
 - **Description:** Optimalisasi tanpa optimisasi prematur.

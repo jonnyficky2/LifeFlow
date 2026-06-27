@@ -88,6 +88,7 @@ export const Tasks: React.FC = () => {
           type="text"
           id="searchInput"
           placeholder="Search task..."
+          aria-label="Search tasks"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -127,13 +128,13 @@ export const Tasks: React.FC = () => {
                 <div className="category-header">
                   <h2>{category.name}</h2>
                   <div>
-                    <button onClick={() => {
+                    <button aria-label="Edit category" onClick={() => {
                       const newName = window.prompt("Enter new category name:", category.name);
                       if (newName) {
                         // we need to edit category, wait, let's just do it inline here or add to useTasks
                       }
                     }}>✏️</button>
-                    <button onClick={() => deleteCategory(catIndex)}>🗑</button>
+                    <button aria-label="Delete category" onClick={() => deleteCategory(catIndex)}>🗑</button>
                   </div>
                 </div>
 
@@ -184,8 +185,8 @@ export const Tasks: React.FC = () => {
                         </div>
 
                         <div className="task-right">
-                          <button onClick={() => handleEditTask(catIndex, originalTaskIndex)}>✏️</button>
-                          <button onClick={() => deleteTask(catIndex, originalTaskIndex)}>🗑</button>
+                          <button aria-label="Edit task" onClick={() => handleEditTask(catIndex, originalTaskIndex)}>✏️</button>
+                          <button aria-label="Delete task" onClick={() => deleteTask(catIndex, originalTaskIndex)}>🗑</button>
                         </div>
                       </div>
                     );
@@ -212,6 +213,7 @@ export const Tasks: React.FC = () => {
                   <button 
                     onClick={() => handleAddTask(catIndex)}
                     title="Open Detailed Modal"
+                    aria-label="Open detailed task modal"
                     style={{
                       padding: '0 16px',
                       borderRadius: '8px',
