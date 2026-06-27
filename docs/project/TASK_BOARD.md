@@ -295,7 +295,7 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-571] Restore UI Consistency
 - **Description:** Terapkan unifikasi CSS variables di variables.css, hapus definisi root yang redundan di style.css, serta perbaiki overlay sidebar z-index.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-570
 - **Acceptance Criteria:** Variabel warna konsisten di seluruh modul, sidebar mobile/overlay terlapisi dengan benar.
 - **Progress:** 100%
@@ -305,7 +305,7 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-572] Input & Search Standardization
 - **Description:** Standardisasi input field, search box, textarea, select dropdown di Tasks, Notes, dan modal sesuai pedoman.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** IN_PROGRESS
 - **Dependencies:** TASK-570, TASK-571
 - **Acceptance Criteria:** Semua input dan search box konsisten tinggi (height 44px), radius, dan visual focus ring.
 - **Progress:** 0%
