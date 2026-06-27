@@ -40,10 +40,11 @@
       - *Clean up Legacy xp-bar*: Menghapus deklarasi kelas `.light-mode .xp-bar` duplikat yang memiliki style hardcoded, agar progress bar level di dashboard murni ter-render dengan design tokens.
       - *Standardisasi Tombol*: Mengganti warna latar belakang gradien dan border tombol light mode (`#ffffff`, `#e2e8f0`, `#d1d5db`) dengan tokens (`var(--color-surface)`, `var(--color-bg-deep)`, `var(--color-border)`).
       - *BottomNav & DayBox*: Mengubah warna latar belakang aktif Bottom Navigation dan kontainer `.day-box` menjadi `var(--color-bg-deep)` alih-alih nilai hardcoded.
-      - *React Inline Styles & Modals*: Mengganti fallback hardcoded `#f0f0f0` dan inline styles border `rgba(...)` pada subtask list dan advanced options di `TaskModal.tsx` dengan `var(--color-bg-deep)` dan `var(--color-border)`. Serta memperbarui item tugas terpilih pada `Calendar.tsx` dengan variabel token standar.
+      - *React Inline Styles & Modals*: Mengganti fallback hardcoded `#f0f0f0` dan inline styles border `rgba(...)` pada subtask list dan advanced options di `TaskModal.tsx` dengan `var(--color-bg-deep)` and `var(--color-border)`. Serta memperbarui item tugas terpilih pada `Calendar.tsx` dengan variabel token standar.
       - *Modular CSS Cleanup*: Menggantikan hex warna fungsional status (`#EF4444`, `#10B981`, `#F59E0B`) di `Habits.css`, `Notes.css`, dan `Calendar.css` dengan variabel CSS (`var(--color-danger)`, `var(--color-success)`, `var(--color-warning)`).
+      - *Audit Sidebar & Navbar*: Mengganti warna teks, hover state, active state, close button, label, dan border pada sidebar (`.sidebar-item`, `.sidebar-close`, `.sidebar-label`, `.sidebar-email`, `.sidebar-profile-img`) serta border navbar profil user (`.nav-user-img`) dan background `.sidebar-toggle span` dari hardcoded hex ke Design Tokens (`var(--color-text)`, `var(--color-muted)`, `var(--color-border)`, `var(--color-primary)`).
     - Status `[TASK-571]` tetap dalam status **TESTING** untuk proses UAT ulang oleh user.
-  - Berhasil menjalankan `npm run build` dan `npm run lint` dengan status PASS 100% (bebas error).
+  - Berhasil menjalankan `npm run build` and `npm run lint` dengan status PASS 100% (bebas error).
 
 ## 2026-06-26
 - **Audit Tahap 2 & Resolusi Bug:**
