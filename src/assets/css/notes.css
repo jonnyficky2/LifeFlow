@@ -3,15 +3,15 @@
 .note-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 16px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   transition: 0.3s;
   display: flex;
-  gap: 16px;
+  gap: var(--space-4);
   align-items: flex-start;
 }
 
@@ -32,13 +32,13 @@
 
 .note-card h3 {
   font-size: 18px;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .note-card p {
   font-size: 14px;
   opacity: 0.85;
-  margin: 12px 0;
+  margin: var(--space-3) 0;
   white-space: pre-wrap;
   line-height: 1.6;
 }
@@ -52,7 +52,7 @@
 .note-checkbox {
   width: 20px;
   height: 20px;
-  margin-top: 4px;
+  margin-top: var(--space-1);
   cursor: pointer;
 }
 

@@ -4,30 +4,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  margin-top: 24px;
+  margin-bottom: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 #calendarGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .calendar-day {
   min-height: 90px;
-  padding: 8px;
+  padding: var(--space-2);
   font-size: 12px;
 }
 
 .calendar-day strong {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
 }
 
 .calendar-task {
   margin-top: 5px;
-  padding: 4px 6px;
+  padding: var(--space-1) 6px;
   border-radius: var(--radius-sm);
   font-size: 11px;
   background: linear-gradient(135deg, var(--primary), var(--color-success));
@@ -74,15 +74,15 @@
 }
 
 .day-task-item {
-  padding: 16px;
+  padding: var(--space-4);
   border-radius: var(--radius-md);
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(10px);
 }
 
 .day-task-item h4 {
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
   font-size: 16px;
 }
 
@@ -93,6 +93,6 @@
 }
 
 .day-task-item button {
-  margin-top: 8px;
-  margin-right: 8px;
+  margin-top: var(--space-2);
+  margin-right: var(--space-2);
 }

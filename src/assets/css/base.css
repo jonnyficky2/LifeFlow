@@ -20,7 +20,7 @@ body {
               linear-gradient(135deg, var(--color-bg), var(--color-bg-deep) 72%);
   color: var(--color-text);
   padding: 0;
-  padding-bottom: 48px;
+  padding-bottom: var(--space-7);
   transition: background 0.35s, color 0.35s;
 }
 
@@ -58,7 +58,7 @@ h1 {
 
 h2 {
   font-size: 22px;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-3);
 }
 
 /* ========================= SCROLLBAR ========================= */

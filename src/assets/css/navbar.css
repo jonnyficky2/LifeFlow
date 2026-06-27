@@ -14,7 +14,7 @@
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--space-5);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24,7 +24,7 @@
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   cursor: pointer;
   text-decoration: none;
   color: white;
@@ -34,7 +34,7 @@
 .navbar-logo {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
 }
 
@@ -51,7 +51,7 @@
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   pointer-events: auto;
 }
 
@@ -62,7 +62,7 @@
 .nav-user-img {
   width: 42px;
   height: 42px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
   border: 2px solid #526dff;
   pointer-events: auto;
@@ -83,10 +83,10 @@
   height: 40px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  padding: 8px;
-  margin-left: 4px;
+  padding: var(--space-2);
+  margin-left: var(--space-1);
 }
 
 .sidebar-toggle span {
@@ -108,10 +108,10 @@
   background: var(--color-nav-bg);
   box-shadow: 6px 0 30px rgba(0, 0, 0, 0.35);
   z-index: 1500;
-  padding: 24px;
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-5);
   transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -138,7 +138,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .sidebar-label {
@@ -146,7 +146,7 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .sidebar-title {
@@ -165,21 +165,21 @@
 
 .sidebar-profile {
   display: flex;
-  gap: 16px;
+  gap: var(--space-4);
   align-items: center;
 }
 
 .sidebar-profile-img {
   width: 56px;
   height: 56px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-name {
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .sidebar-email {
@@ -191,7 +191,7 @@
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .sidebar-item {
@@ -200,8 +200,8 @@
   background: rgba(255, 255, 255, 0.04);
   color: #e2e8f0;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 16px 16px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) 16px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -217,10 +217,10 @@
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 12px;
+  bottom: var(--space-3);
   width: 92%;
   max-width: 450px;
-  padding: 16px;
+  padding: var(--space-4);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -247,7 +247,7 @@
   max-width: 1480px;
   height: 96px;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: 0 var(--space-6);
 }
 
 .navbar-brand {
@@ -260,8 +260,8 @@
   height: 40px;
   justify-content: center;
   gap: 5px;
-  padding: 8px;
-  border-radius: 8px;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -276,7 +276,7 @@
 .app-sidebar {
   left: -288px;
   width: 288px;
-  padding: 32px 16px 24px;
+  padding: var(--space-6) 16px 24px;
   background: rgba(6, 16, 31, 0.92);
   border-right: 1px solid var(--dash-border);
   box-shadow: 18px 0 50px rgba(0, 0, 0, 0.24);
@@ -287,20 +287,20 @@
 }
 
 .sidebar-header {
-  padding: 0 16px;
+  padding: 0 var(--space-4);
   justify-content: space-between;
 }
 
 .app-sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .app-sidebar-brand .sidebar-profile-img {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
 .sidebar-title {
@@ -323,9 +323,9 @@
 .app-nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 24px;
-  padding: 12px;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding: var(--space-3);
   border-radius: var(--dash-radius);
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
@@ -333,8 +333,8 @@
 
 .sidebar-item {
   min-height: 56px;
-  border-radius: 8px;
-  padding: 0 24px;
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-5);
   color: #c6d2e8;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -355,8 +355,8 @@
 }
 
 .sidebar-streak-card {
-  margin: 16px 8px 0;
-  padding: 16px 24px;
+  margin: var(--space-4) 8px 0;
+  padding: var(--space-4) 24px;
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
   border-radius: var(--dash-radius);
@@ -378,7 +378,7 @@
 
 .sidebar-streak-card strong {
   display: block;
-  margin: 8px 0 6px;
+  margin: var(--space-2) 0 6px;
   font-size: 28px;
   color: var(--dash-text);
 }
@@ -386,7 +386,7 @@
 .sidebar-streak-card i {
   display: block;
   height: 8px;
-  margin-top: 16px;
+  margin-top: var(--space-4);
   border-radius: 99px;
   background: rgba(148, 163, 184, 0.16);
 }

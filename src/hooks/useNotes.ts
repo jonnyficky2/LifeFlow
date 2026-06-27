@@ -1,8 +1,10 @@
 import { useAppContext } from '../context/AppContext';
 import type { Note } from '../context/AppContext';
+import { useToast } from '../context/ToastContext';
 
 export const useNotes = () => {
   const { notes, setNotes, saveHistorySnapshot } = useAppContext();
+  const { showToast } = useToast();
 
   const addNote = (title: string = 'Untitled Note') => {
     saveHistorySnapshot();
@@ -14,6 +16,7 @@ export const useNotes = () => {
       updatedAt: new Date().toISOString()
     };
     setNotes([newNote, ...notes]);
+    showToast('Note created', 'success');
     return newNote.id;
   };
 
@@ -35,6 +38,7 @@ export const useNotes = () => {
   const deleteNote = (id: string) => {
     saveHistorySnapshot();
     setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
+    showToast('Note deleted', 'warning');
   };
 
   return {

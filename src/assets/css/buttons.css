@@ -6,7 +6,7 @@
   border: none;
   outline: none;
   border-radius: var(--radius-sm);
-  padding: 12px 16px;
+  padding: var(--space-3) 16px;
   font-weight: 600;
   color: var(--color-text);
   background: linear-gradient(135deg, var(--color-button-bg-1), var(--color-button-bg-2));
@@ -18,7 +18,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .btn:hover {  transition: all 0.2s ease-in-out;
@@ -114,7 +114,7 @@ button:hover {  transition: all 0.2s ease-in-out;
 .category-empty-row button,
 .quick-actions button,
 #emptyAddTaskBtn {
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--primary), var(--primary));
   border: 0;
   box-shadow: 0 12px 30px rgba(78, 112, 255, 0.22);
@@ -128,7 +128,7 @@ button:hover {  transition: all 0.2s ease-in-out;
 }
 
 #bottomNav button {
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   width: 52px;
   height: 52px;
 }
@@ -139,8 +139,8 @@ button:hover {  transition: all 0.2s ease-in-out;
 
 .share-btn {
   width: 100%;
-  margin: 24px 0;
-  padding: 16px;
+  margin: var(--space-5) 0;
+  padding: var(--space-4);
   font-size: 16px;
   background: linear-gradient(135deg, #ec4899, #f43f5e);
   border-radius: 20px;

@@ -1,10 +1,10 @@
 .habits-wrapper {
-  padding: 24px;
+  padding: var(--space-5);
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-5);
 }
 
 .habits-header {
@@ -16,17 +16,17 @@
 .habits-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-5);
 }
 
 .habit-row {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .habit-row-header {
@@ -38,7 +38,7 @@
 .habit-info {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .habit-icon {
@@ -49,7 +49,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-color);
 }
 
@@ -63,12 +63,12 @@
 .habit-stats {
   font-size: 0.85rem;
   color: var(--text-secondary);
-  margin-top: 4px;
+  margin-top: var(--space-1);
 }
 
 .habit-actions {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .habit-actions button {
@@ -76,8 +76,8 @@
   border: none;
   color: var(--text-secondary);
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
+  padding: var(--space-1);
+  border-radius: var(--radius-xs);
   transition: all 0.2s;
 }
 
@@ -100,31 +100,31 @@
 .habit-grid-scroll-area {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
   min-width: max-content;
 }
 
 .habit-grid-months {
   display: flex;
-  margin-left: 24px; /* align with grid offset */
-  margin-bottom: 4px;
+  margin-left: var(--space-5); /* align with grid offset */
+  margin-bottom: var(--space-1);
   font-size: 0.75rem;
   color: var(--text-secondary);
 }
 
 .habit-grid {
   display: flex;
-  gap: 4px;
+  gap: var(--space-1);
   align-items: flex-start;
 }
 
 .habit-grid-weekdays {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
   font-size: 0.7rem;
   color: var(--text-secondary);
-  margin-right: 8px;
+  margin-right: var(--space-2);
   justify-content: space-between;
   padding-top: 2px;
 }
@@ -136,13 +136,13 @@
 
 .habit-grid-columns {
   display: flex;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .habit-grid-column {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .habit-cell {
@@ -176,10 +176,10 @@
 
 @media (max-width: 768px) {
   .habits-wrapper {
-    padding: 16px;
+    padding: var(--space-4);
   }
   
   .habit-row {
-    padding: 16px;
+    padding: var(--space-4);
   }
 }

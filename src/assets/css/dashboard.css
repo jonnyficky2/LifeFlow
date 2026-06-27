@@ -2,7 +2,7 @@
 
 #levelBox {
   /* Inherits from .card */
-  padding: 32px; /* Override default card padding */
+  padding: var(--space-6); /* Override default card padding */
 }
 
 .xp-bar {
@@ -51,22 +51,22 @@
 
 #quickStats {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  margin: 24px 0 24px;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 24px;
 }
 
 .stat-card {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
   min-height: 126px;
-  padding: 24px;
+  padding: var(--space-5);
   text-align: left;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
 }
 
 .stat-card h3 {
-  margin: 4px 0 2px;
+  margin: var(--space-1) 0 2px;
   font-size: 28px;
   line-height: 1;
 }
@@ -82,7 +82,7 @@
   width: 64px;
   height: 64px;
   flex: 0 0 64px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 28px;
   color: white;
 }
@@ -138,7 +138,7 @@
   width: 170px;
   height: 170px;
   transform: rotate(45deg);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--primary), rgba(31, 50, 112, 1));
   box-shadow: none;
 }

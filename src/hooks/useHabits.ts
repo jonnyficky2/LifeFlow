@@ -1,8 +1,10 @@
 import { useAppContext } from '../context/AppContext';
 import type { Habit } from '../context/AppContext';
+import { useToast } from '../context/ToastContext';
 
 export const useHabits = () => {
   const { habits, setHabits, habitHistory, setHabitHistory, saveHistorySnapshot } = useAppContext();
+  const { showToast } = useToast();
 
   const addHabit = (name: string, color: string = 'var(--primary-color)', icon: string = '🎯') => {
     saveHistorySnapshot();
@@ -14,6 +16,7 @@ export const useHabits = () => {
       createdAt: new Date().toISOString()
     };
     setHabits([...habits, newHabit]);
+    showToast(`Habit "${name}" added`, 'success');
   };
 
   const deleteHabit = (habitId: string) => {
@@ -24,6 +27,7 @@ export const useHabits = () => {
     const newHistory = { ...habitHistory };
     delete newHistory[habitId];
     setHabitHistory(newHistory);
+    showToast('Habit deleted', 'warning');
   };
 
   const toggleHabitDate = (habitId: string, dateString: string) => {
@@ -35,9 +39,11 @@ export const useHabits = () => {
     if (currentDates.includes(dateString)) {
       // Remove date
       newHistory[habitId] = currentDates.filter(d => d !== dateString);
+      showToast('Habit unchecked', 'info');
     } else {
       // Add date
       newHistory[habitId] = [...currentDates, dateString];
+      showToast('Habit completed! Well done!', 'success');
     }
     
     setHabitHistory(newHistory);

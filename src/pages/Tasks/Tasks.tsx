@@ -2,13 +2,27 @@ import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import type { Task } from '../../context/AppContext';
 import { useTasks } from '../../hooks/useTasks';
+import { Skeleton } from '../../components/ui/Skeleton';
+import { EmptyState } from '../../components/ui/EmptyState';
 
 export const Tasks: React.FC = () => {
-  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask } = useAppContext();
-  const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory } = useTasks();
+  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask, isAppLoading } = useAppContext();
+  const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory, addTask } = useTasks();
 
   const [filter, setFilter] = useState<'all' | 'pending' | 'done'>('all');
   const [search, setSearch] = useState('');
+  const [inlineTaskNames, setInlineTaskNames] = useState<Record<number, string>>({});
+
+  const handleInlineTaskKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, catIndex: number) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const val = (inlineTaskNames[catIndex] || '').trim();
+      if (val) {
+        addTask(catIndex, val);
+        setInlineTaskNames(prev => ({ ...prev, [catIndex]: '' }));
+      }
+    }
+  };
 
   const filterTask = (task: Task) => {
     const matchFilter = 
@@ -90,13 +104,25 @@ export const Tasks: React.FC = () => {
         </div>
 
         <div id="container">
-          {appData.map((category, catIndex) => {
-            const visibleTasks = category.tasks?.filter(filterTask) || [];
-            
-            // Only hide category if it has no tasks at all? Legacy app renders the category even if empty if it has 'Add Task' btn.
-            // Wait, let's render all categories so we can add tasks to them.
-
-            return (
+          {isAppLoading ? (
+            Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className="category">
+                <Skeleton type="title" width="30%" />
+                <Skeleton type="block" height={60} style={{ margin: '12px 0', borderRadius: '12px' }} />
+                <Skeleton type="block" height={60} style={{ margin: '12px 0', borderRadius: '12px' }} />
+              </div>
+            ))
+          ) : appData.length === 0 ? (
+            <EmptyState 
+              icon="📋" 
+              title="No Tasks Yet" 
+              description="You haven't created any task categories. Add a new category to get started." 
+            />
+          ) : (
+            appData.map((category, catIndex) => {
+              const visibleTasks = category.tasks?.filter(filterTask) || [];
+              
+              return (
               <div key={catIndex} className="category">
                 <div className="category-header">
                   <h2>{category.name}</h2>
@@ -166,10 +192,44 @@ export const Tasks: React.FC = () => {
                   })}
                 </div>
 
-                <button onClick={() => handleAddTask(catIndex)}>+ Add Task</button>
+                <div className="task-inline-input" style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
+                  <input 
+                    type="text" 
+                    placeholder="Type task and press Enter..." 
+                    value={inlineTaskNames[catIndex] || ''}
+                    onChange={(e) => setInlineTaskNames(prev => ({ ...prev, [catIndex]: e.target.value }))}
+                    onKeyDown={(e) => handleInlineTaskKeyDown(e, catIndex)}
+                    style={{
+                      flex: 1,
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-color)',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-color)',
+                      outline: 'none'
+                    }}
+                  />
+                  <button 
+                    onClick={() => handleAddTask(catIndex)}
+                    title="Open Detailed Modal"
+                    style={{
+                      padding: '0 16px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      background: 'var(--bg-primary)',
+                      color: 'var(--text-secondary)',
+                      cursor: 'pointer',
+                      borderWidth: '1px',
+                      borderStyle: 'solid',
+                      borderColor: 'var(--border-color)'
+                    }}
+                  >
+                    ⤢
+                  </button>
+                </div>
               </div>
             );
-          })}
+          }))}
         </div>
 
         <div style={{ marginTop: '20px', textAlign: 'center' }}>

@@ -98,6 +98,8 @@ interface AppContextType {
   currentCategoryIndex: number | null;
   setCurrentCategoryIndex: (index: number | null) => void;
 
+  isAppLoading: boolean;
+
   undo: () => void;
   redo: () => void;
   saveHistorySnapshot: () => void;
@@ -116,11 +118,19 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [settings, setSettings] = useState<any>(getLocalData(STORAGE_KEYS.SETTINGS, {}));
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState('dashboard');
 
   const [isTaskModalOpen, setTaskModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<{ catIndex: number; taskIndex: number } | null>(null);
-  const [currentCategoryIndex, setCurrentCategoryIndex] = useState<number | null>(0);
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState<number | null>(null);
+  const [isAppLoading, setIsAppLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAppLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   const [undoStack, setUndoStack] = useState<string[]>([]);
   const [redoStack, setRedoStack] = useState<string[]>([]);
@@ -202,6 +212,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       isTaskModalOpen, setTaskModalOpen,
       editingTask, setEditingTask,
       currentCategoryIndex, setCurrentCategoryIndex,
+      isAppLoading,
       undo, redo, saveHistorySnapshot
     }}>
       {children}

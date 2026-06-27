@@ -16,7 +16,7 @@
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--space-5);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,7 +26,7 @@
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   cursor: pointer;
   text-decoration: none;
   color: white;
@@ -36,7 +36,7 @@
 .navbar-logo {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
 }
 
@@ -53,14 +53,14 @@
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
   pointer-events: auto; /* Memungkinkan klik di area tombol */
 }
 
 .nav-login-btn {
   background: linear-gradient(135deg, var(--primary), var(--primary)) !important;
   color: white !important;
-  padding: 8px 24px !important;
+  padding: var(--space-2) 24px !important;
   height: 42px !important;
   font-size: 14px !important;
   font-weight: 600 !important;
@@ -81,7 +81,7 @@
 .nav-user-img {
   width: 42px;
   height: 42px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
   border: 2px solid #526dff;
   pointer-events: auto;
@@ -102,10 +102,10 @@
   height: 40px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  padding: 8px;
-  margin-left: 4px;
+  padding: var(--space-2);
+  margin-left: var(--space-1);
 }
 
 .sidebar-toggle span {
@@ -125,10 +125,10 @@
   background: rgba(15, 23, 42, 0.98);
   box-shadow: 6px 0 30px rgba(0, 0, 0, 0.35);
   z-index: 1500;
-  padding: 24px;
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-5);
   transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -155,7 +155,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .sidebar-label {
@@ -163,7 +163,7 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .sidebar-title {
@@ -182,21 +182,21 @@
 
 .sidebar-profile {
   display: flex;
-  gap: 16px;
+  gap: var(--space-4);
   align-items: center;
 }
 
 .sidebar-profile-img {
   width: 56px;
   height: 56px;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   object-fit: cover;
   border: 1px solid rgba(255,255,255,0.08);
 }
 
 .sidebar-name {
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .sidebar-email {
@@ -208,7 +208,7 @@
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .sidebar-item {
@@ -217,8 +217,8 @@
   background: rgba(255,255,255,0.04);
   color: #e2e8f0;
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 16px 16px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) 16px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -230,7 +230,7 @@
 
 @media (max-width: 768px) {
   .navbar-container {
-    padding: 0 12px;
+    padding: 0 var(--space-3);
   }
 
   
@@ -282,7 +282,7 @@ body {
   --shadow-light:
     0 10px 25px rgba(0,0,0,.08);
 
-  --radius:24px;
+  --radius: var(--radius-xl);
 }
 
 html{
@@ -297,7 +297,7 @@ body{
 
   overflow-x:hidden;
 
-  padding: 16px;
+  padding: var(--space-4);
 
   padding-top:88px;
 
@@ -405,7 +405,7 @@ h2{
 
   font-size:22px;
 
-  margin-bottom:12px;
+  margin-bottom: var(--space-3);
 }
 
 /* =========================
@@ -470,13 +470,13 @@ select{
 
   width:100%;
 
-  padding: 16px;
+  padding: var(--space-4);
 
   border:none;
 
   outline:none;
 
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 
   font-size:15px;
 
@@ -537,7 +537,7 @@ button{
 
   border-radius:18px;
 
-  padding:12px 16px;
+  padding: var(--space-3) 16px;
 
   font-weight:600;
 
@@ -626,8 +626,8 @@ body.light-mode button{
 
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap:12px;
-  margin:16px 0;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
 }
 
 .toolbar button,
@@ -637,7 +637,7 @@ body.light-mode button{
 .habit-box button{
 
   min-width:0;
-  padding: 16px 24px;
+  padding: var(--space-4) 24px;
   height:64px;
   border-radius:28px;
   font-weight:600;
@@ -662,9 +662,9 @@ body.light-mode button{
   .add-box button,
   .habit-box button{
     height:48px;
-    padding: 12px 16px;
+    padding: var(--space-3) 16px;
     font-size:14px;
-    border-radius:16px;
+    border-radius: var(--radius-lg);
   }
 }
 
@@ -674,9 +674,9 @@ body.light-mode button{
 
 #levelBox{
 
-  padding:24px;
+  padding: var(--space-5);
 
-  margin-bottom: 24px;
+  margin-bottom: var(--space-5);
 }
 
 .xp-bar{
@@ -690,7 +690,7 @@ body.light-mode button{
 
   overflow:hidden;
 
-  margin-top:12px;
+  margin-top: var(--space-3);
 
   background:
     rgba(255,255,255,.08);
@@ -726,7 +726,7 @@ body.light-mode button{
 }
 
 #xpText{
-  margin-top: 8px;
+  margin-top: var(--space-2);
 }
 
 /* =========================
@@ -735,10 +735,10 @@ body.light-mode button{
 
 .category{
 
-  padding: 24px;
+  padding: var(--space-5);
 
-  margin-top:24px;
-  border-radius: 16px;
+  margin-top: var(--space-5);
+  border-radius: var(--radius-lg);
 }
 
 .category-header{
@@ -749,14 +749,14 @@ body.light-mode button{
 
   align-items:center;
 
-  margin-bottom:16px;
+  margin-bottom: var(--space-4);
 }
 
 .category-header div{
 
   display:flex;
 
-  gap:8px;
+  gap: var(--space-2);
 }
 
 /* =========================
@@ -771,11 +771,11 @@ body.light-mode button{
 
   align-items:center;
 
-  gap:12px;
+  gap: var(--space-3);
 
-  margin-top:12px;
+  margin-top: var(--space-3);
 
-  padding: 16px;
+  padding: var(--space-4);
 
   border-radius:20px;
 
@@ -833,7 +833,7 @@ body.light-mode .task{
 
   align-items:center;
 
-  gap:12px;
+  gap: var(--space-3);
 
   flex:1;
 }
@@ -842,12 +842,12 @@ body.light-mode .task{
 
   display:flex;
 
-  gap:8px;
+  gap: var(--space-2);
 }
 
 .task-right button{
 
-  padding: 8px 12px;
+  padding: var(--space-2) 12px;
 }
 
 body.light-mode .task-right button{
@@ -866,15 +866,15 @@ body.light-mode .task-right button{
 ========================= */
 
 .high-priority{
-  border-left:4px solid var(--danger);
+  border-left: var(--space-1) solid var(--danger);
 }
 
 .medium-priority{
-  border-left:4px solid var(--warning);
+  border-left: var(--space-1) solid var(--warning);
 }
 
 .low-priority{
-  border-left:4px solid var(--secondary);
+  border-left: var(--space-1) solid var(--secondary);
 }
 
 /* =========================
@@ -883,9 +883,9 @@ body.light-mode .task-right button{
 
 #quoteContainer{
 
-  padding: 24px;
+  padding: var(--space-5);
 
-  margin-top: 16px;
+  margin-top: var(--space-4);
 
   border-left:
     5px solid var(--primary);
@@ -902,9 +902,9 @@ body.light-mode .task-right button{
   grid-template-columns:
     repeat(7,1fr);
 
-  gap:8px;
+  gap: var(--space-2);
 
-  margin-top: 24px;
+  margin-top: var(--space-5);
 
   max-width:320px;
 }
@@ -913,7 +913,7 @@ body.light-mode .task-right button{
 
   aspect-ratio:1/1;
 
-  border-radius:8px;
+  border-radius: var(--radius-sm);
 
   background:
     rgba(255,255,255,.08);
@@ -950,9 +950,9 @@ body.light-mode .day-box{
 
   align-items:center;
 
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 
-  margin-top: 24px;
+  margin-top: var(--space-5);
 }
 
 #calendarGrid{
@@ -962,14 +962,14 @@ body.light-mode .day-box{
   grid-template-columns:
     repeat(7,1fr);
 
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .calendar-day{
 
   min-height:90px;
 
-  padding: 8px;
+  padding: var(--space-2);
 
   font-size:12px;
 }
@@ -978,16 +978,16 @@ body.light-mode .day-box{
 
   display:block;
 
-  margin-bottom:8px;
+  margin-bottom: var(--space-2);
 }
 
 .calendar-task{
 
   margin-top:5px;
 
-  padding:4px 6px;
+  padding: var(--space-1) 6px;
 
-  border-radius:8px;
+  border-radius: var(--radius-sm);
 
   font-size:11px;
 
@@ -1020,7 +1020,7 @@ body.light-mode .day-box{
 ========================= */
 
 #statsSection{
-  margin-top: 24px;
+  margin-top: var(--space-5);
 }
 
 /* =========================
@@ -1038,7 +1038,7 @@ body.light-mode .day-box{
   background:
     rgba(255,255,255,0.05);
 
-  border-radius:24px;
+  border-radius: var(--radius-xl);
 
   padding:15px;
 }
@@ -1104,13 +1104,13 @@ body.light-mode .day-box{
 
   transform:translateX(-50%);
 
-  bottom:12px;
+  bottom: var(--space-3);
 
   width:92%;
 
   max-width:450px;
 
-  padding: 16px;
+  padding: var(--space-4);
 
   display:flex;
 
@@ -1199,7 +1199,7 @@ body.light-mode #bottomNav button{
 
   display:flex;
 
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .modal-actions button{
@@ -1224,7 +1224,7 @@ body.light-mode #bottomNav button{
 
   align-items:center;
 
-  gap: 24px;
+  gap: var(--space-5);
 
   background:
     linear-gradient(
@@ -1344,7 +1344,7 @@ body.light-mode #bottomNav button{
 
   body{
 
-    padding: 16px;
+    padding: var(--space-4);
 
     padding-top:84px;
 
@@ -1356,7 +1356,7 @@ body.light-mode #bottomNav button{
   }
 
   .category{
-    padding: 16px;
+    padding: var(--space-4);
   }
 
   .task{
@@ -1581,7 +1581,7 @@ select{
 
   border:
     1px solid var(--card-border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 input::placeholder{
@@ -1719,7 +1719,7 @@ body.light-mode .task:hover{
 
 #bottomNav button{
 
-  border-radius:16px;
+  border-radius: var(--radius-lg);
 
   width:52px;
   height:52px;
@@ -1811,7 +1811,7 @@ body.light-mode .task:hover{
   .backup-box,
   .filter-box{
 
-    gap:8px;
+    gap: var(--space-2);
   }
 
   .toolbar button,
@@ -1820,14 +1820,14 @@ body.light-mode .task:hover{
 
     font-size:13px;
 
-    padding: 12px 8px;
+    padding: var(--space-3) 8px;
   }
 
   .calendar-day{
 
     min-height:78px;
 
-    padding:8px;
+    padding: var(--space-2);
   }
 
   .calendar-task{
@@ -1847,7 +1847,7 @@ body.light-mode .task:hover{
 
 .deadline-warning{
 
-  margin-top:8px;
+  margin-top: var(--space-2);
 
   font-size:12px;
 
@@ -1883,7 +1883,7 @@ body.light-mode .task:hover{
 
   color:white;
 
-  padding: 16px 24px;
+  padding: var(--space-4) 24px;
 
   border-radius:18px;
 
@@ -1938,8 +1938,8 @@ body.light-mode .task:hover{
 
 .improve-card{
 
-  margin-top: 24px;
-  padding: 16px;
+  margin-top: var(--space-5);
+  padding: var(--space-4);
   border-radius:20px;
 
   background:
@@ -1958,7 +1958,7 @@ body.light-mode .task:hover{
 .improve-card h3{
 
   font-size:18px;
-  margin-bottom:8px;
+  margin-bottom: var(--space-2);
 }
 
 .improve-card p{
@@ -1971,7 +1971,7 @@ body.light-mode .task:hover{
 
   text-align:center;
 
-  padding: 32px;
+  padding: var(--space-6);
 
   animation:
     splashFade .8s ease;
@@ -1982,7 +1982,7 @@ body.light-mode .task:hover{
   font-size:32px;
   font-weight:800;
 
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 
   background:
     linear-gradient(
@@ -2030,16 +2030,16 @@ body.light-mode .task:hover{
 }
 
 .day-task-item{
-  padding: 16px;
+  padding: var(--space-4);
   border-radius:18px;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
   background:rgba(255,255,255,0.06);
 
   backdrop-filter:blur(10px);
 }
 
 .day-task-item h4{
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
   font-size:16px;
 }
 
@@ -2050,8 +2050,8 @@ body.light-mode .task:hover{
 }
 
 .day-task-item button{
-  margin-top: 8px;
-  margin-right:8px;
+  margin-top: var(--space-2);
+  margin-right: var(--space-2);
 }
 
 #taskDescInput{
@@ -2066,9 +2066,9 @@ body.light-mode .task:hover{
   grid-template-columns:
     repeat(2,1fr);
 
-  gap: 16px;
+  gap: var(--space-4);
 
-  margin: 24px 0;
+  margin: var(--space-5) 0;
 }
 
 .stat-card{
@@ -2084,9 +2084,9 @@ body.light-mode .task:hover{
     1px solid
     rgba(255,255,255,0.08);
 
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
 
-  padding: 24px;
+  padding: var(--space-5);
 
   backdrop-filter:blur(10px);
 
@@ -2104,7 +2104,7 @@ body.light-mode .task:hover{
 
   font-size:2rem;
 
-  margin-bottom:8px;
+  margin-bottom: var(--space-2);
 }
 
 .stat-card p{
@@ -2127,7 +2127,7 @@ body.light-mode .task:hover{
   width:180px;
   height:180px;
 
-  margin: 32px auto;
+  margin: var(--space-6) auto;
 }
 
 .progress-ring{
@@ -2181,12 +2181,12 @@ body.light-mode .task:hover{
   position:relative;
   width:100%;
   height:260px;
-  margin-top:16px;
-  border-radius:24px;
+  margin-top: var(--space-4);
+  border-radius: var(--radius-xl);
   overflow:hidden;
   background:rgba(255,255,255,0.04);
   backdrop-filter:blur(12px);
-  padding:16px;
+  padding: var(--space-4);
 }
 
 .light-mode .chart-box{
@@ -2206,15 +2206,15 @@ body.light-mode .task:hover{
 .note-card {
   background: var(--card);
   border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 16px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   transition: 0.3s;
   display: flex;
-  gap: 16px;
+  gap: var(--space-4);
   align-items: flex-start;
 }
 .note-card:hover {
@@ -2231,12 +2231,12 @@ body.light-mode .task:hover{
 }
 .note-card h3 {
   font-size: 18px;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 .note-card p {
   font-size: 14px;
   opacity: 0.85;
-  margin: 12px 0;
+  margin: var(--space-3) 0;
   white-space: pre-wrap;
   line-height: 1.6;
 }
@@ -2248,7 +2248,7 @@ body.light-mode .task:hover{
 .note-checkbox {
   width: 20px;
   height: 20px;
-  margin-top: 4px;
+  margin-top: var(--space-1);
   cursor: pointer;
 }
 .note-card small {
@@ -2258,7 +2258,7 @@ body.light-mode .task:hover{
 #noteContentInput {
   width: 100%;
   min-height: 120px;
-  padding: 16px;
+  padding: var(--space-4);
   border: 1px solid var(--card-border);
   border-radius: 18px;
   background: var(--card);
@@ -2266,7 +2266,7 @@ body.light-mode .task:hover{
   font-family: inherit;
   resize: vertical;
   outline: none;
-  margin-top: 8px;
+  margin-top: var(--space-2);
   transition: 0.25s;
 }
 #noteContentInput:focus {
@@ -2287,15 +2287,15 @@ body.light-mode #noteContentInput {
 .pin-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 16px;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
   cursor: pointer;
 }
 
 .share-btn {
   width: 100%;
-  margin: 24px 0;
-  padding: 16px;
+  margin: var(--space-5) 0;
+  padding: var(--space-4);
   font-size: 16px;
   background: linear-gradient(135deg, #ec4899, #f43f5e);
   border-radius: 20px;
@@ -2323,7 +2323,7 @@ body.light-mode #noteContentInput {
 
 body {
   padding: 0;
-  padding-bottom: 48px;
+  padding-bottom: var(--space-7);
   color: var(--dash-text);
   background:
     radial-gradient(circle at 22% 20%, rgba(63, 102, 196, 0.18), transparent 26%),
@@ -2343,7 +2343,7 @@ header {
 .app-main {
   width: min(100%, 1480px);
   margin: 0 auto;
-  padding: 116px 32px 0; /* Ditambah agar tidak tertutup Navbar yang tingginya 96px */
+  padding: 116px var(--space-6) 0; /* Ditambah agar tidak tertutup Navbar yang tingginya 96px */
 }
 
 .navbar {
@@ -2359,7 +2359,7 @@ header {
   max-width: 1480px;
   height: 96px;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: 0 var(--space-6);
 }
 
 .navbar-brand {
@@ -2372,8 +2372,8 @@ header {
   height: 40px;
   justify-content: center;
   gap: 5px;
-  padding: 8px;
-  border-radius: 8px;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -2402,7 +2402,7 @@ header {
 .app-sidebar {
   left: -288px;
   width: 288px;
-  padding: 32px 16px 24px;
+  padding: var(--space-6) 16px 24px;
   background: rgba(6, 16, 31, 0.92);
   border-right: 1px solid var(--dash-border);
   box-shadow: 18px 0 50px rgba(0, 0, 0, 0.24);
@@ -2413,20 +2413,20 @@ header {
 }
 
 .sidebar-header {
-  padding: 0 16px;
+  padding: 0 var(--space-4);
   justify-content: space-between;
 }
 
 .app-sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .app-sidebar-brand .sidebar-profile-img {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 }
 
 .sidebar-title {
@@ -2449,9 +2449,9 @@ header {
 .app-nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 24px;
-  padding: 12px;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding: var(--space-3);
   border-radius: var(--dash-radius);
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
@@ -2459,8 +2459,8 @@ header {
 
 .sidebar-item {
   min-height: 56px;
-  border-radius: 8px;
-  padding: 0 24px;
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-5);
   color: #c6d2e8;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -2481,8 +2481,8 @@ header {
 }
 
 .sidebar-streak-card {
-  margin: 16px 8px 0;
-  padding: 16px 24px;
+  margin: var(--space-4) 8px 0;
+  padding: var(--space-4) 24px;
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
   border-radius: var(--dash-radius);
@@ -2504,7 +2504,7 @@ header {
 
 .sidebar-streak-card strong {
   display: block;
-  margin: 8px 0 6px;
+  margin: var(--space-2) 0 6px;
   font-size: 28px;
   color: var(--dash-text);
 }
@@ -2512,7 +2512,7 @@ header {
 .sidebar-streak-card i {
   display: block;
   height: 8px;
-  margin-top: 16px;
+  margin-top: var(--space-4);
   border-radius: 99px;
   background: rgba(148, 163, 184, 0.16);
 }
@@ -2520,9 +2520,9 @@ header {
 .dashboard-header {
   display: flex;
   justify-content: space-between;
-  gap: 24px;
+  gap: var(--space-5);
   align-items: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: var(--space-5);
 }
 
 .dashboard-header h1 {
@@ -2542,14 +2542,14 @@ header {
 
 .dashboard-header-actions {
   display: flex;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .dashboard-header-actions button {
   width: 48px;
   height: 44px;
   padding: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: rgba(17, 33, 60, 0.68);
   border: 1px solid var(--dash-border);
   box-shadow: none;
@@ -2577,8 +2577,8 @@ header {
   grid-template-columns: 140px 1fr 140px;
   align-items: center;
   gap: 26px;
-  padding: 32px;
-  margin-bottom: 24px;
+  padding: var(--space-6);
+  margin-bottom: var(--space-5);
 }
 
 #levelText {
@@ -2623,7 +2623,7 @@ header {
 .filter-box,
 .search-box,
 .add-box {
-  padding: 16px;
+  padding: var(--space-4);
   margin: 0 0 16px;
 }
 
@@ -2642,19 +2642,19 @@ header {
 
 .add-box {
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .add-box input {
   height: 48px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 .add-box button,
 .category-empty-row button,
 .quick-actions button,
 #emptyAddTaskBtn {
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--primary), var(--primary));
   border: 0;
   box-shadow: 0 12px 30px rgba(78, 112, 255, 0.22);
@@ -2666,18 +2666,18 @@ header {
 
 #quickStats {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  margin: 24px 0 24px;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 24px;
 }
 
 .stat-card {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
   min-height: 126px;
-  padding: 24px;
+  padding: var(--space-5);
   text-align: left;
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
 }
 
 .stat-card:hover {
@@ -2685,7 +2685,7 @@ header {
 }
 
 .stat-card h3 {
-  margin: 4px 0 2px;
+  margin: var(--space-1) 0 2px;
   font-size: 28px;
   line-height: 1;
 }
@@ -2701,7 +2701,7 @@ header {
   width: 64px;
   height: 64px;
   flex: 0 0 64px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 28px;
   color: white;
 }
@@ -2718,13 +2718,13 @@ header {
 .dashboard-grid {
   display: grid;
   grid-template-columns: minmax(360px, 1.05fr) minmax(360px, 1.35fr);
-  gap: 24px;
-  margin-bottom: 24px;
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
 }
 
 .dashboard-panel {
-  padding: 24px;
-  border-radius: 16px;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
 }
 
 .tasks-panel {
@@ -2735,8 +2735,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
 }
 
 .panel-header h2,
@@ -2749,7 +2749,7 @@ header {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   max-width: 455px;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
   border-bottom: 1px solid rgba(148, 163, 184, 0.16);
 }
 
@@ -2782,7 +2782,7 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   text-align: center;
   color: var(--dash-muted);
 }
@@ -2804,13 +2804,13 @@ header {
 }
 
 #emptyAddTaskBtn {
-  margin-top: 16px;
+  margin-top: var(--space-4);
   min-width: 150px;
 }
 
 .dashboard-side {
   display: grid;
-  gap: 24px;
+  gap: var(--space-5);
 }
 
 .motivation-panel {
@@ -2855,7 +2855,7 @@ header {
   width: 170px;
   height: 170px;
   transform: rotate(45deg);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: linear-gradient(135deg, rgba(85, 116, 255, 1), rgba(31, 50, 112, 1));
   box-shadow: none; /* Menghilangkan bayangan */
 }
@@ -2883,8 +2883,8 @@ header {
 .quick-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 24px;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 .quick-actions button {
@@ -2892,8 +2892,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 16px;
-  padding: 12px 16px;
+  gap: var(--space-4);
+  padding: var(--space-3) 16px;
   background: rgba(21, 37, 65, 0.78);
   border: 1px solid rgba(148, 163, 184, 0.14);
   box-shadow: none;
@@ -2908,13 +2908,13 @@ header {
   place-items: center;
   width: 44px;
   height: 44px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 24px;
 }
 
 .categories-panel,
 .activity-panel {
-  margin-bottom: 24px;
+  margin-bottom: var(--space-5);
 }
 
 #viewCategoriesBtn {
@@ -2929,7 +2929,7 @@ header {
   display: grid;
   grid-template-columns: 54px 1fr auto;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
   min-height: 96px;
   color: var(--dash-muted);
 }
@@ -2959,9 +2959,9 @@ body.has-categories .category-empty-row {
 }
 
 .category {
-  margin-top: 16px;
-  padding: 16px;
-  border-radius: 16px;
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
   background: rgba(13, 26, 49, 0.72);
 }
 
@@ -2971,12 +2971,12 @@ body.has-categories .category-empty-row {
 
 .category-header button,
 .task-right button {
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   box-shadow: none;
 }
 
 .task {
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: rgba(255,255,255,0.04);
 }
 
@@ -3063,7 +3063,7 @@ body.light-mode .sidebar-streak-card span {
   }
 
   .app-main {
-    padding: 90px 16px 0; /* Ditambah agar tidak tertutup Navbar mobile yang tingginya 70px */
+    padding: 90px var(--space-4) 0; /* Ditambah agar tidak tertutup Navbar mobile yang tingginya 70px */
   }
 
   .navbar {
@@ -3076,7 +3076,7 @@ body.light-mode .sidebar-streak-card span {
 
   .navbar-container {
     height: 70px;
-    padding: 0 16px;
+    padding: 0 var(--space-4);
     justify-content: space-between;
   }
 
@@ -3168,7 +3168,7 @@ body.light-mode .sidebar-streak-card span {
 .settings-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: var(--space-5);
 }
 
 @media (min-width: 1024px) {
@@ -3180,17 +3180,17 @@ body.light-mode .sidebar-streak-card span {
 .settings-card {
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
 }
 
 .settings-card h3 {
   margin-top: 0;
-  margin-bottom: 24px;
+  margin-bottom: var(--space-5);
   font-size: 18px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   color: var(--dash-text);
 }
 
@@ -3198,9 +3198,9 @@ body.light-mode .sidebar-streak-card span {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 0;
+  padding: var(--space-4) 0;
   border-bottom: 1px solid var(--dash-border);
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .settings-row:last-child {
@@ -3215,7 +3215,7 @@ body.light-mode .sidebar-streak-card span {
 .settings-row-label {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .settings-row-title {
@@ -3232,9 +3232,9 @@ body.light-mode .sidebar-streak-card span {
 .settings-profile {
   display: flex;
   align-items: center;
-  gap: 24px;
-  margin-bottom: 24px;
-  padding-bottom: 24px;
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-5);
   border-bottom: 1px solid var(--dash-border);
 }
 
@@ -3262,7 +3262,7 @@ body.light-mode .sidebar-streak-card span {
   background: var(--dash-blue);
   color: #fff;
   border: none;
-  padding: 8px 16px;
+  padding: var(--space-2) 16px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
@@ -3304,7 +3304,7 @@ body.light-mode .sidebar-streak-card span {
   background: var(--dash-bg);
   border: 1px solid var(--dash-border);
   color: var(--dash-text);
-  padding: 8px 12px;
+  padding: var(--space-2) 12px;
   border-radius: 6px;
   font-size: 14px;
   outline: none;
@@ -3351,14 +3351,14 @@ body.light-mode .settings-btn.outline {
 .task-time-badge {
   font-size: 0.78rem;
   font-weight: 500;
-  padding: 3px 8px;
-  border-radius: 8px;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-sm);
   color: #cbd5e1;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 body.light-mode .task-time-badge {
@@ -3374,7 +3374,7 @@ body.light-mode .task-time-badge {
 .focus-timer-container {
   position: relative;
   display: inline-block;
-  margin: 24px auto;
+  margin: var(--space-5) auto;
   width: 220px;
   height: 220px;
 }
@@ -3407,7 +3407,7 @@ body.light-mode .focus-timer-container .ring-bg {
 .focus-duration-btn {
   min-width: 80px;
   text-align: center;
-  padding: 8px 16px !important;
+  padding: var(--space-2) 16px !important;
   font-size: 0.9rem !important;
   height: auto !important;
   border-radius: 50px !important;

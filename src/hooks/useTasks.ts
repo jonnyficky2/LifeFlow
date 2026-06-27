@@ -1,5 +1,6 @@
 import { useAppContext } from '../context/AppContext';
 import type { Task } from '../context/AppContext';
+import { useToast } from '../context/ToastContext';
 
 export function getToday() {
   const date = new Date();
@@ -8,6 +9,7 @@ export function getToday() {
 
 export function useTasks() {
   const { appData, setAppData, setXp, setStreakData, setHistoryData, saveHistorySnapshot } = useAppContext();
+  const { showToast } = useToast();
 
   const updateTaskStreak = (task: Task) => {
     const dates = [...new Set(task.completedDates)].sort();
@@ -79,10 +81,12 @@ export function useTasks() {
           updateTaskStreak(task);
         }
         setXp(prev => prev + reward);
+        showToast(`Task completed! +${reward} XP`, 'success');
       } else {
         setXp(prev => Math.max(0, prev - reward));
         task.completedDates = task.completedDates.filter(date => date !== today);
         updateTaskStreak(task);
+        showToast('Task marked as pending', 'info');
       }
 
       const newData = prevData.map((cat, cIdx) => {
@@ -150,6 +154,7 @@ export function useTasks() {
           };
         });
       });
+      showToast('Task deleted', 'warning');
     }
   };
 
@@ -157,6 +162,7 @@ export function useTasks() {
     if (window.confirm("Delete this category and all tasks inside?")) {
       saveHistorySnapshot();
       setAppData(prevData => prevData.filter((_, cIdx) => cIdx !== catIndex));
+      showToast('Category deleted', 'warning');
     }
   };
 
@@ -165,6 +171,36 @@ export function useTasks() {
     setAppData(prevData => {
       return [...prevData, { name, tasks: [] }];
     });
+    showToast(`Category "${name}" created`, 'success');
+  };
+
+  const addTask = (catIndex: number, taskName: string) => {
+    saveHistorySnapshot();
+    setAppData(prevData => {
+      return prevData.map((cat, cIdx) => {
+        if (cIdx !== catIndex) return cat;
+        const newTask: Task = {
+          name: taskName,
+          done: false,
+          deadline: "",
+          time: "",
+          location: "",
+          note: "",
+          priority: "low",
+          tags: [],
+          subtasks: [],
+          streak: 0,
+          lastCompleted: null,
+          completedDates: [],
+          reminder: ""
+        };
+        return {
+          ...cat,
+          tasks: [...(cat.tasks || []), newTask]
+        };
+      });
+    });
+    showToast('Task added', 'success');
   };
 
   return {
@@ -172,6 +208,7 @@ export function useTasks() {
     toggleSubtask,
     deleteTask,
     deleteCategory,
-    addCategory
+    addCategory,
+    addTask
   };
 }

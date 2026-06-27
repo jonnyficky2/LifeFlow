@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useNotes } from '../../hooks/useNotes';
+import { Skeleton } from '../../components/ui/Skeleton';
+import { EmptyState } from '../../components/ui/EmptyState';
 import './Notes.css';
 
 export const Notes: React.FC = () => {
-  const { notes } = useAppContext();
+  const { notes, isAppLoading } = useAppContext();
   const { addNote, updateNote, deleteNote } = useNotes();
 
   const [search, setSearch] = useState('');
@@ -86,7 +88,14 @@ export const Notes: React.FC = () => {
           />
         </div>
         <div className="notes-list">
-          {filteredNotes.length === 0 ? (
+          {isAppLoading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="note-item">
+                <Skeleton type="title" width="70%" />
+                <Skeleton type="text" width="40%" style={{ marginTop: '8px' }} />
+              </div>
+            ))
+          ) : filteredNotes.length === 0 ? (
             <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-secondary)' }}>
               <p>No notes found.</p>
             </div>
@@ -107,10 +116,21 @@ export const Notes: React.FC = () => {
 
       {/* Right Pane: Editor */}
       <div className="notes-editor-pane">
-        {!activeNoteId || !activeNoteData ? (
-          <div className="notes-editor-empty">
-            Select a note or create a new one to start writing.
+        {isAppLoading ? (
+          <div style={{ padding: '40px' }}>
+            <Skeleton type="title" width="40%" height={32} />
+            <Skeleton type="block" height={1} style={{ margin: '24px 0' }} />
+            <Skeleton type="text" width="100%" />
+            <Skeleton type="text" width="90%" />
+            <Skeleton type="text" width="95%" />
+            <Skeleton type="text" width="80%" />
           </div>
+        ) : !activeNoteId || !activeNoteData ? (
+          <EmptyState 
+            icon="📝" 
+            title="Your Notes" 
+            description="Select a note from the sidebar or create a new one to start writing." 
+          />
         ) : (
           <>
             <div className="notes-editor-header">

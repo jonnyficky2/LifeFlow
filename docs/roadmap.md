@@ -39,6 +39,10 @@ Peta jalan operasional untuk mencapai target yang tertuang dalam [FUTURE_PRODUCT
 - Pengadaan antarmuka dua jendela (*Two-pane editor*).
 - Integrasi editor *Markdown* murni berbasis *AST Parser* murni untuk pembacaan dan penulisan catatan harian (*Journal*).
 
+## M5.5 - Product Polish [🟡 PLACEHOLDER]
+- Peningkatan kualitas, performa, konsistensi UI/UX, maintainability, accessibility.
+- Kesiapan aplikasi menuju Release v1.0.
+
 ## M6 - Analytics & Focus Timer [🟡 PLACEHOLDER]
 - Implementasi hitung mundur (*Pomodoro*) yang tertaut dengan Task aktif.
 - Agregasi *Dashboard Insight* (Berapa jam fokus tercapai, perbandingan tugas selesai per minggu).

@@ -100,6 +100,93 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
+## M5.5 - Product Polish
+*(Peningkatan Kualitas dan Stabilitas)*
+
+Deskripsi: "Milestone ini berfokus pada peningkatan kualitas, performa, konsistensi UI/UX, maintainability, accessibility, dan kesiapan aplikasi menuju Release v1.0."
+
+### [TASK-551] UI Consistency Audit
+- **Description:** Audit spacing, typography, icon, button, modal, dan card.
+- **Priority:** Medium
+- **Status:** DONE
+- **Dependencies:** None
+- **Acceptance Criteria:** spacing konsisten, typography konsisten, icon konsisten, button konsisten, modal konsisten, card konsisten.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** CSS refactor via design tokens selesai.
+
+### [TASK-552] Empty States & Skeleton Loading
+- **Description:** Tambahkan status kosong dan loading yang baik.
+- **Priority:** Medium
+- **Status:** DONE
+- **Dependencies:** None
+- **Acceptance Criteria:** semua halaman memiliki Empty State, skeleton loading konsisten, tidak ada blank screen.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** Komponen Skeleton dan EmptyState terintegrasi ke seluruh app.
+
+### [TASK-553] Toast & Notification System
+- **Description:** Komponen notifikasi terpusat.
+- **Priority:** Medium
+- **Status:** DONE
+- **Dependencies:** None
+- **Acceptance Criteria:** success, warning, error, info menggunakan satu komponen yang sama.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** Toast global system terintegrasi dengan useTasks, useNotes, dan useHabits.
+
+### [TASK-554] Accessibility Audit
+- **Description:** Pastikan aksesibilitas aplikasi terpenuhi.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** None
+- **Acceptance Criteria:** keyboard navigation, focus indicator, aria label yang diperlukan, color contrast layak, responsive tetap baik.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-555] Performance Optimization
+- **Description:** Optimalisasi tanpa optimisasi prematur.
+- **Priority:** Low
+- **Status:** TODO
+- **Dependencies:** None
+- **Acceptance Criteria:** React.memo bila diperlukan, useMemo/useCallback bila memang memberi manfaat, lazy loading halaman yang sesuai, mengurangi render yang tidak perlu.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** Jangan melakukan optimisasi prematur; hanya jika ada manfaat yang jelas.
+
+### [TASK-556] Error Handling
+- **Description:** Tangani error global dengan baik.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** None
+- **Acceptance Criteria:** Error Boundary, fallback UI, graceful error message, tidak ada white screen ketika error.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-557] Code Cleanup & Refactor
+- **Description:** Merapikan struktur kode proyek.
+- **Priority:** Low
+- **Status:** TODO
+- **Dependencies:** None
+- **Acceptance Criteria:** menghapus dead code, menghapus import tidak terpakai, merapikan struktur komponen, meningkatkan readability, tidak mengubah perilaku aplikasi.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-558] Release Candidate Audit
+- **Description:** Audit kelayakan pra-rilis.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-551, TASK-552, TASK-553, TASK-554, TASK-555, TASK-556, TASK-557
+- **Acceptance Criteria:** npm run build PASS, TypeScript PASS, lint PASS, tidak ada console error, UAT PASS, siap ditandai sebagai Release Candidate sebelum M6.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+---
+
 ## M6 - Analytics
 *(Global Analytics & Focus Timer)*
 

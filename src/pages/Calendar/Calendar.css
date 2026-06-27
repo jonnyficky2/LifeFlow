@@ -1,17 +1,17 @@
 .calendar-container {
-  padding: 24px;
+  padding: var(--space-5);
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-5);
 }
 
 .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
 }
 
 .calendar-header h2 {
@@ -24,8 +24,8 @@
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   color: var(--text-color);
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: var(--space-2) 16px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s;
@@ -40,8 +40,8 @@
 .calendar-grid-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
 }
 
 .calendar-day-name {
@@ -49,26 +49,26 @@
   font-weight: 600;
   color: var(--text-secondary);
   font-size: 0.9rem;
-  padding: 8px;
+  padding: var(--space-2);
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .calendar-cell {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   min-height: 100px;
-  padding: 8px;
+  padding: var(--space-2);
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
   overflow: hidden;
 }
 
@@ -96,7 +96,7 @@
   font-weight: 500;
   font-size: 0.9rem;
   color: var(--text-color);
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .calendar-cell.is-today .calendar-date-number {
@@ -107,14 +107,14 @@
 .calendar-task-indicator {
   font-size: 0.75rem;
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   color: white;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 /* Priority colors */
@@ -138,16 +138,16 @@
 }
 
 .calendar-selected-details {
-  margin-top: 24px;
-  padding: 24px;
+  margin-top: var(--space-5);
+  padding: var(--space-5);
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 .calendar-selected-details h3 {
   margin-top: 0;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
   font-size: 1.2rem;
   color: var(--text-color);
 }
@@ -161,19 +161,19 @@
 .calendar-empty-state svg {
   width: 48px;
   height: 48px;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
   opacity: 0.5;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .calendar-container {
-    padding: 16px;
+    padding: var(--space-4);
   }
   
   .calendar-cell {
     min-height: 60px;
-    padding: 4px;
+    padding: var(--space-1);
   }
   
   .calendar-date-number {
@@ -182,13 +182,13 @@
   
   .calendar-day-name {
     font-size: 0.75rem;
-    padding: 4px;
+    padding: var(--space-1);
     /* Abbreviate names on mobile by visually hiding characters if possible, but JS will do it */
   }
   
   .calendar-task-indicator {
     font-size: 0; /* Hide text on mobile */
-    padding: 4px;
+    padding: var(--space-1);
     width: fit-content;
     border-radius: 50%;
   }

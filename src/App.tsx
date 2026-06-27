@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppProvider, useAppContext } from './context/AppContext';
+import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/layout/Layout';
 import { Dashboard } from './pages/Dashboard/Dashboard';
 import { Tasks } from './pages/Tasks/Tasks';
@@ -41,7 +42,9 @@ const AppContent: React.FC = () => {
 function App() {
   return (
     <AppProvider>
-      <AppContent />
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
     </AppProvider>
   );
 }

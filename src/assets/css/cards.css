@@ -2,7 +2,7 @@
 
 /* Base Card/Panel Style */
 .card {
-  border-radius: 16px; /* Default radius for cards */
+  border-radius: var(--radius-lg); /* Default radius for cards */
   background: var(--color-surface); /* Default background for cards */
   border: 1px solid var(--color-border); /* Default border for cards */
   box-shadow: var(--shadow-lg); /* Default shadow for cards */
@@ -21,8 +21,8 @@
 }
 
 .improve-card {
-  margin-top: 24px;
-  padding: 16px;
+  margin-top: var(--space-5);
+  padding: var(--space-4);
   border-radius: 20px;
   background: linear-gradient(135deg, rgba(59, 130, 246, .18), rgba(168, 85, 247, .18));
   border: 1px solid rgba(255, 255, 255, .08);
@@ -31,7 +31,7 @@
 
 .improve-card h3 {
   font-size: 18px;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
 }
 
 .improve-card p {

@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useHabits } from '../../hooks/useHabits';
+import { Skeleton } from '../../components/ui/Skeleton';
+import { EmptyState } from '../../components/ui/EmptyState';
 import './Habits.css';
 
 export const Habits: React.FC = () => {
-  const { habits, habitHistory } = useAppContext();
+  const { habits, habitHistory, isAppLoading } = useAppContext();
   const { addHabit, deleteHabit, toggleHabitDate, getCompletionRate } = useHabits();
 
   // Generate 90 days grid grouped by weeks
@@ -73,13 +75,29 @@ export const Habits: React.FC = () => {
       </div>
 
       <div className="habits-list">
-        {habits.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-state__icon">🌱</div>
-            <h3 className="empty-state__title">No Habits Yet</h3>
-            <p className="empty-state__description">Start small. Add a daily habit to track your consistency over time.</p>
+        {isAppLoading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="habit-row" style={{ padding: '24px' }}>
+              <div className="habit-row-header" style={{ border: 'none' }}>
+                <div className="habit-info">
+                  <Skeleton type="circle" width={48} height={48} />
+                  <div>
+                    <Skeleton type="title" width={120} />
+                    <Skeleton type="text" width={180} />
+                  </div>
+                </div>
+              </div>
+              <Skeleton type="block" height={100} style={{ marginTop: '16px', borderRadius: '12px' }} />
+            </div>
+          ))
+        ) : habits.length === 0 ? (
+          <EmptyState 
+            icon="🌱" 
+            title="No Habits Yet" 
+            description="Start small. Add a daily habit to track your consistency over time."
+          >
             <button className="btn empty-state__cta" onClick={handleCreateHabit}>+ Create First Habit</button>
-          </div>
+          </EmptyState>
         ) : (
           habits.map(habit => {
             const completionRate = getCompletionRate(habit.id, 30);

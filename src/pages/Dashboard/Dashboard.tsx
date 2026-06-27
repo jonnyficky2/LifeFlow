@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import { Skeleton } from '../../components/ui/Skeleton';
 
 // Helper to calculate Level
 function getLevelData(xp: number) {
@@ -21,7 +22,7 @@ const levelNames = [
 ];
 
 export const Dashboard: React.FC = () => {
-  const { appData, xp, streakData, setSettings, undo, redo } = useAppContext();
+  const { appData, xp, streakData, setSettings, undo, redo, isAppLoading } = useAppContext();
   const [quote] = useState({ text: 'Stay focused, stay consistent.', author: 'LifeFlow' });
 
   const toggleTheme = () => {
@@ -80,13 +81,23 @@ export const Dashboard: React.FC = () => {
 
       {/* LEVEL & XP */}
       <div id="levelBox">
-        <h2 id="levelText">🏆 Level {level} {levelName && `\n${levelName}`}</h2>
-        <div className="xp-progress-container">
-          <div className="xp-bar">
-            <div id="xpFill" style={{ width: `${xpPercent}%` }}></div>
-          </div>
-          <p id="xpText">{remainingXP} / {xpNeeded} XP</p>
-        </div>
+        {isAppLoading ? (
+          <>
+            <Skeleton type="title" width="40%" />
+            <Skeleton type="block" height="22px" style={{ borderRadius: '50px', marginTop: '12px' }} />
+            <Skeleton type="text" width="20%" style={{ marginTop: '8px' }} />
+          </>
+        ) : (
+          <>
+            <h2 id="levelText">🏆 Level {level} {levelName && `\n${levelName}`}</h2>
+            <div className="xp-progress-container">
+              <div className="xp-bar">
+                <div id="xpFill" style={{ width: `${xpPercent}%` }}></div>
+              </div>
+              <p id="xpText">{remainingXP} / {xpNeeded} XP</p>
+            </div>
+          </>
+        )}
       </div>
 
       {/* STREAK */}
@@ -98,7 +109,7 @@ export const Dashboard: React.FC = () => {
           <span className="stat-icon stat-icon-blue">▤</span>
           <div>
             <p>All Tasks</p>
-            <h3 id="allTaskCount">{stats.total}</h3>
+            {isAppLoading ? <Skeleton height={28} width={40} style={{ margin: '4px 0' }} /> : <h3 id="allTaskCount">{stats.total}</h3>}
             <small>Total tasks</small>
           </div>
         </div>
@@ -106,7 +117,7 @@ export const Dashboard: React.FC = () => {
           <span className="stat-icon stat-icon-yellow">◷</span>
           <div>
             <p>Pending</p>
-            <h3 id="pendingCount">{stats.pending}</h3>
+            {isAppLoading ? <Skeleton height={28} width={40} style={{ margin: '4px 0' }} /> : <h3 id="pendingCount">{stats.pending}</h3>}
             <small>Tasks to do</small>
           </div>
         </div>
@@ -114,7 +125,7 @@ export const Dashboard: React.FC = () => {
           <span className="stat-icon stat-icon-green">✓</span>
           <div>
             <p>Done</p>
-            <h3 id="doneCount">{stats.done}</h3>
+            {isAppLoading ? <Skeleton height={28} width={40} style={{ margin: '4px 0' }} /> : <h3 id="doneCount">{stats.done}</h3>}
             <small>Tasks completed</small>
           </div>
         </div>
@@ -122,7 +133,7 @@ export const Dashboard: React.FC = () => {
           <span className="stat-icon stat-icon-purple">▣</span>
           <div>
             <p>Today</p>
-            <h3 id="todayCount">{stats.todayTasks}</h3>
+            {isAppLoading ? <Skeleton height={28} width={40} style={{ margin: '4px 0' }} /> : <h3 id="todayCount">{stats.todayTasks}</h3>}
             <small>Tasks for today</small>
           </div>
         </div>
@@ -135,7 +146,11 @@ export const Dashboard: React.FC = () => {
         <section className="dashboard-panel activity-panel" style={{ marginBottom: 0 }}>
           <h2>Activity</h2>
           <div id="heatmap">
-            {heatmapBoxes}
+            {isAppLoading ? (
+              Array.from({ length: 30 }).map((_, i) => (
+                <Skeleton key={i} width="100%" height="100%" style={{ minHeight: '30px' }} />
+              ))
+            ) : heatmapBoxes}
           </div>
         </section>
 
