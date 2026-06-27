@@ -3,6 +3,7 @@ import { AppProvider, useAppContext } from './context/AppContext';
 import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/layout/Layout';
 import { TaskModal } from './components/modals/TaskModal';
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
 
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard').then(m => ({ default: m.Dashboard })));
 const Tasks = lazy(() => import('./pages/Tasks/Tasks').then(m => ({ default: m.Tasks })));
@@ -52,11 +53,13 @@ const AppContent: React.FC = () => {
 
 function App() {
   return (
-    <AppProvider>
-      <ToastProvider>
-        <AppContent />
-      </ToastProvider>
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <ToastProvider>
+          <AppContent />
+        </ToastProvider>
+      </AppProvider>
+    </ErrorBoundary>
   );
 }
 

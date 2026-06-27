@@ -158,12 +158,12 @@ Deskripsi: "Milestone ini berfokus pada peningkatan kualitas, performa, konsiste
 ### [TASK-556] Error Handling
 - **Description:** Tangani error global dengan baik.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** Error Boundary, fallback UI, graceful error message, tidak ada white screen ketika error.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** ErrorBoundary global terpasang di level paling tinggi dengan fallback UI yang andal.
 
 ### [TASK-557] Code Cleanup & Refactor
 - **Description:** Merapikan struktur kode proyek.
