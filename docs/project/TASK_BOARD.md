@@ -168,19 +168,106 @@ Deskripsi: "Milestone ini berfokus pada peningkatan kualitas, performa, konsiste
 ### [TASK-557] Code Cleanup & Refactor
 - **Description:** Merapikan struktur kode proyek.
 - **Priority:** Low
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** menghapus dead code, menghapus import tidak terpakai, merapikan struktur komponen, meningkatkan readability, tidak mengubah perilaku aplikasi.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** Dependensi React Hooks di useTasks dirapikan untuk menghilangkan warning exhaustive-deps.
 
 ### [TASK-558] Release Candidate Audit
 - **Description:** Audit kelayakan pra-rilis.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** FAILED
 - **Dependencies:** TASK-551, TASK-552, TASK-553, TASK-554, TASK-555, TASK-556, TASK-557
 - **Acceptance Criteria:** npm run build PASS, TypeScript PASS, lint PASS, tidak ada console error, UAT PASS, siap ditandai sebagai Release Candidate sebelum M6.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** Gagal pada saat visual inspection UAT oleh User (UI Regression).
+
+---
+
+## M5.6 - UI Restoration
+*(Restorasi Tampilan & Pixel Perfect)*
+
+Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang pecah akibat variabel CSS tidak terdefinisi serta ketidaksesuaian DOM dengan versi HTML legacy."
+
+### [TASK-561] Restore Layout Wrapper
+- **Description:** Mengimpor index.css ke main.tsx dan menyesuaikan agar tidak menimpa background & font legacy.
+- **Priority:** High
+- **Status:** TESTING
+- **Dependencies:** None
+- **Acceptance Criteria:** Variabel spacing/radius terdefinisi secara global tanpa merusak font Poppins & gradien latar belakang.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** index.css diimpor, override global yang menimpa visual legacy dibersihkan, font Poppins dimuat di index.html.
+
+### [TASK-562] Restore Sidebar
+- **Description:** Memperbaiki layout, padding, serta urutan z-index sidebar dan overlay.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Sidebar terbuka/tutup dengan transisi halus tanpa tertutup overlay.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-563] Restore Header
+- **Description:** Menyelaraskan struktur header dan navbar agar sesuai dengan tinggi & layout legacy.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Header setinggi 96px (desktop) / 70px (mobile), logo dan action terposisi tepat.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-564] Restore Dashboard
+- **Description:** Memulihkan grid, gap, spacing, dan layout card pada halaman utama Dashboard.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Level progress box, quick stats, activity heatmap, dan motivation quote sejajar pixel-perfect.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-565] Restore Bottom Navigation
+- **Description:** Mengembalikan DOM bottom nav menggunakan ID `#bottomNav` dan menghapus teks label tombol.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Bottom nav melayang di posisi yang tepat di mobile, bersembunyi di desktop, tombol memuat emoji saja.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-566] Responsive Fix
+- **Description:** Menyesuaikan media query CSS agar layout konsisten di berbagai ukuran layar.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Layout grid dan navbar merespons breakpoints 1100px, 768px, 640px dengan benar.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-567] Pixel Perfect Audit
+- **Description:** Audit visual menyeluruh membandingkan versi React vs HTML legacy.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-561, TASK-562, TASK-563, TASK-564, TASK-565, TASK-566
+- **Acceptance Criteria:** Tidak ada penyimpangan visual, layout stabil, warna & spacing identik dengan legacy.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-568] Release Candidate v2
+- **Description:** Pengujian build, lint, dan UAT akhir untuk restorasi UI.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-567
+- **Acceptance Criteria:** build PASS, lint PASS, UAT final PASS oleh pengguna manusia.
 - **Progress:** 0%
 - **Related Docs:** None
 - **Notes:** -

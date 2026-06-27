@@ -45,7 +45,7 @@ export function useTasks() {
     task.lastCompleted = dates[dates.length - 1];
   };
 
-  const updateDailyHistoryLocal = (newData: typeof appData) => {
+  const updateDailyHistoryLocal = useCallback((newData: typeof appData) => {
     const today = getToday();
     let total = 0;
     let done = 0;
@@ -63,7 +63,7 @@ export function useTasks() {
       ...prev,
       [today]: percent
     }));
-  };
+  }, [setHistoryData]);
 
   const toggleTask = useCallback((catIndex: number, taskIndex: number) => {
     saveHistorySnapshot();
@@ -119,7 +119,7 @@ export function useTasks() {
       updateDailyHistoryLocal(newData);
       return newData;
     });
-  }, [saveHistorySnapshot, setAppData, setXp, showToast, setStreakData, setHistoryData]);
+  }, [saveHistorySnapshot, setAppData, setXp, showToast, setStreakData, updateDailyHistoryLocal]);
 
   const toggleSubtask = useCallback((catIndex: number, taskIndex: number, subIndex: number) => {
     saveHistorySnapshot();

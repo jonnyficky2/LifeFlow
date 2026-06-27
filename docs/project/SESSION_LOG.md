@@ -1,5 +1,16 @@
 # Session Log
 
+## 2026-06-27
+- **UI Regression Audit & TASK-561 (Restore Layout Wrapper) Completed:**
+  - Melakukan audit investigasi atas regresi visual di Release Candidate v1 (M5.5) dan mengubah statusnya menjadi **FAILED**.
+  - Menginisiasi Milestone **M5.6 - UI Restoration** dengan tiket TASK-561 sampai TASK-568.
+  - **Menyelesaikan `[TASK-561] Restore Layout Wrapper`**:
+    - Menghubungkan font Poppins dari Google Fonts CDN ke dalam `index.html` agar tipografi teks sesuai dengan versi legacy.
+    - Mengimpor `src/index.css` di `src/main.tsx` sebelum pemuatan entry point style utama.
+    - Membersihkan `src/index.css` dari global body background dan font style overrides yang merusak visual legacy, hanya menyisakan spacing & radius design tokens serta a11y outline indicator.
+    - Status `[TASK-561]` dipindahkan menjadi **TESTING** untuk proses UAT oleh user.
+  - Berhasil menjalankan `npm run build` dengan status PASS 100%.
+
 ## 2026-06-26
 - **Audit Tahap 2 & Resolusi Bug:**
   - Melakukan identifikasi perbedaan class CSS antara `legacy_html_version` dan `React`.
