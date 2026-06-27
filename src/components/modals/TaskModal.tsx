@@ -149,7 +149,7 @@ export const TaskModal: React.FC = () => {
           onChange={(e) => setNote(e.target.value)}
         />
 
-        <details className="advanced-task-options" style={{ marginTop: '16px', marginBottom: '16px', padding: '12px', background: 'var(--dash-bg)', borderRadius: '8px', border: '1px solid rgba(148, 163, 184, 0.1)' }}>
+        <details className="advanced-task-options" style={{ marginTop: '16px', marginBottom: '16px', padding: '12px', background: 'var(--dash-bg)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
           <summary style={{ cursor: 'pointer', fontWeight: 500, color: 'var(--dash-text)', outline: 'none' }}>Advanced Options</summary>
           
           <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -214,11 +214,11 @@ export const TaskModal: React.FC = () => {
               <label>Subtasks</label>
               <div id="subtaskModalList" className="subtask-modal-list">
                 {subtasks.map((sub, index) => (
-                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', padding: '8px', background: 'var(--bg-secondary, #f0f0f0)', borderRadius: '8px' }}>
+                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', padding: '8px', background: 'var(--color-bg-deep)', border: '1px solid var(--color-border)', borderRadius: '8px' }}>
                     <span>{sub.name}</span>
                     <button 
                       type="button" 
-                      style={{ border: 'none', background: 'none', color: 'var(--danger-color, #ff4d4d)', cursor: 'pointer' }}
+                      style={{ border: 'none', background: 'none', color: 'var(--color-danger)', cursor: 'pointer' }}
                       onClick={() => handleDeleteSubtask(index)}
                     >
                       ✖

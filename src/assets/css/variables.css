@@ -100,6 +100,9 @@
   --bg-primary: var(--color-bg);
   --bg-secondary: var(--color-surface);
   --border-color: var(--color-border);
+  --danger-color: var(--color-danger);
+  --success-color: var(--color-success);
+  --warning-color: var(--color-warning);
 }
 
 /* ==========================================================================
@@ -139,6 +142,9 @@ body.light-mode {
   --bg-primary: var(--color-bg);
   --bg-secondary: var(--color-surface);
   --border-color: var(--color-border);
+  --danger-color: var(--color-danger);
+  --success-color: var(--color-success);
+  --warning-color: var(--color-warning);
 
   /* Force re-evaluation of dashboard-specific variables in Light Mode */
   --dash-bg: var(--color-bg);

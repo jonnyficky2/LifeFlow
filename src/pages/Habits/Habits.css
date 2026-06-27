@@ -83,7 +83,7 @@
 
 .habit-actions button:hover {
   background: var(--bg-primary);
-  color: #EF4444; /* red for delete */
+  color: var(--color-danger); /* red for delete */
 }
 
 /* Grid Container */
@@ -160,7 +160,7 @@
 }
 
 .habit-cell.is-completed {
-  background-color: var(--habit-color, #10B981);
+  background-color: var(--habit-color, var(--color-success));
 }
 
 .habit-cell.is-future {

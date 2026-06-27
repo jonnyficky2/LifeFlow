@@ -142,7 +142,7 @@
 
 .btn-delete-note:hover {
   background: rgba(239, 68, 68, 0.1);
-  color: #EF4444;
+  color: var(--color-danger);
 }
 
 .notes-editor-body {

@@ -152,13 +152,14 @@ export const Calendar: React.FC = () => {
                   aria-label={`Edit task ${t.name}`}
                   style={{ 
                     padding: '12px', 
-                    background: 'var(--bg-primary)', 
-                    border: '1px solid var(--border-color)', 
+                    background: 'var(--color-bg-deep)', 
+                    border: '1px solid var(--color-border)', 
                     borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    color: 'var(--text-color)'
                   }}
                   onClick={(e) => handleTaskClick(e, t.catIndex, t.taskIndex)}
                   onKeyDown={(e) => {

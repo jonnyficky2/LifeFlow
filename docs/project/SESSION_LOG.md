@@ -34,6 +34,14 @@
       - *Calendar Grid & States*: Menambahkan aturan override eksplisit `body.light-mode` untuk sel kalender (`.calendar-cell`, hover state, `.is-today`, `.is-selected`, `.is-empty`, dan panel detail pilihan) di `Calendar.css` guna memastikan visualnya 100% akurat terhadap Design Tokens.
     - **Resolusi Regresi Visual Hasil UAT 4**:
       - *Category List*: Memperbaiki kartu item Category di `Categories.tsx` dengan mengganti inline style `background: 'var(--dash-bg)'` dan `var(--dash-text-muted)` (yang tidak terdefinisi secara dinamis di Light Mode) menjadi variabel standar Design System: `background: 'var(--color-bg-deep)'`, `border: '1px solid var(--color-border)'`, `color: 'var(--color-text)'`, dan `color: 'var(--color-muted)'`. Hal ini memastikan visualnya rapi, kontras tinggi, dan adaptif di kedua tema.
+    - **Resolusi Audit Regresi Tema UI Menyeluruh (Full UI Theme Regression Audit)**:
+      - *Standardisasi Variabel Boilerplate*: Menambahkan pemetaan `--danger-color`, `--success-color`, dan `--warning-color` pada `:root` dan `body.light-mode` di `variables.css`.
+      - *Perbaikan Overrides style.css*: Menggantikan seluruh warna hardcoded pada selektor `body.light-mode` (seperti `#172033` -> `var(--color-text)`, `#5d6b82` -> `var(--color-muted)`, `#ffffff` -> `var(--color-surface)`) dan gradien latar belakang body (`#eef4ff`/`#f8fbff` -> `var(--bg-light-2)`/`var(--bg-light-1)`) agar 100% konsisten dengan Design Tokens.
+      - *Clean up Legacy xp-bar*: Menghapus deklarasi kelas `.light-mode .xp-bar` duplikat yang memiliki style hardcoded, agar progress bar level di dashboard murni ter-render dengan design tokens.
+      - *Standardisasi Tombol*: Mengganti warna latar belakang gradien dan border tombol light mode (`#ffffff`, `#e2e8f0`, `#d1d5db`) dengan tokens (`var(--color-surface)`, `var(--color-bg-deep)`, `var(--color-border)`).
+      - *BottomNav & DayBox*: Mengubah warna latar belakang aktif Bottom Navigation dan kontainer `.day-box` menjadi `var(--color-bg-deep)` alih-alih nilai hardcoded.
+      - *React Inline Styles & Modals*: Mengganti fallback hardcoded `#f0f0f0` dan inline styles border `rgba(...)` pada subtask list dan advanced options di `TaskModal.tsx` dengan `var(--color-bg-deep)` dan `var(--color-border)`. Serta memperbarui item tugas terpilih pada `Calendar.tsx` dengan variabel token standar.
+      - *Modular CSS Cleanup*: Menggantikan hex warna fungsional status (`#EF4444`, `#10B981`, `#F59E0B`) di `Habits.css`, `Notes.css`, dan `Calendar.css` dengan variabel CSS (`var(--color-danger)`, `var(--color-success)`, `var(--color-warning)`).
     - Status `[TASK-571]` tetap dalam status **TESTING** untuk proses UAT ulang oleh user.
   - Berhasil menjalankan `npm run build` dan `npm run lint` dengan status PASS 100% (bebas error).
 

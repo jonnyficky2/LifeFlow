@@ -119,15 +119,15 @@
 
 /* Priority colors */
 .priority-low {
-  background-color: #10B981; /* Emerald 500 */
+  background-color: var(--color-success);
 }
 
 .priority-medium {
-  background-color: #F59E0B; /* Amber 500 */
+  background-color: var(--color-warning);
 }
 
 .priority-high {
-  background-color: #EF4444; /* Red 500 */
+  background-color: var(--color-danger);
 }
 
 .calendar-more-tasks {
