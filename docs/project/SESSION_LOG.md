@@ -18,7 +18,23 @@
     - Mengimpor `variables.css` ke `index.css` agar terdistribusikan secara global di bundler.
     - Menonaktifkan tiga blok `:root` redundan dan saling menabrak di `style.css` demi variables.css sebagai *single source of truth*.
     - Menambahkan `z-index: 1500` pada `.app-sidebar` di `style.css` agar tidak tertutup overlay gelap `z-index: 1400` di mobile.
-    - Status `[TASK-571]` dipindahkan menjadi **TESTING** untuk proses UAT oleh user.
+    - **Resolusi Regresi Visual Hasil UAT 1**:
+      - *Bottom Navigation*: Menghubungkan ID `#bottomNav` di `BottomNav.tsx` dan menstrukturkan tombol nav-item agar memiliki default, active, dan hover states berbasis Design Tokens tanpa warna hardcoded, serta mencegah overlap teks.
+      - *Level Box & Badge*: Menyematkan styling warna teks (`var(--color-text)`, `var(--color-muted)`) dan warna bar (`var(--color-bg-deep)`) secara eksplisit di Light Mode untuk menghindari teks menyatu dengan latar belakang terang.
+      - *Notes Sidebar Grouping*: Menerapkan sistem pengelompokan tanggal notes (Today, Yesterday, date strings) dengan visual header divider yang terstandar di `Notes.tsx` dan `Notes.css`.
+      - *Calendar Borders*: Mendeklarasikan alias CSS variables (`--bg-secondary`, `--border-color`, dll.) di `variables.css` agar visual borders & backgrounds pada sel kalender di Light/Dark themes terender tajam dan konsisten.
+    - **Resolusi Regresi Visual Hasil UAT 2**:
+      - *Task Inline Input*: Menghapus inline style background/border/color pada input "What needs to be done today?" di `Tasks.tsx` dan memindahkannya ke kelas `.inline-task-input` di `style.css` agar secara dinamis mewarisi styling input global (warna background, border kontras tinggi, focus glow, dan placeholder standar) pada kedua tema.
+      - *Task Search Container*: Menambahkan kelas kontainer `.search-box`, `.toolbar`, `.backup-box`, dan `.filter-box` ke daftar override Light Mode di `style.css` untuk mencegah penggunaan latar belakang gelap/hardcoded di Light Theme.
+      - *Habit List Container*: Menghubungkan kelas `.habit-row` (card Habit) ke styling global card (`.habit-card`/`.category`) di `style.css` untuk Dark/Light mode dan hover transition, sehingga latar belakangnya berubah menjadi putih transparan yang serasi di Light Theme.
+    - **Resolusi Regresi Visual Hasil UAT 3**:
+      - *CSS Variables Engine*: Memaksa re-evaluasi CSS variable aliases (seperti `--bg-primary`, `--bg-secondary`, `--border-color`, `--text-color`, `--text-secondary`, `--card`, `--card-border`) dengan mendeklarasikannya ulang di dalam blok `body.light-mode` di `variables.css`. Ini mengatasi kendala warisan (*inheritance quirk*) pada peramban yang menahan nilai *computed* Dark Theme.
+      - *Habit Icon*: Menambahkan pemilih eksplisit `.habit-icon`, `.habit-cell` (empty state), dan `.habit-cell.is-future` di bawah aturan `body.light-mode` di `Habits.css` agar terender dengan warna latar belakang dan border terang yang selaras.
+      - *Notes Wrapper*: Menambahkan override eksplisit `body.light-mode` untuk seluruh elemen Notes (`.notes-wrapper`, `.notes-sidebar`, editor panel, notes list, active states, textareas) di `Notes.css` agar tidak ada warna gelap yang tersisa.
+      - *Calendar Grid & States*: Menambahkan aturan override eksplisit `body.light-mode` untuk sel kalender (`.calendar-cell`, hover state, `.is-today`, `.is-selected`, `.is-empty`, dan panel detail pilihan) di `Calendar.css` guna memastikan visualnya 100% akurat terhadap Design Tokens.
+    - **Resolusi Regresi Visual Hasil UAT 4**:
+      - *Category List*: Memperbaiki kartu item Category di `Categories.tsx` dengan mengganti inline style `background: 'var(--dash-bg)'` dan `var(--dash-text-muted)` (yang tidak terdefinisi secara dinamis di Light Mode) menjadi variabel standar Design System: `background: 'var(--color-bg-deep)'`, `border: '1px solid var(--color-border)'`, `color: 'var(--color-text)'`, dan `color: 'var(--color-muted)'`. Hal ini memastikan visualnya rapi, kontras tinggi, dan adaptif di kedua tema.
+    - Status `[TASK-571]` tetap dalam status **TESTING** untuk proses UAT ulang oleh user.
   - Berhasil menjalankan `npm run build` dan `npm run lint` dengan status PASS 100% (bebas error).
 
 ## 2026-06-26

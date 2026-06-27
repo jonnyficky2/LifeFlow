@@ -381,6 +381,7 @@ h2{
 #quoteContainer,
 .calendar-day,
 .habit-card,
+.habit-row,
 .modal-content{
 
   background:var(--card-dark);
@@ -404,6 +405,7 @@ body.light-mode #levelBox,
 body.light-mode #quoteContainer,
 body.light-mode .calendar-day,
 body.light-mode .habit-card,
+body.light-mode .habit-row,
 body.light-mode .modal-content{
 
   background:var(--card-light);
@@ -416,7 +418,8 @@ body.light-mode .modal-content{
 
 .category:hover,
 .calendar-day:hover,
-.habit-card:hover{
+.habit-card:hover,
+.habit-row:hover{
 
   transform:
     translateY(-4px);
@@ -464,6 +467,13 @@ body.light-mode select{
 
   border:
     1px solid #d1d5db;
+}
+
+.inline-task-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm) !important;
+  font-size: 14px;
 }
 
 input::placeholder{
@@ -1110,16 +1120,59 @@ body.light-mode #bottomNav{
 
   box-shadow:none;
 
-  font-size:24px;
-
   border:none;
+
+  color: var(--color-muted);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 10px;
+
+  font-family: 'Poppins', sans-serif;
+
+  font-weight: 500;
+
+  gap: 2px;
+
+  cursor: pointer;
+
+  transition: color 0.15s, background-color 0.15s;
+
+  padding: 4px;
+}
+
+#bottomNav button .nav-icon {
+
+  font-size: 18px;
+
+  line-height: 1;
+}
+
+#bottomNav button.is-active {
+
+  color: var(--color-primary);
+
+  background: rgba(85, 116, 255, 0.08);
+}
+
+body.light-mode #bottomNav button.is-active {
+
+  background: rgba(85, 116, 255, 0.12);
+
+  color: var(--color-primary);
 }
 
 body.light-mode #bottomNav button{
 
   background:transparent;
 
-  color:#111;
+  color: var(--color-muted);
 }
 
 /* =========================
@@ -1409,6 +1462,7 @@ h1,h2,h3,p,span,strong,small,label{
 #quoteContainer,
 .calendar-day,
 .habit-card,
+.habit-row,
 .modal-content{
 
   background:var(--card);
@@ -1629,16 +1683,22 @@ body.light-mode .task:hover{
 
 #bottomNav button{
 
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-sm);
 
-  width:52px;
+  width:56px;
   height:52px;
 }
 
-#bottomNav button:hover{
+#bottomNav button:hover:not(.is-active){
 
   background:
-    rgba(255,255,255,.08);
+    rgba(255,255,255,.05);
+}
+
+body.light-mode #bottomNav button:hover:not(.is-active){
+
+  background:
+    rgba(0,0,0,.04);
 }
 
 /* ========================================
@@ -2476,6 +2536,14 @@ header {
   gap: 26px;
   padding: var(--space-6);
   margin-bottom: var(--space-5);
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+}
+
+body.light-mode #levelBox {
+  background: var(--card);
+  border: 1px solid var(--card-border);
 }
 
 #levelText {
@@ -2483,26 +2551,32 @@ header {
   white-space: pre-line;
   font-size: 25px;
   line-height: 1.45;
+  color: var(--color-text);
 }
 
 #levelText::first-line {
   font-size: 25px;
   font-weight: 800;
+  color: var(--color-text);
 }
 
 .xp-bar {
   height: 8px;
   margin: 0;
-  background: rgba(148, 163, 184, 0.12);
+  background: var(--color-bg-deep);
+  border-radius: var(--radius-full);
+  overflow: hidden;
 }
 
 #xpFill {
-  background: linear-gradient(90deg, #4f6dff, #6b8bff);
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-full);
 }
 
 #xpText {
   margin: 0;
-  color: var(--dash-muted);
+  color: var(--color-muted);
 }
 
 #installBtn {
@@ -2896,7 +2970,11 @@ body.light-mode .dashboard-panel,
 body.light-mode .stat-card,
 body.light-mode .add-box,
 body.light-mode .sidebar-streak-card,
-body.light-mode .app-nav {
+body.light-mode .app-nav,
+body.light-mode .search-box,
+body.light-mode .toolbar,
+body.light-mode .backup-box,
+body.light-mode .filter-box {
   background: rgba(255, 255, 255, 0.86);
   border-color: rgba(30, 41, 59, 0.12);
 }

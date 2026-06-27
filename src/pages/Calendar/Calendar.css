@@ -199,3 +199,32 @@
     gap: 2px;
   }
 }
+
+body.light-mode .calendar-cell {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+body.light-mode .calendar-cell:hover {
+  border-color: var(--primary-color);
+}
+
+body.light-mode .calendar-cell.is-today {
+  border-color: var(--primary-color);
+  background: rgba(79, 70, 229, 0.05);
+}
+
+body.light-mode .calendar-cell.is-selected {
+  border-color: var(--primary-color);
+  background: var(--bg-primary);
+}
+
+body.light-mode .calendar-cell.is-empty {
+  background: transparent;
+  border-color: transparent;
+}
+
+body.light-mode .calendar-selected-details {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}

@@ -201,19 +201,13 @@ export const Tasks: React.FC = () => {
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
                     <input 
                       type="text" 
+                      className="inline-task-input"
                       placeholder="What needs to be done today?" 
                       value={inlineTaskNames[catIndex] || ''}
                       onChange={(e) => setInlineTaskNames(prev => ({ ...prev, [catIndex]: e.target.value }))}
                       onKeyDown={(e) => handleInlineTaskKeyDown(e, catIndex)}
                       style={{
-                        flex: 1,
-                        padding: '10px 40px 10px 14px',
-                        borderRadius: '8px',
-                        border: '1px solid var(--border-color)',
-                        background: 'var(--bg-primary)',
-                        color: 'var(--text-color)',
-                        outline: 'none',
-                        width: '100%'
+                        paddingRight: '40px'
                       }}
                     />
                     <button 

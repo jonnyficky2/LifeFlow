@@ -53,8 +53,25 @@ export const Categories: React.FC = () => {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
             {appData.map((cat, index) => (
-              <div key={index} style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', background: 'var(--dash-bg)', borderRadius: '8px' }}>
-                <span style={{ fontWeight: 500 }}>{cat.name} <span style={{ color: 'var(--dash-text-muted)', fontSize: '0.85em' }}>({cat.tasks?.length || 0} tasks)</span></span>
+              <div 
+                key={index} 
+                style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  padding: '12px', 
+                  background: 'var(--color-bg-deep)', 
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '8px',
+                  color: 'var(--color-text)'
+                }}
+              >
+                <span style={{ fontWeight: 500 }}>
+                  {cat.name}{' '}
+                  <span style={{ color: 'var(--color-muted)', fontSize: '0.85em' }}>
+                    ({cat.tasks?.length || 0} tasks)
+                  </span>
+                </span>
                 <div>
                   <button onClick={() => handleEditCategory(index)} style={{ background: 'none', border: 'none', cursor: 'pointer', marginRight: '10px' }}>✏️</button>
                   <button onClick={() => deleteCategory(index)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>🗑</button>

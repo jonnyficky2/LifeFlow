@@ -5,7 +5,7 @@ export const BottomNav: React.FC = () => {
   const { activeSection, setActiveSection } = useAppContext();
 
   return (
-    <nav className="bottom-nav">
+    <nav id="bottomNav" className="bottom-nav">
       <button 
         type="button" 
         className={`bottom-nav-item ${activeSection === 'home' ? 'is-active' : ''}`}

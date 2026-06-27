@@ -53,6 +53,43 @@ export const Notes: React.FC = () => {
     n.content.toLowerCase().includes(search.toLowerCase())
   );
 
+  const getNoteDateGroup = (isoString: string): string => {
+    const date = new Date(isoString);
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) {
+      return 'Today';
+    } else if (date.toDateString() === yesterday.toDateString()) {
+      return 'Yesterday';
+    } else {
+      return date.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+  };
+
+  const groupedNotes = useMemo(() => {
+    const groups: { [key: string]: typeof notes } = {};
+    
+    // Sort notes by updatedAt desc
+    const sorted = [...filteredNotes].sort((a, b) => 
+      new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    );
+
+    sorted.forEach(note => {
+      const key = getNoteDateGroup(note.updatedAt);
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+      groups[key].push(note);
+    });
+
+    return Object.entries(groups).map(([title, notesList]) => ({
+      title,
+      notesList
+    }));
+  }, [filteredNotes]);
+
   const handleCreateNote = () => {
     const newId = addNote('Untitled Note');
     setActiveNoteId(newId);
@@ -101,14 +138,19 @@ export const Notes: React.FC = () => {
               <p>No notes found.</p>
             </div>
           ) : (
-            filteredNotes.map(note => (
-              <div 
-                key={note.id} 
-                className={`note-item ${note.id === activeNoteId ? 'is-active' : ''}`}
-                onClick={() => setActiveNoteId(note.id)}
-              >
-                <h4>{note.title || 'Untitled Note'}</h4>
-                <p>{formatDate(note.updatedAt)}</p>
+            groupedNotes.map(group => (
+              <div key={group.title} className="notes-group-section">
+                <div className="notes-group-header">{group.title}</div>
+                {group.notesList.map(note => (
+                  <div 
+                    key={note.id} 
+                    className={`note-item ${note.id === activeNoteId ? 'is-active' : ''}`}
+                    onClick={() => setActiveNoteId(note.id)}
+                  >
+                    <h4>{note.title || 'Untitled Note'}</h4>
+                    <p>{formatDate(note.updatedAt)}</p>
+                  </div>
+                ))}
               </div>
             ))
           )}

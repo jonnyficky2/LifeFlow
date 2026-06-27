@@ -183,3 +183,17 @@
     padding: var(--space-4);
   }
 }
+
+body.light-mode .habit-icon {
+  background: var(--bg-primary);
+  border-color: var(--border-color);
+}
+
+body.light-mode .habit-cell {
+  background-color: var(--border-color);
+}
+
+body.light-mode .habit-cell.is-future {
+  border-color: var(--border-color);
+  background-color: transparent;
+}

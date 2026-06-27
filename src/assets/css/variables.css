@@ -92,6 +92,14 @@
   --danger: var(--color-danger);
   --warning: var(--color-warning);
   --nav-bg: rgba(6, 16, 31, 0.92);
+
+  /* React boilerplate variables mapping to unified design system tokens */
+  --primary-color: var(--color-primary);
+  --text-color: var(--color-text);
+  --text-secondary: var(--color-muted);
+  --bg-primary: var(--color-bg);
+  --bg-secondary: var(--color-surface);
+  --border-color: var(--color-border);
 }
 
 /* ==========================================================================
@@ -115,4 +123,33 @@ body.light-mode {
   /* Task specific background in Light Mode */
   --task-bg: rgba(15, 23, 42, 0.03);
   --nav-bg: rgba(241, 245, 249, 0.92);
+
+  /* Force re-evaluation of card and layout design tokens in Light Mode */
+  --bg: var(--color-bg);
+  --bg2: var(--color-bg-deep);
+  --card: var(--color-surface);
+  --card-border: var(--color-border);
+  --text: var(--color-text);
+  --text-soft: var(--color-muted);
+
+  /* Force re-evaluation of react boilerplate variable aliases in Light Mode */
+  --primary-color: var(--color-primary);
+  --text-color: var(--color-text);
+  --text-secondary: var(--color-muted);
+  --bg-primary: var(--color-bg);
+  --bg-secondary: var(--color-surface);
+  --border-color: var(--color-border);
+
+  /* Force re-evaluation of dashboard-specific variables in Light Mode */
+  --dash-bg: var(--color-bg);
+  --dash-bg-deep: var(--color-bg-deep);
+  --dash-panel: var(--color-surface);
+  --dash-panel-strong: var(--color-surface-strong);
+  --dash-border: var(--color-border);
+  --dash-text: var(--color-text);
+  --dash-muted: var(--color-muted);
+  --dash-blue: var(--color-primary);
+  --dash-purple: var(--color-secondary);
+  --dash-green: var(--color-success);
+  --dash-yellow: var(--color-warning);
 }
