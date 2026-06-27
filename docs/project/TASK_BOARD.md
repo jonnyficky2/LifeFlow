@@ -272,6 +272,76 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Related Docs:** None
 - **Notes:** -
 
+### [TASK-569] Simplify Task Creation UX
+- **Description:** Penyederhanaan alur pembuatan task inline dengan menghapus tombol detail modal dan menggantinya dengan trailing icon plus di kanan input serta menambahkan petunjuk tombol pintas (Press Enter ↵).
+- **Priority:** Medium
+- **Status:** TESTING
+- **Dependencies:** None
+- **Acceptance Criteria:** Aksi Enter dan klik ikon "+" memicu penambahan task yang sama, placeholder "What needs to be done today?", hint teks kecil muncul di bawah input.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-570] Design System & UX Consistency Audit
+- **Description:** Audit menyeluruh visual hierarchy, typography, colors, inputs, buttons, cards, spacing, icons, responsive behavior, dan buat Design System.
+- **Priority:** High
+- **Status:** DONE
+- **Dependencies:** None
+- **Acceptance Criteria:** Dokumentasi DESIGN_SYSTEM.md dan UI_AUDIT.md dibuat lengkap dan terstruktur.
+- **Progress:** 100%
+- **Related Docs:** docs/design/DESIGN_SYSTEM.md, docs/project/UI_AUDIT.md
+- **Notes:** Audit selesai dilakukan.
+
+### [TASK-571] Restore UI Consistency
+- **Description:** Terapkan unifikasi CSS variables di variables.css, hapus definisi root yang redundan di style.css, serta perbaiki overlay sidebar z-index.
+- **Priority:** High
+- **Status:** TESTING
+- **Dependencies:** TASK-570
+- **Acceptance Criteria:** Variabel warna konsisten di seluruh modul, sidebar mobile/overlay terlapisi dengan benar.
+- **Progress:** 100%
+- **Related Docs:** docs/design/DESIGN_SYSTEM.md
+- **Notes:** Unifikasi warna CSS variables ke variables.css berhasil, redefinisi root di style.css dinonaktifkan, overlay mobile z-index diperbaiki.
+
+### [TASK-572] Input & Search Standardization
+- **Description:** Standardisasi input field, search box, textarea, select dropdown di Tasks, Notes, dan modal sesuai pedoman.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-570, TASK-571
+- **Acceptance Criteria:** Semua input dan search box konsisten tinggi (height 44px), radius, dan visual focus ring.
+- **Progress:** 0%
+- **Related Docs:** docs/design/DESIGN_SYSTEM.md
+- **Notes:** -
+
+### [TASK-573] Card & Layout Standardization
+- **Description:** Standardisasi border-radius dan shadow pada dashboard-panel, task card, habit row, dan notes sidebar item.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-570, TASK-571
+- **Acceptance Criteria:** Sisi melengkung (radius) dan bayangan (shadow) konsisten di semua halaman.
+- **Progress:** 0%
+- **Related Docs:** docs/design/DESIGN_SYSTEM.md
+- **Notes:** -
+
+### [TASK-574] Color & Contrast Improvements
+- **Description:** Perbaiki warna teks, prioritas status, border contrast, dan tag agar memenuhi pedoman aksesibilitas kontras kontemporer (AA/AAA).
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-570, TASK-571
+- **Acceptance Criteria:** Keterbacaan teks dan status warna tinggi, tidak ada bias kontras redup.
+- **Progress:** 0%
+- **Related Docs:** docs/design/DESIGN_SYSTEM.md
+- **Notes:** -
+
+### [TASK-575] Final UI Polish
+- **Description:** Pembersihan inline CSS style di seluruh JSX file, penyelarasan ikonografi, transisi, dan pengujian build akhir.
+- **Priority:** Low
+- **Status:** TODO
+- **Dependencies:** TASK-571, TASK-572, TASK-573, TASK-574
+- **Acceptance Criteria:** Seluruh JSX bebas inline styles, transisi animasi halus di semua resolusi layar, build PASS.
+- **Progress:** 0%
+- **Related Docs:** docs/design/DESIGN_SYSTEM.md
+- **Notes:** -
+
 ---
 
 ## M6 - Analytics

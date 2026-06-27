@@ -247,43 +247,7 @@ body {
   box-sizing:border-box;
 }
 
-:root{
-
-  --bg-dark-1:#020617;
-  --bg-dark-2:#0f172a;
-
-  --card-dark:
-    rgba(255,255,255,.06);
-
-  --border-dark:
-    rgba(255,255,255,.08);
-
-  --text-dark:#ffffff;
-
-  --bg-light-1:#f8fafc;
-  --bg-light-2:#dbeafe;
-
-  --card-light:
-    rgba(255,255,255,.82);
-
-  --border-light:
-    rgba(0,0,0,.08);
-
-  --text-light:#0f172a;
-
-  --primary:var(--primary);
-  --secondary:#22c55e;
-  --danger:#ef4444;
-  --warning:#facc15;
-
-  --shadow-dark:
-    0 10px 35px rgba(0,0,0,.35);
-
-  --shadow-light:
-    0 10px 25px rgba(0,0,0,.08);
-
-  --radius: var(--radius-xl);
-}
+/* :root block deactivated in favor of variables.css */
 
 html{
   scroll-behavior:smooth;
@@ -1401,61 +1365,7 @@ body.light-mode #bottomNav button{
    MODERN UI THEME SYSTEM
 ======================================== */
 
-:root{
-
-  --bg:#020617;
-  --bg2:#0f172a;
-
-  --card:rgba(255,255,255,.06);
-  --card-border:rgba(255,255,255,.08);
-
-  --text:#ffffff;
-  --text-soft:#94a3b8;
-
-  --primary:var(--primary);
-  --secondary:#22c55e;
-
-  --button1:#1e293b;
-  --button2:#0f172a;
-
-  --task-bg:rgba(255,255,255,.05);
-
-  --shadow:
-    0 10px 30px rgba(0,0,0,.25);
-
-  --nav-bg:
-    rgba(15,23,42,.8);
-}
-
-/* ========================================
-   LIGHT MODE VARIABLES
-======================================== */
-
-body.light-mode{
-
-  --bg:#f8fafc;
-  --bg2:#e2e8f0;
-
-  --card:rgba(255,255,255,.9);
-  --card-border:rgba(0,0,0,.08);
-
-  --text:#0f172a;
-  --text-soft:#64748b;
-
-  --primary:var(--primary);
-  --secondary:#22c55e;
-
-  --button1:#ffffff;
-  --button2:#f1f5f9;
-
-  --task-bg:#f8fafc;
-
-  --shadow:
-    0 10px 30px rgba(0,0,0,.08);
-
-  --nav-bg:
-    rgba(255,255,255,.85);
-}
+/* :root and light-mode overrides deactivated in favor of variables.css */
 
 /* ========================================
    BODY
@@ -2305,21 +2215,7 @@ body.light-mode #noteContentInput {
    LIFEFlow DASHBOARD REDESIGN
 ======================================== */
 
-:root {
-  --dash-bg: #07111f;
-  --dash-bg-deep: #040b15;
-  --dash-panel: rgba(14, 27, 49, 0.72);
-  --dash-panel-strong: rgba(17, 33, 60, 0.84);
-  --dash-border: rgba(148, 163, 184, 0.18);
-  --dash-text: #f7fbff;
-  --dash-muted: #a7b3c7;
-  --dash-blue: var(--primary);
-  --dash-blue-soft: #7db4ff;
-  --dash-purple: #8e5cff;
-  --dash-green: #48d66d;
-  --dash-yellow: #f2c94c;
-  --dash-radius: 8px;
-}
+/* :root dashboard variables block deactivated in favor of variables.css */
 
 body {
   padding: 0;
@@ -2406,6 +2302,7 @@ header {
   background: rgba(6, 16, 31, 0.92);
   border-right: 1px solid var(--dash-border);
   box-shadow: 18px 0 50px rgba(0, 0, 0, 0.24);
+  z-index: 1500;
 }
 
 .app-sidebar.sidebar-open {

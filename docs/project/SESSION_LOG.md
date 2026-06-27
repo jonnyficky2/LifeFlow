@@ -1,15 +1,25 @@
 # Session Log
 
 ## 2026-06-27
-- **UI Regression Audit & TASK-561 (Restore Layout Wrapper) Completed:**
+- **UI Regression Audit, TASK-561, TASK-569, TASK-570, and TASK-571 (Restore UI Consistency) Completed:**
   - Melakukan audit investigasi atas regresi visual di Release Candidate v1 (M5.5) dan mengubah statusnya menjadi **FAILED**.
   - Menginisiasi Milestone **M5.6 - UI Restoration** dengan tiket TASK-561 sampai TASK-568.
   - **Menyelesaikan `[TASK-561] Restore Layout Wrapper`**:
-    - Menghubungkan font Poppins dari Google Fonts CDN ke dalam `index.html` agar tipografi teks sesuai dengan versi legacy.
-    - Mengimpor `src/index.css` di `src/main.tsx` sebelum pemuatan entry point style utama.
-    - Membersihkan `src/index.css` dari global body background dan font style overrides yang merusak visual legacy, hanya menyisakan spacing & radius design tokens serta a11y outline indicator.
-    - Status `[TASK-561]` dipindahkan menjadi **TESTING** untuk proses UAT oleh user.
-  - Berhasil menjalankan `npm run build` dengan status PASS 100%.
+    - Menghubungkan font Poppins dari Google Fonts CDN ke dalam `index.html`.
+    - Mengimpor `src/index.css` di `src/main.tsx`.
+    - Membersihkan `src/index.css` dari global body background dan font style overrides.
+  - **Menyelesaikan `[TASK-569] Simplify Task Creation UX`**:
+    - Menyederhanaan UI dengan menghapus tombol `⤢` dan menambahkan "+" trailing icon absolut.
+  - **Menyelesaikan `[TASK-570] Design System & UX Consistency Audit`**:
+    - Menulis dokumentasi sistem desain terpadu di `docs/design/DESIGN_SYSTEM.md`.
+    - Menulis daftar temuan audit di `docs/project/UI_AUDIT.md`.
+  - **Menyelesaikan `[TASK-571] Restore UI Consistency`**:
+    - Menyatukan sistem warna global (Light & Dark), spacing, radius, dan shadows di dalam `variables.css`.
+    - Mengimpor `variables.css` ke `index.css` agar terdistribusikan secara global di bundler.
+    - Menonaktifkan tiga blok `:root` redundan dan saling menabrak di `style.css` demi variables.css sebagai *single source of truth*.
+    - Menambahkan `z-index: 1500` pada `.app-sidebar` di `style.css` agar tidak tertutup overlay gelap `z-index: 1400` di mobile.
+    - Status `[TASK-571]` dipindahkan menjadi **TESTING** untuk proses UAT oleh user.
+  - Berhasil menjalankan `npm run build` dan `npm run lint` dengan status PASS 100% (bebas error).
 
 ## 2026-06-26
 - **Audit Tahap 2 & Resolusi Bug:**

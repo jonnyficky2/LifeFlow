@@ -13,14 +13,18 @@ export const Tasks: React.FC = () => {
   const [search, setSearch] = useState('');
   const [inlineTaskNames, setInlineTaskNames] = useState<Record<number, string>>({});
 
+  const handleCreateInlineTask = (catIndex: number) => {
+    const val = (inlineTaskNames[catIndex] || '').trim();
+    if (val) {
+      addTask(catIndex, val);
+      setInlineTaskNames(prev => ({ ...prev, [catIndex]: '' }));
+    }
+  };
+
   const handleInlineTaskKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, catIndex: number) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      const val = (inlineTaskNames[catIndex] || '').trim();
-      if (val) {
-        addTask(catIndex, val);
-        setInlineTaskNames(prev => ({ ...prev, [catIndex]: '' }));
-      }
+      handleCreateInlineTask(catIndex);
     }
   };
 
@@ -193,41 +197,52 @@ export const Tasks: React.FC = () => {
                   })}
                 </div>
 
-                <div className="task-inline-input" style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
-                  <input 
-                    type="text" 
-                    placeholder="Type task and press Enter..." 
-                    value={inlineTaskNames[catIndex] || ''}
-                    onChange={(e) => setInlineTaskNames(prev => ({ ...prev, [catIndex]: e.target.value }))}
-                    onKeyDown={(e) => handleInlineTaskKeyDown(e, catIndex)}
-                    style={{
-                      flex: 1,
-                      padding: '10px 14px',
-                      borderRadius: '8px',
-                      border: '1px solid var(--border-color)',
-                      background: 'var(--bg-primary)',
-                      color: 'var(--text-color)',
-                      outline: 'none'
-                    }}
-                  />
-                  <button 
-                    onClick={() => handleAddTask(catIndex)}
-                    title="Open Detailed Modal"
-                    aria-label="Open detailed task modal"
-                    style={{
-                      padding: '0 16px',
-                      borderRadius: '8px',
-                      border: 'none',
-                      background: 'var(--bg-primary)',
-                      color: 'var(--text-secondary)',
-                      cursor: 'pointer',
-                      borderWidth: '1px',
-                      borderStyle: 'solid',
-                      borderColor: 'var(--border-color)'
-                    }}
-                  >
-                    ⤢
-                  </button>
+                <div className="task-inline-input-container" style={{ marginTop: '12px' }}>
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+                    <input 
+                      type="text" 
+                      placeholder="What needs to be done today?" 
+                      value={inlineTaskNames[catIndex] || ''}
+                      onChange={(e) => setInlineTaskNames(prev => ({ ...prev, [catIndex]: e.target.value }))}
+                      onKeyDown={(e) => handleInlineTaskKeyDown(e, catIndex)}
+                      style={{
+                        flex: 1,
+                        padding: '10px 40px 10px 14px',
+                        borderRadius: '8px',
+                        border: '1px solid var(--border-color)',
+                        background: 'var(--bg-primary)',
+                        color: 'var(--text-color)',
+                        outline: 'none',
+                        width: '100%'
+                      }}
+                    />
+                    <button 
+                      type="button"
+                      onClick={() => handleCreateInlineTask(catIndex)}
+                      title="Add Task"
+                      aria-label="Add task"
+                      style={{
+                        position: 'absolute',
+                        right: '8px',
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'var(--text-secondary)',
+                        cursor: 'pointer',
+                        fontSize: '18px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '28px',
+                        height: '28px',
+                        padding: 0
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <small style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px', paddingLeft: '4px' }}>
+                    Press Enter ↵ to create a task.
+                  </small>
                 </div>
               </div>
             );

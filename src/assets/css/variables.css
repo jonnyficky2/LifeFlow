@@ -1,15 +1,16 @@
-/* ========================= VARIABLES ========================= */
+/* ==========================================================================
+   DESIGN SYSTEM VARIABLES (Dark Mode Default)
+   ========================================================================== */
 
 :root {
-  --primary: #5574ff;
-  /* Brand Colors */
-  --color-primary: var(--primary); /* Main accent color, e.g., for active states, primary buttons */
-  --color-secondary: #8e5cff; /* Secondary accent color, e.g., for some gradients */
-  --color-success: #48d66d; /* Green for success/completion */
-  --color-warning: #f2c94c; /* Yellow for warnings */
-  --color-danger: #ef4444; /* Red for errors/delete actions */
+  /* Brand / Accent Colors */
+  --color-primary: #5574ff;
+  --color-secondary: #8e5cff;
+  --color-success: #48d66d;
+  --color-warning: #f2c94c;
+  --color-danger: #ef4444;
 
-  /* Neutral Colors */
+  /* Neutral Dark Theme Colors */
   --color-bg: #07111f;
   --color-bg-deep: #040b15;
   --color-surface: rgba(14, 27, 49, 0.72);
@@ -19,19 +20,99 @@
   --color-muted: #a7b3c7;
   --color-white: #ffffff;
 
-  /* Interactive */
-  --color-button-bg-1: rgba(17, 33, 60, 0.68);
-  --color-button-bg-2: rgba(14, 27, 49, 0.72); /* Button gradient end */
-  --color-task-bg: rgba(255, 255, 255, 0.04); /* Background for individual task items */
-  --color-nav-bg: rgba(6, 16, 31, 0.92); /* Background for sidebar and bottom navigation */
+  /* Dark Theme Specific (Legacy compat) */
+  --bg-dark-1: #020617;
+  --bg-dark-2: #0f172a;
+  --card-dark: rgba(255, 255, 255, 0.06);
+  --border-dark: rgba(255, 255, 255, 0.08);
+  --text-dark: #ffffff;
+  --shadow-dark: 0 10px 35px rgba(0, 0, 0, 0.35);
 
-  /* Shadows */
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1); /* Small shadow for subtle depth */
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.25); /* Medium shadow for hover states */
-  --shadow-lg: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 22px 60px rgba(0, 0, 0, 0.16); /* Large shadow for main panels/cards */
+  /* Light Theme Specific (Legacy compat defaults) */
+  --bg-light-1: #f8fafc;
+  --bg-light-2: #dbeafe;
+  --card-light: rgba(255, 255, 255, 0.82);
+  --border-light: rgba(0, 0, 0, 0.08);
+  --text-light: #0f172a;
+  --shadow-light: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
 
   /* Border Radii */
-  --radius-sm: 8px; /* Small border radius for buttons, icons, etc. */
-  --radius-md: 18px; /* Medium border radius for inputs, tasks */
-  --radius-lg: 24px; /* Large border radius for main cards/panels */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  --radius: var(--radius-xl);
+
+  /* Shadows */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.25);
+  --shadow-lg: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 22px 60px rgba(0, 0, 0, 0.16);
+
+  /* ==========================================================================
+     LEGACY CSS ALIAS MAPPING (Bridges older style variables to design system)
+     ========================================================================== */
+  --dash-bg: var(--color-bg);
+  --dash-bg-deep: var(--color-bg-deep);
+  --dash-panel: var(--color-surface);
+  --dash-panel-strong: var(--color-surface-strong);
+  --dash-border: var(--color-border);
+  --dash-text: var(--color-text);
+  --dash-muted: var(--color-muted);
+  --dash-blue: var(--color-primary);
+  --dash-blue-soft: #7db4ff;
+  --dash-purple: var(--color-secondary);
+  --dash-green: var(--color-success);
+  --dash-yellow: var(--color-warning);
+  --dash-radius: var(--radius-sm);
+
+  --bg: var(--color-bg);
+  --bg2: var(--color-bg-deep);
+  --card: var(--color-surface);
+  --card-border: var(--color-border);
+  --text: var(--color-text);
+  --text-soft: var(--color-muted);
+  --button1: var(--color-surface-strong);
+  --button2: var(--color-bg-deep);
+  --task-bg: rgba(255, 255, 255, 0.04);
+  --shadow: var(--shadow-sm);
+  --primary: var(--color-primary);
+  --secondary: var(--color-success);
+  --danger: var(--color-danger);
+  --warning: var(--color-warning);
+  --nav-bg: rgba(6, 16, 31, 0.92);
+}
+
+/* ==========================================================================
+   LIGHT MODE VARIABLES Override
+   ========================================================================== */
+body.light-mode {
+  /* Neutral Light Theme Colors */
+  --color-bg: #f8fafc;
+  --color-bg-deep: #e2e8f0;
+  --color-surface: rgba(255, 255, 255, 0.82);
+  --color-surface-strong: rgba(241, 245, 249, 0.9);
+  --color-border: rgba(15, 23, 42, 0.08);
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+
+  /* Adjust shadow for lighter background */
+  --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.06);
+
+  /* Task specific background in Light Mode */
+  --task-bg: rgba(15, 23, 42, 0.03);
+  --nav-bg: rgba(241, 245, 249, 0.92);
 }
