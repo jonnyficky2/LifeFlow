@@ -206,10 +206,8 @@ export const Tasks: React.FC = () => {
                       value={inlineTaskNames[catIndex] || ''}
                       onChange={(e) => setInlineTaskNames(prev => ({ ...prev, [catIndex]: e.target.value }))}
                       onKeyDown={(e) => handleInlineTaskKeyDown(e, catIndex)}
-                      style={{
-                        paddingRight: '40px'
-                      }}
                     />
+
                     <button 
                       type="button"
                       onClick={() => handleCreateInlineTask(catIndex)}

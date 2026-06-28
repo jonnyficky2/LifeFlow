@@ -431,68 +431,10 @@ body.light-mode .modal-content{
 
 /* =========================
    INPUT
+   — Dipindah ke assets/css/forms.css (TASK-572)
+   — Semua aturan input, select, textarea, focus, placeholder
+     kini dikelola di forms.css sebagai Single Source of Truth.
 ========================= */
-
-input,
-select{
-
-  width:100%;
-
-  padding: var(--space-4);
-
-  border:none;
-
-  outline:none;
-
-  border-radius: var(--radius-md);
-
-  font-size:15px;
-
-  background:
-    rgba(255,255,255,.06);
-
-  color:white;
-
-  border:
-    1px solid rgba(255,255,255,.08);
-
-  transition:.25s;
-}
-
-body.light-mode input,
-body.light-mode select{
-
-  background: var(--color-surface);
-
-  color: var(--color-text);
-
-  border:
-    1px solid var(--color-border);
-}
-
-.inline-task-input {
-  width: 100%;
-  padding: 10px 14px;
-  border-radius: var(--radius-sm) !important;
-  font-size: 14px;
-}
-
-input::placeholder{
-  color:rgba(255,255,255,.45);
-}
-
-body.light-mode input::placeholder{
-  color:#666;
-}
-
-input:focus,
-select:focus{
-
-  border-color:var(--primary);
-
-  box-shadow:
-    0 0 0 4px rgba(56,189,248,.16);
-}
 
 /* =========================
    BUTTON
@@ -1714,14 +1656,9 @@ body.light-mode #bottomNav button:hover:not(.is-active){
 
 /* ========================================
    SEARCH
+   — Dipindah ke assets/css/forms.css (TASK-572)
+   — .search-box input & .notes-search input dikelola di forms.css
 ======================================== */
-
-.search-box input{
-
-  height:54px;
-
-  border-radius:18px;
-}
 
 /* ========================================
    CATEGORY TITLE

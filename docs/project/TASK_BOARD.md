@@ -305,12 +305,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-572] Input & Search Standardization
 - **Description:** Standardisasi input field, search box, textarea, select dropdown di Tasks, Notes, dan modal sesuai pedoman.
 - **Priority:** High
-- **Status:** IN_PROGRESS
+- **Status:** TESTING
 - **Dependencies:** TASK-570, TASK-571
 - **Acceptance Criteria:** Semua input dan search box konsisten tinggi (height 44px), radius, dan visual focus ring.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/design/DESIGN_SYSTEM.md
-- **Notes:** -
+- **Notes:** forms.css dijadikan Single Source of Truth. Rules duplikat di style.css dihapus. Notes.css disederhanakan. TaskModal.tsx dibersihkan dari inline style. forms.css diimport di main.tsx setelah style.css.
 
 ### [TASK-573] Card & Layout Standardization
 - **Description:** Standardisasi border-radius dan shadow pada dashboard-panel, task card, habit row, dan notes sidebar item.

@@ -149,22 +149,20 @@ export const TaskModal: React.FC = () => {
           onChange={(e) => setNote(e.target.value)}
         />
 
-        <details className="advanced-task-options" style={{ marginTop: '16px', marginBottom: '16px', padding: '12px', background: 'var(--dash-bg)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
-          <summary style={{ cursor: 'pointer', fontWeight: 500, color: 'var(--dash-text)', outline: 'none' }}>Advanced Options</summary>
+        <details className="advanced-task-options">
+          <summary>Advanced Options</summary>
           
-          <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div className="task-date-time-group" style={{ display: 'flex', gap: '10px' }}>
+          <div className="advanced-options-body">
+            <div className="task-date-time-group">
               <input 
                 type="date" 
                 id="taskDeadlineInput" 
-                style={{ flex: 1 }} 
                 value={deadline}
                 onChange={(e) => setDeadline(e.target.value)}
               />
               <input 
                 type="time" 
                 id="taskTimeInput" 
-                style={{ flex: 1 }} 
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
               />
@@ -214,7 +212,7 @@ export const TaskModal: React.FC = () => {
               <label>Subtasks</label>
               <div id="subtaskModalList" className="subtask-modal-list">
                 {subtasks.map((sub, index) => (
-                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', padding: '8px', background: 'var(--color-bg-deep)', border: '1px solid var(--color-border)', borderRadius: '8px' }}>
+                  <div key={index} className="subtask-item">
                     <span>{sub.name}</span>
                     <button 
                       type="button" 

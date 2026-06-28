@@ -49,15 +49,12 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+/* forms.css menangani height 44px, radius, warna, focus-ring.
+   Di sini hanya override konteks wrapper spesifik sidebar notes. */
 .notes-search input {
-  width: 100%;
-  padding: var(--space-2) 12px;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  background: var(--bg-primary);
-  color: var(--text-color);
-  font-size: 0.9rem;
+  outline: none; /* Gantikan dengan focus ring dari forms.css */
 }
+
 
 .notes-list {
   flex: 1;
@@ -225,11 +222,8 @@ body.light-mode .notes-search {
   border-color: var(--border-color);
 }
 
-body.light-mode .notes-search input {
-  border-color: var(--border-color);
-  background: var(--bg-primary);
-  color: var(--text-color);
-}
+/* .notes-search input light mode colors dikelola di forms.css (body.light-mode .notes-search input) */
+
 
 body.light-mode .note-item:hover {
   background: var(--bg-primary);

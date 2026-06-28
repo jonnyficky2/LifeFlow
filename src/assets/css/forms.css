@@ -1,58 +1,240 @@
-/* ========================= FORMS ========================= */
+/* ========================= FORMS — TASK-572 Input Standardization ========================= */
+/* Single Source of Truth for all input, select, textarea, search-box UI in LifeFlow.      */
+/* Semua komponen input di Tasks, Notes, Modal menggunakan aturan di file ini.              */
 
-/* Base Input Field Style */
-.input-field {
+/* ------------------------------------------------------------------
+   SHARED TOKEN OVERRIDES
+   Pastikan semua elemen form mengikuti standar ukuran & token.
+   ------------------------------------------------------------------ */
+
+/* 1. Global: input & select — 44px height, padding, radius, color */
+input,
+select {
+  height: 44px;
+  padding: 0 var(--space-4);               /* 0 top/bottom, 16px horizontal */
+  box-sizing: border-box;
   width: 100%;
-  padding: var(--space-4);
-  border: none;
-  outline: none;
-  border-radius: var(--radius-md);
-  font-size: 15px;
-  background: var(--color-surface);
-  color: var(--color-text);
   border: 1px solid var(--color-border);
-  transition: border-color 0.25s, box-shadow 0.25s;
+  border-radius: var(--radius-sm);         /* 8px — consistent rounded */
+  background: var(--color-bg-deep);
+  color: var(--color-text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/* Placeholder style for all input fields */
-.input-field::placeholder {
+/* 2. Textarea — padding top/bottom included, height controlled by context */
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);  /* 12px top/bottom, 16px horizontal */
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-deep);
+  color: var(--color-text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  line-height: 1.6;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ------------------------------------------------------------------
+   FOCUS RING — Konsisten di semua komponen
+   Menggunakan rgba agar tidak "solid opaque" di atas elemen lain.
+   ------------------------------------------------------------------ */
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(85, 116, 255, 0.22);
+  outline: none;
+}
+
+/* Khusus keyboard navigation — lebih tebal & visible */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-primary) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(85, 116, 255, 0.22) !important;
+}
+
+/* ------------------------------------------------------------------
+   PLACEHOLDER
+   ------------------------------------------------------------------ */
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 1; /* Firefox fix */
+}
+
+/* ------------------------------------------------------------------
+   DISABLED STATE
+   ------------------------------------------------------------------ */
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+/* ------------------------------------------------------------------
+   MODAL INPUTS — Input & Select di dalam .modal-content
+   Pakai background surface (lebih terang dari bg-deep) agar terbaca.
+   ------------------------------------------------------------------ */
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(85, 116, 255, 0.22);
+}
+
+/* ------------------------------------------------------------------
+   MODAL DATE & TIME — pair dalam satu baris (flex row)
+   ------------------------------------------------------------------ */
+
+.task-date-time-group {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.task-date-time-group input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------------
+   SEARCH BOX — Tasks page (.search-box) & Notes sidebar (.notes-search)
+   Sama-sama 44px, radius-sm, penambahan icon search via wrapper.
+   ------------------------------------------------------------------ */
+
+.search-box input,
+.notes-search input {
+  height: 44px;
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  font-size: 14px;
+}
+
+.search-box input:focus,
+.notes-search input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(85, 116, 255, 0.22);
+}
+
+/* ------------------------------------------------------------------
+   INLINE TASK INPUT — zero-friction input di bawah setiap kategori
+   ------------------------------------------------------------------ */
+
+.inline-task-input {
+  height: 44px;
+  padding: 0 44px 0 var(--space-4); /* kanan 44px untuk icon "+" */
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inline-task-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(85, 116, 255, 0.22);
+}
+
+/* ------------------------------------------------------------------
+   MODAL SUBTASK INPUT
+   ------------------------------------------------------------------ */
+
+.subtask-input-group {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: var(--space-3);
+}
+
+.subtask-input-group input {
+  flex: 1;
+  height: 44px;
+}
+
+/* ------------------------------------------------------------------
+   LIGHT MODE OVERRIDES
+   ------------------------------------------------------------------ */
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+body.light-mode .modal-content input,
+body.light-mode .modal-content select,
+body.light-mode .modal-content textarea {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+body.light-mode .search-box input,
+body.light-mode .notes-search input {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder {
   color: var(--color-muted);
 }
 
-/* Focus style for all input fields */
-.input-field:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(var(--primary), 0.15);
+body.light-mode input:focus,
+body.light-mode select:focus,
+body.light-mode textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(85, 116, 255, 0.18);
 }
 
-.search-box input {
-  height: 54px;
-  border-radius: var(--radius-md);
-}
+/* ------------------------------------------------------------------
+   LEGACY COMPAT — jaga agar #taskDescInput & #noteContentInput
+   tidak crash jika masih dipakai di HTML legacy
+   ------------------------------------------------------------------ */
 
 #taskDescInput {
+  height: auto;
   min-height: 80px;
   resize: none;
+  padding: var(--space-3) var(--space-4);
 }
 
 #noteContentInput {
-  width: 100%;
+  height: auto;
   min-height: 120px;
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  color: var(--color-text);
-  font-family: inherit;
   resize: vertical;
-  outline: none;
+  padding: var(--space-3) var(--space-4);
   margin-top: var(--space-2);
-  transition: 0.25s;
-}
-
-#noteContentInput:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(var(--primary), 0.15);
 }
 
 .pin-label {
@@ -61,4 +243,81 @@
   gap: var(--space-2);
   margin-top: var(--space-4);
   cursor: pointer;
+}
+
+/* ------------------------------------------------------------------
+   MODAL — Advanced Task Options (details wrapper)
+   ------------------------------------------------------------------ */
+
+.advanced-task-options {
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  background: var(--color-bg-deep);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.advanced-task-options > summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--color-text);
+  outline: none;
+  user-select: none;
+  padding: var(--space-2) 0;
+}
+
+.advanced-task-options > summary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+.advanced-options-body {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ------------------------------------------------------------------
+   MODAL — Subtask Item Row
+   ------------------------------------------------------------------ */
+
+.subtask-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.subtask-item span {
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.subtask-item button {
+  border: none;
+  background: none;
+  color: var(--color-danger);
+  cursor: pointer;
+  padding: 0 var(--space-1);
+  width: auto;
+  height: auto;
+  font-size: 14px;
+}
+
+/* Light mode modal advanced */
+body.light-mode .advanced-task-options {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+body.light-mode .subtask-item {
+  background: var(--color-bg);
+  border-color: var(--color-border);
 }
