@@ -260,3 +260,24 @@ body.light-mode .notes-group-header {
   background: var(--color-surface-strong);
   border-color: var(--border-color);
 }
+
+/* ==========================================================================
+   NOTES INLINE STYLE MIGRATIONS
+   ========================================================================== */
+.notes-skeleton-margin {
+  margin-top: 8px;
+}
+
+.notes-empty-state-padding {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.notes-editor-loading-padding {
+  padding: 40px;
+}
+
+.notes-editor-divider {
+  margin: 24px 0;
+}

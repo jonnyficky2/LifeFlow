@@ -84,8 +84,8 @@ export const Dashboard: React.FC = () => {
         {isAppLoading ? (
           <>
             <Skeleton type="title" width="40%" />
-            <Skeleton type="block" height="22px" style={{ borderRadius: '50px', marginTop: '12px' }} />
-            <Skeleton type="text" width="20%" style={{ marginTop: '8px' }} />
+            <Skeleton type="block" height="22px" className="dashboard-skeleton-xp-bar" />
+            <Skeleton type="text" width="20%" className="dashboard-skeleton-text-small" />
           </>
         ) : (
           <>
@@ -109,7 +109,7 @@ export const Dashboard: React.FC = () => {
           <span className="stat-icon stat-icon-blue">▤</span>
           <div>
             <p>All Tasks</p>
-            {isAppLoading ? <Skeleton height={28} width={40} style={{ margin: '4px 0' }} /> : <h3 id="allTaskCount">{stats.total}</h3>}
+            {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="allTaskCount">{stats.total}</h3>}
             <small>Total tasks</small>
           </div>
         </div>
@@ -117,7 +117,7 @@ export const Dashboard: React.FC = () => {
           <span className="stat-icon stat-icon-yellow">◷</span>
           <div>
             <p>Pending</p>
-            {isAppLoading ? <Skeleton height={28} width={40} style={{ margin: '4px 0' }} /> : <h3 id="pendingCount">{stats.pending}</h3>}
+            {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="pendingCount">{stats.pending}</h3>}
             <small>Tasks to do</small>
           </div>
         </div>
@@ -125,7 +125,7 @@ export const Dashboard: React.FC = () => {
           <span className="stat-icon stat-icon-green">✓</span>
           <div>
             <p>Done</p>
-            {isAppLoading ? <Skeleton height={28} width={40} style={{ margin: '4px 0' }} /> : <h3 id="doneCount">{stats.done}</h3>}
+            {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="doneCount">{stats.done}</h3>}
             <small>Tasks completed</small>
           </div>
         </div>
@@ -133,22 +133,22 @@ export const Dashboard: React.FC = () => {
           <span className="stat-icon stat-icon-purple">▣</span>
           <div>
             <p>Today</p>
-            {isAppLoading ? <Skeleton height={28} width={40} style={{ margin: '4px 0' }} /> : <h3 id="todayCount">{stats.todayTasks}</h3>}
+            {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="todayCount">{stats.todayTasks}</h3>}
             <small>Tasks for today</small>
           </div>
         </div>
       </div>
 
-      <p id="saveStatus" style={{ opacity: 0 }}>✔ Data saved</p>
+      <p id="saveStatus">✔ Data saved</p>
 
       {/* ACTIVITY & MOTIVATION */}
       <section className="dashboard-grid">
-        <section className="dashboard-panel activity-panel" style={{ marginBottom: 0 }}>
+        <section className="dashboard-panel activity-panel dashboard-panel-no-margin">
           <h2>Activity</h2>
           <div id="heatmap">
             {isAppLoading ? (
               Array.from({ length: 30 }).map((_, i) => (
-                <Skeleton key={i} width="100%" height="100%" style={{ minHeight: '30px' }} />
+                <Skeleton key={i} width="100%" height="100%" className="dashboard-skeleton-activity-box" />
               ))
             ) : heatmapBoxes}
           </div>

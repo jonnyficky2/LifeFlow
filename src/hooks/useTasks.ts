@@ -153,27 +153,23 @@ export function useTasks() {
   }, [saveHistorySnapshot, setAppData]);
 
   const deleteTask = useCallback((catIndex: number, taskIndex: number) => {
-    if (window.confirm("Are you sure you want to delete this task?")) {
-      saveHistorySnapshot();
-      setAppData(prevData => {
-        return prevData.map((cat, cIdx) => {
-          if (cIdx !== catIndex) return cat;
-          return {
-            ...cat,
-            tasks: cat.tasks.filter((_, tIdx) => tIdx !== taskIndex)
-          };
-        });
+    saveHistorySnapshot();
+    setAppData(prevData => {
+      return prevData.map((cat, cIdx) => {
+        if (cIdx !== catIndex) return cat;
+        return {
+          ...cat,
+          tasks: cat.tasks.filter((_, tIdx) => tIdx !== taskIndex)
+        };
       });
-      showToast('Task deleted', 'warning');
-    }
+    });
+    showToast('Task deleted', 'warning');
   }, [saveHistorySnapshot, setAppData, showToast]);
 
   const deleteCategory = useCallback((catIndex: number) => {
-    if (window.confirm("Delete this category and all tasks inside?")) {
-      saveHistorySnapshot();
-      setAppData(prevData => prevData.filter((_, cIdx) => cIdx !== catIndex));
-      showToast('Category deleted', 'warning');
-    }
+    saveHistorySnapshot();
+    setAppData(prevData => prevData.filter((_, cIdx) => cIdx !== catIndex));
+    showToast('Category deleted', 'warning');
   }, [saveHistorySnapshot, setAppData, showToast]);
 
   const addCategory = useCallback((name: string) => {

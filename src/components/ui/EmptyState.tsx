@@ -14,7 +14,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ icon, title, description
       <div className="empty-state__icon">{icon}</div>
       <h3 className="empty-state__title">{title}</h3>
       <p className="empty-state__description">{description}</p>
-      {children && <div style={{ marginTop: 'var(--space-4)' }}>{children}</div>}
+      {children && <div className="empty-state__actions">{children}</div>}
     </div>
   );
 };

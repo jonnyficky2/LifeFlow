@@ -98,7 +98,7 @@ export const Calendar: React.FC = () => {
         {isAppLoading ? (
           Array.from({ length: 35 }).map((_, i) => (
             <div key={`skel-${i}`} className="calendar-cell">
-              <Skeleton type="circle" width={24} height={24} style={{ marginBottom: '8px' }} />
+              <Skeleton type="circle" width={24} height={24} className="calendar-skeleton-cell-margin" />
               <Skeleton type="text" width="80%" />
               <Skeleton type="text" width="60%" />
             </div>
@@ -124,7 +124,6 @@ export const Calendar: React.FC = () => {
                     key={idx} 
                     className={`calendar-task-indicator priority-${task.priority || 'low'}`}
                     onClick={(e) => handleTaskClick(e, task.catIndex, task.taskIndex)}
-                    style={{ cursor: 'pointer' }}
                   >
                     {task.name}
                   </div>
@@ -143,24 +142,14 @@ export const Calendar: React.FC = () => {
           <h3>Tasks for {selectedDate}</h3>
           
           {selectedTasks.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div className="calendar-selected-tasks-list">
                {selectedTasks.map((t, idx) => (
                 <div 
                   key={idx} 
                   role="button"
                   tabIndex={0}
                   aria-label={`Edit task ${t.name}`}
-                  style={{ 
-                    padding: '12px', 
-                    background: 'var(--color-bg-deep)', 
-                    border: '1px solid var(--color-border)', 
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    cursor: 'pointer',
-                    color: 'var(--text-color)'
-                  }}
+                  className="calendar-selected-task-item"
                   onClick={(e) => handleTaskClick(e, t.catIndex, t.taskIndex)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -169,20 +158,16 @@ export const Calendar: React.FC = () => {
                     }
                   }}
                 >
-                  <div style={{
-                    width: '12px',
-                    height: '12px',
-                    borderRadius: '50%',
-                  }} className={`priority-${t.priority || 'low'}`}></div>
-                  <span style={{ textDecoration: t.done ? 'line-through' : 'none', color: t.done ? 'var(--text-secondary)' : 'var(--text-color)' }}>
+                  <div className={`calendar-selected-task-priority priority-${t.priority || 'low'}`}></div>
+                  <span className={`calendar-selected-task-name ${t.done ? 'is-done' : ''}`}>
                     {t.name}
                   </span>
-                  <span style={{ marginLeft: 'auto', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>✏️ Edit</span>
+                  <span className="calendar-selected-task-edit-btn">✏️ Edit</span>
                 </div>
               ))}
             </div>
           ) : (
-            <div style={{ marginTop: '24px' }}>
+            <div className="calendar-empty-state-wrapper">
               <EmptyState 
                 icon="📅" 
                 title="Free Day!" 

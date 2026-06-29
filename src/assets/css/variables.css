@@ -36,6 +36,11 @@
   --text-light: #0f172a;
   --shadow-light: 0 10px 25px rgba(0, 0, 0, 0.08);
 
+  /* Transition / Motion Tokens */
+  --transition-micro: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-drawer: 0.30s cubic-bezier(0.25, 0.8, 0.25, 1);
+
   /* Spacing Scale */
   --space-1: 4px;
   --space-2: 8px;
@@ -109,14 +114,21 @@
    LIGHT MODE VARIABLES Override
    ========================================================================== */
 body.light-mode {
+  /* Brand / Accent Colors Overrides for High Contrast (AA/AAA Compliant) */
+  --color-primary: #1d4ed8;
+  --color-secondary: #6d28d9;
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #b91c1c;
+
   /* Neutral Light Theme Colors */
   --color-bg: #f8fafc;
   --color-bg-deep: #e2e8f0;
   --color-surface: rgba(255, 255, 255, 0.82);
   --color-surface-strong: rgba(241, 245, 249, 0.9);
-  --color-border: rgba(15, 23, 42, 0.08);
+  --color-border: rgba(15, 23, 42, 0.12);
   --color-text: #0f172a;
-  --color-muted: #64748b;
+  --color-muted: #475569;
 
   /* Adjust shadow for lighter background */
   --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.05);

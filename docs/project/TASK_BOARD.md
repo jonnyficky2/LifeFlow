@@ -305,7 +305,7 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-572] Input & Search Standardization
 - **Description:** Standardisasi input field, search box, textarea, select dropdown di Tasks, Notes, dan modal sesuai pedoman.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-570, TASK-571
 - **Acceptance Criteria:** Semua input dan search box konsisten tinggi (height 44px), radius, dan visual focus ring.
 - **Progress:** 100%
@@ -335,10 +335,10 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-575] Final UI Polish
 - **Description:** Pembersihan inline CSS style di seluruh JSX file, penyelarasan ikonografi, transisi, dan pengujian build akhir.
 - **Priority:** Low
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-571, TASK-572, TASK-573, TASK-574
 - **Acceptance Criteria:** Seluruh JSX bebas inline styles, transisi animasi halus di semua resolusi layar, build PASS.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/design/DESIGN_SYSTEM.md
 - **Notes:** -
 

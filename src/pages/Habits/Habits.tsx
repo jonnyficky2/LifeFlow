@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useHabits } from '../../hooks/useHabits';
 import { Skeleton } from '../../components/ui/Skeleton';
@@ -8,6 +8,16 @@ import './Habits.css';
 export const Habits: React.FC = () => {
   const { habits, habitHistory, isAppLoading } = useAppContext();
   const { addHabit, deleteHabit, toggleHabitDate, getCompletionRate } = useHabits();
+
+  // Create Habit Modal State
+  const [habitModalOpen, setHabitModalOpen] = useState(false);
+  const [newHabitName, setNewHabitName] = useState('');
+  const [newHabitIcon, setNewHabitIcon] = useState('🎯');
+
+  // Delete Habit Confirm State
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [targetDeleteHabitId, setTargetDeleteHabitId] = useState<string | null>(null);
+  const [confirmMessage, setConfirmMessage] = useState('');
 
   // Generate 90 days grid grouped by weeks
   const gridColumns = useMemo(() => {
@@ -55,21 +65,32 @@ export const Habits: React.FC = () => {
   };
 
   const handleCreateHabit = () => {
-    const name = window.prompt("Enter new habit name (e.g. Reading, Workout):");
-    if (name && name.trim()) {
-      const icon = window.prompt("Enter an emoji icon for this habit:", "🎯") || "🎯";
-      addHabit(name.trim(), 'var(--primary-color)', icon);
+    setNewHabitName('');
+    setNewHabitIcon('🎯');
+    setHabitModalOpen(true);
+  };
+
+  const handleCreateHabitSubmit = () => {
+    if (newHabitName.trim()) {
+      addHabit(newHabitName.trim(), 'var(--primary-color)', newHabitIcon.trim() || '🎯');
+      setHabitModalOpen(false);
     }
   };
 
+  const triggerDeleteHabit = (habitId: string, habitName: string) => {
+    setTargetDeleteHabitId(habitId);
+    setConfirmMessage(`Are you sure you want to delete the habit "${habitName}"? This action cannot be undone.`);
+    setConfirmOpen(true);
+  };
+
   return (
-    <div className="habits-wrapper section-page" style={{ display: 'flex' }}>
+    <div className="habits-wrapper section-page">
       <div className="habits-header">
         <div>
-          <h1 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h1 className="habits-header-title">
             🌱 Habit Tracker
           </h1>
-          <p style={{ color: 'var(--text-secondary)', marginTop: '4px' }}>Build consistency, one day at a time.</p>
+          <p className="habits-header-subtitle">Build consistency, one day at a time.</p>
         </div>
         <button className="btn" onClick={handleCreateHabit}>+ New Habit</button>
       </div>
@@ -77,8 +98,8 @@ export const Habits: React.FC = () => {
       <div className="habits-list">
         {isAppLoading ? (
           Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="habit-row" style={{ padding: '24px' }}>
-              <div className="habit-row-header" style={{ border: 'none' }}>
+            <div key={i} className="habit-row habit-row-skeleton">
+              <div className="habit-row-header habit-row-header-border-none">
                 <div className="habit-info">
                   <Skeleton type="circle" width={48} height={48} />
                   <div>
@@ -87,7 +108,7 @@ export const Habits: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <Skeleton type="block" height={100} style={{ marginTop: '16px', borderRadius: '12px' }} />
+              <Skeleton type="block" height={100} className="habit-skeleton-block" />
             </div>
           ))
         ) : habits.length === 0 ? (
@@ -116,11 +137,7 @@ export const Habits: React.FC = () => {
                     </div>
                   </div>
                   <div className="habit-actions">
-                    <button aria-label={`Delete habit ${habit.name}`} onClick={() => {
-                      if (window.confirm(`Delete habit "${habit.name}"? This action cannot be undone.`)) {
-                        deleteHabit(habit.id);
-                      }
-                    }}>🗑</button>
+                    <button aria-label={`Delete habit ${habit.name}`} onClick={() => triggerDeleteHabit(habit.id, habit.name)}>🗑</button>
                   </div>
                 </div>
 
@@ -143,7 +160,7 @@ export const Habits: React.FC = () => {
                           <div key={colIdx} className="habit-grid-column">
                             {col.map((date, rowIdx) => {
                               if (!date) {
-                                return <div key={`empty-${rowIdx}`} style={{ width: '14px', height: '14px' }}></div>;
+                                return <div key={`empty-${rowIdx}`} className="habit-cell-placeholder"></div>;
                               }
                               
                               const dateStr = formatDateString(date);
@@ -169,6 +186,65 @@ export const Habits: React.FC = () => {
           })
         )}
       </div>
+
+      {/* Create Habit Modal */}
+      {habitModalOpen && (
+        <div className="modal show">
+          <div className="modal-content" style={{ maxWidth: '450px', padding: '24px', borderRadius: '12px' }}>
+            <h2 style={{ marginBottom: '20px' }}>Create New Habit</h2>
+            <div className="form-group" style={{ marginBottom: '16px' }}>
+              <label htmlFor="habitNameInput">Habit Name</label>
+              <input 
+                id="habitNameInput"
+                type="text" 
+                placeholder="e.g. Reading, Workout"
+                value={newHabitName}
+                onChange={(e) => setNewHabitName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleCreateHabitSubmit()}
+                autoFocus
+              />
+            </div>
+            <div className="form-group" style={{ marginBottom: '24px' }}>
+              <label htmlFor="habitIconInput">Icon (Emoji)</label>
+              <input 
+                id="habitIconInput"
+                type="text" 
+                placeholder="e.g. 🎯"
+                value={newHabitIcon}
+                onChange={(e) => setNewHabitIcon(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleCreateHabitSubmit()}
+              />
+            </div>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              <button className="btn btn-secondary" onClick={() => setHabitModalOpen(false)}>Cancel</button>
+              <button className="btn btn-primary" onClick={handleCreateHabitSubmit}>Create</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {confirmOpen && (
+        <div className="modal show">
+          <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '24px', borderRadius: '12px' }}>
+            <h3>Delete Habit</h3>
+            <p style={{ margin: '16px 0', color: 'var(--color-muted)' }}>{confirmMessage}</p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button className="btn btn-danger" onClick={() => {
+                if (targetDeleteHabitId) {
+                  deleteHabit(targetDeleteHabitId);
+                }
+                setConfirmOpen(false);
+                setTargetDeleteHabitId(null);
+              }}>Delete</button>
+              <button className="btn btn-secondary" onClick={() => {
+                setConfirmOpen(false);
+                setTargetDeleteHabitId(null);
+              }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

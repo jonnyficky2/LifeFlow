@@ -15,6 +15,45 @@ export const Tasks: React.FC = () => {
   const [newCategoryName, setNewCategoryName] = useState('');
   const [isAddingCategory, setIsAddingCategory] = useState(false);
 
+  // Category inline edit states
+  const [editingCatIndex, setEditingCatIndex] = useState<number | null>(null);
+  const [editingCatName, setEditingCatName] = useState<string>('');
+
+  // Confirmation modal states
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmType, setConfirmType] = useState<'task' | 'category' | null>(null);
+  const [targetCatIndex, setTargetCatIndex] = useState<number | null>(null);
+  const [targetTaskIndex, setTargetTaskIndex] = useState<number | null>(null);
+  const [confirmMessage, setConfirmMessage] = useState('');
+
+  const triggerDeleteCategory = (catIndex: number) => {
+    setConfirmType('category');
+    setTargetCatIndex(catIndex);
+    setConfirmMessage(`Are you sure you want to delete the category "${appData[catIndex].name}" and all tasks inside?`);
+    setConfirmOpen(true);
+  };
+
+  const triggerDeleteTask = (catIndex: number, taskIndex: number) => {
+    setConfirmType('task');
+    setTargetCatIndex(catIndex);
+    setTargetTaskIndex(taskIndex);
+    const taskName = appData[catIndex].tasks[taskIndex].name;
+    setConfirmMessage(`Are you sure you want to delete the task "${taskName}"?`);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (confirmType === 'category' && targetCatIndex !== null) {
+      deleteCategory(targetCatIndex);
+    } else if (confirmType === 'task' && targetCatIndex !== null && targetTaskIndex !== null) {
+      deleteTask(targetCatIndex, targetTaskIndex);
+    }
+    setConfirmOpen(false);
+    setConfirmType(null);
+    setTargetCatIndex(null);
+    setTargetTaskIndex(null);
+  };
+
   const handleCreateInlineTask = (catIndex: number) => {
     const val = (inlineTaskNames[catIndex] || '').trim();
     if (val) {
@@ -81,15 +120,15 @@ export const Tasks: React.FC = () => {
   });
 
   return (
-    <div id="tasksSection" className="tasks-wrapper section-page" style={{ display: 'block' }}>
-      <div className="dashboard-header" style={{ marginBottom: '24px' }}>
+    <div id="tasksSection" className="tasks-wrapper section-page">
+      <div className="dashboard-header tasks-header-wrapper">
         <div>
           <h1>☑ Tasks</h1>
           <p>Manage and track your tasks</p>
         </div>
       </div>
 
-      <div className="search-box" style={{ display: 'block', marginBottom: '20px' }}>
+      <div className="search-box tasks-search-container">
         <input
           type="text"
           id="searchInput"
@@ -115,8 +154,8 @@ export const Tasks: React.FC = () => {
             Array.from({ length: 2 }).map((_, i) => (
               <div key={i} className="category">
                 <Skeleton type="title" width="30%" />
-                <Skeleton type="block" height={60} style={{ margin: '12px 0', borderRadius: '12px' }} />
-                <Skeleton type="block" height={60} style={{ margin: '12px 0', borderRadius: '12px' }} />
+                <Skeleton type="block" height={60} className="tasks-skeleton-row" />
+                <Skeleton type="block" height={60} className="tasks-skeleton-row" />
               </div>
             ))
           ) : appData.length === 0 ? (
@@ -132,21 +171,55 @@ export const Tasks: React.FC = () => {
               return (
               <div key={catIndex} className="category">
                 <div className="category-header">
-                  <h2>{category.name}</h2>
-                  <div>
-                    <button aria-label="Edit category" onClick={() => {
-                      const newName = window.prompt("Enter new category name:", category.name);
-                      if (newName && newName.trim()) {
-                        saveHistorySnapshot();
-                        setAppData(prev => {
-                          const newData = [...prev];
-                          newData[catIndex].name = newName.trim();
-                          return newData;
-                        });
-                      }
-                    }}>✏️</button>
-                    <button aria-label="Delete category" onClick={() => deleteCategory(catIndex)}>🗑</button>
-                  </div>
+                  {editingCatIndex === catIndex ? (
+                    <div style={{ display: 'flex', width: '100%', gap: '8px', alignItems: 'center' }}>
+                      <input 
+                        type="text" 
+                        value={editingCatName} 
+                        onChange={(e) => setEditingCatName(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            if (editingCatName.trim()) {
+                              saveHistorySnapshot();
+                              setAppData(prev => {
+                                const newData = [...prev];
+                                newData[catIndex].name = editingCatName.trim();
+                                return newData;
+                              });
+                            }
+                            setEditingCatIndex(null);
+                          } else if (e.key === 'Escape') {
+                            setEditingCatIndex(null);
+                          }
+                        }}
+                        autoFocus
+                        style={{ flex: 1, height: '36px', padding: '0 8px', border: '1px solid var(--color-border)', borderRadius: '6px', background: 'var(--color-bg)', color: 'var(--color-text)' }}
+                      />
+                      <button className="btn-primary" onClick={() => {
+                        if (editingCatName.trim()) {
+                          saveHistorySnapshot();
+                          setAppData(prev => {
+                            const newData = [...prev];
+                            newData[catIndex].name = editingCatName.trim();
+                            return newData;
+                          });
+                        }
+                        setEditingCatIndex(null);
+                      }} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Save</button>
+                      <button className="btn-secondary" onClick={() => setEditingCatIndex(null)} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Cancel</button>
+                    </div>
+                  ) : (
+                    <>
+                      <h2>{category.name}</h2>
+                      <div>
+                        <button aria-label="Edit category" onClick={() => {
+                          setEditingCatIndex(catIndex);
+                          setEditingCatName(category.name);
+                        }}>✏️</button>
+                        <button aria-label="Delete category" onClick={() => triggerDeleteCategory(catIndex)}>🗑</button>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div>
@@ -163,7 +236,7 @@ export const Tasks: React.FC = () => {
                             onChange={() => toggleTask(catIndex, originalTaskIndex)} 
                           />
                           <div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div className="tasks-name-row">
                               <span>{task.name}</span>
                               {task.time && <span className="task-time-badge">⏰ {task.time}</span>}
                             </div>
@@ -197,15 +270,15 @@ export const Tasks: React.FC = () => {
 
                         <div className="task-right">
                           <button aria-label="Edit task" onClick={() => handleEditTask(catIndex, originalTaskIndex)}>✏️</button>
-                          <button aria-label="Delete task" onClick={() => deleteTask(catIndex, originalTaskIndex)}>🗑</button>
+                          <button aria-label="Delete task" onClick={() => triggerDeleteTask(catIndex, originalTaskIndex)}>🗑</button>
                         </div>
                       </div>
                     );
                   })}
                 </div>
 
-                <div className="task-inline-input-container" style={{ marginTop: '12px' }}>
-                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+                <div className="task-inline-input-container task-inline-input-row">
+                  <div className="task-inline-input-wrapper">
                     <input 
                       type="text" 
                       className="inline-task-input"
@@ -220,26 +293,12 @@ export const Tasks: React.FC = () => {
                       onClick={() => handleCreateInlineTask(catIndex)}
                       title="Add Task"
                       aria-label="Add task"
-                      style={{
-                        position: 'absolute',
-                        right: '8px',
-                        background: 'transparent',
-                        border: 'none',
-                        color: 'var(--text-secondary)',
-                        cursor: 'pointer',
-                        fontSize: '18px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '28px',
-                        height: '28px',
-                        padding: 0
-                      }}
+                      className="inline-task-submit-btn"
                     >
                       +
                     </button>
                   </div>
-                  <small style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px', paddingLeft: '4px' }}>
+                  <small className="task-inline-input-tip">
                     Press Enter ↵ to create a task.
                   </small>
                 </div>
@@ -248,9 +307,9 @@ export const Tasks: React.FC = () => {
           }))}
         </div>
 
-        <div style={{ marginTop: '20px' }}>
+        <div className="tasks-add-category-wrapper">
           {isAddingCategory ? (
-            <div className="add-box" style={{ display: 'flex', gap: '10px' }}>
+            <div className="add-box tasks-add-category-form">
               <input
                 type="text"
                 placeholder="Enter category name..."
@@ -269,7 +328,7 @@ export const Tasks: React.FC = () => {
                   }
                 }}
                 autoFocus
-                style={{ flex: 1 }}
+                className="tasks-add-category-input"
               />
               <button 
                 type="button"
@@ -298,8 +357,7 @@ export const Tasks: React.FC = () => {
           ) : (
             <button 
               type="button" 
-              className="btn" 
-              style={{ padding: '8px 16px', background: 'var(--bg-secondary)', border: '1px dashed var(--border-color)', color: 'var(--text-color)', width: '100%', borderRadius: '8px', cursor: 'pointer' }}
+              className="btn task-create-category-btn-dashed"
               onClick={() => setIsAddingCategory(true)}
             >
               + Create New Category
@@ -317,6 +375,24 @@ export const Tasks: React.FC = () => {
         )}
 
       </div>
+
+      {confirmOpen && (
+        <div className="modal show">
+          <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '24px', borderRadius: '12px' }}>
+            <h3>Confirm Action</h3>
+            <p style={{ margin: '16px 0', color: 'var(--color-muted)' }}>{confirmMessage}</p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button className="btn btn-danger" onClick={handleConfirmDelete}>Confirm</button>
+              <button className="btn btn-secondary" onClick={() => {
+                setConfirmOpen(false);
+                setConfirmType(null);
+                setTargetCatIndex(null);
+                setTargetTaskIndex(null);
+              }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

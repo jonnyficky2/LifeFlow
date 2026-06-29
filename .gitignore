@@ -28,3 +28,4 @@ build
 cache
 tmp
 .tmp
+.DS_Store

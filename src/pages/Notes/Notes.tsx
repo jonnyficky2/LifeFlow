@@ -9,6 +9,8 @@ export const Notes: React.FC = () => {
   const { notes, isAppLoading } = useAppContext();
   const { addNote, updateNote, deleteNote } = useNotes();
 
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   const [search, setSearch] = useState('');
   const [activeNoteId, setActiveNoteId] = useState<string | null>(notes.length > 0 ? notes[0].id : null);
 
@@ -97,10 +99,7 @@ export const Notes: React.FC = () => {
 
   const handleDelete = () => {
     if (!activeNoteId) return;
-    if (window.confirm("Are you sure you want to delete this note?")) {
-      deleteNote(activeNoteId);
-      setActiveNoteId(null);
-    }
+    setConfirmOpen(true);
   };
 
   const formatDate = (isoString: string) => {
@@ -130,11 +129,11 @@ export const Notes: React.FC = () => {
             Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="note-item">
                 <Skeleton type="title" width="70%" />
-                <Skeleton type="text" width="40%" style={{ marginTop: '8px' }} />
+                <Skeleton type="text" width="40%" className="notes-skeleton-margin" />
               </div>
             ))
           ) : filteredNotes.length === 0 ? (
-            <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+            <div className="notes-empty-state-padding">
               <p>No notes found.</p>
             </div>
           ) : (
@@ -160,9 +159,9 @@ export const Notes: React.FC = () => {
       {/* Right Pane: Editor */}
       <div className="notes-editor-pane">
         {isAppLoading ? (
-          <div style={{ padding: '40px' }}>
+          <div className="notes-editor-loading-padding">
             <Skeleton type="title" width="40%" height={32} />
-            <Skeleton type="block" height={1} style={{ margin: '24px 0' }} />
+            <Skeleton type="block" height={1} className="notes-editor-divider" />
             <Skeleton type="text" width="100%" />
             <Skeleton type="text" width="90%" />
             <Skeleton type="text" width="95%" />
@@ -207,6 +206,27 @@ export const Notes: React.FC = () => {
           </>
         )}
       </div>
+
+      {confirmOpen && (
+        <div className="modal show">
+          <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '24px', borderRadius: '12px' }}>
+            <h3>Delete Note</h3>
+            <p style={{ margin: '16px 0', color: 'var(--color-muted)' }}>
+              Are you sure you want to delete the active note? This action cannot be undone.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button className="btn btn-danger" onClick={() => {
+                if (activeNoteId) {
+                  deleteNote(activeNoteId);
+                  setActiveNoteId(null);
+                }
+                setConfirmOpen(false);
+              }}>Delete</button>
+              <button className="btn btn-secondary" onClick={() => setConfirmOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,6 +1,21 @@
 # Session Log
 
+## 2026-06-30
+- **Legacy Feature Parity Audit & Restoration Plan Completed (Status: DONE):**
+  - Melakukan audit keselarasan fitur (Feature Parity) secara menyeluruh antara proyek JavaScript Legacy (Single Source of Truth) dan React + TypeScript.
+  - Membandingkan status implementasi dari seluruh halaman, modul, komponen UI/UX, database, dan pengaturan.
+  - Menemukan gap utama: fungsionalitas menu `Focus Timer`, `Statistics/Reports`, `Settings` (sebagian besar), `Authentication` (Firebase Auth Google login), dan dukungan `PWA` masih berupa placeholder atau belum dipindahkan.
+  - Mendokumentasikan seluruh temuan secara detail di [LEGACY_PARITY_AUDIT.md](file:///Users/jofi/Documents/PROJECT/LifeFlow/docs/project/LEGACY_PARITY_AUDIT.md).
+  - Menyusun usulan milestone baru beserta pemecahan task-task kecil yang mendetail untuk setiap gap fitur (deskripsi, prioritas, dependensi, kriteria penerimaan, estimasi risiko, estimasi file terdampak, dan skenario manual UAT) di dalam [LEGACY_RESTORATION_PLAN.md](file:///Users/jofi/Documents/PROJECT/LifeFlow/docs/project/LEGACY_RESTORATION_PLAN.md).
+
 ## 2026-06-29
+- **[TASK-575] Final UI Polish & Dialog Migrations Completed (Status: TESTING):**
+  - Menghapus semua static inline styles (`style={{...}}`) dari seluruh komponen JSX/TSX: `Dashboard.tsx`, `Tasks.tsx`, `Habits.tsx`, `Notes.tsx`, `Categories.tsx`, `TaskModal.tsx`, `Sidebar.tsx`, `ErrorBoundary.tsx`, `Calendar.tsx`, `App.tsx`, `EmptyState.tsx`, dan `Navbar.tsx`.
+  - Memindahkan seluruh gaya inline statis tersebut ke kelas CSS yang terorganisir di dalam file stylesheet yang sesuai (`style.css`, `Habits.css`, `Notes.css`, `Calendar.css`, `forms.css`, `empty-states.css`, `index.css`).
+  - Menyediakan transition tokens terstandar (`--transition-micro`, `--transition-smooth`, `--transition-drawer`) di `variables.css` sesuai spesifikasi `docs/design/INTERACTIONS.md`.
+  - Menyeragamkan ukuran tombol edit/delete beserta penataan margin, padding, border, dan transition pendukung pada Categories list agar sejalan dengan task item list.
+  - Mengeliminasi 100% pemanggilan dialog native browser (`window.prompt`, `window.confirm`) di seluruh codebase: pengeditan kategori kini menggunakan form inline text input, pembuatan habit menggunakan custom React modal dialog, dan konfirmasi penghapusan (tasks, habits, notes, categories, reset app) diganti dengan custom React confirmation modal overlay yang sejalan dengan Design System.
+  - Berhasil memverifikasi build akhir (`npm run build`) dan linting (`npm run lint`) bebas error dan regresif.
 - **[TASK-573] Card & Layout Standardization Completed (Status: DONE / UAT PASS):**
   - Membersihkan `src/index.css` dengan menghapus deklarasi `:root` variabel radius dan spacing redundan yang menimpa nilai standar di `variables.css`.
   - Mengubah `#levelBox` agar menggunakan `border-radius: var(--radius-lg)` (24px), `box-shadow: var(--shadow-lg)`, dan `backdrop-filter: blur(18px)` secara konsisten.

@@ -216,7 +216,7 @@ export const TaskModal: React.FC = () => {
                     <span>{sub.name}</span>
                     <button 
                       type="button" 
-                      style={{ border: 'none', background: 'none', color: 'var(--color-danger)', cursor: 'pointer' }}
+                      className="btn-subtask-delete-clean"
                       onClick={() => handleDeleteSubtask(index)}
                     >
                       ✖

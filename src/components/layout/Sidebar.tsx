@@ -47,7 +47,7 @@ export const Sidebar: React.FC = () => {
             <p className="sidebar-name">Guest User</p>
             <p className="sidebar-email">Login untuk akses akun</p>
             <button id="loginBtn" type="button" className="sidebar-item account-action">Login dengan Google</button>
-            <button id="logoutBtn" type="button" className="sidebar-item account-action" style={{ display: 'none' }}>Logout</button>
+            <button id="logoutBtn" type="button" className="sidebar-item account-action sidebar-logout-hidden">Logout</button>
           </div>
 
           <div className="sidebar-streak-card">

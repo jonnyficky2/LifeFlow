@@ -228,3 +228,55 @@ body.light-mode .calendar-selected-details {
   background: var(--bg-secondary);
   border-color: var(--border-color);
 }
+
+/* ==========================================================================
+   CALENDAR INLINE STYLE MIGRATIONS
+   ========================================================================== */
+.calendar-skeleton-cell-margin {
+  margin-bottom: 8px;
+}
+
+.calendar-selected-tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calendar-selected-task-item {
+  padding: 12px;
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--text-color);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-selected-task-priority {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.calendar-selected-task-name {
+  color: var(--text-color);
+}
+
+.calendar-selected-task-name.is-done {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.calendar-selected-task-edit-btn {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.calendar-empty-state-wrapper {
+  margin-top: 24px;
+}

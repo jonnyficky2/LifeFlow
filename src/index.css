@@ -12,3 +12,101 @@ summary:focus-visible,
   outline: 2px solid #5574ff !important;
   outline-offset: 2px !important;
 }
+
+/* ==========================================================================
+   ERROR BOUNDARY STYLE MIGRATIONS
+   ========================================================================== */
+.error-boundary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background-color: #0F172A;
+  color: #F9FAFB;
+  font-family: 'Inter', -apple-system, sans-serif;
+  text-align: center;
+}
+
+.error-boundary-card {
+  max-width: 550px;
+  background-color: #1E293B;
+  border-radius: 16px;
+  padding: 40px 24px;
+  border: 1px solid #334155;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.error-boundary-icon {
+  font-size: 56px;
+  margin-bottom: 24px;
+}
+
+.error-boundary-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #EF4444;
+}
+
+.error-boundary-desc {
+  font-size: 15px;
+  color: #9CA3AF;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.error-boundary-btn-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.error-boundary-btn-primary {
+  padding: 12px 24px;
+  background-color: #4F46E5;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  outline: none;
+}
+
+.error-boundary-btn-secondary {
+  padding: 12px 24px;
+  background-color: transparent;
+  color: #9CA3AF;
+  border: 1px solid #4B5563;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.error-boundary-details {
+  text-align: left;
+  background-color: #0F172A;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #334155;
+  cursor: pointer;
+}
+
+.error-boundary-summary {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6366F1;
+}
+
+.error-boundary-pre {
+  margin: 12px 0 0 0;
+  font-size: 12px;
+  font-family: monospace;
+  overflow-x: auto;
+  color: #F3F4F6;
+  white-space: pre-wrap;
+}

@@ -16,7 +16,7 @@ export const Navbar: React.FC = () => {
 
         <div className="navbar-actions">
           <button id="navLoginBtn" type="button" className="nav-login-btn">Sign In</button>
-          <img id="navUserImg" src="/assets/icons/icon.svg" alt="Profile" className="nav-user-img" style={{ display: 'none' }} referrerPolicy="no-referrer" loading="lazy" />
+          <img id="navUserImg" src="/assets/icons/icon.svg" alt="Profile" className="nav-user-img nav-user-img-hidden" referrerPolicy="no-referrer" loading="lazy" />
         
           {/* Sidebar Toggle Button */}
           <button 

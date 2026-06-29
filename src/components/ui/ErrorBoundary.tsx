@@ -9,17 +9,19 @@ interface State {
   hasError: boolean;
   error: Error | null;
   errorInfo: ErrorInfo | null;
+  confirmOpen: boolean;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
     error: null,
-    errorInfo: null
+    errorInfo: null,
+    confirmOpen: false
   };
 
   public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error, errorInfo: null };
+    return { hasError: true, error, errorInfo: null, confirmOpen: false };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -32,119 +34,62 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   private handleReset = () => {
-    if (window.confirm("WARNING: This will wipe all local application data (tasks, habits, notes) and reset the app. Are you sure?")) {
-      localStorage.clear();
-      window.location.reload();
-    }
+    this.setState({ confirmOpen: true });
+  };
+
+  private confirmReset = () => {
+    localStorage.clear();
+    window.location.reload();
   };
 
   public render() {
     if (this.state.hasError) {
       return (
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          padding: '24px',
-          backgroundColor: '#0F172A',
-          color: '#F9FAFB',
-          fontFamily: "'Inter', -apple-system, sans-serif",
-          textAlign: 'center'
-        }}>
-          <div style={{
-            maxWidth: '550px',
-            backgroundColor: '#1E293B',
-            borderRadius: '16px',
-            padding: '40px 24px',
-            border: '1px solid #334155',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
-          }}>
-            <div style={{
-              fontSize: '56px',
-              marginBottom: '24px'
-            }}>⚠️</div>
-            <h1 style={{
-              fontSize: '24px',
-              fontWeight: 700,
-              marginBottom: '12px',
-              color: '#EF4444'
-            }}>Something went wrong</h1>
-            <p style={{
-              fontSize: '15px',
-              color: '#9CA3AF',
-              marginBottom: '32px',
-              lineHeight: '1.6'
-            }}>
-              LifeFlow encountered an unexpected error. Don't worry, your data is likely safe. Try reloading the app first.
+        <div className="error-boundary-container">
+          <div className="error-boundary-card">
+            <div className="error-boundary-icon">⚠️</div>
+            <h1 className="error-boundary-title">Something went wrong</h1>
+            <p className="error-boundary-desc">
+              LifeFlow encountered an unexpected error. Don't worry, your data is safe. Try reloading the app first.
             </p>
 
-            <div style={{
-              display: 'flex',
-              gap: '12px',
-              justifyContent: 'center',
-              marginBottom: '32px'
-            }}>
+            <div className="error-boundary-btn-group">
               <button 
                 onClick={this.handleReload}
-                style={{
-                  padding: '12px 24px',
-                  backgroundColor: '#4F46E5',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'background 0.2s',
-                  outline: 'none'
-                }}
+                className="error-boundary-btn-primary"
               >
                 Reload Application
               </button>
               <button 
                 onClick={this.handleReset}
-                style={{
-                  padding: '12px 24px',
-                  backgroundColor: 'transparent',
-                  color: '#9CA3AF',
-                  border: '1px solid #4B5563',
-                  borderRadius: '8px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s'
-                }}
+                className="error-boundary-btn-secondary"
               >
                 Clear Data & Reset
               </button>
             </div>
 
             {this.state.error && (
-              <details style={{
-                textAlign: 'left',
-                backgroundColor: '#0F172A',
-                borderRadius: '8px',
-                padding: '16px',
-                border: '1px solid #334155',
-                cursor: 'pointer'
-              }}>
-                <summary style={{
-                  fontSize: '13px',
-                  fontWeight: 600,
-                  color: '#6366F1'
-                }}>Technical Details</summary>
-                <pre style={{
-                  margin: '12px 0 0 0',
-                  fontSize: '12px',
-                  fontFamily: 'monospace',
-                  overflowX: 'auto',
-                  color: '#F3F4F6',
-                  whiteSpace: 'pre-wrap'
-                }}>
+              <details className="error-boundary-details">
+                <summary className="error-boundary-summary">Technical Details</summary>
+                <pre className="error-boundary-pre">
                   {this.state.error.toString()}
                   {this.state.errorInfo?.componentStack}
                 </pre>
               </details>
+            )}
+            {this.state.confirmOpen && (
+              <div className="modal show" style={{ zIndex: 2000 }}>
+                <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '24px', borderRadius: '12px', background: '#1E293B', border: '1px solid #334155' }}>
+                  <h3 style={{ color: '#EF4444' }}>Warning</h3>
+                  <p style={{ margin: '16px 0', color: '#9CA3AF' }}>
+                    WARNING: This will wipe all local application data (tasks, habits, notes) and reset the app. Are you sure?
+                  </p>
+                  <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                    <button className="btn btn-danger" onClick={this.confirmReset} style={{ padding: '10px 20px', fontWeight: 600 }}>Reset</button>
+                    <button className="btn btn-secondary" onClick={() => this.setState({ confirmOpen: false })} style={{ padding: '10px 20px', fontWeight: 600 }}>Cancel</button>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>

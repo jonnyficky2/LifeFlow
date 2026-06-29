@@ -2659,8 +2659,8 @@ body.light-mode #levelBox {
 }
 
 .panel-tabs button.is-active {
-  color: #73a6ff;
-  border-bottom: 2px solid #526dff;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
 }
 
 #container {
@@ -2688,9 +2688,9 @@ body.light-mode #levelBox {
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  color: #6d92ff;
-  border: 6px solid rgba(82, 109, 255, 0.14);
-  box-shadow: 0 0 0 8px rgba(82, 109, 255, 0.08);
+  color: var(--color-primary);
+  border: 6px solid rgba(85, 116, 255, 0.14);
+  box-shadow: 0 0 0 8px rgba(85, 116, 255, 0.08);
 }
 
 .tasks-empty-state strong {
@@ -2814,7 +2814,7 @@ body.light-mode #levelBox {
 
 #viewCategoriesBtn {
   padding: 6px 0;
-  color: #6c95ff;
+  color: var(--color-primary);
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -3312,4 +3312,217 @@ body.light-mode .focus-timer-container .ring-bg {
   font-size: 0.9rem !important;
   height: auto !important;
   border-radius: 50px !important;
+}
+
+/* ==========================================================================
+   DASHBOARD INLINE STYLE MIGRATIONS
+   ========================================================================== */
+.dashboard-skeleton-xp-bar {
+  border-radius: 50px;
+  margin-top: 12px;
+}
+
+.dashboard-skeleton-text-small {
+  margin-top: 8px;
+}
+
+.dashboard-skeleton-stat-num {
+  margin: 4px 0;
+}
+
+.dashboard-panel-no-margin {
+  margin-bottom: 0 !important;
+}
+
+.dashboard-skeleton-activity-box {
+  min-height: 30px;
+}
+
+/* ==========================================================================
+   TASKS INLINE STYLE MIGRATIONS
+   ========================================================================== */
+.tasks-header-wrapper {
+  margin-bottom: 24px;
+}
+
+.tasks-search-container {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.tasks-skeleton-row {
+  margin: 12px 0;
+  border-radius: 12px;
+}
+
+.tasks-name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.task-inline-input-row {
+  margin-top: 12px;
+}
+
+.task-inline-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.inline-task-submit-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+}
+
+.task-inline-input-tip {
+  display: block;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
+.tasks-add-category-wrapper {
+  margin-top: 20px;
+}
+
+.tasks-add-category-form {
+  display: flex;
+  gap: 10px;
+}
+
+.tasks-add-category-input {
+  flex: 1;
+}
+
+.task-create-category-btn-dashed {
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border-color);
+  color: var(--text-color);
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   CATEGORIES INLINE STYLE MIGRATIONS
+   ========================================================================== */
+.categories-header-wrapper {
+  margin-bottom: 24px;
+}
+
+.categories-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.category-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text);
+}
+
+.category-list-item-title {
+  font-weight: 500;
+}
+
+.category-list-item-count {
+  color: var(--color-muted);
+  font-size: 0.85em;
+}
+
+.category-action-btn {
+  padding: var(--space-2) 12px;
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-micro);
+}
+
+body.light-mode .category-action-btn {
+  background: var(--color-bg-deep);
+}
+
+.category-action-edit {
+  margin-right: 10px;
+}
+
+.categories-add-form-flex {
+  display: flex;
+  gap: 10px;
+}
+
+.categories-add-input {
+  flex: 1;
+}
+
+/* ==========================================================================
+   SIDEBAR INLINE STYLE MIGRATIONS
+   ========================================================================== */
+.sidebar-logout-hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   APP FALLBACK & PLACEHOLDER INLINE STYLE MIGRATIONS
+   ========================================================================== */
+.app-page-fallback {
+  padding: 24px;
+}
+
+.app-skeleton-fallback-title {
+  height: 40px;
+  width: 30%;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  background-color: var(--color-surface-strong);
+}
+
+.app-skeleton-fallback-banner {
+  height: 120px;
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background-color: var(--color-surface-strong);
+}
+
+.app-skeleton-fallback-content {
+  height: 200px;
+  width: 100%;
+  border-radius: 12px;
+  background-color: var(--color-surface-strong);
+}
+
+.app-placeholder-section {
+  padding: 24px;
+}
+
+/* ==========================================================================
+   NAVBAR INLINE STYLE MIGRATIONS
+   ========================================================================== */
+.nav-user-img-hidden {
+  display: none !important;
 }

@@ -126,3 +126,101 @@ Setiap implementasi harus mengikuti prinsip berikut:
 * Jangan membuat CSS yang bertabrakan dengan Design System.
 * Semua kode baru harus mengikuti struktur proyek yang sudah ada.
 * Jika terdapat beberapa solusi, pilih solusi yang paling sederhana, mudah dipelihara, dan paling kecil risiko regresinya.
+
+## Architecture Decision Rules
+
+- ADR dibuat hanya untuk keputusan arsitektur atau keputusan desain yang bersifat jangka panjang.
+- Jangan membuat ADR untuk bug fix kecil.
+- Jangan membuat ADR untuk perubahan CSS minor.
+- ADR wajib dibuat sebelum implementasi jika perubahan dapat mempengaruhi struktur proyek.
+- Nomor ADR harus berurutan dan tidak boleh diubah.
+- Jika suatu keputusan berubah, jangan edit ADR lama. Buat ADR baru lalu ubah status ADR lama menjadi SUPERSEDED.
+- Seluruh keputusan besar harus memiliki referensi ADR pada TASK_BOARD.md atau SESSION_LOG.md bila relevan.
+
+# Legacy Migration Policy (Single Source of Truth)
+
+## Purpose
+LifeFlow React + TypeScript adalah proyek migrasi dari LifeFlow JavaScript (Legacy), bukan proyek baru.
+
+## Single Source of Truth
+Project JavaScript Legacy merupakan acuan utama (Single Source of Truth) untuk:
+
+- Feature
+- Business Logic
+- Workflow
+- Navigation
+- UI Behavior
+- UX Flow
+- Settings
+- Authentication
+- User Preferences
+- Data Structure
+
+## Feature Parity Rule
+
+Target akhir migrasi adalah Feature Parity.
+
+Artinya seluruh fitur yang terdapat pada project JavaScript harus tersedia kembali pada project React + TypeScript, kecuali User secara eksplisit memutuskan untuk menghapus fitur tersebut.
+
+React + TypeScript boleh melakukan:
+
+- Refactor
+- UI Improvement
+- Performance Improvement
+- Accessibility Improvement
+- Code Cleanup
+- Architecture Improvement
+
+Namun tidak boleh:
+
+- Menghilangkan fitur legacy
+- Menghilangkan halaman
+- Mengubah alur kerja utama
+- Mengubah business logic
+- Menghapus menu navigasi
+
+tanpa persetujuan User.
+
+## Missing Legacy Features
+
+Jika ditemukan fitur pada project JavaScript yang belum ada pada project React + TypeScript, AI WAJIB:
+
+1. Tidak menganggap fitur tersebut sudah tidak diperlukan.
+2. Menambahkan fitur tersebut ke TASK_BOARD.md sebagai BACKLOG atau TODO.
+3. Menjelaskan dependency sebelum implementasi.
+4. Menunggu persetujuan User sebelum memulai implementasi.
+
+## Planning Rule
+
+Sebelum membuat milestone baru, AI harus membandingkan React dengan Legacy untuk memastikan seluruh modul telah dimigrasikan.
+
+Jika ditemukan perbedaan, AI harus melaporkannya terlebih dahulu.
+
+## Completion Rule
+
+Project tidak boleh dinyatakan Release Complete hanya karena seluruh TASK_BOARD selesai.
+
+Sebelum Release Final, AI wajib melakukan Legacy Feature Audit untuk memastikan seluruh fitur JavaScript telah dimigrasikan.
+
+## Documentation Rule
+
+Apabila ditemukan modul baru pada Legacy yang belum terdokumentasi, AI harus:
+
+- membuat TASK baru,
+- memperbarui TASK_BOARD,
+- memperbarui MODULES,
+- memperbarui ADR bila diperlukan,
+
+sehingga dokumentasi tetap menjadi Single Source of Truth.
+
+# Native Browser Dialog Policy
+
+Dilarang menggunakan:
+
+- alert()
+- prompt()
+- confirm()
+
+untuk seluruh fitur aplikasi.
+
+Semua interaksi pengguna wajib menggunakan komponen React internal (Modal, Dialog, Toast, Inline Form) agar konsisten dengan Design System, Dark Mode, Accessibility, dan UX aplikasi.

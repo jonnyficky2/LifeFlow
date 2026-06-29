@@ -13,10 +13,10 @@ const Habits = lazy(() => import('./pages/Habits/Habits').then(m => ({ default: 
 const Notes = lazy(() => import('./pages/Notes/Notes').then(m => ({ default: m.Notes })));
 
 const PageFallback = () => (
-  <div style={{ padding: '24px' }}>
-    <div className="skeleton" style={{ height: '40px', width: '30%', borderRadius: '8px', marginBottom: '24px', backgroundColor: 'var(--color-surface-strong)' }} />
-    <div className="skeleton" style={{ height: '120px', width: '100%', borderRadius: '12px', marginBottom: '16px', backgroundColor: 'var(--color-surface-strong)' }} />
-    <div className="skeleton" style={{ height: '200px', width: '100%', borderRadius: '12px', backgroundColor: 'var(--color-surface-strong)' }} />
+  <div className="app-page-fallback">
+    <div className="skeleton app-skeleton-fallback-title" />
+    <div className="skeleton app-skeleton-fallback-banner" />
+    <div className="skeleton app-skeleton-fallback-content" />
   </div>
 );
 
@@ -38,12 +38,12 @@ const AppContent: React.FC = () => {
           {activeSection === 'home' && <Dashboard />}
           {activeSection === 'tasks' && <Tasks />}
           {activeSection === 'habit' && <Habits />}
-          {activeSection === 'focus' && <div style={{ padding: '24px' }}>Focus Component Placeholder</div>}
+          {activeSection === 'focus' && <div className="app-placeholder-section">Focus Component Placeholder</div>}
           {activeSection === 'calendar' && <Calendar />}
           {activeSection === 'categories' && <Categories />}
-          {activeSection === 'stats' && <div style={{ padding: '24px' }}>Stats Component Placeholder</div>}
+          {activeSection === 'stats' && <div className="app-placeholder-section">Stats Component Placeholder</div>}
           {activeSection === 'notes' && <Notes />}
-          {activeSection === 'settings' && <div style={{ padding: '24px' }}>Settings Component Placeholder</div>}
+          {activeSection === 'settings' && <div className="app-placeholder-section">Settings Component Placeholder</div>}
         </Suspense>
       </Layout>
       <TaskModal />
