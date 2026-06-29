@@ -1,5 +1,24 @@
 # Session Log
 
+## 2026-06-29
+- **[TASK-573] Card & Layout Standardization Completed (Status: DONE / UAT PASS):**
+  - Membersihkan `src/index.css` dengan menghapus deklarasi `:root` variabel radius dan spacing redundan yang menimpa nilai standar di `variables.css`.
+  - Mengubah `#levelBox` agar menggunakan `border-radius: var(--radius-lg)` (24px), `box-shadow: var(--shadow-lg)`, dan `backdrop-filter: blur(18px)` secara konsisten.
+  - Memperbarui `.dashboard-panel` agar memiliki `box-shadow: var(--shadow-lg)` yang adaptif di tema gelap maupun terang.
+  - Menyamakan `.stat-card` dengan panel utama dashboard menggunakan `border-radius: var(--radius-lg)` (24px) dan `box-shadow: var(--shadow-lg)`.
+  - Mengubah `.sidebar-streak-card` di `style.css` dan `navbar.css` ke radius Medium `var(--radius-md)` (18px) dan bayangan halus `var(--shadow-sm)`.
+  - Menghubungkan `.task` (kartu tugas) ke `border-radius: var(--radius-sm)` (8px) dan `box-shadow: var(--shadow-sm)`.
+  - Mengisolasi `.habit-row` di `style.css` dan `Habits.css` agar secara independen menggunakan `border-radius: var(--radius-md)` (18px) dan `box-shadow: var(--shadow-md)` (serta `var(--shadow-lg)` dan translasi Y saat hover).
+  - Menambahkan kelengkungan sudut halus `border-radius: var(--radius-sm)` (8px) pada item catatan sidebar `.note-item` di `Notes.css`.
+  - **Resolusi Bug Manual UAT**:
+    - **BUG-001**: Ganti prompt pembuatan kategori dengan input inline interaktif dan tombol Create/Cancel di bawah daftar tugas `Tasks.tsx` serta menghubungkan action edit kategori ke AppContext.
+    - **BUG-002**: Menambahkan CSS Reset layer untuk `input[type="checkbox"]` dan `input[type="radio"]` di `forms.css` untuk mencegah tabrakan style input 44px global dan mengaktifkan kembali checkmark (✓) bawaan browser.
+    - **BUG-003**: Memindahkan panggilan toast notification `showToast` ke luar dari callback state update `setAppData` di `useTasks.ts` untuk mencegah duplikasi pemanggilan di React Strict Mode.
+    - **BUG-004**: Menambahkan style `body.light-mode .habit-cell.is-completed` di `Habits.css` agar status habit selesai tetap berwarna hijau/warna habit di Light Theme.
+    - **BUG-005**: Mengubah nilai inisial `activeSection` di `AppContext.tsx` dari `'dashboard'` ke `'home'` agar Dashboard ter-render otomatis saat pertama membuka project dan menghindari blank screen.
+    - **BUG-006**: Menambahkan event `onKeyDown` pada input judul catatan di `Notes.tsx` agar teks `"Untitled Note"` langsung terhapus dan digantikan dengan karakter pertama yang diketik secara instan tanpa perlu seleksi/penghapusan manual.
+  - Sukses memverifikasi hasil build (`npm run build`) dan linting (`npm run lint`) bebas dari error.
+
 ## 2026-06-27
 - **UI Regression Audit, TASK-561, TASK-569, TASK-570, and TASK-571 (Restore UI Consistency) Completed:**
   - Melakukan audit investigasi atas regresi visual di Release Candidate v1 (M5.5) dan mengubah statusnya menjadi **FAILED**.

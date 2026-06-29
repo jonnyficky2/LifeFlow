@@ -66,6 +66,7 @@
   padding: var(--space-3) 20px;
   cursor: pointer;
   border-left: 3px solid transparent;
+  border-radius: var(--radius-sm);
   transition: all 0.2s;
 }
 

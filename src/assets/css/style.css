@@ -382,7 +382,6 @@ h2{
 #quoteContainer,
 .calendar-day,
 .habit-card,
-.habit-row,
 .modal-content{
 
   background:var(--card-dark);
@@ -406,7 +405,6 @@ body.light-mode #levelBox,
 body.light-mode #quoteContainer,
 body.light-mode .calendar-day,
 body.light-mode .habit-card,
-body.light-mode .habit-row,
 body.light-mode .modal-content{
 
   background:var(--card-light);
@@ -419,8 +417,7 @@ body.light-mode .modal-content{
 
 .category:hover,
 .calendar-day:hover,
-.habit-card:hover,
-.habit-row:hover{
+.habit-card:hover{
 
   transform:
     translateY(-4px);
@@ -685,13 +682,15 @@ body.light-mode button{
 
   padding: var(--space-4);
 
-  border-radius:20px;
+  border-radius:var(--radius-sm);
 
   background:
     rgba(255,255,255,.05);
 
   border:
     1px solid rgba(255,255,255,.05);
+
+  box-shadow:var(--shadow-sm);
 
   transition:.25s;
 
@@ -1386,7 +1385,6 @@ h1,h2,h3,p,span,strong,small,label{
 #quoteContainer,
 .calendar-day,
 .habit-card,
-.habit-row,
 .modal-content{
 
   background:var(--card);
@@ -2362,7 +2360,9 @@ header {
   padding: var(--space-4) 24px;
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
-  border-radius: var(--dash-radius);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(18px);
   opacity: 0;
   transform: translateY(15px);
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2432,16 +2432,13 @@ header {
   box-shadow: none;
 }
 
-#levelBox,
 .dashboard-panel,
-.stat-card,
 .add-box,
 .toolbar,
 .backup-box,
 .filter-box,
 .search-box,
-.app-nav,
-.sidebar-streak-card {
+.app-nav {
   border-radius: var(--dash-radius);
   background: linear-gradient(145deg, rgba(15, 30, 55, 0.82), rgba(8, 19, 36, 0.78));
   border: 1px solid var(--dash-border);
@@ -2458,7 +2455,9 @@ header {
   margin-bottom: var(--space-5);
   background: var(--card);
   border: 1px solid var(--card-border);
-  box-shadow: var(--shadow);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(18px);
 }
 
 body.light-mode #levelBox {
@@ -2569,6 +2568,10 @@ body.light-mode #levelBox {
   padding: var(--space-5);
   text-align: left;
   border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(15, 30, 55, 0.82), rgba(8, 19, 36, 0.78));
+  border: 1px solid var(--dash-border);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(18px);
 }
 
 .stat-card:hover {
@@ -2616,6 +2619,7 @@ body.light-mode #levelBox {
 .dashboard-panel {
   padding: var(--space-5);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
 }
 
 .tasks-panel {
@@ -2868,7 +2872,9 @@ body.has-categories .category-empty-row {
 
 .task {
   border-radius: var(--radius-sm);
-  background: rgba(255,255,255,0.04);
+  background: var(--task-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-sm);
 }
 
 #floatingAddBtn {

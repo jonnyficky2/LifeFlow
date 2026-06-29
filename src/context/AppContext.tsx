@@ -118,7 +118,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [settings, setSettings] = useState<any>(getLocalData(STORAGE_KEYS.SETTINGS, {}));
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('dashboard');
+  const [activeSection, setActiveSection] = useState('home');
 
   const [isTaskModalOpen, setTaskModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<{ catIndex: number; taskIndex: number } | null>(null);

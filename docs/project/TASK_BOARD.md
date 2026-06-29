@@ -315,12 +315,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-573] Card & Layout Standardization
 - **Description:** Standardisasi border-radius dan shadow pada dashboard-panel, task card, habit row, dan notes sidebar item.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-570, TASK-571
 - **Acceptance Criteria:** Sisi melengkung (radius) dan bayangan (shadow) konsisten di semua halaman.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/design/DESIGN_SYSTEM.md
-- **Notes:** -
+- **Notes:** Standardisasi kelengkungan sudut (radius) dan bayangan (shadow) telah diterapkan. 6 bug hasil Manual UAT (BUG-001 s.d BUG-006) telah diperbaiki sepenuhnya.
 
 ### [TASK-574] Color & Contrast Improvements
 - **Description:** Perbaiki warna teks, prioritas status, border contrast, dan tag agar memenuhi pedoman aksesibilitas kontras kontemporer (AA/AAA).

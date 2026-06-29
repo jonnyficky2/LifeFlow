@@ -359,7 +359,9 @@
   padding: var(--space-4) 24px;
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
-  border-radius: var(--dash-radius);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(18px);
   opacity: 0;
   transform: translateY(15px);
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);

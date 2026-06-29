@@ -66,28 +66,37 @@ export function useTasks() {
   }, [setHistoryData]);
 
   const toggleTask = useCallback((catIndex: number, taskIndex: number) => {
-    saveHistorySnapshot();
-    setAppData(prevData => {
-      const oldTask = prevData[catIndex]?.tasks[taskIndex];
-      if (!oldTask) return prevData;
+    const oldTask = appData[catIndex]?.tasks[taskIndex];
+    if (!oldTask) return;
 
-      const task = { ...oldTask };
+    saveHistorySnapshot();
+    const willBeDone = !oldTask.done;
+    const reward = 3;
+
+    if (willBeDone) {
+      setXp(prev => prev + reward);
+      showToast(`Task completed! +${reward} XP`, 'success');
+    } else {
+      setXp(prev => Math.max(0, prev - reward));
+      showToast('Task marked as pending', 'info');
+    }
+
+    setAppData(prevData => {
+      const currentOldTask = prevData[catIndex]?.tasks[taskIndex];
+      if (!currentOldTask) return prevData;
+
+      const task = { ...currentOldTask };
       const today = getToday();
-      task.done = !task.done;
-      const reward = 3;
+      task.done = willBeDone;
 
       if (task.done) {
         if (!task.completedDates.includes(today)) {
           task.completedDates = [...task.completedDates, today];
           updateTaskStreak(task);
         }
-        setXp(prev => prev + reward);
-        showToast(`Task completed! +${reward} XP`, 'success');
       } else {
-        setXp(prev => Math.max(0, prev - reward));
         task.completedDates = task.completedDates.filter(date => date !== today);
         updateTaskStreak(task);
-        showToast('Task marked as pending', 'info');
       }
 
       const newData = prevData.map((cat, cIdx) => {
@@ -119,7 +128,7 @@ export function useTasks() {
       updateDailyHistoryLocal(newData);
       return newData;
     });
-  }, [saveHistorySnapshot, setAppData, setXp, showToast, setStreakData, updateDailyHistoryLocal]);
+  }, [appData, saveHistorySnapshot, setAppData, setXp, showToast, setStreakData, updateDailyHistoryLocal]);
 
   const toggleSubtask = useCallback((catIndex: number, taskIndex: number, subIndex: number) => {
     saveHistorySnapshot();

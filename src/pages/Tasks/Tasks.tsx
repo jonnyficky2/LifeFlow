@@ -6,12 +6,14 @@ import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
 
 export const Tasks: React.FC = () => {
-  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask, isAppLoading } = useAppContext();
+  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask, isAppLoading, setAppData, saveHistorySnapshot } = useAppContext();
   const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory, addTask } = useTasks();
 
   const [filter, setFilter] = useState<'all' | 'pending' | 'done'>('all');
   const [search, setSearch] = useState('');
   const [inlineTaskNames, setInlineTaskNames] = useState<Record<number, string>>({});
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [isAddingCategory, setIsAddingCategory] = useState(false);
 
   const handleCreateInlineTask = (catIndex: number) => {
     const val = (inlineTaskNames[catIndex] || '').trim();
@@ -134,8 +136,13 @@ export const Tasks: React.FC = () => {
                   <div>
                     <button aria-label="Edit category" onClick={() => {
                       const newName = window.prompt("Enter new category name:", category.name);
-                      if (newName) {
-                        // we need to edit category, wait, let's just do it inline here or add to useTasks
+                      if (newName && newName.trim()) {
+                        saveHistorySnapshot();
+                        setAppData(prev => {
+                          const newData = [...prev];
+                          newData[catIndex].name = newName.trim();
+                          return newData;
+                        });
                       }
                     }}>✏️</button>
                     <button aria-label="Delete category" onClick={() => deleteCategory(catIndex)}>🗑</button>
@@ -241,20 +248,63 @@ export const Tasks: React.FC = () => {
           }))}
         </div>
 
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <button 
-            type="button" 
-            className="btn" 
-            style={{ padding: '8px 16px', background: 'var(--bg-secondary)', border: '1px dashed var(--border-color)', color: 'var(--text-color)', width: '100%', borderRadius: '8px', cursor: 'pointer' }}
-            onClick={() => {
-              const name = window.prompt("Enter new category name:");
-              if (name && name.trim()) {
-                addCategory(name.trim());
-              }
-            }}
-          >
-            + Create New Category
-          </button>
+        <div style={{ marginTop: '20px' }}>
+          {isAddingCategory ? (
+            <div className="add-box" style={{ display: 'flex', gap: '10px' }}>
+              <input
+                type="text"
+                placeholder="Enter category name..."
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    if (newCategoryName.trim()) {
+                      addCategory(newCategoryName.trim());
+                      setNewCategoryName('');
+                      setIsAddingCategory(false);
+                    }
+                  } else if (e.key === 'Escape') {
+                    setIsAddingCategory(false);
+                    setNewCategoryName('');
+                  }
+                }}
+                autoFocus
+                style={{ flex: 1 }}
+              />
+              <button 
+                type="button"
+                className="btn-primary" 
+                onClick={() => {
+                  if (newCategoryName.trim()) {
+                    addCategory(newCategoryName.trim());
+                    setNewCategoryName('');
+                    setIsAddingCategory(false);
+                  }
+                }}
+              >
+                Create
+              </button>
+              <button 
+                type="button"
+                className="btn-secondary" 
+                onClick={() => {
+                  setIsAddingCategory(false);
+                  setNewCategoryName('');
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button 
+              type="button" 
+              className="btn" 
+              style={{ padding: '8px 16px', background: 'var(--bg-secondary)', border: '1px dashed var(--border-color)', color: 'var(--text-color)', width: '100%', borderRadius: '8px', cursor: 'pointer' }}
+              onClick={() => setIsAddingCategory(true)}
+            >
+              + Create New Category
+            </button>
+          )}
         </div>
 
         {!hasVisibleTasks && appData.length > 0 && (

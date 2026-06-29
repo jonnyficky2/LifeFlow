@@ -321,3 +321,41 @@ body.light-mode .subtask-item {
   background: var(--color-bg);
   border-color: var(--color-border);
 }
+
+/* ==========================================================================
+   CHECKBOX & RADIO STYLES RESET
+   Menghindari efek global input 44px dan appearance: none dari forms.css
+   ========================================================================== */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-xs) !important;
+  background: var(--color-bg-deep) !important;
+  color: var(--color-text) !important;
+  -webkit-appearance: checkbox !important;
+  appearance: checkbox !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+}
+
+body.light-mode input[type="checkbox"],
+body.light-mode input[type="radio"] {
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(85, 116, 255, 0.22) !important;
+  outline: none !important;
+}

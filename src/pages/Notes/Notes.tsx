@@ -182,7 +182,15 @@ export const Notes: React.FC = () => {
                 className="note-title-input" 
                 value={localTitle}
                 onChange={(e) => setLocalTitle(e.target.value)}
-                placeholder="Note Title"
+                placeholder="Untitled Note"
+                onKeyDown={(e) => {
+                  if (localTitle === 'Untitled Note') {
+                    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                      e.preventDefault();
+                      setLocalTitle(e.key);
+                    }
+                  }
+                }}
               />
               <button className="btn-delete-note" onClick={handleDelete} title="Delete Note" aria-label="Delete note">
                 🗑
