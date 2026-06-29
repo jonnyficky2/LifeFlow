@@ -99,3 +99,18 @@ Sebelum implementasi dimulai, Planning Mode wajib menjelaskan:
 * Perkiraan dampak terhadap UI, UX, dan performa.
 
 Implementasi hanya boleh dimulai setelah User memberikan persetujuan (Proceed).
+
+## Root Cause Analysis Rules
+
+Sebelum memperbaiki bug, lakukan analisis penyebab utama (Root Cause Analysis).
+
+Jangan langsung membuat workaround atau patch sementara.
+
+Setiap bug wajib dijelaskan:
+
+* Root Cause
+* Mengapa bug terjadi
+* Mengapa solusi yang dipilih menyelesaikan akar masalah
+* Risiko regresi setelah perbaikan
+
+Jika solusi hanya bersifat workaround, wajib diberi label sebagai workaround dan dijelaskan alasannya.
