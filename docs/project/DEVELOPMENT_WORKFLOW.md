@@ -54,3 +54,48 @@ Setiap tiket pekerjaan atau inisiatif harus menempuh jalur berikut dari konsep h
 ---
 
 **Aturan Emas:** *Jangan pernah melompati QA dan UAT dengan menganggap bahwa "Build Success" sama dengan fitur selesai (Feature Complete).*
+
+---
+
+## Scope Protection Rules
+
+* Dilarang mengubah file di luar scope TASK yang sedang dikerjakan.
+* Jika perubahan pada file lain benar-benar diperlukan, wajib dijelaskan pada Planning Mode beserta alasannya sebelum implementasi dimulai.
+* Jangan melakukan refactor, cleanup, rename, atau optimisasi di luar Acceptance Criteria TASK aktif.
+* Jangan memperbaiki bug yang tidak termasuk dalam scope TASK tanpa persetujuan User.
+* Gunakan prinsip Minimal Diff, yaitu hanya mengubah kode yang benar-benar diperlukan untuk menyelesaikan TASK.
+
+## Regression Prevention Checklist
+
+Sebelum implementasi dinyatakan selesai dan status diubah menjadi TESTING, pastikan:
+
+* Build tetap PASS.
+* TypeScript tetap PASS.
+* Tidak ada console error baru.
+* Tidak ada perubahan visual pada halaman lain di luar scope.
+* Tidak ada perubahan UX di luar Acceptance Criteria.
+* Semua perubahan hanya berada pada file yang telah dijelaskan saat Planning Mode.
+
+## Task Completion Discipline
+
+* Kerjakan hanya SATU TASK sampai selesai sebelum memulai TASK berikutnya.
+* Jangan menggabungkan implementasi beberapa TASK dalam satu commit.
+* Setelah implementasi selesai:
+    1. Ubah status TASK menjadi TESTING.
+    2. Berikan Manual UAT Checklist kepada User.
+    3. Tunggu hasil Manual UAT dari User.
+    4. Jika UAT PASS, baru ubah status menjadi DONE.
+    5. Update SESSION_LOG.md.
+    6. Lakukan commit dan push.
+
+## Planning Mode Requirements
+
+Sebelum implementasi dimulai, Planning Mode wajib menjelaskan:
+
+* Ringkasan perubahan yang akan dilakukan.
+* Daftar file yang diperkirakan berubah.
+* Risiko perubahan terhadap modul lain.
+* Dependency terhadap TASK lain (jika ada).
+* Perkiraan dampak terhadap UI, UX, dan performa.
+
+Implementasi hanya boleh dimulai setelah User memberikan persetujuan (Proceed).
