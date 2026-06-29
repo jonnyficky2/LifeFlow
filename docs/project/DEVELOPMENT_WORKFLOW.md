@@ -114,3 +114,15 @@ Setiap bug wajib dijelaskan:
 * Risiko regresi setelah perbaikan
 
 Jika solusi hanya bersifat workaround, wajib diberi label sebagai workaround dan dijelaskan alasannya.
+
+## Code Quality Rules
+
+Setiap implementasi harus mengikuti prinsip berikut:
+
+* Jangan membuat duplicate logic.
+* Gunakan komponen, helper, hook, atau utility yang sudah ada bila memungkinkan.
+* Jangan menambahkan dependency baru tanpa persetujuan User.
+* Hindari inline styles kecuali benar-benar diperlukan.
+* Jangan membuat CSS yang bertabrakan dengan Design System.
+* Semua kode baru harus mengikuti struktur proyek yang sudah ada.
+* Jika terdapat beberapa solusi, pilih solusi yang paling sederhana, mudah dipelihara, dan paling kecil risiko regresinya.
