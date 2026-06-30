@@ -1,17 +1,75 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './Settings.css';
 import { SettingsSection } from './components/SettingsSection';
 import { SettingsItem } from './components/SettingsItem';
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext, STORAGE_KEYS } from '../../context/AppContext';
+import { useToast } from '../../context/ToastContext';
 
 export const Settings: React.FC = () => {
-  const { isAppLoading, appData } = useAppContext();
+  const { 
+    isAppLoading, appData, xp, habits, habitHistory, streakData, historyData, notes 
+  } = useAppContext();
+  const { showToast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Basic mock stats for now
   const allTasks = appData ? appData.flatMap(cat => cat.tasks) : [];
   const totalTasks = allTasks.length;
   const completedTasks = allTasks.filter(t => t.done).length;
   const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+  const handleExport = () => {
+    const exportPayload = {
+      appData,
+      xp,
+      habits,
+      historyData,
+      habitHistory,
+      streakData,
+      notes
+    };
+
+    const dataString = JSON.stringify(exportPayload, null, 2);
+    const blob = new Blob([dataString], { type: "application/json" });
+    const a = document.createElement("a");
+    
+    a.href = URL.createObjectURL(blob);
+    a.download = `lifeflow-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    
+    URL.revokeObjectURL(a.href);
+    showToast("Data exported successfully!", 'success');
+  };
+
+  const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const imported = JSON.parse(e.target?.result as string);
+
+        localStorage.setItem(STORAGE_KEYS.APP_DATA, JSON.stringify(imported.appData || []));
+        localStorage.setItem(STORAGE_KEYS.XP, (Number(imported.xp) || 0).toString());
+        localStorage.setItem(STORAGE_KEYS.HABITS, JSON.stringify(imported.habits || []));
+        localStorage.setItem(STORAGE_KEYS.HISTORY_DATA, JSON.stringify(imported.historyData || {}));
+        localStorage.setItem(STORAGE_KEYS.HABIT_HISTORY, JSON.stringify(imported.habitHistory || {}));
+        localStorage.setItem(STORAGE_KEYS.STREAK_DATA, JSON.stringify(imported.streakData || []));
+        localStorage.setItem(STORAGE_KEYS.NOTES, JSON.stringify(imported.notes || []));
+
+        showToast("Data restored successfully! Reloading...", 'success');
+        
+        setTimeout(() => window.location.reload(), 1000);
+      } catch (err) {
+        console.error("Import error:", err);
+        showToast("Corrupted or invalid file.", 'error');
+      }
+    };
+
+    event.target.value = "";
+    reader.readAsText(file);
+  };
 
   if (isAppLoading) {
     return (
@@ -123,10 +181,13 @@ export const Settings: React.FC = () => {
             <button className="settings-btn">Sync Now</button>
           } />
           <SettingsItem title="Backup Data" description="Download a backup JSON" rightElement={
-            <button className="settings-btn outline">Export</button>
+            <button className="settings-btn outline" onClick={handleExport}>Export</button>
           } />
           <SettingsItem title="Restore Data" description="Restore from JSON backup" rightElement={
-            <button className="settings-btn outline">Import</button>
+            <>
+              <button className="settings-btn outline" onClick={() => fileInputRef.current?.click()}>Import</button>
+              <input type="file" ref={fileInputRef} accept=".json" style={{ display: 'none' }} onChange={handleImport} />
+            </>
           } />
         </SettingsSection>
 

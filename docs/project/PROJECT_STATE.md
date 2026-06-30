@@ -12,7 +12,7 @@
 * **Repository Branch:** main
 * **Last Stable Commit:** (Akan diperbarui setelah commit finalisasi)
 * **Current Milestone:** M6 - Settings & Local Features
-* **Active Task:** TASK-602 — Import / Export JSON Backup
+* **Active Task:** TASK-603 — Reset Application Data
 
 ---
 

@@ -122,3 +122,6 @@
 - Selesai mengimplementasikan TASK-601 (Settings Page Foundation).
 - Menyelesaikan Manual UAT BUG-001 (Tombol Danger Zone missing label).
 - Melakukan finalisasi TASK-574 dan TASK-601 di documentation.
+- Selesai mengimplementasikan TASK-602 (Import / Export JSON Backup).
+- Menyelesaikan Manual UAT TASK-602 dengan hasil PASS.
+- Melakukan finalisasi TASK-602 di documentation.

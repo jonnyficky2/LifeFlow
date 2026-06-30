@@ -362,12 +362,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-602] Import / Export JSON Backup
 - **Description:** Implementasi logika pencadangan dan pemulihan data state aplikasi (appData, notes, habits) dalam format JSON.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-601
 - **Acceptance Criteria:** Ekspor menghasilkan file valid `.json`, impor memulihkan seluruh data dengan aman.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Logika export menggunakan Blob URL dan import menggunakan FileReader via localStorage sudah terhubung di Settings. Manual UAT PASS oleh User.
 
 ### [TASK-603] Reset Application Data
 - **Description:** Fitur "Danger Zone" untuk menghapus seluruh local storage dan mengembalikan aplikasi ke kondisi awal.
