@@ -1,16 +1,68 @@
 # Project State
 
-Dokumen ini berisi ringkasan kondisi (High-Level Overview) dari project LifeFlow pada saat ini.
-Untuk detail status setiap modul, rujuk ke [MODULES.md](./MODULES.md). Untuk daftar task yang sedang aktif dikerjakan, rujuk ke [TASK_BOARD.md](./TASK_BOARD.md).
+> **Notes:**
+> `PROJECT_STATE.md` adalah ringkasan eksekutif proyek dan bukan pengganti `TASK_BOARD.md`.
+> `TASK_BOARD.md` tetap menjadi Single Source of Truth untuk seluruh task.
 
 ---
 
-- **Overall Progress**: ~72% (M5.5 Rollback/Failed due to Visual Regressions)
-- **Current Milestone**: M5.6 - UI Restoration (FAILED M5.5 Mitigation)
-- **Current Sprint**: Sprint 5 (Quality, UI Restoration & Consistency)
-- **Current Module**: UI/UX Restoration, Spacing, Layout & Variable Mapping
-- **Modules Completed**: 6 (App Shell, UI Components, Local Storage Sync, Task Management, Categories, Calendar, Habit Tracker, Notes Editor)
-- **Modules Testing**: 1 (UI Restoration UAT)
-- **Modules Placeholder**: 5 (Product Polish, UI Restoration, Analytics, Focus Timer, AI Workspace)
-- **Known Blockers**: UI Regression on Sidebar, Navbar, Bottom Navigation, and Dashboard grids due to undefined CSS variables.
-- **Next Objective**: Selesaikan restorasi UI pixel-perfect pada M5.6 sebelum melangkah ke Milestone Analytics (M6).
+## Project Information
+* **Project Name:** LifeFlow
+* **Current Version:** Pre-release (v0.9.x / Menuju v1.0)
+* **Repository Branch:** main
+* **Last Stable Commit:** (Akan diperbarui setelah commit finalisasi)
+* **Current Milestone:** M6 - Settings & Local Features
+* **Active Task:** TASK-602 — Import / Export JSON Backup
+
+---
+
+## Development Status
+* **Current Phase:** Legacy Restoration (Roadmap Baru)
+* **Build Status:** PASS
+* **TypeScript Status:** PASS
+* **Lint Status:** PASS
+* **Manual UAT Status:** PASS (untuk M5.6 UI Restoration)
+
+---
+
+## Milestone Progress
+* M1 ✅
+* M2 ✅
+* M3 ✅
+* M4 ✅
+* M5 ✅
+* M5.5 ✅
+* M5.6 ✅
+* M6 🔄
+* M7 ⏳
+* M8 ⏳
+* M9 ⏳
+* M10 ⏳
+* M11 ⏳
+* M12 ⏳
+
+---
+
+## Legacy Migration
+* **Legacy Feature Parity:** Partial (Proses restorasi sedang berjalan)
+* **Remaining Features:** Settings, Habit Scheduling, Notes Metadata, Focus Timer, Reports, Auth, PWA.
+* **Architecture:** Offline First
+* **Single Source of Truth:** JavaScript Legacy
+
+---
+
+## Documentation Status
+- [x] TASK_BOARD.md
+- [x] DEVELOPMENT_WORKFLOW.md
+- [x] DESIGN_SYSTEM.md
+- [x] UI_AUDIT.md
+- [x] LEGACY_PARITY_AUDIT.md
+- [x] LEGACY_RESTORATION_PLAN.md
+- [x] ADR (Architecture Decision Records)
+- [x] SESSION_LOG.md
+
+---
+
+## Next Action
+**Current Active Task:**
+TASK-601 — Settings Page Foundation

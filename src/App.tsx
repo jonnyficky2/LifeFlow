@@ -11,6 +11,7 @@ const Categories = lazy(() => import('./pages/Categories/Categories').then(m => 
 const Calendar = lazy(() => import('./pages/Calendar/Calendar').then(m => ({ default: m.Calendar })));
 const Habits = lazy(() => import('./pages/Habits/Habits').then(m => ({ default: m.Habits })));
 const Notes = lazy(() => import('./pages/Notes/Notes').then(m => ({ default: m.Notes })));
+const Settings = lazy(() => import('./pages/Settings/Settings').then(m => ({ default: m.Settings })));
 
 const PageFallback = () => (
   <div className="app-page-fallback">
@@ -43,7 +44,7 @@ const AppContent: React.FC = () => {
           {activeSection === 'categories' && <Categories />}
           {activeSection === 'stats' && <div className="app-placeholder-section">Stats Component Placeholder</div>}
           {activeSection === 'notes' && <Notes />}
-          {activeSection === 'settings' && <div className="app-placeholder-section">Settings Component Placeholder</div>}
+          {activeSection === 'settings' && <Settings />}
         </Suspense>
       </Layout>
       <TaskModal />

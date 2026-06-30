@@ -119,3 +119,6 @@
   - Merancang *Split Layout* murni menggunakan `<textarea>` native untuk menjaga performa dan kesederhanaan sistem.
   - Memasang logika *Debounced Auto-Save* 500ms agar aplikasi tidak memuat ulang (*re-render*) secara membabi buta ketika pengguna mengetik dengan cepat.
   - Menerima *"PASS"* pada saat UAT manual. Melakukan Commit & Push ke branch main. Tugas selesai (DONE).
+- Selesai mengimplementasikan TASK-601 (Settings Page Foundation).
+- Menyelesaikan Manual UAT BUG-001 (Tombol Danger Zone missing label).
+- Melakukan finalisasi TASK-574 dan TASK-601 di documentation.

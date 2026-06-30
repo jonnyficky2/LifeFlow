@@ -29,6 +29,19 @@ graph TD
 
 ---
 
+## 3. Architecture Decision
+
+LifeFlow menggunakan pendekatan **Offline First Architecture**.
+
+**Prinsip:**
+* Seluruh fitur inti harus dapat digunakan tanpa login.
+* Seluruh data disimpan terlebih dahulu di Local Storage.
+* Authentication merupakan fitur tambahan untuk sinkronisasi cloud.
+* Login tidak boleh menjadi syarat menggunakan aplikasi.
+* Cloud Sync adalah enhancement, bukan dependency fitur inti.
+
+---
+
 ## 3. Dependency Rules (Aturan Ketergantungan)
 1. **Authentication** tidak boleh menjadi milestone pertama.
 2. **Settings** harus selesai sebelum Authentication diimplementasikan.
@@ -142,6 +155,17 @@ Fokus: Mengembalikan halaman rekapitulasi data dan kemampuan berbagi analitik ke
 
 ### Milestone 10 (M10) — Authentication
 Fokus: Firebase Web SDK dan fungsionalitas masuk akun.
+
+**Notes**:
+Authentication bersifat opsional.
+Semua modul sebelum M10 harus tetap berjalan penuh tanpa akun pengguna.
+Firebase Authentication hanya digunakan untuk:
+* Cloud Sync
+* Multi-device Sync
+* Backup Online
+* User Profile
+
+dan tidak boleh menjadi dependency untuk penggunaan lokal.
 
 #### [TASK-M10-01] Firebase Auth & User Profile Sync
 - **Description**: Integrasi SDK Firebase (Authentication/Google Login), implementasi Login Modal, serta sinkronisasi hasil profil Auth ke navigasi Header dan Sidebar.

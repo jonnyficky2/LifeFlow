@@ -325,12 +325,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-574] Color & Contrast Improvements
 - **Description:** Perbaiki warna teks, prioritas status, border contrast, dan tag agar memenuhi pedoman aksesibilitas kontras kontemporer (AA/AAA).
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-570, TASK-571
 - **Acceptance Criteria:** Keterbacaan teks dan status warna tinggi, tidak ada bias kontras redup.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/design/DESIGN_SYSTEM.md
-- **Notes:** -
+- **Notes:** Implementasi selesai dan Manual UAT dinyatakan PASS oleh User.
 
 ### [TASK-575] Final UI Polish
 - **Description:** Pembersihan inline CSS style di seluruh JSX file, penyelarasan ikonografi, transisi, dan pengujian build akhir.
@@ -341,6 +341,309 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Progress:** 100%
 - **Related Docs:** docs/design/DESIGN_SYSTEM.md
 - **Notes:** -
+
+---
+
+> **Note**: Roadmap berikut menggunakan pendekatan **Offline First**. Seluruh fitur inti dikembangkan dan divalidasi secara lokal sebelum integrasi Authentication dan Cloud Sync.
+
+## M6 - Settings & Local Features
+*(Settings Page, Theme, Import/Export, Dashboard Parity)*
+
+### [TASK-601] Settings Page Foundation
+- **Description:** Membangun antarmuka halaman Settings beserta navigasinya.
+- **Priority:** High
+- **Status:** DONE
+- **Dependencies:** TASK-575
+- **Acceptance Criteria:** Halaman Settings dapat diakses dari Sidebar dan struktur UI tersedia.
+- **Progress:** 100%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** Komponen Settings, SettingsSection, SettingsItem dibuat; ditautkan di App.tsx dan rute navigasi. Manual UAT PASS oleh User.
+
+### [TASK-602] Import / Export JSON Backup
+- **Description:** Implementasi logika pencadangan dan pemulihan data state aplikasi (appData, notes, habits) dalam format JSON.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-601
+- **Acceptance Criteria:** Ekspor menghasilkan file valid `.json`, impor memulihkan seluruh data dengan aman.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-603] Reset Application Data
+- **Description:** Fitur "Danger Zone" untuk menghapus seluruh local storage dan mengembalikan aplikasi ke kondisi awal.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-601
+- **Acceptance Criteria:** Konfirmasi ganda sebelum penghapusan, state kembali kosong.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-604] Theme Preferences
+- **Description:** Mengakomodasi setelan preferensi tema (Light, Dark).
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-601
+- **Acceptance Criteria:** Perubahan tema tersimpan di local storage dan diterapkan di seluruh komponen.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-605] Dashboard Feature Parity
+- **Description:** Menyempurnakan fitur heatmap 30 hari agar terhubung dengan historyData nyata.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-601
+- **Acceptance Criteria:** Heatmap persentase sesuai dengan data penyelesaian harian di masa lalu.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+---
+
+## M7 - Notes & Habits Restoration
+*(Catatan & Penjadwalan Kebiasaan)*
+
+### [TASK-701] Notes Metadata
+- **Description:** Menambahkan input deadline, waktu, dan pengingat ke dalam editor Notes.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-601
+- **Acceptance Criteria:** Pengguna dapat menetapkan batas waktu untuk catatan yang terhubung ke state.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-702] Notes Pinning
+- **Description:** Fitur sematkan (📌 Pin) untuk meletakkan catatan penting di urutan teratas.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-701
+- **Acceptance Criteria:** Catatan yang disematkan tetap di bagian atas daftar sidebar.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-703] Habit Repeat Rules
+- **Description:** Merefaktorkan data Habit agar mendukung aturan perulangan (harian, mingguan, bulanan, hari spesifik).
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-601
+- **Acceptance Criteria:** Struktur habit memiliki properti interval perulangan yang berfungsi.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-704] Habit Scheduling
+- **Description:** Menerapkan filter logika hari aktif sehingga habit hanya tampil sesuai jadwalnya.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-703
+- **Acceptance Criteria:** Daftar habit di halaman Habit membedakan habit yang aktif hari ini dan yang tidak.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+---
+
+## M8 - Focus Timer & Gamification
+*(Pomodoro, XP, dan Motivasi Dinamis)*
+
+### [TASK-801] Focus Timer
+- **Description:** Membangun modul Pomodoro Focus Timer dengan ring countdown visual SVG.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-704
+- **Acceptance Criteria:** Timer menghitung mundur stabil dengan preset 25, 50, 15, 5 menit.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-802] XP Integration
+- **Description:** Menghubungkan selesainya siklus Focus Timer dengan penambahan +5 XP.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-801
+- **Acceptance Criteria:** Selesainya hitung mundur langsung memperbarui poin XP di dashboard.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-803] Confetti & Sound
+- **Description:** Memainkan efek suara penyelesaian dan menembakkan kembang api (canvas confetti) ketika timer habis.
+- **Priority:** Low
+- **Status:** TODO
+- **Dependencies:** TASK-802
+- **Acceptance Criteria:** Selesainya hitung mundur memicu efek audio-visual.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-804] Dashboard Dynamic Quotes
+- **Description:** Memuat daftar kutipan motivasi dari sumber eksternal dan mengacaknya saat dashboard dibuka.
+- **Priority:** Low
+- **Status:** TODO
+- **Dependencies:** TASK-801
+- **Acceptance Criteria:** Quote berganti-ganti setiap kali halaman di-refresh.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+---
+
+## M9 - Reports & Statistics
+*(Visualisasi Produktivitas Harian & Mingguan)*
+
+### [TASK-901] Reports Dashboard
+- **Description:** Menyusun struktur halaman Reports yang berisi kartu ringkasan progres harian.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-804
+- **Acceptance Criteria:** Halaman Reports merender kerangka visual dengan data penyelesaian awal.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** Prioritaskan implementasi yang mengikuti perilaku proyek JavaScript Legacy (SSoT).
+
+### [TASK-902] Productivity Analytics
+- **Description:** Menghitung tren progres mingguan tugas dan kebiasaan dari `historyData` ke dalam grafik representatif.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-901
+- **Acceptance Criteria:** Visual grafik menggambarkan data akurat dari localStorage tanpa bergantung Chart.js jika merusak parity.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-903] Share Image / Canvas
+- **Description:** Menghasilkan gambar Canvas 2D yang merangkum level, streak, dan progres untuk di-share ke media sosial.
+- **Priority:** Low
+- **Status:** TODO
+- **Dependencies:** TASK-902
+- **Acceptance Criteria:** Pengguna dapat menyimpan image rekap dari statistik mereka (JPG/PNG).
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+---
+
+## M10 - Authentication
+*(Akun Pengguna dan Firebase Cloud)*
+
+### [TASK-1001] Firebase Authentication
+- **Description:** Inisialisasi Firebase Web SDK di proyek React dan mengkonfigurasi mode autentikasi.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-903
+- **Acceptance Criteria:** Proyek terhubung dengan Firebase Auth secara stabil.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-1002] Google Login
+- **Description:** Mengaktifkan Sign-In dengan penyedia Google (popup/redirect) dan memunculkan Auth Modal di awal pembukaan aplikasi.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1001
+- **Acceptance Criteria:** Pengguna bisa login menggunakan kredensial Google.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-1003] User Profile Synchronization
+- **Description:** Menyambungkan state user login dengan foto profil di Navbar dan informasi kontak di Sidebar.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-1002
+- **Acceptance Criteria:** Komponen Sidebar dan Header memperbarui visualnya berdasarkan data auth pengguna.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+---
+
+## M11 - PWA & Offline
+*(Dukungan Luring dan Pemasangan Aplikasi)*
+
+### [TASK-1101] Service Worker
+- **Description:** Menyusun berkas `sw.js` untuk mendeteksi event lifecycle dan meng-cache aset dasar.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1003
+- **Acceptance Criteria:** Service worker berhasil diregistrasi di konsol browser.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** PWA dipasang menjelang rilis agar tak mengganggu caching tahap pengembangan.
+
+### [TASK-1102] Offline Support
+- **Description:** Strategi offline fallback, memastikan localStorage tetap terisolasi dan data bisa dimodifikasi meski tak ada internet.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1101
+- **Acceptance Criteria:** Mematikan mode internet tidak menghalangi fungsionalitas CRUD di dalam aplikasi.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-1103] Installable PWA
+- **Description:** Menyediakan `manifest.json` yang berisi ikon, nama pendek, mode tampilan (standalone), dan tema warna.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-1102
+- **Acceptance Criteria:** Muncul opsi "Install App" (prompt A2HS) di peramban pengguna.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+---
+
+## M12 - Final Release Candidate
+*(Pra-rilis, Theme Detection, dan UAT Akhir)*
+
+### [TASK-1201] System Theme Detection
+- **Description:** Deteksi mode tema dari sistem operasi dengan opsi preferensi "System Default".
+- **Priority:** Low
+- **Status:** TODO
+- **Dependencies:** TASK-1103
+- **Acceptance Criteria:** Tema merespons pergantian OS secara live tanpa refresh.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-1202] Legacy Feature Parity Audit
+- **Description:** Audit perbandingan visual 1:1 final dengan versi legacy.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1201
+- **Acceptance Criteria:** Semua celah terdeteksi sudah berhasil tertutupi tanpa kekurangan fitur inti.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-1203] Final Manual UAT
+- **Description:** Regresi seluruh fungsi CRUD, UI interactions, performa form, auth, serta fungsionalitas offline.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1202
+- **Acceptance Criteria:** Semua skenario lulus (PASS) tanpa konsol eror.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+### [TASK-1204] Release Candidate v1.0
+- **Description:** Pembungkusan komitmen akhir, penyesuaian versi rilis, pembuatan tag v1.0, dan deployment publik.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1203
+- **Acceptance Criteria:** Aplikasi siap disebarluaskan di channel publik dengan branch v1.0 tercatat rapi.
+- **Progress:** 0%
+- **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** -
+
+---
+
+## Archived / Future Roadmap
+
+> **Migration Note:** Roadmap setelah Legacy Restoration menggunakan milestone baru berdasarkan ADR. Roadmap lama di bawah ini (M6 - M8 versi awal) dipindahkan ke bagian Archived/Future Roadmap agar histori dokumentasi tetap konsisten dan dapat ditelusuri.
 
 ---
 
@@ -355,7 +658,7 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Acceptance Criteria:** Timer dapat dihitung mundur, sesi dicatat ke data harian.
 - **Progress:** 0%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** Kini disupervisi oleh TASK-801 di roadmap baru.
 
 ---
 

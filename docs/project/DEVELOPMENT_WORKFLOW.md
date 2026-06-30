@@ -224,3 +224,42 @@ Dilarang menggunakan:
 untuk seluruh fitur aplikasi.
 
 Semua interaksi pengguna wajib menggunakan komponen React internal (Modal, Dialog, Toast, Inline Form) agar konsisten dengan Design System, Dark Mode, Accessibility, dan UX aplikasi.
+
+# Implementation Quality Rules
+
+## Small Increment Rule
+Setiap task hanya boleh mengerjakan satu fitur sesuai scope.
+Dilarang menggabungkan beberapa fitur besar dalam satu implementasi.
+
+## File Scope Rule
+Sebelum implementasi, tampilkan daftar file yang diperkirakan akan berubah.
+Setelah implementasi selesai, tampilkan kembali daftar file yang benar-benar berubah.
+
+## Build Verification Rule
+Sebelum status berubah menjadi TESTING, wajib menjalankan:
+* `npm run build`
+* `npm run lint`
+
+Jika salah satu gagal, task tidak boleh dipindahkan ke TESTING.
+
+## Regression Rule
+Setelah implementasi selesai, lakukan self-review terhadap fitur lain yang berpotensi terdampak.
+Sebutkan kemungkinan regression.
+Jika ada risiko, tampilkan daftar Manual UAT tambahan.
+
+## Documentation Rule
+Jika implementasi mengubah:
+* Architecture
+* Workflow
+* Data Model
+* Folder Structure
+* Public API
+
+maka dokumentasi terkait wajib diperbarui sebelum task dianggap selesai.
+
+## Completion Rule
+Task baru boleh berubah menjadi DONE hanya setelah:
+* Build PASS
+* Lint PASS
+* Manual UAT PASS
+* User menyatakan PASS
