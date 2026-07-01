@@ -131,3 +131,6 @@
 - Selesai mengimplementasikan TASK-604 (Theme Preferences).
 - Menyelesaikan Manual UAT TASK-604 dengan hasil PASS.
 - Melakukan finalisasi TASK-604 di documentation.
+- Selesai mengimplementasikan TASK-605 (Dashboard Feature Parity).
+- Menyelesaikan Manual UAT TASK-605 dengan hasil PASS.
+- Melakukan finalisasi TASK-605 di documentation.
