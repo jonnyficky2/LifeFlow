@@ -11,8 +11,8 @@
 * **Current Version:** Pre-release (v0.9.x / Menuju v1.0)
 * **Repository Branch:** main
 * **Last Stable Commit:** (Akan diperbarui setelah commit finalisasi)
-* **Current Milestone:** M6 - Settings & Local Features
-* **Active Task:** TASK-605 — Dashboard Feature Parity
+* **Current Milestone:** M7 - Notes & Habits Restoration
+* **Active Task:** TASK-701 — Notes Metadata
 
 ---
 

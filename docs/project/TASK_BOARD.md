@@ -393,12 +393,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-605] Dashboard Feature Parity
 - **Description:** Menyempurnakan fitur heatmap 30 hari agar terhubung dengan historyData nyata.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-601
 - **Acceptance Criteria:** Heatmap persentase sesuai dengan data penyelesaian harian di masa lalu.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Menggunakan data persentase asli dari `historyData` dengan pengaturan CSS inline opacity berdasarkan nilai persentase penyelesaian serta atribut title. UAT PASS oleh User.
 
 ---
 

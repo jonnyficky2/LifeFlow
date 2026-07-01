@@ -22,7 +22,7 @@ const levelNames = [
 ];
 
 export const Dashboard: React.FC = () => {
-  const { appData, xp, streakData, setSettings, undo, redo, isAppLoading } = useAppContext();
+  const { appData, xp, streakData, historyData, setSettings, undo, redo, isAppLoading } = useAppContext();
   const [quote] = useState({ text: 'Stay focused, stay consistent.', author: 'LifeFlow' });
 
   const toggleTheme = () => {
@@ -58,12 +58,25 @@ export const Dashboard: React.FC = () => {
   // Heatmap: 30 days
   const heatmapBoxes = useMemo(() => {
     const boxes = [];
-    for (let i = 0; i < 30; i++) {
-      const isActive = i < streakData.length;
-      boxes.push(<div key={i} className={`day-box ${isActive ? 'day-active' : ''}`}></div>);
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateString = d.toISOString().split('T')[0];
+      
+      const percent = historyData[dateString] || 0;
+      const isActive = percent > 0;
+      
+      boxes.push(
+        <div 
+          key={dateString} 
+          className={`day-box ${isActive ? 'day-active' : ''}`}
+          style={isActive ? { opacity: Math.max(0.3, percent / 100) } : {}}
+          title={`${dateString}: ${percent}%`}
+        ></div>
+      );
     }
     return boxes;
-  }, [streakData]);
+  }, [historyData]);
 
   return (
     <div id="homeSection" className="dashboard-wrapper section-page">
