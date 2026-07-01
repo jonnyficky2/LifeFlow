@@ -134,3 +134,6 @@
 - Selesai mengimplementasikan TASK-605 (Dashboard Feature Parity).
 - Menyelesaikan Manual UAT TASK-605 dengan hasil PASS.
 - Melakukan finalisasi TASK-605 di documentation.
+- Selesai mengimplementasikan TASK-701 (Notes Metadata).
+- Menyelesaikan Manual UAT TASK-701 dengan hasil PASS.
+- Melakukan finalisasi TASK-701 di documentation.

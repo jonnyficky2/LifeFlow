@@ -64,6 +64,9 @@ export interface Note {
   content: string; // Teks raw Markdown
   createdAt: string;
   updatedAt: string;
+  deadline?: string;
+  time?: string;
+  reminder?: string;
 }
 
 interface AppContextType {

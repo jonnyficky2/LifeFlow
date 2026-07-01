@@ -162,6 +162,27 @@
   line-height: 1.6;
 }
 
+.notes-metadata-bar {
+  display: flex;
+  gap: 12px;
+  padding: 0 40px 20px 40px;
+  align-items: center;
+}
+
+.notes-metadata-bar .form-input {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.notes-metadata-bar .form-input:focus {
+  border-color: var(--color-primary);
+}
+
 @media (max-width: 768px) {
   .notes-wrapper {
     flex-direction: column;

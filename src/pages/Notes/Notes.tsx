@@ -17,6 +17,9 @@ export const Notes: React.FC = () => {
   // Local state for the editor to avoid laggy keystrokes
   const [localTitle, setLocalTitle] = useState('');
   const [localContent, setLocalContent] = useState('');
+  const [localDeadline, setLocalDeadline] = useState('');
+  const [localTime, setLocalTime] = useState('');
+  const [localReminder, setLocalReminder] = useState('none');
 
   const activeNoteData = useMemo(() => {
     return notes.find(n => n.id === activeNoteId) || null;
@@ -27,9 +30,15 @@ export const Notes: React.FC = () => {
     if (activeNoteData) {
       setLocalTitle(activeNoteData.title);
       setLocalContent(activeNoteData.content);
+      setLocalDeadline(activeNoteData.deadline || '');
+      setLocalTime(activeNoteData.time || '');
+      setLocalReminder(activeNoteData.reminder || 'none');
     } else {
       setLocalTitle('');
       setLocalContent('');
+      setLocalDeadline('');
+      setLocalTime('');
+      setLocalReminder('none');
     }
     // We purposefully only run this when activeNoteId changes to populate the form.
     // We DO NOT run this when notes change, otherwise the debounce would overwrite keystrokes.
@@ -41,14 +50,26 @@ export const Notes: React.FC = () => {
     if (!activeNoteId) return;
 
     // Check if there is actually a change to save
-    if (activeNoteData && (activeNoteData.title !== localTitle || activeNoteData.content !== localContent)) {
+    if (activeNoteData && (
+      activeNoteData.title !== localTitle || 
+      activeNoteData.content !== localContent ||
+      (activeNoteData.deadline || '') !== localDeadline ||
+      (activeNoteData.time || '') !== localTime ||
+      (activeNoteData.reminder || 'none') !== localReminder
+    )) {
       const handler = setTimeout(() => {
-        updateNote(activeNoteId, { title: localTitle, content: localContent });
+        updateNote(activeNoteId, { 
+          title: localTitle, 
+          content: localContent,
+          deadline: localDeadline,
+          time: localTime,
+          reminder: localReminder
+        });
       }, 500);
 
       return () => clearTimeout(handler);
     }
-  }, [localTitle, localContent, activeNoteId, updateNote, activeNoteData]);
+  }, [localTitle, localContent, localDeadline, localTime, localReminder, activeNoteId, updateNote, activeNoteData]);
 
   const filteredNotes = notes.filter(n => 
     n.title.toLowerCase().includes(search.toLowerCase()) || 
@@ -194,6 +215,18 @@ export const Notes: React.FC = () => {
               <button className="btn-delete-note" onClick={handleDelete} title="Delete Note" aria-label="Delete note">
                 🗑
               </button>
+            </div>
+            <div className="notes-metadata-bar">
+              <input type="date" className="form-input" value={localDeadline} onChange={(e) => setLocalDeadline(e.target.value)} title="Deadline" />
+              <input type="time" className="form-input" value={localTime} onChange={(e) => setLocalTime(e.target.value)} title="Time" />
+              <select className="form-input" value={localReminder} onChange={(e) => setLocalReminder(e.target.value)} title="Reminder">
+                <option value="none">No Reminder</option>
+                <option value="0">At time of event</option>
+                <option value="5">5 minutes before</option>
+                <option value="15">15 minutes before</option>
+                <option value="60">1 hour before</option>
+                <option value="1440">1 day before</option>
+              </select>
             </div>
             <div className="notes-editor-body">
               <textarea 

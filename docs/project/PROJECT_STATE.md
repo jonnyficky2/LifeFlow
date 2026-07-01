@@ -12,7 +12,7 @@
 * **Repository Branch:** main
 * **Last Stable Commit:** (Akan diperbarui setelah commit finalisasi)
 * **Current Milestone:** M7 - Notes & Habits Restoration
-* **Active Task:** TASK-701 — Notes Metadata
+* **Active Task:** TASK-702 — Notes Pinning
 
 ---
 

@@ -408,12 +408,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-701] Notes Metadata
 - **Description:** Menambahkan input deadline, waktu, dan pengingat ke dalam editor Notes.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-601
 - **Acceptance Criteria:** Pengguna dapat menetapkan batas waktu untuk catatan yang terhubung ke state.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Menambahkan field `deadline`, `time`, `reminder` pada interface `Note`. Membuat metadata bar sejajar (flex row) di bawah input judul. Tersinkronisasi dengan debounced auto-save. UAT PASS oleh User.
 
 ### [TASK-702] Notes Pinning
 - **Description:** Fitur sematkan (📌 Pin) untuk meletakkan catatan penting di urutan teratas.
