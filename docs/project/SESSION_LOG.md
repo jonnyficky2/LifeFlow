@@ -128,3 +128,6 @@
 - Selesai mengimplementasikan TASK-603 (Reset Application Data).
 - Menyelesaikan Manual UAT TASK-603 dengan hasil PASS setelah fix regresi (mengganti native window.confirm dengan React modal).
 - Melakukan finalisasi TASK-603 di documentation.
+- Selesai mengimplementasikan TASK-604 (Theme Preferences).
+- Menyelesaikan Manual UAT TASK-604 dengan hasil PASS.
+- Melakukan finalisasi TASK-604 di documentation.

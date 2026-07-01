@@ -382,11 +382,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-604] Theme Preferences
 - **Description:** Mengakomodasi setelan preferensi tema (Light, Dark).
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-601
 - **Acceptance Criteria:** Perubahan tema tersimpan di local storage dan diterapkan di seluruh komponen.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** Menggunakan `matchMedia` listener untuk system theme dan menghubungkannya dengan state `settings.theme`. UAT PASS oleh User.
 - **Notes:** -
 
 ### [TASK-605] Dashboard Feature Parity

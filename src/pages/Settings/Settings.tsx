@@ -7,7 +7,7 @@ import { useToast } from '../../context/ToastContext';
 
 export const Settings: React.FC = () => {
   const { 
-    isAppLoading, appData, xp, habits, habitHistory, streakData, historyData, notes 
+    isAppLoading, appData, xp, habits, habitHistory, streakData, historyData, notes, settings, setSettings 
   } = useAppContext();
   const { showToast } = useToast();
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -81,6 +81,10 @@ export const Settings: React.FC = () => {
     window.location.reload();
   };
 
+  const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSettings((prev: any) => ({ ...prev, theme: e.target.value }));
+  };
+
   if (isAppLoading) {
     return (
       <div className="settings-wrapper" style={{ padding: '24px' }}>
@@ -119,7 +123,7 @@ export const Settings: React.FC = () => {
         {/* 2. Appearance */}
         <SettingsSection title="Appearance" icon="🎨">
           <SettingsItem title="Theme" description="Select your app theme" rightElement={
-            <select className="settings-select" defaultValue="system">
+            <select className="settings-select" value={settings?.theme || 'system'} onChange={handleThemeChange}>
               <option value="system">System Default</option>
               <option value="dark">Dark Mode</option>
               <option value="light">Light Mode</option>

@@ -12,7 +12,7 @@
 * **Repository Branch:** main
 * **Last Stable Commit:** (Akan diperbarui setelah commit finalisasi)
 * **Current Milestone:** M6 - Settings & Local Features
-* **Active Task:** TASK-604 — Theme Preferences
+* **Active Task:** TASK-605 — Dashboard Feature Parity
 
 ---
 

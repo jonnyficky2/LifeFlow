@@ -25,10 +25,26 @@ const AppContent: React.FC = () => {
   const { activeSection, settings } = useAppContext();
 
   React.useEffect(() => {
+    const applyTheme = (isLight: boolean) => {
+      if (isLight) {
+        document.body.classList.add('light-mode');
+      } else {
+        document.body.classList.remove('light-mode');
+      }
+    };
+
     if (settings?.theme === 'light') {
-      document.body.classList.add('light-mode');
+      applyTheme(true);
+    } else if (settings?.theme === 'dark') {
+      applyTheme(false);
     } else {
-      document.body.classList.remove('light-mode');
+      // System default
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+      applyTheme(mediaQuery.matches);
+      
+      const handleChange = (e: MediaQueryListEvent) => applyTheme(e.matches);
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
   }, [settings?.theme]);
 
