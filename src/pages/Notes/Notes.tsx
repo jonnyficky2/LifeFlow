@@ -100,17 +100,25 @@ export const Notes: React.FC = () => {
     );
 
     sorted.forEach(note => {
-      const key = getNoteDateGroup(note.updatedAt);
+      const key = note.isPinned ? '📌 Pinned' : getNoteDateGroup(note.updatedAt);
       if (!groups[key]) {
         groups[key] = [];
       }
       groups[key].push(note);
     });
 
-    return Object.entries(groups).map(([title, notesList]) => ({
+    const result = Object.entries(groups).map(([title, notesList]) => ({
       title,
       notesList
     }));
+
+    const pinnedIndex = result.findIndex(g => g.title === '📌 Pinned');
+    if (pinnedIndex > -1) {
+      const pinnedGroup = result.splice(pinnedIndex, 1)[0];
+      result.unshift(pinnedGroup);
+    }
+
+    return result;
   }, [filteredNotes]);
 
   const handleCreateNote = () => {
@@ -212,9 +220,19 @@ export const Notes: React.FC = () => {
                   }
                 }}
               />
-              <button className="btn-delete-note" onClick={handleDelete} title="Delete Note" aria-label="Delete note">
-                🗑
-              </button>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button 
+                  className={`btn-pin-note ${activeNoteData.isPinned ? 'active' : ''}`} 
+                  onClick={() => updateNote(activeNoteId, { isPinned: !activeNoteData.isPinned })}
+                  title={activeNoteData.isPinned ? "Unpin Note" : "Pin Note"}
+                  aria-label="Pin note"
+                >
+                  {activeNoteData.isPinned ? '📍' : '📌'}
+                </button>
+                <button className="btn-delete-note" onClick={handleDelete} title="Delete Note" aria-label="Delete note">
+                  🗑
+                </button>
+              </div>
             </div>
             <div className="notes-metadata-bar">
               <input type="date" className="form-input" value={localDeadline} onChange={(e) => setLocalDeadline(e.target.value)} title="Deadline" />

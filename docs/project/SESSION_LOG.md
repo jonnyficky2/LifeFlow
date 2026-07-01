@@ -137,3 +137,6 @@
 - Selesai mengimplementasikan TASK-701 (Notes Metadata).
 - Menyelesaikan Manual UAT TASK-701 dengan hasil PASS.
 - Melakukan finalisasi TASK-701 di documentation.
+- Selesai mengimplementasikan TASK-702 (Notes Pinning).
+- Menyelesaikan Manual UAT TASK-702 dengan hasil PASS.
+- Melakukan finalisasi TASK-702 di documentation.

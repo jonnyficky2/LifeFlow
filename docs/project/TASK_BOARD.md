@@ -418,12 +418,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-702] Notes Pinning
 - **Description:** Fitur sematkan (📌 Pin) untuk meletakkan catatan penting di urutan teratas.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-701
 - **Acceptance Criteria:** Catatan yang disematkan tetap di bagian atas daftar sidebar.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Menggunakan status `isPinned` pada catatan. Meng-override sorting group list menjadi "📌 Pinned" di posisi teratas indeks ke-0. UAT PASS oleh User.
 
 ### [TASK-703] Habit Repeat Rules
 - **Description:** Merefaktorkan data Habit agar mendukung aturan perulangan (harian, mingguan, bulanan, hari spesifik).

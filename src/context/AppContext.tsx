@@ -67,6 +67,7 @@ export interface Note {
   deadline?: string;
   time?: string;
   reminder?: string;
+  isPinned?: boolean;
 }
 
 interface AppContextType {

@@ -138,9 +138,29 @@
   border-radius: var(--radius-xs);
 }
 
+.btn-pin-note {
+  background: transparent;
+  color: var(--color-muted);
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-xs);
+  transition: all 0.2s;
+}
+
+.btn-pin-note.active {
+  color: var(--color-primary);
+  background: var(--color-primary-light, rgba(0, 122, 255, 0.1));
+}
+
 .btn-delete-note:hover {
   background: rgba(239, 68, 68, 0.1);
   color: var(--color-danger);
+}
+
+.btn-pin-note:hover {
+  background: var(--color-surface-hover, rgba(0, 0, 0, 0.05));
+  color: var(--color-primary);
 }
 
 .notes-editor-body {
