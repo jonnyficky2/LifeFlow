@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './Settings.css';
 import { SettingsSection } from './components/SettingsSection';
 import { SettingsItem } from './components/SettingsItem';
@@ -10,6 +10,7 @@ export const Settings: React.FC = () => {
     isAppLoading, appData, xp, habits, habitHistory, streakData, historyData, notes 
   } = useAppContext();
   const { showToast } = useToast();
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Basic mock stats for now
@@ -69,6 +70,15 @@ export const Settings: React.FC = () => {
 
     event.target.value = "";
     reader.readAsText(file);
+  };
+
+  const handleResetData = () => {
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmReset = () => {
+    localStorage.clear();
+    window.location.reload();
   };
 
   if (isAppLoading) {
@@ -228,11 +238,25 @@ export const Settings: React.FC = () => {
         {/* Danger Zone */}
         <SettingsSection title="Danger Zone" icon="⚠️" style={{ marginTop: '24px', border: '1px solid var(--color-danger)' }}>
           <SettingsItem title="Reset Data" description="Clear all local data and restore defaults" rightElement={
-            <button className="settings-btn danger" style={{ background: 'var(--color-danger)', color: '#ffffff' }}>Reset Application Data</button>
+            <button className="settings-btn danger" style={{ background: 'var(--color-danger)', color: '#ffffff' }} onClick={handleResetData}>Reset Application Data</button>
           } />
         </SettingsSection>
 
       </div>
+
+      {/* Reset Data Confirmation Modal */}
+      {confirmOpen && (
+        <div className="modal show">
+          <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '24px', borderRadius: '12px' }}>
+            <h3>Reset Application Data</h3>
+            <p style={{ margin: '16px 0', color: 'var(--color-muted)' }}>Are you sure you want to permanently delete all your tasks, habits, and notes? This action cannot be undone.</p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button className="btn btn-danger" onClick={handleConfirmReset}>Reset Data</button>
+              <button className="btn btn-secondary" onClick={() => setConfirmOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

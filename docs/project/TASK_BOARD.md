@@ -371,13 +371,13 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 
 ### [TASK-603] Reset Application Data
 - **Description:** Fitur "Danger Zone" untuk menghapus seluruh local storage dan mengembalikan aplikasi ke kondisi awal.
-- **Priority:** High
-- **Status:** TODO
+- **Priority:** Medium
+- **Status:** DONE
 - **Dependencies:** TASK-601
 - **Acceptance Criteria:** Konfirmasi ganda sebelum penghapusan, state kembali kosong.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Menggunakan custom reusable React modal untuk konfirmasi ganda reset data (Offline First). Manual UAT PASS oleh User.
 
 ### [TASK-604] Theme Preferences
 - **Description:** Mengakomodasi setelan preferensi tema (Light, Dark).
