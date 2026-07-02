@@ -143,3 +143,6 @@
 - Selesai mengimplementasikan TASK-703 (Habit Repeat Rules).
 - Menyelesaikan Manual UAT TASK-703 dengan hasil PASS.
 - Melakukan finalisasi TASK-703 di documentation.
+- Selesai mengimplementasikan TASK-704 (Habit Scheduling).
+- Menyelesaikan Manual UAT TASK-704 dengan hasil PASS.
+- Melakukan finalisasi TASK-704 di documentation.

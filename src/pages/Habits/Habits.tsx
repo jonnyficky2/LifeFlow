@@ -17,6 +17,7 @@ export const Habits: React.FC = () => {
   const [repeatType, setRepeatType] = useState<HabitRepeatType>('daily');
   const [repeatDays, setRepeatDays] = useState<number[]>([]);
   const [repeatDate, setRepeatDate] = useState<number>(1);
+  const [newHabitTime, setNewHabitTime] = useState('');
 
   // Delete Habit Confirm State
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -74,6 +75,7 @@ export const Habits: React.FC = () => {
     setRepeatType('daily');
     setRepeatDays([]);
     setRepeatDate(1);
+    setNewHabitTime('');
     setHabitModalOpen(true);
   };
 
@@ -83,23 +85,32 @@ export const Habits: React.FC = () => {
       if (repeatType === 'custom') repeatConfig.customDays = repeatDays;
       if (repeatType === 'monthly') repeatConfig.customDate = repeatDate;
 
-      addHabit(newHabitName.trim(), 'var(--primary-color)', newHabitIcon.trim() || '🎯', repeatConfig);
+      addHabit(newHabitName.trim(), 'var(--primary-color)', newHabitIcon.trim() || '🎯', repeatConfig, newHabitTime);
       setHabitModalOpen(false);
     }
   };
 
   const getRepeatText = (habit: any) => {
-    if (!habit.repeat) return 'Repeat: Daily';
-    const r = habit.repeat;
-    if (r.type === 'daily') return 'Repeat: Daily';
-    if (r.type === 'weekly') return 'Repeat: Weekly';
-    if (r.type === 'monthly') return `Repeat: Monthly on ${r.customDate || 1}`;
-    if (r.type === 'custom') {
-      if (!r.customDays || r.customDays.length === 0) return 'Repeat: Custom';
-      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      return `Repeat: ${r.customDays.sort().map((d: number) => days[d]).join(', ')}`;
+    let baseText = 'Daily';
+    
+    if (habit.repeat) {
+      const r = habit.repeat;
+      if (r.type === 'daily') baseText = 'Daily';
+      else if (r.type === 'weekly') baseText = 'Weekly';
+      else if (r.type === 'monthly') baseText = `Monthly on ${r.customDate || 1}`;
+      else if (r.type === 'custom') {
+        if (!r.customDays || r.customDays.length === 0) baseText = 'Custom';
+        else {
+          const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+          baseText = r.customDays.sort().map((d: number) => days[d]).join(', ');
+        }
+      }
     }
-    return 'Repeat: Daily';
+
+    if (habit.time) {
+      return `Repeat: ${baseText} at ${habit.time}`;
+    }
+    return `Repeat: ${baseText}`;
   };
 
   const triggerDeleteHabit = (habitId: string, habitName: string) => {
@@ -290,6 +301,18 @@ export const Habits: React.FC = () => {
                 </div>
               )}
             </div>
+
+            <div className="form-group" style={{ marginBottom: '24px' }}>
+              <label htmlFor="habitTimeInput">Time (Optional)</label>
+              <input 
+                id="habitTimeInput"
+                type="time" 
+                className="form-input"
+                value={newHabitTime}
+                onChange={(e) => setNewHabitTime(e.target.value)}
+              />
+            </div>
+
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
               <button className="btn btn-secondary" onClick={() => setHabitModalOpen(false)}>Cancel</button>
               <button className="btn btn-primary" onClick={handleCreateHabitSubmit}>Create</button>

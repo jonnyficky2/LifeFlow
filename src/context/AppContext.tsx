@@ -63,6 +63,7 @@ export interface Habit {
   icon: string;
   createdAt: string;
   repeat?: HabitRepeatConfig;
+  time?: string;
 }
 
 export type HabitHistory = Record<string, string[]>;

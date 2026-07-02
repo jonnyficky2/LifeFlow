@@ -437,14 +437,14 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Notes:** -
 
 ### [TASK-704] Habit Scheduling
-- **Description:** Menerapkan filter logika hari aktif sehingga habit hanya tampil sesuai jadwalnya.
-- **Priority:** High
-- **Status:** TODO
+- **Description:** Menambahkan input spesifik waktu ke dalam modal pembuatan/edit Habit untuk notifikasi/pengingat.
+- **Priority:** Medium
+- **Status:** DONE
 - **Dependencies:** TASK-703
 - **Acceptance Criteria:** Daftar habit di halaman Habit membedakan habit yang aktif hari ini dan yang tidak.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Menambahkan input waktu ke modal dan menyimpannya di objek Habit. UAT PASS oleh User.
 
 ---
 

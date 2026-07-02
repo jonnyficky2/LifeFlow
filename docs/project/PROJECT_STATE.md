@@ -11,8 +11,8 @@
 * **Current Version:** Pre-release (v0.9.x / Menuju v1.0)
 * **Repository Branch:** main
 * **Last Stable Commit:** (Akan diperbarui setelah commit finalisasi)
-* **Current Milestone:** M7 - Notes & Habits Restoration
-* **Active Task:** TASK-704 — Habit Scheduling
+* **Current Milestone:** M8 - Focus Timer & Gamification
+* **Active Task:** TASK-801 — Focus Timer
 
 ---
 
