@@ -12,7 +12,7 @@
 * **Repository Branch:** main
 * **Last Stable Commit:** (Akan diperbarui setelah commit finalisasi)
 * **Current Milestone:** M7 - Notes & Habits Restoration
-* **Active Task:** TASK-703 — Habit Repeat Rules
+* **Active Task:** TASK-704 — Habit Scheduling
 
 ---
 

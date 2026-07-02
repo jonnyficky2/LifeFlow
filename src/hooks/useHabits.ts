@@ -1,20 +1,21 @@
 import { useCallback } from 'react';
 import { useAppContext } from '../context/AppContext';
-import type { Habit } from '../context/AppContext';
+import type { Habit, HabitRepeatConfig } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 
 export const useHabits = () => {
   const { habits, setHabits, habitHistory, setHabitHistory, saveHistorySnapshot } = useAppContext();
   const { showToast } = useToast();
 
-  const addHabit = useCallback((name: string, color: string = 'var(--primary-color)', icon: string = '🎯') => {
+  const addHabit = useCallback((name: string, color: string = 'var(--primary-color)', icon: string = '🎯', repeat?: HabitRepeatConfig) => {
     saveHistorySnapshot();
     const newHabit: Habit = {
       id: `habit_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       name,
       color,
       icon,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      repeat
     };
     setHabits([...habits, newHabit]);
     showToast(`Habit "${name}" added`, 'success');

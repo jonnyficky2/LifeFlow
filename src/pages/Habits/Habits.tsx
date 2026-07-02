@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import type { HabitRepeatType, HabitRepeatConfig } from '../../context/AppContext';
 import { useHabits } from '../../hooks/useHabits';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
@@ -13,6 +14,9 @@ export const Habits: React.FC = () => {
   const [habitModalOpen, setHabitModalOpen] = useState(false);
   const [newHabitName, setNewHabitName] = useState('');
   const [newHabitIcon, setNewHabitIcon] = useState('🎯');
+  const [repeatType, setRepeatType] = useState<HabitRepeatType>('daily');
+  const [repeatDays, setRepeatDays] = useState<number[]>([]);
+  const [repeatDate, setRepeatDate] = useState<number>(1);
 
   // Delete Habit Confirm State
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -67,14 +71,35 @@ export const Habits: React.FC = () => {
   const handleCreateHabit = () => {
     setNewHabitName('');
     setNewHabitIcon('🎯');
+    setRepeatType('daily');
+    setRepeatDays([]);
+    setRepeatDate(1);
     setHabitModalOpen(true);
   };
 
   const handleCreateHabitSubmit = () => {
     if (newHabitName.trim()) {
-      addHabit(newHabitName.trim(), 'var(--primary-color)', newHabitIcon.trim() || '🎯');
+      const repeatConfig: HabitRepeatConfig = { type: repeatType };
+      if (repeatType === 'custom') repeatConfig.customDays = repeatDays;
+      if (repeatType === 'monthly') repeatConfig.customDate = repeatDate;
+
+      addHabit(newHabitName.trim(), 'var(--primary-color)', newHabitIcon.trim() || '🎯', repeatConfig);
       setHabitModalOpen(false);
     }
+  };
+
+  const getRepeatText = (habit: any) => {
+    if (!habit.repeat) return 'Repeat: Daily';
+    const r = habit.repeat;
+    if (r.type === 'daily') return 'Repeat: Daily';
+    if (r.type === 'weekly') return 'Repeat: Weekly';
+    if (r.type === 'monthly') return `Repeat: Monthly on ${r.customDate || 1}`;
+    if (r.type === 'custom') {
+      if (!r.customDays || r.customDays.length === 0) return 'Repeat: Custom';
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      return `Repeat: ${r.customDays.sort().map((d: number) => days[d]).join(', ')}`;
+    }
+    return 'Repeat: Daily';
   };
 
   const triggerDeleteHabit = (habitId: string, habitName: string) => {
@@ -132,7 +157,7 @@ export const Habits: React.FC = () => {
                     <div>
                       <h3 className="habit-title">{habit.name}</h3>
                       <div className="habit-stats">
-                        30-Day Consistency: <strong>{completionRate}%</strong>
+                        30-Day Consistency: <strong>{completionRate}%</strong> • <span style={{ color: 'var(--color-muted)' }}>{getRepeatText(habit)}</span>
                       </div>
                     </div>
                   </div>
@@ -204,16 +229,66 @@ export const Habits: React.FC = () => {
                 autoFocus
               />
             </div>
-            <div className="form-group" style={{ marginBottom: '24px' }}>
+            <div className="form-group" style={{ marginBottom: '16px' }}>
               <label htmlFor="habitIconInput">Icon (Emoji)</label>
               <input 
                 id="habitIconInput"
                 type="text" 
+                className="form-input"
                 placeholder="e.g. 🎯"
                 value={newHabitIcon}
                 onChange={(e) => setNewHabitIcon(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleCreateHabitSubmit()}
               />
+            </div>
+            
+            <div className="form-group" style={{ marginBottom: '24px' }}>
+              <label htmlFor="habitRepeatInput">Repeat</label>
+              <select
+                id="habitRepeatInput"
+                className="form-input"
+                value={repeatType}
+                onChange={(e) => setRepeatType(e.target.value as HabitRepeatType)}
+              >
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="custom">Certain day</option>
+              </select>
+
+              {repeatType === 'custom' && (
+                <div style={{ marginTop: '12px' }}>
+                  <p style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--color-muted)' }}>Choose days:</p>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, idx) => (
+                      <label key={day} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem', cursor: 'pointer' }}>
+                        <input 
+                          type="checkbox"
+                          checked={repeatDays.includes(idx)}
+                          onChange={(e) => {
+                            if (e.target.checked) setRepeatDays([...repeatDays, idx]);
+                            else setRepeatDays(repeatDays.filter(d => d !== idx));
+                          }}
+                        />
+                        {day}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {repeatType === 'monthly' && (
+                <div style={{ marginTop: '12px' }}>
+                  <p style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--color-muted)' }}>Every date:</p>
+                  <input
+                    type="number"
+                    className="form-input"
+                    min="1" max="31"
+                    value={repeatDate}
+                    onChange={(e) => setRepeatDate(Number(e.target.value))}
+                  />
+                </div>
+              )}
             </div>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
               <button className="btn btn-secondary" onClick={() => setHabitModalOpen(false)}>Cancel</button>

@@ -48,12 +48,21 @@ export interface Category {
   tasks: Task[];
 }
 
+export type HabitRepeatType = 'daily' | 'weekly' | 'monthly' | 'custom';
+
+export interface HabitRepeatConfig {
+  type: HabitRepeatType;
+  customDays?: number[]; // [0-6] dimana 0 adalah Sunday
+  customDate?: number; // [1-31] untuk monthly
+}
+
 export interface Habit {
   id: string;
   name: string;
   color: string;
   icon: string;
   createdAt: string;
+  repeat?: HabitRepeatConfig;
 }
 
 export type HabitHistory = Record<string, string[]>;

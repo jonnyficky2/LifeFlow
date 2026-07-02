@@ -428,11 +428,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-703] Habit Repeat Rules
 - **Description:** Merefaktorkan data Habit agar mendukung aturan perulangan (harian, mingguan, bulanan, hari spesifik).
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-601
 - **Acceptance Criteria:** Struktur habit memiliki properti interval perulangan yang berfungsi.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
+- **Notes:** Menambahkan `HabitRepeatType` dan `HabitRepeatConfig` ke interface `Habit`. Replikasi modal form legacy HTML dengan dynamic input UI. UAT PASS oleh User.
 - **Notes:** -
 
 ### [TASK-704] Habit Scheduling
