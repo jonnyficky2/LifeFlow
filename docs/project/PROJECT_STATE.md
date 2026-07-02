@@ -12,7 +12,7 @@
 * **Repository Branch:** main
 * **Last Stable Commit:** (Akan diperbarui setelah commit finalisasi)
 * **Current Milestone:** M8 - Focus Timer & Gamification
-* **Active Task:** TASK-801 — Focus Timer
+* **Active Task:** TASK-803 — Confetti & Sound
 
 ---
 

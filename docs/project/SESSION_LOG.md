@@ -146,3 +146,7 @@
 - Selesai mengimplementasikan TASK-704 (Habit Scheduling).
 - Menyelesaikan Manual UAT TASK-704 dengan hasil PASS.
 - Melakukan finalisasi TASK-704 di documentation.
+- Selesai mengimplementasikan TASK-801 (Focus Timer).
+- Selesai mengimplementasikan TASK-802 (XP Integration).
+- Menyelesaikan Manual UAT TASK-801 dengan hasil PASS.
+- Melakukan finalisasi TASK-801 dan TASK-802 di documentation.

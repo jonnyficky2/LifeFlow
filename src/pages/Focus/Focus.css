@@ -1,0 +1,50 @@
+.focus-timer-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.ring-bg {
+  fill: transparent;
+  stroke: var(--surface-3);
+  stroke-width: 12;
+}
+
+.ring-progress {
+  fill: transparent;
+  stroke: #a855f7;
+  stroke-width: 12;
+  stroke-dasharray: 565.48; /* 2 * pi * 90 */
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.focus-timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.focus-timer-text h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+.focus-timer-text p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

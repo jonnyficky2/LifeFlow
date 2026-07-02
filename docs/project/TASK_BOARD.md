@@ -454,22 +454,22 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-801] Focus Timer
 - **Description:** Membangun modul Pomodoro Focus Timer dengan ring countdown visual SVG.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-704
 - **Acceptance Criteria:** Timer menghitung mundur stabil dengan preset 25, 50, 15, 5 menit.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Menggunakan localStorage timestamp untuk background timer. UAT PASS.
 
 ### [TASK-802] XP Integration
 - **Description:** Menghubungkan selesainya siklus Focus Timer dengan penambahan +5 XP.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-801
 - **Acceptance Criteria:** Selesainya hitung mundur langsung memperbarui poin XP di dashboard.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Sudah diimplementasikan secara otomatis bersamaan dengan TASK-801 via pemanggilan `setXp`.
 
 ### [TASK-803] Confetti & Sound
 - **Description:** Memainkan efek suara penyelesaian dan menembakkan kembang api (canvas confetti) ketika timer habis.

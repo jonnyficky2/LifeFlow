@@ -11,6 +11,7 @@ const Categories = lazy(() => import('./pages/Categories/Categories').then(m => 
 const Calendar = lazy(() => import('./pages/Calendar/Calendar').then(m => ({ default: m.Calendar })));
 const Habits = lazy(() => import('./pages/Habits/Habits').then(m => ({ default: m.Habits })));
 const Notes = lazy(() => import('./pages/Notes/Notes').then(m => ({ default: m.Notes })));
+const Focus = lazy(() => import('./pages/Focus/Focus').then(m => ({ default: m.Focus })));
 const Settings = lazy(() => import('./pages/Settings/Settings').then(m => ({ default: m.Settings })));
 
 const PageFallback = () => (
@@ -55,7 +56,7 @@ const AppContent: React.FC = () => {
           {activeSection === 'home' && <Dashboard />}
           {activeSection === 'tasks' && <Tasks />}
           {activeSection === 'habit' && <Habits />}
-          {activeSection === 'focus' && <div className="app-placeholder-section">Focus Component Placeholder</div>}
+          {activeSection === 'focus' && <Focus />}
           {activeSection === 'calendar' && <Calendar />}
           {activeSection === 'categories' && <Categories />}
           {activeSection === 'stats' && <div className="app-placeholder-section">Stats Component Placeholder</div>}
