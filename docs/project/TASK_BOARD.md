@@ -484,12 +484,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-804] Dashboard Dynamic Quotes
 - **Description:** Memuat daftar kutipan motivasi dari sumber eksternal dan mengacaknya saat dashboard dibuka.
 - **Priority:** Low
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-801
 - **Acceptance Criteria:** Quote berganti-ganti setiap kali halaman di-refresh.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Menggunakan QuoteProvider (Local First). UAT PASS.
 
 ---
 

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { Skeleton } from '../../components/ui/Skeleton';
+import { quoteManager } from '../../utils/QuoteProvider';
 
 // Helper to calculate Level
 function getLevelData(xp: number) {
@@ -23,7 +24,7 @@ const levelNames = [
 
 export const Dashboard: React.FC = () => {
   const { appData, xp, streakData, historyData, setSettings, undo, redo, isAppLoading } = useAppContext();
-  const [quote] = useState({ text: 'Stay focused, stay consistent.', author: 'LifeFlow' });
+  const [quote] = useState(() => quoteManager.getDailyQuote());
 
   const toggleTheme = () => {
     setSettings((prev: any) => ({
