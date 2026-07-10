@@ -12,7 +12,9 @@ export function downloadFallback(url: string) {
   const a = document.createElement("a");
   a.href = url; // Set the URL of the generated image
   a.download = "lifeflow-stats.jpg"; // Set the filename for download
+  document.body.appendChild(a);
   a.click(); // Programmatically click the anchor to trigger download
+  document.body.removeChild(a);
 }
 
 export function generateShareImage(

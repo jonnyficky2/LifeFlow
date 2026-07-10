@@ -119,8 +119,15 @@ export const Reports: React.FC = () => {
       const tVal = historyData ? (historyData[dateKey] || 0) : 0;
       tasksData.push({ label: shortDate, value: tVal });
 
-      const hValArray = habitHistory ? (habitHistory[dateKey] || []) : [];
-      const hVal = totalHabits ? Math.round((hValArray.length / totalHabits) * 100) : 0;
+      let completedHabits = 0;
+      if (habitHistory) {
+        Object.values(habitHistory).forEach((dates: any) => {
+          if (Array.isArray(dates) && dates.includes(dateKey)) {
+            completedHabits++;
+          }
+        });
+      }
+      const hVal = totalHabits ? Math.round((completedHabits / totalHabits) * 100) : 0;
       habitsData.push({ label: shortDate, value: hVal });
     }
 
@@ -190,7 +197,7 @@ export const Reports: React.FC = () => {
             {habitsChartData.map((d, idx) => (
               <div className="chart-bar-wrapper" key={idx}>
                 <div className="chart-bar-track">
-                  <div className="chart-bar" style={{ height: `${d.value}%`, backgroundColor: 'var(--secondary)' }} title={`${d.value}%`} />
+                  <div className="chart-bar" style={{ height: `${d.value}%`, backgroundColor: 'var(--color-success)' }} title={`${d.value}%`} />
                 </div>
                 <span className="chart-label">{d.label}</span>
               </div>
