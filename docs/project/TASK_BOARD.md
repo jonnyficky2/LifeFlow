@@ -499,32 +499,32 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-901] Reports Dashboard
 - **Description:** Menyusun struktur halaman Reports yang berisi kartu ringkasan progres harian.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-804
 - **Acceptance Criteria:** Halaman Reports merender kerangka visual dengan data penyelesaian awal.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** Prioritaskan implementasi yang mengikuti perilaku proyek JavaScript Legacy (SSoT).
+- **Notes:** Komponen kerangka laporan dengan status kosong (empty state), perhitungan harian, dan UI cincin (progress ring) siap. Menunggu UAT.
 
 ### [TASK-902] Productivity Analytics
 - **Description:** Menghitung tren progres mingguan tugas dan kebiasaan dari `historyData` ke dalam grafik representatif.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-901
 - **Acceptance Criteria:** Visual grafik menggambarkan data akurat dari localStorage tanpa bergantung Chart.js jika merusak parity.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Bug CSS tinggi grafik flexbox dan Timezone mismatch telah berhasil diselesaikan. UAT Passed.
 
 ### [TASK-903] Share Image / Canvas
 - **Description:** Menghasilkan gambar Canvas 2D yang merangkum level, streak, dan progres untuk di-share ke media sosial.
 - **Priority:** Low
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-902
 - **Acceptance Criteria:** Pengguna dapat menyimpan image rekap dari statistik mereka (JPG/PNG).
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Komponen canvas utilitas telah dibangun, UAT passed.
 
 ---
 

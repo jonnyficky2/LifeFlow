@@ -13,6 +13,7 @@ const Habits = lazy(() => import('./pages/Habits/Habits').then(m => ({ default: 
 const Notes = lazy(() => import('./pages/Notes/Notes').then(m => ({ default: m.Notes })));
 const Focus = lazy(() => import('./pages/Focus/Focus').then(m => ({ default: m.Focus })));
 const Settings = lazy(() => import('./pages/Settings/Settings').then(m => ({ default: m.Settings })));
+const Reports = lazy(() => import('./pages/Reports/Reports').then(m => ({ default: m.Reports })));
 
 const PageFallback = () => (
   <div className="app-page-fallback">
@@ -59,7 +60,7 @@ const AppContent: React.FC = () => {
           {activeSection === 'focus' && <Focus />}
           {activeSection === 'calendar' && <Calendar />}
           {activeSection === 'categories' && <Categories />}
-          {activeSection === 'stats' && <div className="app-placeholder-section">Stats Component Placeholder</div>}
+          {activeSection === 'stats' && <Reports />}
           {activeSection === 'notes' && <Notes />}
           {activeSection === 'settings' && <Settings />}
         </Suspense>

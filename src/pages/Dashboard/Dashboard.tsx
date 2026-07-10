@@ -3,19 +3,7 @@ import { useAppContext } from '../../context/AppContext';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { quoteManager } from '../../utils/QuoteProvider';
 
-// Helper to calculate Level
-function getLevelData(xp: number) {
-  let level = 1;
-  let xpNeeded = 100;
-  let remainingXP = xp;
-
-  while (remainingXP >= xpNeeded) {
-    remainingXP -= xpNeeded;
-    level++;
-    xpNeeded += 50;
-  }
-  return { level, remainingXP, xpNeeded };
-}
+import { getLevelData } from '../../utils/level';
 
 const levelNames = [
   "Rookie", "Grinder", "Focused", "Achiever", "Discipline",
