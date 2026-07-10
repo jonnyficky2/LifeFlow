@@ -1,8 +1,10 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
 
 export const Sidebar: React.FC = () => {
   const { isSidebarOpen, setSidebarOpen, activeSection, setActiveSection } = useAppContext();
+  const { user, loginWithGoogle, logout } = useAuth();
 
   const handleNavClick = (section: string) => {
     setActiveSection(section);
@@ -43,11 +45,14 @@ export const Sidebar: React.FC = () => {
           </nav>
 
           <div className="sidebar-account">
-            <p className="sidebar-label">Akun</p>
-            <p className="sidebar-name">Guest User</p>
-            <p className="sidebar-email">Login untuk akses akun</p>
-            <button id="loginBtn" type="button" className="sidebar-item account-action">Login dengan Google</button>
-            <button id="logoutBtn" type="button" className="sidebar-item account-action sidebar-logout-hidden">Logout</button>
+            <p className="sidebar-label">Account</p>
+            <p className="sidebar-name">{user ? user.displayName || 'LifeFlow User' : 'Guest User'}</p>
+            <p className="sidebar-email">{user ? user.email : 'Login to access account'}</p>
+            {!user ? (
+              <button id="loginBtn" type="button" className="sidebar-item account-action" onClick={loginWithGoogle}>Sign In with Google</button>
+            ) : (
+              <button id="logoutBtn" type="button" className="sidebar-item account-action" onClick={logout}>Sign Out</button>
+            )}
           </div>
 
           <div className="sidebar-streak-card">

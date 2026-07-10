@@ -534,32 +534,32 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-1001] Firebase Authentication
 - **Description:** Inisialisasi Firebase Web SDK di proyek React dan mengkonfigurasi mode autentikasi.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-903
 - **Acceptance Criteria:** Proyek terhubung dengan Firebase Auth secara stabil.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Firebase SDK (v11) terpasang, environment keys dikonfigurasi via .env.local.
 
 ### [TASK-1002] Google Login
 - **Description:** Mengaktifkan Sign-In dengan penyedia Google (popup/redirect) dan memunculkan Auth Modal di awal pembukaan aplikasi.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-1001
 - **Acceptance Criteria:** Pengguna bisa login menggunakan kredensial Google.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** AuthModal dengan backdrop blur berhasil diintegrasikan. AuthContext mengelola state user. UAT Passed.
 
 ### [TASK-1003] User Profile Synchronization
 - **Description:** Menyambungkan state user login dengan foto profil di Navbar dan informasi kontak di Sidebar.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-1002
 - **Acceptance Criteria:** Komponen Sidebar dan Header memperbarui visualnya berdasarkan data auth pengguna.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Foto profil (photoURL) dari provider Google sukses menggantikan avatar bawaan. UAT Passed.
 
 ---
 

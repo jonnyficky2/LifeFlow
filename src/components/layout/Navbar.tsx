@@ -1,8 +1,10 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
 
 export const Navbar: React.FC = () => {
   const { isSidebarOpen, setSidebarOpen } = useAppContext();
+  const { user, loginWithGoogle } = useAuth();
 
   return (
     <nav id="navbar" className="navbar">
@@ -15,8 +17,18 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="navbar-actions">
-          <button id="navLoginBtn" type="button" className="nav-login-btn">Sign In</button>
-          <img id="navUserImg" src="/assets/icons/icon.svg" alt="Profile" className="nav-user-img nav-user-img-hidden" referrerPolicy="no-referrer" loading="lazy" />
+          {!user ? (
+            <button id="navLoginBtn" type="button" className="nav-login-btn" onClick={loginWithGoogle}>Sign In</button>
+          ) : (
+            <img 
+              id="navUserImg" 
+              src={user.photoURL || "/assets/icons/icon.svg"} 
+              alt={user.displayName || "Profile"} 
+              className="nav-user-img" 
+              referrerPolicy="no-referrer" 
+              loading="lazy" 
+            />
+          )}
         
           {/* Sidebar Toggle Button */}
           <button 
