@@ -2,9 +2,34 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Focus.css';
 import { useAppContext } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
+import confetti from 'canvas-confetti';
 
 const RING_CIRCUMFERENCE = 565.48; // 2 * PI * 90
 const DEFAULT_MINUTES = 25;
+
+const playSuccessSound = () => {
+  try {
+    const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+    oscillator.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.1); // C6
+    
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.start(audioCtx.currentTime);
+    oscillator.stop(audioCtx.currentTime + 0.5);
+  } catch (e) {
+    console.warn("Audio playback failed", e);
+  }
+};
 
 export const Focus: React.FC = () => {
   const { setXp } = useAppContext();
@@ -94,8 +119,13 @@ export const Focus: React.FC = () => {
     // Reward XP
     setXp((prev) => prev + 5);
     
-    // Play sound / fireworks optionally
-    // celebrate();
+    // Play sound and fireworks
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+    playSuccessSound();
     
     showToast("Focus session complete! +5 XP earned.", "success");
     setTimeLeft(duration); // reset for next
