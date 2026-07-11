@@ -400,6 +400,16 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
 - **Notes:** Menggunakan data persentase asli dari `historyData` dengan pengaturan CSS inline opacity berdasarkan nilai persentase penyelesaian serta atribut title. UAT PASS oleh User.
 
+### [TASK-606] Implement Legal Information Modals
+- **Description:** Menambahkan fungsionalitas pada tombol "View" di halaman Settings untuk menampilkan modal Privacy Policy, Terms of Service, dan Open Source Licenses.
+- **Priority:** Low
+- **Status:** DONE
+- **Dependencies:** TASK-601
+- **Acceptance Criteria:** Klik tombol "View" pada setiap item legal akan membuka modal yang berisi konten teks yang sesuai.
+- **Progress:** 100%
+- **Related Docs:** docs/project/LEGACY_PARITY_AUDIT.md
+- **Notes:** Menggunakan komponen `LegalModal` yang reusable dan state terpusat di `AppContext`. Konten disimpan di `src/constants/legal.ts`. UAT PASS oleh User.
+
 ---
 
 ## M7 - Notes & Habits Restoration
@@ -526,6 +536,16 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
 - **Notes:** Komponen canvas utilitas telah dibangun, UAT passed.
 
+### [TASK-904] Fix Habit Statistics Graph
+- **Description:** Grafik "Habit Consistency" di halaman Laporan tidak diperbarui karena salah membaca dari `historyData` (data tugas). Perbaikan ini akan mengubah sumber data grafik untuk membaca dari `habitHistory` yang benar.
+- **Priority:** High
+- **Status:** DONE
+- **Dependencies:** TASK-901
+- **Acceptance Criteria:** Menceklis atau membatalkan ceklis habit akan langsung tercermin pada grafik statistik habit 7 hari terakhir di halaman Laporan.
+- **Progress:** 100%
+- **Related Docs:** docs/project/LEGACY_PARITY_AUDIT.md
+- **Notes:** Logika diubah untuk menghitung persentase penyelesaian dari `habitHistory` dan `habits` (untuk jadwal aktif), bukan lagi dari `historyData`. UAT PASS oleh User.
+
 ---
 
 ## M10 - Authentication
@@ -604,22 +624,22 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-1201] System Theme Detection
 - **Description:** Deteksi mode tema dari sistem operasi dengan opsi preferensi "System Default".
 - **Priority:** Low
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-1103
 - **Acceptance Criteria:** Tema merespons pergantian OS secara live tanpa refresh.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** `window.matchMedia('prefers-color-scheme: light')` listener sudah aktif di `App.tsx`. Opsi "System Default" tersedia di Settings.
 
 ### [TASK-1202] Legacy Feature Parity Audit
 - **Description:** Audit perbandingan visual 1:1 final dengan versi legacy.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-1201
 - **Acceptance Criteria:** Semua celah terdeteksi sudah berhasil tertutupi tanpa kekurangan fitur inti.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Audit PASS. Tidak ada gap kritis. Perbedaan minor (notification toggle, splash screen) diterima. Semua fitur inti CRUD sudah paritas.
 
 ### [TASK-1203] Final Manual UAT
 - **Description:** Regresi seluruh fungsi CRUD, UI interactions, performa form, auth, serta fungsionalitas offline.

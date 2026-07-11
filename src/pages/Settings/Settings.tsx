@@ -4,12 +4,14 @@ import { SettingsSection } from './components/SettingsSection';
 import { SettingsItem } from './components/SettingsItem';
 import { useAppContext, STORAGE_KEYS } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export const Settings: React.FC = () => {
   const { 
     isAppLoading, appData, xp, habits, habitHistory, streakData, historyData, notes, settings, setSettings 
   } = useAppContext();
   const { showToast } = useToast();
+  const { user, loginWithGoogle, logout } = useAuth();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -108,15 +110,33 @@ export const Settings: React.FC = () => {
         {/* 1. Account */}
         <SettingsSection title="Account" icon="👤">
           <div className="settings-profile">
-            <img src="/assets/icons/people.png" alt="Profile" style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-border)' }} />
+            <img
+              src={user?.photoURL || '/assets/icons/people.png'}
+              alt="Profile"
+              style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-border)' }}
+            />
             <div className="settings-profile-info">
-              <h4 style={{ margin: '0 0 4px 0', fontSize: '18px', color: 'var(--color-text)' }}>Guest User</h4>
-              <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '14px' }}>Local Data Only</p>
-              <span style={{ fontSize: '12px', color: '#48d66d', marginTop: '4px', display: 'inline-block' }}></span>
+              <h4 style={{ margin: '0 0 4px 0', fontSize: '18px', color: 'var(--color-text)' }}>
+                {user ? (user.displayName || 'LifeFlow User') : 'Guest User'}
+              </h4>
+              <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '14px' }}>
+                {user ? user.email : 'Local Data Only'}
+              </p>
+              {user && (
+                <span style={{ fontSize: '12px', color: '#48d66d', marginTop: '4px', display: 'inline-block' }}>● Signed In</span>
+              )}
             </div>
           </div>
           <SettingsItem title="">
-            <button className="settings-btn outline" style={{ width: '100%', marginTop: '8px' }}>Sign In / Register</button>
+            {!user ? (
+              <button id="settingsLoginBtn" className="settings-btn outline" style={{ width: '100%', marginTop: '8px' }} onClick={loginWithGoogle}>
+                Sign In with Google
+              </button>
+            ) : (
+              <button id="settingsLogoutBtn" className="settings-btn outline" style={{ width: '100%', marginTop: '8px' }} onClick={logout}>
+                Sign Out
+              </button>
+            )}
           </SettingsItem>
         </SettingsSection>
 
