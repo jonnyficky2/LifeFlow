@@ -569,32 +569,32 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-1101] Service Worker
 - **Description:** Menyusun berkas `sw.js` untuk mendeteksi event lifecycle dan meng-cache aset dasar.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-1003
 - **Acceptance Criteria:** Service worker berhasil diregistrasi di konsol browser.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** PWA dipasang menjelang rilis agar tak mengganggu caching tahap pengembangan.
+- **Notes:** `vite-plugin-pwa` (Workbox) menghasilkan `dist/sw.js` & `dist/manifest.webmanifest` secara otomatis. `registerSW` terdaftar di `main.tsx`.
 
 ### [TASK-1102] Offline Support
 - **Description:** Strategi offline fallback, memastikan localStorage tetap terisolasi dan data bisa dimodifikasi meski tak ada internet.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-1101
 - **Acceptance Criteria:** Mematikan mode internet tidak menghalangi fungsionalitas CRUD di dalam aplikasi.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Arsitektur Local-First (localStorage) menjamin semua CRUD berjalan penuh tanpa koneksi. Workbox `CacheFirst` meng-cache semua aset statik (JS/CSS/HTML/SVG/Font).
 
 ### [TASK-1103] Installable PWA
 - **Description:** Menyediakan `manifest.json` yang berisi ikon, nama pendek, mode tampilan (standalone), dan tema warna.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-1102
 - **Acceptance Criteria:** Muncul opsi "Install App" (prompt A2HS) di peramban pengguna.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** `manifest.webmanifest` sudah dikonfigurasi dengan `display: standalone`, `theme_color: #0F172A`, dan ikon SVG. Meta `apple-touch-icon` & `theme-color` sudah ditambahkan ke `index.html`.
 
 ---
 
