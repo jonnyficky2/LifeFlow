@@ -155,3 +155,11 @@
 - Selesai mengimplementasikan TASK-804 (Dashboard Dynamic Quotes) menggunakan arsitektur QuoteProvider (Local First).
 - Menyelesaikan Manual UAT TASK-804 dengan hasil PASS.
 - Menyelesaikan Milestone 8 (M8 - Focus Timer & Gamification).
+
+## 2026-07-15
+- **Logo Size Adjustment (Status: DONE):**
+  - Mengubah ukuran logo Navbar (`.navbar-logo`) menjadi 28px x 28px dengan `object-fit: contain` di `src/assets/css/style.css` dan `src/assets/css/navbar.css`.
+  - Mengubah ukuran logo Sidebar (`.app-sidebar-brand .sidebar-profile-img`) menjadi 36px x 36px dengan `object-fit: contain` di `src/assets/css/style.css` dan `src/assets/css/navbar.css`.
+  - Menyinkronkan perubahan yang sama ke stylesheet legacy di `legacy_html_version/css/style.css` dan `legacy_html_version/css/navbar.css`.
+- **CSS Lint Warnings Clean Up (Status: DONE):**
+  - Menghapus ruleset kosong `.navbar__login-btn` yang tidak digunakan di `src/assets/css/navbar.css` dan `legacy_html_version/css/navbar.css` untuk menyelesaikan peringatan linting "Do not use empty rulesets".
