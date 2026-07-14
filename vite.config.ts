@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'assets/icons/icon.svg'],
+      includeAssets: ['favicon.svg'],
       manifest: {
         name: 'LifeFlow',
         short_name: 'LifeFlow',
@@ -19,7 +19,7 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
-            src: 'assets/icons/icon.svg',
+            src: 'favicon.svg',
             sizes: '192x192 512x512',
             type: 'image/svg+xml',
             purpose: 'any maskable'

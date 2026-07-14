@@ -20,7 +20,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal auth-modal glass-effect" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content auth-modal glass-effect" onClick={(e) => e.stopPropagation()}>
         <div className="auth-header">
           <h2>Welcome to LifeFlow</h2>
           <p className="auth-subtitle">Sign in to sync your progress across devices and never lose your streak.</p>

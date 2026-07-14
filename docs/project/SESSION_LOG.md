@@ -163,3 +163,6 @@
   - Menyinkronkan perubahan yang sama ke stylesheet legacy di `legacy_html_version/css/style.css` dan `legacy_html_version/css/navbar.css`.
 - **CSS Lint Warnings Clean Up (Status: DONE):**
   - Menghapus ruleset kosong `.navbar__login-btn` yang tidak digunakan di `src/assets/css/navbar.css` dan `legacy_html_version/css/navbar.css` untuk menyelesaikan peringatan linting "Do not use empty rulesets".
+- **Startup Blur & PWA Icon Standardization (Status: DONE):**
+  - Menyelesaikan **BUG 1 (Startup Blur)**: Mengubah kelas `.modal` pada dialog card di `AuthModal.tsx` menjadi `.modal-content` agar tidak disembunyikan secara default (`display: none;`) oleh ruleset `.modal`, sehingga login modal dapat terlihat dan tidak menyisakan layar blur kosong.
+  - Menyelesaikan **BUG 2 (PWA & APK Checklist Icon)**: Menghapus file checklist hijau lama (`public/assets/icons/icon.svg` dan `icon2.svg`), memperbarui `index.html` dan `vite.config.ts` untuk menggunakan `/favicon.svg` (logo petir ungu) sebagai satu-satunya source of truth ikon aplikasi (Favicon browser, Safari/iOS Touch Icon, manifest PWA, Android APK, dan maskable icon).
