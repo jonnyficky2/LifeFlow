@@ -18,7 +18,7 @@ export const Sidebar: React.FC = () => {
       <aside id="sidebar" className={`sidebar app-sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
           <div className="app-sidebar-brand">
-            <img src="/assets/icons/icon.svg" alt="Logo" className="sidebar-profile-img" />
+            <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="Logo" className="sidebar-profile-img" />
             <span className="sidebar-title">Life<span>Flow</span></span>
           </div>
           <button 

@@ -5,6 +5,9 @@ import { SettingsItem } from './components/SettingsItem';
 import { useAppContext, STORAGE_KEYS } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import { Modal } from '../../components/ui/Modal';
+import { privacyPolicy, termsOfService, openSourceLicenses } from '../../data/legalContent';
+import packageJson from '../../../package.json';
 
 export const Settings: React.FC = () => {
   const { 
@@ -14,6 +17,29 @@ export const Settings: React.FC = () => {
   const { user, loginWithGoogle, logout } = useAuth();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isLegalModalOpen, setLegalModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+  const [modalTitle, setModalTitle] = useState('');
+
+  const showLegalModal = (title: string, content: React.ReactNode) => {
+    setModalTitle(title);
+    setModalContent(content);
+    setLegalModalOpen(true);
+  };
+
+  const showPrivacyPolicy = () => {
+    showLegalModal('Privacy Policy', privacyPolicy);
+  };
+
+  const showTermsOfService = () => {
+    showLegalModal('Terms of Service', termsOfService);
+  };
+
+  const showOpenSourceLicenses = () => {
+    const licenses = openSourceLicenses(packageJson.dependencies, packageJson.devDependencies);
+    showLegalModal('Open Source Licenses', licenses);
+  };
+
 
   // Basic mock stats for now
   const allTasks = appData ? appData.flatMap(cat => cat.tasks) : [];
@@ -242,13 +268,13 @@ export const Settings: React.FC = () => {
         {/* Legal & Information */}
         <SettingsSection title="Legal & Information" icon="📄" style={{ marginTop: '24px' }}>
           <SettingsItem title="Privacy Policy" description="Privacy policy and user data protection." rightElement={
-            <button className="settings-btn outline">View</button>
+            <button className="settings-btn outline" onClick={showPrivacyPolicy}>View</button>
           } />
           <SettingsItem title="Terms of Service" description="Terms and conditions for using LifeFlow." rightElement={
-            <button className="settings-btn outline">View</button>
+            <button className="settings-btn outline" onClick={showTermsOfService}>View</button>
           } />
           <SettingsItem title="Open Source Licenses" description="Licenses for third-party libraries used." rightElement={
-            <button className="settings-btn outline">View</button>
+            <button className="settings-btn outline" onClick={showOpenSourceLicenses}>View</button>
           } />
         </SettingsSection>
 
@@ -281,6 +307,10 @@ export const Settings: React.FC = () => {
           </div>
         </div>
       )}
+
+      <Modal isOpen={isLegalModalOpen} onClose={() => setLegalModalOpen(false)} title={modalTitle}>
+        {modalContent}
+      </Modal>
     </div>
   );
 };
