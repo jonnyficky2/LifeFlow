@@ -32,10 +32,10 @@
 }
 
 .navbar-logo {
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .navbar-title {
@@ -55,9 +55,6 @@
   pointer-events: auto;
 }
 
-.navbar__login-btn { /* Consistent naming */
-  /* Inherits from .btn */
-}
 
 .nav-user-img {
   width: 42px;
@@ -298,9 +295,10 @@
 }
 
 .app-sidebar-brand .sidebar-profile-img {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
+  object-fit: contain;
 }
 
 .sidebar-title {
