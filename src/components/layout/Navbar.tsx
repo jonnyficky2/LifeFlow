@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
+import { APP_LOGO } from './assets';
 
 export const Navbar: React.FC = () => {
   const { isSidebarOpen, setSidebarOpen } = useAppContext();
@@ -12,7 +13,7 @@ export const Navbar: React.FC = () => {
         
         {/* Logo & Title */}
         <div className="navbar-brand">
-          <img src="/assets/icons/icon.svg" alt="Logo" className="navbar-logo" />
+          <img src={APP_LOGO} alt="Logo" className="navbar-logo" />
           <span className="navbar-title sidebar-title">Life<span>Flow</span></span>
         </div>
 
@@ -20,9 +21,9 @@ export const Navbar: React.FC = () => {
           {!user ? (
             <button id="navLoginBtn" type="button" className="nav-login-btn" onClick={loginWithGoogle}>Sign In</button>
           ) : (
-            <img 
+            <img
               id="navUserImg" 
-              src={user.photoURL || "/assets/icons/icon.svg"} 
+              src={user.photoURL || APP_LOGO}
               alt={user.displayName || "Profile"} 
               className="nav-user-img" 
               referrerPolicy="no-referrer" 

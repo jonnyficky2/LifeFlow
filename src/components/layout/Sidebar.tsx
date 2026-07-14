@@ -1,12 +1,13 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
+import { APP_LOGO } from './assets';
 
 export const Sidebar: React.FC = () => {
   const { isSidebarOpen, setSidebarOpen, activeSection, setActiveSection } = useAppContext();
   const { user, loginWithGoogle, logout } = useAuth();
 
-  const handleNavClick = (section: string) => {
+  const handleNavClick = (section: string): void => {
     setActiveSection(section);
     if (window.innerWidth <= 768) {
       setSidebarOpen(false);
@@ -18,7 +19,7 @@ export const Sidebar: React.FC = () => {
       <aside id="sidebar" className={`sidebar app-sidebar ${isSidebarOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
           <div className="app-sidebar-brand">
-            <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="Logo" className="sidebar-profile-img" />
+            <img src={APP_LOGO} alt="Logo" className="sidebar-profile-img" />
             <span className="sidebar-title">Life<span>Flow</span></span>
           </div>
           <button 

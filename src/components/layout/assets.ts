@@ -1,0 +1,1 @@
+export const APP_LOGO = `${import.meta.env.BASE_URL}favicon.svg`;
