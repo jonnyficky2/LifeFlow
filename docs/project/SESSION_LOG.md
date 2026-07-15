@@ -169,3 +169,9 @@
 - **Deployment Safari Caching & Google Auth Audit (Status: DONE):**
   - Menyelesaikan **BUG 1 (Safari Favicon "G")**: Menambahkan parameter cache-buster `?v=2` pada rujukan ikon dan apple-touch-icon di `index.html` guna memaksa Safari memperbarui cache favicon domain-wide-nya untuk sub-path `/LifeFlow/`.
   - Menyelesaikan **BUG 2 (Google Login Referrer Blocked)**: Melakukan audit menyeluruh dan menyusun laporan panduan konfigurasi authorized domains pada konsol Firebase dan pembatasan HTTP Referrers API Key pada konsol Google Cloud Platform (GCP) untuk membuka blokir permintaan otentikasi dari domain GitHub Pages (`jonnyficky2.github.io`).
+- **Safari Favicon Compatibility Fix (Status: DONE):**
+  - Menyalin logo petir ungu terbaru dari `public/favicon.svg` ke `public/assets/icons/icon.svg`.
+  - Mengonversi `public/assets/icons/icon.svg` menjadi file multiresolusi `public/favicon.ico` menggunakan generator Node.js `svg-to-ico` via npx.
+  - Memperbarui tag link favicon dan apple-touch-icon di `index.html` dengan base path `/LifeFlow/`, urutan spesifik, dan parameter cache-busting `?v=2` untuk memaksa Safari macOS/iOS memperbarui cache favicon-nya.
+  - Memverifikasi hasil build akhir (`npm run build`) sukses tanpa error dan warning.
+
