@@ -174,4 +174,9 @@
   - Mengonversi `public/assets/icons/icon.svg` menjadi file multiresolusi `public/favicon.ico` menggunakan generator Node.js `svg-to-ico` via npx.
   - Memperbarui tag link favicon dan apple-touch-icon di `index.html` dengan base path `/LifeFlow/`, urutan spesifik, dan parameter cache-busting `?v=2` untuk memaksa Safari macOS/iOS memperbarui cache favicon-nya.
   - Memverifikasi hasil build akhir (`npm run build`) sukses tanpa error dan warning.
+- **Default Avatar/Logo Fallback Audit (Status: DONE):**
+  - Melakukan audit seluruh proyek terhadap referensi `people.svg`, `icon.svg`, `favicon.svg`, `"/assets/icons/"`, dan `photoURL`.
+  - Mengubah fallback avatar di `Settings.tsx` dari `'/assets/icons/people.png'` menjadi `APP_LOGO`.
+  - Memastikan seluruh proyek menggunakan `APP_LOGO` sebagai satu-satunya fallback ikon logo aplikasi ketika pengguna belum masuk (guest) atau masuk tanpa URL foto profil (`photoURL`).
+
 

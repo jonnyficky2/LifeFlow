@@ -8,6 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Modal } from '../../components/ui/Modal';
 import { privacyPolicy, termsOfService, openSourceLicenses } from '../../data/legalContent';
 import packageJson from '../../../package.json';
+import { APP_LOGO } from '../../components/layout/assets';
 
 export const Settings: React.FC = () => {
   const { 
@@ -137,7 +138,7 @@ export const Settings: React.FC = () => {
         <SettingsSection title="Account" icon="👤">
           <div className="settings-profile">
             <img
-              src={user?.photoURL || '/assets/icons/people.png'}
+              src={user?.photoURL || APP_LOGO}
               alt="Profile"
               style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-border)' }}
             />
