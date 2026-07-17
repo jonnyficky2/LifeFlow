@@ -57,15 +57,22 @@ export const useHabits = () => {
     if (dates.length === 0) return 0;
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    // Count how many of the completed dates fall within the last 'days'
     const cutoff = new Date(today);
     cutoff.setDate(cutoff.getDate() - days);
     
+    // Format cutoff to YYYY-MM-DD local
+    const y = cutoff.getFullYear();
+    const m = String(cutoff.getMonth() + 1).padStart(2, '0');
+    const day = String(cutoff.getDate()).padStart(2, '0');
+    const cutoffStr = `${y}-${m}-${day}`;
+    
+    const todayY = today.getFullYear();
+    const todayM = String(today.getMonth() + 1).padStart(2, '0');
+    const todayDay = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${todayY}-${todayM}-${todayDay}`;
+    
     const validDates = dates.filter(d => {
-      const date = new Date(d);
-      return date >= cutoff && date <= today;
+      return d >= cutoffStr && d <= todayStr;
     });
 
     return Math.round((validDates.length / days) * 100);

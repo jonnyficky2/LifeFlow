@@ -10,16 +10,13 @@ const levelNames = [
   "Advanced", "Elite", "Mastermind", "Legend", "Monster"
 ];
 
-export const Dashboard: React.FC = () => {
-  const { appData, xp, streakData, historyData, setSettings, undo, redo, isAppLoading } = useAppContext();
-  const [quote] = useState(() => quoteManager.getDailyQuote());
+const getLocalDateString = (dateObj: Date) => {
+  return `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}`;
+};
 
-  const toggleTheme = () => {
-    setSettings((prev: any) => ({
-      ...prev,
-      theme: prev.theme === 'light' ? 'dark' : 'light'
-    }));
-  };
+export const Dashboard: React.FC = () => {
+  const { appData, xp, historyData, isAppLoading } = useAppContext();
+  const [quote] = useState(() => quoteManager.getDailyQuote());
 
   const { level, remainingXP, xpNeeded } = useMemo(() => getLevelData(xp), [xp]);
   const levelName = levelNames[Math.min(level - 1, 9)];
@@ -30,7 +27,7 @@ export const Dashboard: React.FC = () => {
     let pending = 0;
     let total = 0;
     let todayTasks = 0;
-    const today = new Date().toISOString().split("T")[0];
+    const today = getLocalDateString(new Date());
 
     appData.forEach(category => {
       category.tasks?.forEach((task: any) => {
@@ -50,7 +47,7 @@ export const Dashboard: React.FC = () => {
     for (let i = 29; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
-      const dateString = d.toISOString().split('T')[0];
+      const dateString = getLocalDateString(d);
       
       const percent = historyData[dateString] || 0;
       const isActive = percent > 0;
@@ -73,11 +70,6 @@ export const Dashboard: React.FC = () => {
         <div>
           <h1>Good morning! </h1>
           <p>Let's make today productive.</p>
-        </div>
-        <div className="dashboard-header-actions">
-          <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" aria-label="Undo last action" onClick={undo}>↩</button>
-          <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" aria-label="Redo last action" onClick={redo}>↪</button>
-          <button id="desktopThemeToggle" type="button" className="btn btn--icon" aria-label="Toggle theme" onClick={toggleTheme}>◐</button>
         </div>
       </section>
 
@@ -102,11 +94,8 @@ export const Dashboard: React.FC = () => {
         )}
       </div>
 
-      {/* STREAK */}
-      <h2 id="streakText">🔥 Streak: {streakData.length} Days</h2>
-
       {/* QUICK STATS */}
-      <div id="quickStats">
+      <div id="quickStats" className="quick-stats-grid">
         <div className="stat-card">
           <span className="stat-icon stat-icon-blue">▤</span>
           <div>
@@ -141,8 +130,6 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      <p id="saveStatus">✔ Data saved</p>
-
       {/* ACTIVITY & MOTIVATION */}
       <section className="dashboard-grid">
         <section className="dashboard-panel activity-panel dashboard-panel-no-margin">
@@ -161,9 +148,6 @@ export const Dashboard: React.FC = () => {
             <h2>Motivation</h2>
             <p id="quoteText">"{quote.text}"</p>
             <small id="quoteAuthor">- {quote.author}</small>
-            <div className="mountain-art" aria-hidden="true">
-              <i></i><b></b><span>⚑</span>
-            </div>
           </div>
         </div>
       </section>
