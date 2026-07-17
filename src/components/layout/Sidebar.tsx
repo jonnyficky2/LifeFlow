@@ -1,11 +1,11 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
-import { useAuth } from '../../context/AuthContext';
+
 import { APP_LOGO } from './assets';
 
 export const Sidebar: React.FC = () => {
   const { isSidebarOpen, setSidebarOpen, activeSection, setActiveSection } = useAppContext();
-  const { user, loginWithGoogle, logout } = useAuth();
+
 
   const handleNavClick = (section: string): void => {
     setActiveSection(section);
@@ -20,11 +20,13 @@ export const Sidebar: React.FC = () => {
         <div className="sidebar-header">
           <div className="app-sidebar-brand">
             <img src={APP_LOGO} alt="Logo" className="sidebar-profile-img" />
-            <span className="sidebar-title">Life<span>Flow</span></span>
+            <div className="sidebar-brand-text">
+              <span className="sidebar-title">Life<span>Flow</span></span>
+            </div>
           </div>
-          <button 
-            id="sidebarClose" 
-            className="sidebar-close" 
+          <button
+            id="sidebarClose"
+            className="sidebar-close"
             aria-label="Close sidebar"
             onClick={() => setSidebarOpen(false)}
           >
@@ -45,16 +47,7 @@ export const Sidebar: React.FC = () => {
             <button type="button" className={`sidebar-item ${activeSection === 'settings' ? 'is-active' : ''}`} onClick={() => handleNavClick('settings')}>⚙ Settings</button>
           </nav>
 
-          <div className="sidebar-account">
-            <p className="sidebar-label">Account</p>
-            <p className="sidebar-name">{user ? user.displayName || 'LifeFlow User' : 'Guest User'}</p>
-            <p className="sidebar-email">{user ? user.email : 'Login to access account'}</p>
-            {!user ? (
-              <button id="loginBtn" type="button" className="sidebar-item account-action" onClick={loginWithGoogle}>Sign In with Google</button>
-            ) : (
-              <button id="logoutBtn" type="button" className="sidebar-item account-action" onClick={logout}>Sign Out</button>
-            )}
-          </div>
+
 
           <div className="sidebar-streak-card">
             <p>🔥 Streak</p>
@@ -65,8 +58,8 @@ export const Sidebar: React.FC = () => {
         </div>
       </aside>
 
-      <div 
-        id="sidebarOverlay" 
+      <div
+        id="sidebarOverlay"
         className={`sidebar-overlay ${isSidebarOpen ? 'sidebar-overlay-show' : ''}`}
         onClick={() => setSidebarOpen(false)}
       ></div>

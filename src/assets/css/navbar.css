@@ -310,6 +310,21 @@
   color: #946cff;
 }
 
+.sidebar-brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.sidebar-subtitle {
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0;
+}
+
 .sidebar-content {
   display: flex;
   flex: 1;
@@ -327,6 +342,23 @@
   border-radius: var(--dash-radius);
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for app-nav */
+.app-nav::-webkit-scrollbar {
+  width: 4px;
+}
+.app-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+.app-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+.app-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar-item {
