@@ -661,6 +661,16 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
 - **Notes:** -
 
+### [TASK-1205] Post-Release UX Polishing & Habit Bug Fixes
+- **Description:** Menghapus fitur share IG story, perbaikan layout header sidebar, fixing timezone Habit, dan membersihkan elemen redundan di Dashboard (UX Audit).
+- **Priority:** Medium
+- **Status:** TESTING
+- **Dependencies:** None
+- **Acceptance Criteria:** Dashboard lebih bersih tanpa teks Streak ganda, Undo/Redo di navbar, Habit stats akurat terhadap zona waktu lokal.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** Menunggu Manual UAT oleh User.
+
 ---
 
 ## Archived / Future Roadmap
