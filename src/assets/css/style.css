@@ -2279,7 +2279,7 @@ header {
   background: rgba(6, 16, 31, 0.92);
   border-right: 1px solid var(--dash-border);
   box-shadow: 18px 0 50px rgba(0, 0, 0, 0.24);
-  z-index: 1500;
+  z-index: 1600;
 }
 
 .app-sidebar.sidebar-open {

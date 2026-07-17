@@ -116,6 +116,15 @@ export const Calendar: React.FC = () => {
               key={cell.key} 
               className={`calendar-cell ${isToday ? 'is-today' : ''} ${isSelected ? 'is-selected' : ''}`}
               onClick={() => setSelectedDate(cell.dateString as string)}
+              tabIndex={0}
+              role="button"
+              aria-label={`View tasks for ${cell.dateString}`}
+              onKeyDown={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.preventDefault();
+                  setSelectedDate(cell.dateString as string);
+                }
+              }}
             >
               <div className="calendar-date-number">{cell.day}</div>
               <div className="calendar-task-wrapper">
@@ -124,6 +133,15 @@ export const Calendar: React.FC = () => {
                     key={idx} 
                     className={`calendar-task-indicator priority-${task.priority || 'low'}`}
                     onClick={(e) => handleTaskClick(e, task.catIndex, task.taskIndex)}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`Edit task ${task.name}`}
+                    onKeyDown={(e) => {
+                      if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        handleTaskClick(e as any, task.catIndex, task.taskIndex);
+                      }
+                    }}
                   >
                     {task.name}
                   </div>

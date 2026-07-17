@@ -208,6 +208,16 @@ export const Habits: React.FC = () => {
                                   className={`habit-cell ${isCompleted ? 'is-completed' : ''}`}
                                   title={`${dateStr}: ${isCompleted ? 'Completed' : 'Not completed'}`}
                                   onClick={() => toggleHabitDate(habit.id, dateStr)}
+                                  tabIndex={0}
+                                  role="checkbox"
+                                  aria-checked={isCompleted}
+                                  aria-label={`Mark habit "${habit.name}" completed on ${dateStr}`}
+                                  onKeyDown={(e) => {
+                                    if (e.key === ' ' || e.key === 'Enter') {
+                                      e.preventDefault();
+                                      toggleHabitDate(habit.id, dateStr);
+                                    }
+                                  }}
                                 ></div>
                               );
                             })}
