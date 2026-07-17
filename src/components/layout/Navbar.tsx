@@ -1,11 +1,18 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
-import { APP_LOGO } from './assets';
+import { APP_LOGO, DEFAULT_AVATAR } from './assets';
 
 export const Navbar: React.FC = () => {
-  const { isSidebarOpen, setSidebarOpen } = useAppContext();
+  const { isSidebarOpen, setSidebarOpen, undo, redo, setSettings } = useAppContext();
   const { user, loginWithGoogle } = useAuth();
+
+  const toggleTheme = () => {
+    setSettings((prev: any) => ({
+      ...prev,
+      theme: prev.theme === 'light' ? 'dark' : 'light'
+    }));
+  };
 
   return (
     <nav id="navbar" className="navbar">
@@ -18,12 +25,16 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="navbar-actions">
+          <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" aria-label="Undo last action" onClick={undo}>↩</button>
+          <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" aria-label="Redo last action" onClick={redo}>↪</button>
+          <button id="desktopThemeToggle" type="button" className="btn btn--icon" aria-label="Toggle theme" onClick={toggleTheme} style={{marginRight: '12px'}}>◐</button>
+
           {!user ? (
             <button id="navLoginBtn" type="button" className="nav-login-btn" onClick={loginWithGoogle}>Sign In</button>
           ) : (
             <img
               id="navUserImg" 
-              src={user.photoURL || APP_LOGO}
+              src={user.photoURL || DEFAULT_AVATAR}
               alt={user.displayName || "Profile"} 
               className="nav-user-img" 
               referrerPolicy="no-referrer" 

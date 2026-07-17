@@ -13,7 +13,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
     try {
       await loginWithGoogle();
       onClose();
-    } catch (error) {
+    } catch {
       // Error is logged in AuthContext
     }
   };
