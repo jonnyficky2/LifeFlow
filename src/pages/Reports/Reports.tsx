@@ -1,38 +1,9 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
-import { generateShareImage } from '../../utils/share';
-import { getLevelData } from '../../utils/level';
 import './Reports.css';
 
 export const Reports: React.FC = () => {
-  const { appData, habits, historyData, habitHistory, setActiveSection, xp, streakData } = useAppContext();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleShareClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = new Image();
-      img.onload = () => {
-        const { level } = getLevelData(xp);
-        const streak = streakData?.length || 0;
-        const prod = progressRing.percent;
-        
-        generateShareImage(img, { level, streak, prod }).catch(console.error);
-      };
-      if (ev.target?.result) {
-        img.src = ev.target.result as string;
-      }
-    };
-    reader.readAsDataURL(file);
-    e.target.value = ''; // Reset input
-  };
+  const { appData, habits, historyData, habitHistory, setActiveSection } = useAppContext();
 
   const hasData = useMemo(() => {
     const hasTasks = appData.some(cat => cat.tasks && cat.tasks.length > 0);
@@ -204,17 +175,6 @@ export const Reports: React.FC = () => {
             ))}
           </div>
         </div>
-
-        <button id="shareStatsBtn" className="share-btn" onClick={handleShareClick}>
-          📸 Share to IG Story
-        </button>
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          style={{ display: 'none' }} 
-          accept="image/*" 
-          onChange={handleFileChange}
-        />
       </div>
     </div>
   );
