@@ -172,11 +172,23 @@
 - **Safari Favicon Compatibility Fix (Status: DONE):**
   - Menyalin logo petir ungu terbaru dari `public/favicon.svg` ke `public/assets/icons/icon.svg`.
   - Mengonversi `public/assets/icons/icon.svg` menjadi file multiresolusi `public/favicon.ico` menggunakan generator Node.js `svg-to-ico` via npx.
-  - Memperbarui tag link favicon dan apple-touch-icon di `index.html` dengan base path `/LifeFlow/`, urutan spesifik, dan parameter cache-busting `?v=2` untuk memaksa Safari macOS/iOS memperbarui cache favicon-nya.
+  - Memperbarui tag link favicon dan apple-touch-icon di `index.html` with base path `/LifeFlow/`, urutan spesifik, dan parameter cache-busting `?v=2` untuk memaksa Safari macOS/iOS memperbarui cache favicon-nya.
   - Memverifikasi hasil build akhir (`npm run build`) sukses tanpa error dan warning.
 - **Default Avatar/Logo Fallback Audit (Status: DONE):**
   - Melakukan audit seluruh proyek terhadap referensi `people.svg`, `icon.svg`, `favicon.svg`, `"/assets/icons/"`, dan `photoURL`.
   - Mengubah fallback avatar di `Settings.tsx` dari `'/assets/icons/people.png'` menjadi `APP_LOGO`.
   - Memastikan seluruh proyek menggunakan `APP_LOGO` sebagai satu-satunya fallback ikon logo aplikasi ketika pengguna belum masuk (guest) atau masuk tanpa URL foto profil (`photoURL`).
+
+## 2026-07-17
+- **Milestone Phase 1 & 2 Execution (Status: DONE):**
+  - Menyelesaikan perbaikan bug z-index overlay di mobile dengan mengubah `.app-sidebar` dari `z-index: 1500` menjadi `1600` agar berada di atas `.sidebar-overlay` (`z-index: 1400`) secara konsisten.
+  - Meningkatkan aksesibilitas (a11y) interaksi keyboard pada grid sel Habit (`Habits.tsx`) dan sel Kalender/badge tugas (`Calendar.tsx`) dengan menambahkan `tabIndex={0}`, `role="checkbox"/"button"`, `aria-label`, serta handler `onKeyDown` (Space & Enter).
+  - Melakukan pembersihan file CSS mati di `src/assets/css/` (14 file CSS yang sudah tidak di-import dihapus) dan `src/App.css`.
+  - Melakukan pembersihan aset sampah untuk mengurangi beban PWA: menghapus `L.jpg` (**479 KB**), `people.png`, `icons.svg`, dan boilerplate Vite (`hero.png`, `react.svg`, `vite.svg`).
+  - Menghapus direktori usang/kosong: `folder-kosong/`, `data/`, `design/`, `docs/governance/`, `docs/future/`, dan `project-plan/` (arsip perencanaan lama).
+  - Merapikan konfigurasi Git dengan memperbarui `.gitignore` agar memblokir `.DS_Store` secara rekursif (`**/.DS_Store`).
+  - Mengganti `README.md` default bawaan template Vite dengan dokumentasi developer LifeFlow yang lengkap (arsitektur local-first, panduan instalasi, dan struktur folder).
+  - Memverifikasi build akhir (`npm run build`) 100% lulus tanpa kendala.
+
 
 
