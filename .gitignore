@@ -16,7 +16,7 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
+**/.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
@@ -29,6 +29,5 @@ build
 cache
 tmp
 .tmp
-.DS_Store
 .continue/
 .opencode/
