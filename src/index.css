@@ -21,7 +21,7 @@ summary:focus-visible,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 100dvh;
   padding: 24px;
   background-color: #0F172A;
   color: #F9FAFB;
@@ -136,7 +136,7 @@ summary:focus-visible,
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 600px;
-  max-height: 80vh;
+  max-height: calc(85dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   animation: slideInUp 0.4s ease;

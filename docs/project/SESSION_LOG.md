@@ -1,5 +1,16 @@
 # Session Log
 
+## 2026-07-25
+- **Mobile Responsive Audit & Fixes (Status: TESTING):**
+  - Melakukan audit responsivitas layar mobile dan tablet (320px - 1024px) untuk seluruh modul aplikasi.
+  - Memperbaiki layout utama dengan mengubah viewport height `100vh` menjadi `100dvh` pada body, sidebar, dan error boundary untuk performa optimal di browser mobile modern.
+  - Menyelaraskan padding and height untuk `.navbar` dan `.app-main` agar mendukung area aman (safe area insets) pada iPhone (notch compatibility).
+  - Menyesuaikan `#bottomNav` dengan safe-area-inset-bottom dan menstandarkan touch target size tombol menu minimal 44x44px.
+  - Mengubah layout grid statistik `#quickStats` dan ukuran kartu di mobile untuk menghindari pemotongan teks.
+  - Memperbaiki modal overlay agar menggunakan scrolling overflow (`align-items: flex-start`, `overflow-y: auto`) ketika tinggi modal melebihi tinggi layar ponsel.
+  - Memperbaiki layout Notes metadata bar dan Settings row agar stack secara vertikal/wrap di layar kecil (320px - 480px) untuk menghindari horizontal scroll.
+  - Memastikan seluruh modul terkompilasi bersih (`npm run build`) dan lulus pemeriksaan linting (`npm run lint`).
+
 ## 2026-06-30
 - **Legacy Feature Parity Audit & Restoration Plan Completed (Status: DONE):**
   - Melakukan audit keselarasan fitur (Feature Parity) secara menyeluruh antara proyek JavaScript Legacy (Single Source of Truth) dan React + TypeScript.

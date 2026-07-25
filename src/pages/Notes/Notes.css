@@ -184,6 +184,7 @@
 
 .notes-metadata-bar {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   padding: 0 40px 20px 40px;
   align-items: center;
@@ -197,6 +198,8 @@
   color: var(--color-text);
   font-size: 0.85rem;
   outline: none;
+  flex: 1;
+  min-width: 120px;
 }
 
 .notes-metadata-bar .form-input:focus {
@@ -218,6 +221,19 @@
   
   .notes-editor-pane {
     height: 60%;
+  }
+
+  .notes-metadata-bar {
+    padding: 0 20px 16px 20px;
+    gap: 8px;
+  }
+
+  .notes-editor-header {
+    padding: 16px 20px;
+  }
+
+  .notes-editor-body {
+    padding: var(--space-4) 20px;
   }
 }
 

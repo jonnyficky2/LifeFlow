@@ -264,6 +264,10 @@ body.light-mode .calendar-selected-details {
 
 .calendar-selected-task-name {
   color: var(--text-color);
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .calendar-selected-task-name.is-done {

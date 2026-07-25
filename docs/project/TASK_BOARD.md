@@ -245,12 +245,12 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-566] Responsive Fix
 - **Description:** Menyesuaikan media query CSS agar layout konsisten di berbagai ukuran layar.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Layout grid dan navbar merespons breakpoints 1100px, 768px, 640px dengan benar.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** Diselesaikan dengan integrasi safe-area inset (iOS notch), layout stacking di settings, wrapping di notes dan task tags/subtasks, serta modal scrollable.
 
 ### [TASK-567] Pixel Perfect Audit
 - **Description:** Audit visual menyeluruh membandingkan versi React vs HTML legacy.
