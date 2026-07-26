@@ -1,4 +1,4 @@
-# 👑 LifeFlow Master Source of Truth
+# 👑 LifeFlow Master Source of Truth (v1.1)
 
 > Dokumen ini merupakan referensi utama (Single Source of Truth) untuk seluruh aspek produk, teknis, dan desain dari LifeFlow. Seluruh anggota tim (termasuk AI) diwajibkan mengacu pada dokumen ini untuk menjaga konsistensi visi dan implementasi.
 
@@ -36,7 +36,7 @@ LifeFlow adalah aplikasi *Personal Operating System* berbasis Web/Desktop yang m
 ## 4. Product Goals
 ✅ Done
 * **Jangka Pendek (0-6 Bulan)**: Mencapai status *Feature Complete* untuk modul inti (Dashboard, Tasks, Calendar, Habits, Notes) dengan performa 60fps berbasis *Local Storage*.
-* **Jangka Menengah (6-12 Bulan)**: Merilis integrasi File System lokal (Markdown Parser), Widget System yang sangat dapat dikustomisasi, dan integrasi AI Workspace dasar.
+* **Jangka Menengah (6-12 Bulan)**: Migrasi ke IndexedDB, integrasi File System lokal (Markdown Parser), Widget System (*Strict Grid*), dan integrasi AI Workspace berbasis WebGPU.
 * **Jangka Panjang (1-5 Tahun)**: Sinkronisasi *peer-to-peer* (CRDTs), dukungan tim *multi-player*, dan integrasi langsung ke ekosistem developer (Git, CI/CD). Menjadi standar emas *Productivity OS*.
 
 ---
@@ -98,8 +98,7 @@ graph TD
 ✅ Done
 * **Sidebar**: Navigasi utama struktural (Dashboard, Tasks, Habits, dsb) di desktop. Menampilkan status *user* dan grup folder.
 * **Bottom Navigation**: Dikhususkan untuk Mobile. Tampil mengambang dengan ikon esensial untuk navigasi cepat menggunakan ibu jari.
-* **Command Palette**: Cmd/Ctrl + K (Omnibar). Untuk pengguna *power user*, bernavigasi tanpa mouse (search task, ubah tema, buka note).
-* **AI Omnibar**: Terintegrasi di Command Palette atau panel khusus untuk memanggil *Invisible AI* tanpa merusak antarmuka utama.
+* **AI Omnibar (Cmd/Ctrl + K)**: *Unified Input* untuk pengguna *power user*. Bertindak sebagai router: navigasi aplikasi secara statis, pencarian file/task, atau memanggil eksekusi AI, semuanya dalam satu jendela terpusat tanpa merusak antarmuka utama.
 
 ---
 
@@ -108,8 +107,8 @@ graph TD
 1. **Onboarding**: Splash screen -> (Opsional) Google Login -> Dashboard.
 2. **Task Creation**: Buka aplikasi -> Tekan Enter di inline input (Zero-friction) -> Task tersimpan.
 3. **Habit Tracking**: Klik kotak grid di Habit -> Optimistic UI langsung hijau -> XP bertambah.
-4. **Note Taking**: Buka Notes -> Buat baru -> Ketik Markdown -> Auto-save ke LocalStorage/File System.
-5. **Widget Customization**: Dashboard -> Edit Widget -> Drag & Drop -> Save Layout.
+4. **Note Taking**: Buka Notes -> Buat baru -> Ketik Markdown -> Auto-save via Web Worker ke IndexedDB/OPFS.
+5. **Widget Customization**: Dashboard -> Edit Widget -> Drag & Drop ke *Strict Grid* -> Save Layout.
 
 ---
 
@@ -119,17 +118,18 @@ graph TD
   - Task Management (CRUD, Subtask, Prioritas, Inline Input)
   - Habit Tracking (Github-style grid, pengulangan, XP)
   - Notes Editor (Markdown, Auto-save, Pinning)
-  - Calendar View (Bulan, Deadline Sinkron)
+  - Calendar View (Bulan, Time-blocking, Deadline Sinkron)
   - Dashboard (Activity Heatmap, Motivation, Stat Summaries)
 * **Advanced Features**:
   - Focus Timer (Pomodoro dengan gamifikasi XP, Confetti, Sound)
   - Reports & Analytics (Grafik produktivitas mingguan/bulanan)
   - Import/Export JSON Backup
 * **Future Features (⏳ Planned)**:
-  - Widget System (Platform widget kustom)
-  - AI Workspace (Automated task extraction, Auto-prioritization)
-  - P2P Workspace via WebRTC
+  - Widget System (Platform widget kustom - *Strict Grid*)
+  - AI Workspace (Automated task extraction, Auto-prioritization via WebGPU)
+  - Sinkronisasi P2P (CRDT - Yjs)
 * **Experimental (💡 Future Ideas)**:
+  - Widget Marketplace & Plugin Ecosystem
   - Daily Recap Journaling
   - Client-Side E2E Encryption (AES-GCM)
 
@@ -155,13 +155,13 @@ Pelacakan rutinitas menggunakan kontribusi visual bergaya GitHub grid. Mendukung
 
 ## 16. Calendar
 ✅ Done
-Visualisasi kalender bulanan penuh. Secara otomatis menarik data tugas yang memiliki batas waktu (deadline) dan menampilkannya pada sel tanggal yang relevan.
+Visualisasi kalender bulanan penuh. Secara otomatis menarik data tugas yang memiliki batas waktu (deadline) dan menampilkannya pada sel tanggal yang relevan. *Time-blocking* untuk jadwal harian.
 
 ---
 
 ## 17. Notes
 ✅ Done
-Editor teks dengan arsitektur dua panel (Sidebar List & Editor Kanan). Sepenuhnya berbasis Markdown. Mendukung *auto-save*, pengaturan metadata (deadline, reminder), dan penyematan catatan (📌 Pinned).
+Editor teks dengan arsitektur dua panel (Sidebar List & Editor Kanan). Sepenuhnya berbasis Markdown. Mendukung *auto-save*, pengaturan metadata (deadline, reminder), dan penyematan catatan (📌 Pinned). Penyimpanan difokuskan ke *Origin Private File System (OPFS)* untuk penanganan gambar yang lebih baik.
 
 ---
 
@@ -180,53 +180,46 @@ Laporan produktivitas dan wawasan mingguan/bulanan. Menampilkan tren penyelesaia
 ## 20. Widget System (FLAGSHIP FEATURE)
 🚧 In Progress / ⏳ Planned
 
-Sistem Widget LifeFlow adalah fondasi *dashboard* interaktif yang membawa kustomisasi absolut kepada pengguna. Ini bukan sekadar modul tampilan, melainkan platform mikro di dalam aplikasi.
+Sistem Widget LifeFlow adalah fondasi *dashboard* interaktif. Disederhanakan (*Strict Grid*) agar performa UI tetap maksimal.
 
 ### Komponen Utama:
-* **Widget Architecture**: Berbasis *plugin-like architecture* di mana setiap widget adalah komponen React terisolasi yang mengonsumsi state via *Widget Engine*.
-* **Widget Engine**: Pengelola tata letak (*layout manager*) berbasis grid, menangani pendaftaran widget, lifecycle, dan interaksi.
-* **Widget Builder**: Antarmuka visual yang mendukung *Drag & Drop*, *Resize*, dan *Snap Grid* untuk menyusun *dashboard* personal. Mendukung *Live Preview* dan fungsi *Save Template*.
-* **Widget Renderer**: Proses menggambar (*rendering*) widget dengan performa tinggi (60fps), menggunakan teknik virtualisasi bila perlu.
-* **Widget Template**: Bundel konfigurasi (Minimal, AMOLED, Material You, Glass, iOS, Retro).
-* **Widget Theme**: Kustomisasi level komponen untuk Font, Radius, Border, Shadow, Gradient, Icon, Color, Layout, Transparency, dan Background.
-* **Widget Sync**: Realtime Sync didukung (menyimpan konfigurasi JSON tata letak ke *local storage* atau *CRDT* di masa depan).
-* **Widget Export**: Layout dapat diekspor sebagai JSON, atau dirender sebagai PNG, PDF, SVG (jika memungkinkan), lalu di-*Share*.
-* **Widget Marketplace**: (Masa depan) Tempat pengguna bisa berbagi konfigurasi widget buatan mereka.
-* **Widget Data Source & API**: Hooks API internal untuk mengambil data dari modul Task, Habit, Calendar, Schedule, Countdown, Statistics, dan Notes.
-* **Widget State & Storage**: State lokal per-widget, konfigurasi global disimpan secara terpusat.
-* **Widget Performance**: *Lazy loading* komponen widget dan memoisasi ketat untuk menghindari *re-render* seluruh grid saat satu widget diperbarui.
-* **Widget Sharing & Permission**: Membagikan tata letak (*layout*) ke pengguna lain via tautan JSON (Read-only mode).
+* **Widget Architecture**: Terisolasi per komponen React, dikelola oleh *Widget Engine*.
+* **Widget Engine**: Pengelola tata letak berbasis **Strict Grid (1x1, 2x1, 2x2)** untuk memastikan proses rendering stabil dan ringan. Bebas koordinat statis ditiadakan.
+* **Widget Builder**: Antarmuka visual *Drag & Drop* dengan metode Snap-to-Grid ketat.
+* **Widget Renderer**: Virtualisasi rendering pada grid untuk performa 60fps mutlak.
+* **Widget Template**: Bundel desain bawaan (Minimal, AMOLED, Material You, Glass, iOS, Retro).
+* **Widget Theme**: Kustomisasi warna, *corner radius*, transparansi via CSS variabel komponen.
+* **Widget Sync**: Realtime Sync menyimpan konfigurasi *layout* ke *IndexedDB*.
+* **Widget Export**: Ekspor JSON layout, atau di-render menjadi PNG.
+* **Widget Data Source & API**: Hooks internal mengambil metrik dari modul lain.
+* **Widget Storage**: State lokal per-widget. Data dikueri secara terpusat tanpa prop-drilling berlebih.
+* **Widget Performance**: *Lazy loading* komponen; tidak merender ulang satu *dashboard* jika hanya 1 widget berubah.
 
 ### Target Platform:
 * Web Widget & Desktop Widget (Prioritas Utama)
 * PWA Widget (Terintegrasi dengan OS)
-* Android Home Screen & iOS Widget (Jika API PWA / native wrapper memungkinkan)
 
 ---
 
 ## 21. AI Workspace
 ⏳ Planned
 
-AI di LifeFlow bertindak sebagai **Rekan Kerja Intelektual** (Invisible AI), yang bekerja di latar belakang (Augmentation, not Replacement).
+AI di LifeFlow bertindak sebagai **Rekan Kerja Intelektual** (Invisible AI). AI terintegrasi di peramban, berjalan lokal agar sesuai filosofi *Privacy First*.
 
-* **AI Router**: Pengarah otomatis yang menyeleksi model LLM terbaik berdasarkan jenis tugas (Biaya vs Performa).
+* **AI Router**: Pengarah yang mengeksekusi model berdasarkan kemampuan.
 * **Model yang Didukung**:
-  - **Ollama (Local)**: Untuk parsing teks dasar, sentimen ringan, atau saat privasi data 100% mutlak diperlukan tanpa koneksi internet.
-  - **Gemini / Claude**: Untuk analisis cepat dan pembuatan struktur (contoh: mengekstrak Action Items dari rapat di Notes menjadi Tasks).
-  - **GPT (OpenAI)**: Untuk penalaran kompleks dan *auto-prioritization*.
-  - **DeepSeek / Qwen**: Alternatif untuk efisiensi koding dan penalaran sumber terbuka (jika API dikonfigurasi pengguna).
+  - **WebLLM / WebGPU (Local)**: Model lokal berukuran kecil (misal: Llama-3-8B / Qwen-1.5B) yang di-load langsung ke GPU peramban. Sangat privasi dan *seamless* (tidak butuh *setup* aplikasi desktop tambahan).
+  - **Gemini / Claude / OpenAI (Cloud Fallback)**: Menggunakan kapabilitas API Key (*Bring Your Own Key*) untuk penalaran tingkat tinggi dan *auto-prioritization* jika model WebLLM lokal tidak mumpuni.
 * **Kapan Digunakan?**:
-  - *Extract Task*: Memblok teks di Notes -> AI mengubahnya menjadi Task lengkap dengan kategori dan deadline.
-  - *Context-Aware Omnibar*: "Tampilkan task prioritas hari ini yang berhubungan dengan X."
-  - *Auto-Prioritize*: Menyarankan ulang urutan Task berdasarkan kebiasaan (*Habit*) dan beban kerja mingguan.
+  - *Extract Task*: AI memilah Markdown, mengekstrak "Action Items" menjadi Task dengan deadline.
+  - *AI Omnibar (Cmd+K)*: AI memproses *natural language* ("Tunda semua rapat hari ini") dan menjalankan navigasi.
+  - *Auto-Prioritize*: Mengkalkulasi ulang prioritas harian berdasarkan beban kerja.
 
 ---
 
 ## 22. Plugin System
-💡 Future Ideas
-* **SDK / API**: Menyediakan *interface* standar agar komunitas dapat membuat ekstensi tanpa mengubah *core code*.
-* **Lifecycle**: Hooks (onMount, onSync, onTaskComplete) untuk menginjeksi perilaku kustom.
-* **Marketplace & Permission**: Sistem instalasi aman (*sandboxed*) di mana plugin harus meminta izin akses (misal: "Read Notes", "Write Tasks").
+💡 Future Ideas (Ditunda dari MVP)
+Sistem ekstensi *logic/background* pihak ketiga. Membutuhkan *Strict Content Security Policy (CSP)* dan *Iframe Sandboxing* untuk mencegah serangan pencurian data (XSS).
 
 ---
 
@@ -234,80 +227,67 @@ AI di LifeFlow bertindak sebagai **Rekan Kerja Intelektual** (Invisible AI), yan
 ✅ Done (Sebagian) / 🚧 In Progress
 * Tersedia saat ini: **Light**, **Dark**, **System Default**.
 * Rencana tambahan: **AMOLED** (True Black), **Material You** (Dynamic Colors), **Glass** (Glassmorphism UI), **Retro** (Pixel/Monospace).
-* **Custom Theme & Design Token**: Menggunakan variabel CSS root (`--color-primary`, `--border-radius-md`) yang dapat diubah secara *real-time* via konfigurasi aplikasi.
+* **Design Token**: Menggunakan root CSS (`--color-primary`) yang aman untuk *update realtime*.
 
 ---
 
 ## 24. Design System
 ✅ Done
-* **Typography**: Modern sans-serif (Inter / Poppins), ukuran dan bobot font hierarkis (h1 hingga caption).
-* **Spacing & Radius**: Skala linear (4px, 8px, 12px, 16px, 24px) untuk jarak dan lekukan tepi komponen.
-* **Shadow**: Elevasi subtil untuk memberikan kedalaman (*depth*), dengan kontras tajam di mode Dark.
+* **Typography**: Modern sans-serif (Inter / Poppins).
+* **Spacing & Radius**: Skala linear (4px, 8px, 12px, 16px, 24px).
+* **Shadow**: Elevasi subtil untuk *depth*.
 * **Animation**: Kurva bezier mulus (<200ms) tanpa *blocking*.
-* **Color Palette**: Netral kalem dengan aksen vibran. Aksesibilitas kontras minimal tingkat AA.
-* **Icon & Component Rules**: Ikonografi konsisten (Lucide/Heroicons), komponen bersifat modular tanpa *inline styles*.
+* **Color Palette**: Minimalis dengan level kontras AA.
+* **Component Rules**: Bebas *inline styles*.
 
 ---
 
 ## 25. UI Guidelines
 ✅ Done
-- Hindari Dialog native peramban (`alert()`, `prompt()`). Selalu gunakan komponen kustom React (Modal, Toast, Inline Form).
-- Semua form input memiliki tinggi konsisten (44px untuk tap *touch target* yang baik).
-- Status kosong (*Empty State*) dan *Skeleton loading* diwajibkan untuk halaman tanpa data.
+- Hindari Dialog native peramban (`alert()`, `prompt()`). Gunakan Modal, Toast.
+- Semua input tinggi seragam (44px).
+- Status kosong (*Empty State*) & Skeleton loading wajib ada.
 
 ---
 
 ## 26. UX Principles
 ✅ Done
-- **Frictionless**: Hilangkan klik tak perlu. (Contoh: Inline task creation menggunakan `Enter`).
-- **Forgiving**: Tombol *Undo/Redo* harus selalu ada untuk tindakan destruktif.
-- **Calm**: Kurangi elemen visual yang berteriak meminta perhatian. Notifikasi harus pasif.
+- **Frictionless**: Hilangkan klik tak perlu (Inline Input).
+- **Forgiving**: Akses tombol *Undo/Redo*.
+- **Calm**: Kurangi elemen visual distraksi.
 
 ---
 
 ## 27. Accessibility
 ✅ Done
-- **Keyboard Navigation**: Kemampuan bernavigasi menggunakan tab dan spasi/enter.
-- **Focus Indicator**: Ring visual yang jelas saat elemen difokuskan.
-- **Color Contrast**: Lulus uji kontras teks warna (WCAG AA).
-- **ARIA Labels**: Disematkan pada tombol interaktif tanpa teks (misal, tombol icon sampah).
+- **Keyboard Navigation**, **Focus Indicator**, **Color Contrast (AA)**, **ARIA Labels**.
 
 ---
 
 ## 28. Tech Stack
 ✅ Done
-* **Frontend**: React (Vite), TypeScript, CSS Variables murni (tanpa Tailwind untuk menghindari *vendor lock-in* UI).
-* **Backend**: Tidak ada backend tradisional (Serverless/Local-First).
-* **Database**: `localStorage` (saat ini), `IndexedDB/SQLite WASM` (masa depan).
-* **Authentication**: Firebase Web SDK (v11) - Google Login.
-* **Deployment**: Static Hosting (Vercel/Netlify), PWA (Progressive Web App).
-* **CI/CD**: GitHub Actions (Linting, Build test).
+* **Frontend**: React (Vite), TypeScript, CSS Variables murni.
+* **Background Process**: **Web Workers** (Wajib untuk AI, Parser, & Data Sync).
+* **Database Target**: `IndexedDB` (Cache) ↔ `OPFS / File System` (Storage as Truth).
+* **Authentication**: Firebase Web SDK (v11).
+* **Deployment & CI**: Static Hosting (PWA) & GitHub Actions (Playwright E2E).
 
 ---
 
 ## 29. Folder Structure
 ✅ Done
-- `docs/`: Dokumentasi tunggal sumber kebenaran (PRD, Arsitektur, Workflow).
-- `legacy_html_version/`: Referensi HTML/JS/CSS versi orisinal aplikasi.
-- `public/`: Aset statis, ikon PWA.
-- `src/`:
-  - `components/`: UI dasar (*buttons, inputs, cards, modals*).
-  - `context/`: State manajemen global (AppContext, AuthContext).
-  - `hooks/`: Kustom hooks React (useTasks, useHabits).
-  - `pages/`: Tampilan layar utama (Dashboard, Tasks, Settings).
-  - `types/`: Definisi interface TypeScript.
-  - `utils/`: Fungsi pembantu (format tanggal, warna).
-  - `constants/`: Data statis (Legal, quotes).
+- `docs/`: Dokumentasi (PRD, Arsitektur).
+- `public/`: Aset statis PWA.
+- `src/`: `components/`, `context/`, `hooks/`, `pages/`, `types/`, `utils/`, `workers/`.
 
 ---
 
 ## 30. Coding Standard
 ✅ Done
-- **TypeScript Strict**: Tidak boleh ada *any*.
-- **No Duplicate Logic**: Buat komponen/hook *reusable*.
-- **Minimal Diff**: Ubah hanya file yang relevan dengan tugas.
-- **Zero Inline Styles**: Gunakan kelas CSS murni.
-- **Predictable Commits**: Sertakan ID tugas (contoh: `feat(tasks): [TASK-201] add undo redo logic`).
+- **TypeScript Strict**.
+- **No Duplicate Logic** & **Minimal Diff**.
+- **Clean Architecture** (Abstraksi logic penyimpanan).
+- **Predictable Commits** (Contoh: `feat(tasks): [TASK-201] add undo logic`).
 
 ---
 
@@ -316,155 +296,137 @@ AI di LifeFlow bertindak sebagai **Rekan Kerja Intelektual** (Invisible AI), yan
 ```mermaid
 graph LR
     UI[React Components] <--> Logic[Context / Hooks]
-    Logic <--> Storage[Local Storage / IndexedDB]
-    Storage -.-> Backup[JSON Export]
-    Logic -.-> API[Firebase Auth]
+    Logic -- Web Workers --> Storage[IndexedDB / OPFS]
+    Storage -.-> FileSystem[Markdown Files]
+    Logic -.-> API[WebGPU AI / Auth]
 ```
-*Arsitektur saat ini bertumpu penuh pada Klien (Client-Side). File system akan menggantikan LocalStorage di masa depan untuk "Markdown-First".*
 
 ---
 
 ## 32. State Management
 ✅ Done
-Menggunakan React Context API yang digabungkan dengan Custom Hooks (`AppContext`, `useTasks`, `useNotes`). Menghindari Redux untuk kesederhanaan (*Simplicity over Complexity*), kecuali jika *Conflict-free Replicated Data Types* (CRDTs/Yjs) kelak mengharuskan arsitektur ulang.
+Menggunakan React Context API & Custom Hooks. Jika *Widget System* membesar, akan menggunakan perantara state lokal untuk mencegah *prop-drilling* dan re-render ganda.
 
 ---
 
 ## 33. Database Schema
-✅ Done
-Berupa struktur JSON (TypeScript Interface):
-- **User**: `id`, `name`, `email`, `photoURL`, `level`, `xp`, `streak`.
-- **Task**: `id`, `title`, `completed`, `category`, `priority`, `deadline`, `subtasks`.
-- **Habit**: `id`, `name`, `completedDates`, `repeatConfig` (interval).
-- **Note**: `id`, `title`, `content`, `updatedAt`, `isPinned`, `deadline`.
-- **Relasi**: Dikelola secara logika referensial di level aplikasi (misal: ID kategori dalam entitas Task).
+🚧 In Progress (Proses Normalisasi)
+Rencana migrasi menuju **IndexedDB (via Dexie.js / SQLite WASM)** untuk performa relasional. File System (Markdown) adalah salinan mentah.
+- **Tabel**: User, Task, Habit, Note.
 
 ---
 
 ## 34. API Design
-❓Needs Decision (Untuk sinkronisasi masa depan)
-Saat ini 100% lokal. Integrasi eksternal hanya pada **Firebase Auth** (Login). Masa depan akan mengimplementasikan skema Sinkronisasi P2P atau REST API minimal untuk pencadangan (*Cloud Sync* opsional).
+⏳ Planned
+* Saat ini 100% lokal. Integrasi masa depan ke API AI (OpenAI/Claude) via Bring Your Own Key (BYOK).
 
 ---
 
 ## 35. Authentication
 ✅ Done
-* Google OAuth Login via Firebase Web SDK.
-* Tersedia secara non-intrusi (aplikasi tetap bekerja jika tidak login).
+* Google OAuth via Firebase Web SDK. Tidak wajib (*non-intrusive*).
 
 ---
 
 ## 36. Notification
 ✅ Done
-* **In-app Toast**: Sistem pesan kilat sukses/gagal secara seragam (`ToastSystem`).
-* ❓Needs Decision: *Push Notification Web API* untuk batas waktu kalender/Habit.
+* In-app Toast (`ToastSystem`).
 
 ---
 
 ## 37. Backup Strategy
 ✅ Done
-* Pengguna dapat mengunduh format `.json` berisi *snapshot* semua data `localStorage`.
-* Masa depan: Enkripsi file lokal, pencadangan otomatis (Auto-backup) harian.
+* JSON Export/Import. Rencana tambahan: Sinkronisasi Fisik via OPFS (Folder Sync).
 
 ---
 
 ## 38. Export & Import
 ✅ Done
-* Implementasi utuh: Baca/Tulis file JSON menggunakan API peramban (*File API* & *Blob*). Mengembalikan aplikasi (*hydrate*) ke *state* tepat seperti file cadangan.
+* Baca/Tulis file JSON.
 
 ---
 
 ## 39. Sync Strategy
 ⏳ Planned
-* **Offline Queue**: Perubahan saat offline ditampung di lokal, diredam untuk konflik.
-* **Conflict Resolution**: *Last-write-wins* atau integrasi Yjs (CRDT) jika ada multi-editor.
-* **Realtime Sync**: WebRTC (P2P) atau WebSocket untuk pembaruan instan antar *device*.
+* CRDTs (**Yjs** dipilih karena lebih kecil dan tangguh untuk *y-webrtc* & *y-indexeddb*).
 
 ---
 
 ## 40. Security
-✅ Done (Dasar) / 💡 Future Ideas (Lanjut)
-* Tidak ada data sensitif terkirim ke server karena beroperasi lokal.
-* Enkripsi sisi klien (Client-Side AES-GCM) direncanakan (*IDEA-S01*).
+✅ Done
+* **Strict CSP**: Wajib diatur untuk memitigasi XSS ketika fitur Widget dan Plugin berjalan.
+* **Iframe Sandboxing**: Lingkungan eksekusi plugin agar aman.
+* *Client-Side AES-GCM* masuk ke *Future Ideas*.
 
 ---
 
 ## 41. Performance Budget
 ✅ Done
-* TTI (Time to Interactive) < 500ms.
-* Bundle size awal minimal (menggunakan *Code Splitting/React.lazy*).
-* Transisi 60fps (memanfaatkan *Web Workers* jika proses *parse* memberatkan *main thread*).
+* **Mandat Khusus**: Eksekusi *WebGPU / WebLLM*, parsing *Markdown* raksasa, dan operasi sinkronisasi **WAJIB** dijalankan pada utas **Web Worker** untuk mencegah antarmuka membeku (UI Jank).
+* TTI < 500ms. Transisi 60fps.
 
 ---
 
 ## 42. Testing Strategy
-✅ Done
-* *Build Check* (`npm run build`).
-* *Type Check & Linting*.
-* *User Acceptance Testing (UAT)* Manual oleh manusia untuk memvalidasi UX dan regresi visual sebelum setiap rilis besar. 
+🚧 In Progress
+* *Unit Tests* & *Linting*.
+* *Manual UAT*.
+* ⏳ Planned: **Automated E2E Testing (Playwright)** untuk proses CRUD di CI/CD.
 
 ---
 
 ## 43. Release Strategy
 ✅ Done
-* **Alpha**: Rilis internal untuk uji komponen.
-* **Beta**: Rilis PWA untuk pelacakan Habit/Task dasar.
-* **v1.0 (RC)**: *Feature Parity* komplit dengan versi lama.
-* **Selanjutnya**: Rilis inkremental per Milestone.
+* PWA Alpha -> Beta -> v1.0 (RC) -> Continuous Deployment.
 
 ---
 
 ## 44. Roadmap
 ✅ Done
-- **Milestone 1-5**: Core Foundation, Tasks, Calendar, Habits, Notes, Polish. (SELESAI)
-- **Milestone 6-9**: Settings, Legacy Parity, Focus Timer, Reports. (SELESAI)
-- **Milestone 10-12**: Auth, PWA, Release Candidate v1.0. (SELESAI/TAHAP AKHIR)
-- **Masa Depan (Next 12 Months)**: Widget System, Markdown-Parser File System, AI Workspace.
+- **Tahap 1**: Core Foundation, CRUD, Parity, Auth (SELESAI).
+- **Tahap 2**: Migrasi Storage (`localStorage` -> `IndexedDB` -> OPFS). (Kritis)
+- **Tahap 3**: Widget System (Strict Grid).
+- **Tahap 4**: AI Workspace terintegrasi WebLLM/WebGPU.
 
 ---
 
 ## 45. Progress Tracker
-* **✅ Done**: App Shell, Navigation, UI Component, Task Management CRUD, Habit CRUD, Notes (Auto-save), Focus Timer (Confetti, Sound, XP), Dashboard Parity, Settings, Import/Export, Firebase Auth (Google), Service Worker (PWA), Dark Mode, Accessibility.
-* **🚧 In Progress**: UI Restoration Akhir, Final Manual UAT (TASK-1203).
-* **⏳ Planned**: Widget System, Widget Builder, Sinkronisasi Cloud, Markdown-first file storage.
-* **💡 Future Ideas**: Daily Recap Journaling, AES-GCM Client Encryption, WebRTC P2P Sync.
+* **✅ Done**: App Shell, Navigation, UI Component, Tasks, Habits, Notes, Auth, PWA, Audit V1.1.
+* **🚧 In Progress**: Pembersihan UI Akhir.
+* **⏳ Planned**: Migrasi IndexedDB, Playwright E2E, Widget Strict Grid, WebGPU AI.
+* **💡 Future Ideas**: Plugin Ecosystem, Widget Marketplace, WebRTC P2P Sync, AES-GCM.
 
 ---
 
 ## 46. Decision History
 ✅ Done
-* **Migrasi Redux ke Context**: Diputuskan agar kompleksitas awal tidak menumpuk. *State* lokal lebih cocok menggunakan `Context` untuk sekarang.
-* **Penghapusan Dialog Asli (Alert/Prompt)**: Dihilangkan demi mematuhi kustomisasi *Design System* aplikasi yang konsisten.
-* **Penghentian Chart.js**: Dihapus karena dapat diimplementasikan ulang tanpa *library* pihak ketiga yang berat untuk laporan *Habit/Tasks*.
-* **Penundaan Database Relasional Cloud**: Ditolak untuk mempertahankan manifesto *Local-First*.
+*(Ref: Audit Report v1.1)*
+* **WebLLM vs Ollama**: Ollama dihapus karena PWA tidak bisa menjalankan *native binary*. Menggunakan WebLLM/WebGPU.
+* **Unified AI Omnibar**: Pemisahan Cmd+K dan AI dibatalkan. Keduanya dilebur jadi satu.
+* **Strict Grid vs Free Drag-Drop**: Drag-Drop bebas dibatalkan untuk *Widget* karena merusak rendering 60fps; diganti ke *Strict Grid*.
 
 ---
 
 ## 47. Future Ideas
 💡 Future Ideas
-Ide yang masih berada dalam penggodokan dan belum menjadi prioritas utama, antara lain:
-- **Daily Recap Journaling**: Form pendek wajin isi setiap malam.
-- **Client-Side E2E Encryption**: Data dienkripsi sebelum diekspor atau disinkronkan.
-- **Passive Task Predictor AI**: Membaca *Habit* dan *Task* masa lalu lalu menyarankan jadwal mingguan.
-- **SQLite WASM**: Menggantikan batas kapasitas 5MB `localStorage` dengan ekosistem SQL murni di peramban.
+- Widget Marketplace
+- Plugin System
+- P2P Workspace via WebRTC
+- Client-Side E2E Encryption (AES-GCM)
+- Daily Recap Journaling
 
 ---
 
 ## 48. Open Questions
 ❓Needs Decision
-1. **PWA App Store**: Apakah kita akan mengemas PWA ke dalam TWA (Trusted Web Activity) agar masuk Google Play Store, atau tetap sebagai aplikasi peramban independen?
-2. **Widget Ecosystem**: Akankah sistem *Widget* kita izinkan untuk dikembangkan pihak ketiga (Plugin), atau hanya bundel yang disetujui secara internal?
-3. **Penyimpanan Gambar**: Bagaimana aplikasi *Local-First* ini menyimpan lampiran (*attachment*) besar di *Notes* (Blob/IndexedDB) tanpa membuat browser meledak memorinya?
+1. **PWA App Store**: Mengemas ke TWA untuk Play Store, atau peramban murni?
+2. **Attachment Storage**: Simpan gambar (Notes) di OPFS lokal agar tidak membebani IndexedDB base64? *(Rekomendasi: Ya, gunakan OPFS).*
 
 ---
 
-## 49. Final Recommendation
+## 49. Final Recommendation (v1.1)
 ✅ Done
 
-**Arah Terbaik Pengembangan LifeFlow:**
-LifeFlow telah mencapai *Feature Parity* yang solid, memantapkan fondasi *Local-First* di atas React dan TypeScript. Rekomendasi strategis saat ini adalah:
-1. **Freeze Core Features (Disiplin Scope)**: Jangan menambah fitur *Task*, *Habit*, atau *Calendar* lagi hingga **Widget System** dan **File-System Access (Markdown-First)** matang. Fokus pada mematangkan komponen *Widget* karena ini adalah *Flagship Feature* yang akan menjadi keunikan *Unique Selling Proposition (USP)* LifeFlow di pasar.
-2. **Evolusi State Management**: *localStorage* hanya aman untuk sementara waktu (batas 5MB). Inisiatif berikutnya wajib bermigrasi ke `IndexedDB` (bisa dibungkus *wrapper* ringan seperti Dexie.js atau SQLite WASM) sebelum pengguna kehabisan ruang untuk `Notes` mereka.
-3. **AI Injection as Invisible Helper**: Saat mengerjakan AI Workspace, hindari jebakan membuat UI "Chat GPT tiruan" di pojok layar. Implementasikan AI sebagai fungsi *background*—seperti menekan tombol `magic wand` yang otomatis merapikan tata letak *Widget* atau memecah catatan rapat menjadi subtugas yang dapat ditindaklanjuti secara harfiah.
-
-Arsitektur aplikasi sudah elegan, pertahankan filosofi **"Simplicity over Complexity"** demi skalabilitas jangka panjang (5-10 tahun).
+* "Arsitektur *Local-First* ini brilian, namun **titik lemah terbesarnya adalah batas 5MB localStorage dan performa UI**. Sebelum mengerjakan *Widget System*, Anda **WAJIB** bermigrasi ke `IndexedDB` (contoh: *Dexie.js*) dan memindahkan semua beban berat (Parsing Markdown & AI WebLLM) ke **Web Workers**. 
+* Jangan mengizinkan sembarang kode kustom (*Plugin*) tanpa *Iframe Sandbox* dan *Strict CSP*, karena data lokal sangat rawan dicuri lewat serangan XSS. 
+* Dengan arah ini, LifeFlow berpotensi menjadi *Anti-Cloud OS* terkuat di kelasnya."
