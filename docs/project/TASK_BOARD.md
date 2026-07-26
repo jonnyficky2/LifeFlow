@@ -722,7 +722,7 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 ### [TASK-1301] Legacy Code Cleanup
 - **Description:** Hapus folder `legacy_html_version/` dan script lama yang tidak dipakai.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** Repository bersih dari file legacy JS/HTML/Python.
 
