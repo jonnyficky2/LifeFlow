@@ -1,5 +1,6 @@
 import React from 'react';
-import { useAppContext, AppSettings } from '../../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
+import type { AppSettings } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
 import { APP_LOGO, DEFAULT_AVATAR } from './assets';
 

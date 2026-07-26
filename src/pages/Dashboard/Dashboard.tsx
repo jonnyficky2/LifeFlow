@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import type { Task } from '../../context/AppContext';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { quoteManager } from '../../utils/QuoteProvider';
 
