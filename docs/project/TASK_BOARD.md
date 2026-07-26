@@ -713,3 +713,36 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 *(Fase lanjut skalabilitas)*
 
 *(Fitur berbagi dan kolaborasi ditangguhkan ke masa depan)*
+
+---
+
+## M13 - Operation Stabilization
+*(Fokus pada pembersihan Technical Debt, Type Safety, dan Storage Migration sebelum melangkah ke rilis stabil)*
+
+### [TASK-1301] Legacy Code Cleanup
+- **Description:** Hapus folder `legacy_html_version/` dan script lama yang tidak dipakai.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** None
+- **Acceptance Criteria:** Repository bersih dari file legacy JS/HTML/Python.
+
+### [TASK-1302] Strict Type Safety Patch
+- **Description:** Hapus penggunaan tipe `any` di seluruh project (terutama di `AppContext.tsx`) dan gunakan interface ketat.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1301
+- **Acceptance Criteria:** Tidak ada peringatan `any` saat menjalankan TypeScript linting.
+
+### [TASK-1303] IndexedDB Storage Migration
+- **Description:** Pindahkan penyimpanan data dari `localStorage` sinkronus ke IndexedDB (Dexie.js) secara asinkronus. Keluarkan fungsi tulis dari *useEffect*.
+- **Priority:** Critical
+- **Status:** TODO
+- **Dependencies:** TASK-1302
+- **Acceptance Criteria:** Operasi simpan (write) berjalan asinkronus dan tidak membekukan UI saat data berjumlah besar.
+
+### [TASK-1304] AppContext Splitting
+- **Description:** Pecah "God Context" (`AppContext`) menjadi konteks tersendiri (`TaskContext`, `HabitContext`, `NoteContext`, `SettingsContext`) untuk mencegah re-render UI global.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1303
+- **Acceptance Criteria:** Mengubah status tugas (Task) tidak memicu render ulang (re-render) pada komponen kebiasaan (Habit) atau catatan (Note).
