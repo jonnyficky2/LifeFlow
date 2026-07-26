@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
-import type { Task } from '../../context/AppContext';
+import { useTaskContext } from '../../context/TaskContext';
+import type { Task } from '../../types';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { quoteManager } from '../../utils/QuoteProvider';
 
@@ -16,7 +17,8 @@ const getLocalDateString = (dateObj: Date) => {
 };
 
 export const Dashboard: React.FC = () => {
-  const { appData, xp, historyData, isAppLoading } = useAppContext();
+  const { xp, historyData, isAppLoading } = useAppContext();
+  const { appData } = useTaskContext();
   const [quote] = useState(() => quoteManager.getDailyQuote());
 
   const { level, remainingXP, xpNeeded } = useMemo(() => getLevelData(xp), [xp]);

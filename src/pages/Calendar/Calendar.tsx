@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import { useTaskContext } from '../../context/TaskContext';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
 import './Calendar.css';
@@ -7,7 +8,8 @@ import './Calendar.css';
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const Calendar: React.FC = () => {
-  const { appData, setTaskModalOpen, setEditingTask, isAppLoading } = useAppContext();
+  const { isAppLoading } = useAppContext();
+  const { appData, setTaskModalOpen, setEditingTask } = useTaskContext();
   
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);

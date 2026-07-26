@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
-import type { Task } from '../../context/AppContext';
+import { useTaskContext } from '../../context/TaskContext';
+import type { Task } from '../../types';
 import { useTasks } from '../../hooks/useTasks';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
 
 export const Tasks: React.FC = () => {
-  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask, isAppLoading, setAppData, saveHistorySnapshot } = useAppContext();
+  const { isAppLoading } = useAppContext();
+  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask, setAppData, saveTaskSnapshot } = useTaskContext();
   const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory, addTask } = useTasks();
 
   const [filter, setFilter] = useState<'all' | 'pending' | 'done'>('all');
@@ -180,7 +182,7 @@ export const Tasks: React.FC = () => {
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             if (editingCatName.trim()) {
-                              saveHistorySnapshot();
+                              saveTaskSnapshot();
                               setAppData(prev => {
                                 const newData = [...prev];
                                 newData[catIndex].name = editingCatName.trim();
@@ -197,7 +199,7 @@ export const Tasks: React.FC = () => {
                       />
                       <button className="btn-primary" onClick={() => {
                         if (editingCatName.trim()) {
-                          saveHistorySnapshot();
+                          saveTaskSnapshot();
                           setAppData(prev => {
                             const newData = [...prev];
                             newData[catIndex].name = editingCatName.trim();

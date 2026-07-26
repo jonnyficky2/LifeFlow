@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import { useNoteContext } from '../../context/NoteContext';
 import { useNotes } from '../../hooks/useNotes';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
 import './Notes.css';
 
 export const Notes: React.FC = () => {
-  const { notes, isAppLoading } = useAppContext();
+  const { isAppLoading } = useAppContext();
+  const { notes } = useNoteContext();
   const { addNote, updateNote, deleteNote } = useNotes();
 
   const [confirmOpen, setConfirmOpen] = useState(false);

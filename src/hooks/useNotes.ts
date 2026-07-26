@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
-import { useAppContext } from '../context/AppContext';
-import type { Note } from '../context/AppContext';
+import { useNoteContext } from '../context/NoteContext';
+import type { Note } from '../types';
 import { useToast } from '../context/ToastContext';
 
 export const useNotes = () => {
-  const { notes, setNotes, saveHistorySnapshot } = useAppContext();
+  const { notes, setNotes, saveNoteSnapshot } = useNoteContext();
   const { showToast } = useToast();
 
   const addNote = useCallback((title: string = 'Untitled Note') => {
-    saveHistorySnapshot();
+    saveNoteSnapshot();
     const newNote: Note = {
       id: `note_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       title,
@@ -19,13 +19,13 @@ export const useNotes = () => {
     setNotes([newNote, ...notes]);
     showToast('Note created', 'success');
     return newNote.id;
-  }, [saveHistorySnapshot, setNotes, notes, showToast]);
+  }, [saveNoteSnapshot, setNotes, notes, showToast]);
 
   const updateNote = useCallback((id: string, updates: Partial<Note>) => {
-    // Only call saveHistorySnapshot if this is a meaningful manual action, 
+    // Only call saveNoteSnapshot if this is a meaningful manual action, 
     // but for real-time auto-save we don't want to spam the undo stack on every keystroke.
     // The UI should handle undo/redo stack grouping, or we just rely on standard input undo.
-    // We will let the UI call saveHistorySnapshot explicitly before big changes if needed.
+    // We will let the UI call saveNoteSnapshot explicitly before big changes if needed.
     
     setNotes(prevNotes => 
       prevNotes.map(note => 
@@ -37,10 +37,10 @@ export const useNotes = () => {
   }, [setNotes]);
 
   const deleteNote = useCallback((id: string) => {
-    saveHistorySnapshot();
+    saveNoteSnapshot();
     setNotes(prevNotes => prevNotes.filter(note => note.id !== id));
     showToast('Note deleted', 'warning');
-  }, [saveHistorySnapshot, setNotes, showToast]);
+  }, [saveNoteSnapshot, setNotes, showToast]);
 
   return {
     addNote,

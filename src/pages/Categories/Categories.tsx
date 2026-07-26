@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../../context/AppContext';
+import { useTaskContext } from '../../context/TaskContext';
 import { useTasks } from '../../hooks/useTasks';
 
 export const Categories: React.FC = () => {
-  const { appData, setAppData } = useAppContext();
+  const { appData, setAppData } = useTaskContext();
   const { addCategory, deleteCategory } = useTasks();
-  const { saveHistorySnapshot } = useAppContext();
+  const { saveTaskSnapshot } = useTaskContext();
   const [newCategory, setNewCategory] = useState('');
   
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -28,7 +28,7 @@ export const Categories: React.FC = () => {
 
   const handleSaveCategory = (index: number) => {
     if (editingName.trim()) {
-      saveHistorySnapshot();
+      saveTaskSnapshot();
       setAppData(prev => {
         const newData = [...prev];
         newData[index].name = editingName.trim();

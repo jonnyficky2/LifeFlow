@@ -1,5 +1,11 @@
 import React, { lazy, Suspense } from 'react';
 import { AppProvider, useAppContext } from './context/AppContext';
+import { useSettingsContext } from './context/SettingsContext';
+import { TaskProvider } from './context/TaskContext';
+import { HabitProvider } from './context/HabitContext';
+import { NoteProvider } from './context/NoteContext';
+import { SettingsProvider } from './context/SettingsContext';
+
 import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/layout/Layout';
 import { TaskModal } from './components/modals/TaskModal';
@@ -26,7 +32,8 @@ const PageFallback = () => (
 );
 
 const AppContent: React.FC = () => {
-  const { activeSection, settings } = useAppContext();
+  const { activeSection } = useAppContext();
+  const { settings } = useSettingsContext();
   const { user, loading } = useAuth();
   const [showAuthModal, setShowAuthModal] = React.useState(false);
 
@@ -90,11 +97,19 @@ function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <AppProvider>
+        <SettingsProvider>
+      <TaskProvider>
+        <HabitProvider>
+          <NoteProvider>
+            <AppProvider>
           <ToastProvider>
             <AppContent />
           </ToastProvider>
         </AppProvider>
+          </NoteProvider>
+        </HabitProvider>
+      </TaskProvider>
+    </SettingsProvider>
       </AuthProvider>
     </ErrorBoundary>
   );

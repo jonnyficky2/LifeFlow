@@ -1,13 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
-import type { HabitRepeatType, HabitRepeatConfig, Habit } from '../../context/AppContext';
+import { useHabitContext } from '../../context/HabitContext';
+import type { HabitRepeatType, HabitRepeatConfig, Habit } from '../../types';
 import { useHabits } from '../../hooks/useHabits';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
 import './Habits.css';
 
 export const Habits: React.FC = () => {
-  const { habits, habitHistory, isAppLoading } = useAppContext();
+  const { isAppLoading } = useAppContext();
+  const { habits, habitHistory } = useHabitContext();
   const { addHabit, deleteHabit, toggleHabitDate, getCompletionRate } = useHabits();
 
   // Create Habit Modal State

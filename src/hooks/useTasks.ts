@@ -1,6 +1,8 @@
 import { useCallback } from 'react';
+import { useTaskContext } from '../context/TaskContext';
 import { useAppContext } from '../context/AppContext';
-import type { Task, HistoryData } from '../context/AppContext';
+import { useHabitContext } from '../context/HabitContext';
+import type { Task, HistoryData } from '../types';
 import { useToast } from '../context/ToastContext';
 
 export function getToday() {
@@ -9,7 +11,9 @@ export function getToday() {
 }
 
 export function useTasks() {
-  const { appData, setAppData, setXp, setStreakData, setHistoryData, saveHistorySnapshot } = useAppContext();
+  const { appData, setAppData, saveTaskSnapshot } = useTaskContext();
+  const { setXp, setHistoryData } = useAppContext();
+  const { setStreakData } = useHabitContext();
   const { showToast } = useToast();
 
   const updateTaskStreak = (task: Task) => {
@@ -69,7 +73,7 @@ export function useTasks() {
     const oldTask = appData[catIndex]?.tasks[taskIndex];
     if (!oldTask) return;
 
-    saveHistorySnapshot();
+    saveTaskSnapshot();
     const willBeDone = !oldTask.done;
     const reward = 3;
 
@@ -128,10 +132,10 @@ export function useTasks() {
       updateDailyHistoryLocal(newData);
       return newData;
     });
-  }, [appData, saveHistorySnapshot, setAppData, setXp, showToast, setStreakData, updateDailyHistoryLocal]);
+  }, [appData, saveTaskSnapshot, setAppData, setXp, showToast, setStreakData, updateDailyHistoryLocal]);
 
   const toggleSubtask = useCallback((catIndex: number, taskIndex: number, subIndex: number) => {
-    saveHistorySnapshot();
+    saveTaskSnapshot();
     setAppData(prevData => {
       return prevData.map((cat, cIdx) => {
         if (cIdx !== catIndex) return cat;
@@ -150,10 +154,10 @@ export function useTasks() {
         };
       });
     });
-  }, [saveHistorySnapshot, setAppData]);
+  }, [saveTaskSnapshot, setAppData]);
 
   const deleteTask = useCallback((catIndex: number, taskIndex: number) => {
-    saveHistorySnapshot();
+    saveTaskSnapshot();
     setAppData(prevData => {
       return prevData.map((cat, cIdx) => {
         if (cIdx !== catIndex) return cat;
@@ -164,24 +168,24 @@ export function useTasks() {
       });
     });
     showToast('Task deleted', 'warning');
-  }, [saveHistorySnapshot, setAppData, showToast]);
+  }, [saveTaskSnapshot, setAppData, showToast]);
 
   const deleteCategory = useCallback((catIndex: number) => {
-    saveHistorySnapshot();
+    saveTaskSnapshot();
     setAppData(prevData => prevData.filter((_, cIdx) => cIdx !== catIndex));
     showToast('Category deleted', 'warning');
-  }, [saveHistorySnapshot, setAppData, showToast]);
+  }, [saveTaskSnapshot, setAppData, showToast]);
 
   const addCategory = useCallback((name: string) => {
-    saveHistorySnapshot();
+    saveTaskSnapshot();
     setAppData(prevData => {
       return [...prevData, { name, tasks: [] }];
     });
     showToast(`Category "${name}" created`, 'success');
-  }, [saveHistorySnapshot, setAppData, showToast]);
+  }, [saveTaskSnapshot, setAppData, showToast]);
 
   const addTask = useCallback((catIndex: number, taskName: string) => {
-    saveHistorySnapshot();
+    saveTaskSnapshot();
     setAppData(prevData => {
       return prevData.map((cat, cIdx) => {
         if (cIdx !== catIndex) return cat;
@@ -207,7 +211,7 @@ export function useTasks() {
       });
     });
     showToast('Task added', 'success');
-  }, [saveHistorySnapshot, setAppData, showToast]);
+  }, [saveTaskSnapshot, setAppData, showToast]);
 
   return {
     toggleTask,

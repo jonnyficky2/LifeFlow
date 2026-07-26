@@ -1,9 +1,13 @@
 import React, { useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import { useTaskContext } from '../../context/TaskContext';
+import { useHabitContext } from '../../context/HabitContext';
 import './Reports.css';
 
 export const Reports: React.FC = () => {
-  const { appData, habits, historyData, habitHistory, setActiveSection } = useAppContext();
+  const { historyData, setActiveSection } = useAppContext();
+  const { appData } = useTaskContext();
+  const { habits, habitHistory } = useHabitContext();
 
   const hasData = useMemo(() => {
     const hasTasks = appData.some(cat => cat.tasks && cat.tasks.length > 0);

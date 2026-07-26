@@ -1,11 +1,31 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
-import type { AppSettings } from '../../context/AppContext';
+import { useTaskContext } from '../../context/TaskContext';
+import { useHabitContext } from '../../context/HabitContext';
+import { useNoteContext } from '../../context/NoteContext';
+import { useSettingsContext } from '../../context/SettingsContext';
+import type { AppSettings } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { APP_LOGO, DEFAULT_AVATAR } from './assets';
 
 export const Navbar: React.FC = () => {
-  const { isSidebarOpen, setSidebarOpen, undo, redo, setSettings } = useAppContext();
+  const { isSidebarOpen, setSidebarOpen, activeSection } = useAppContext();
+  const { undoTask, redoTask } = useTaskContext();
+  const { undoHabit, redoHabit } = useHabitContext();
+  const { undoNote, redoNote } = useNoteContext();
+  const { setSettings } = useSettingsContext();
+
+  const handleUndo = () => {
+    if (activeSection === 'notes') undoNote();
+    else if (activeSection === 'habits') undoHabit();
+    else undoTask();
+  };
+
+  const handleRedo = () => {
+    if (activeSection === 'notes') redoNote();
+    else if (activeSection === 'habits') redoHabit();
+    else redoTask();
+  };
   const { user, loginWithGoogle } = useAuth();
 
   const toggleTheme = () => {
@@ -26,8 +46,8 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="navbar-actions">
-          <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" aria-label="Undo last action" onClick={undo}>↩</button>
-          <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" aria-label="Redo last action" onClick={redo}>↪</button>
+          <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" aria-label="Undo last action" onClick={handleUndo}>↩</button>
+          <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" aria-label="Redo last action" onClick={handleRedo}>↪</button>
           <button id="desktopThemeToggle" type="button" className="btn btn--icon" aria-label="Toggle theme" onClick={toggleTheme} style={{marginRight: '12px'}}>◐</button>
 
           {!user ? (

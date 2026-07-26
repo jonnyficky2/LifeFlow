@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAppContext } from '../../context/AppContext';
-import type { Subtask, Task } from '../../context/AppContext';
+import { useTaskContext } from '../../context/TaskContext';
+import type { Subtask, Task } from '../../types';
 
 export const TaskModal: React.FC = () => {
   const { 
@@ -11,8 +11,8 @@ export const TaskModal: React.FC = () => {
     appData, 
     setAppData, 
     currentCategoryIndex,
-    saveHistorySnapshot
-  } = useAppContext();
+    saveTaskSnapshot
+  } = useTaskContext();
 
   const [name, setName] = useState('');
   const [note, setNote] = useState('');
@@ -62,7 +62,7 @@ export const TaskModal: React.FC = () => {
   const handleSave = () => {
     if (!name.trim()) return;
 
-    saveHistorySnapshot();
+    saveTaskSnapshot();
 
     const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
     

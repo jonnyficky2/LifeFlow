@@ -5,7 +5,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 📊 Overall Progress: 74% (47/63 Tasks Completed)
+## 📊 Overall Progress: 76% (48/63 Tasks Completed)
 
 ---
 
@@ -556,6 +556,18 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
+## M13 - Operation Stabilization
+
+
+### [TASK-1304] AppContext Splitting
+- **Description:** Pecah "God Context" (`AppContext`) menjadi konteks tersendiri (`TaskContext`, `HabitContext`, `NoteContext`, `SettingsContext`) untuk mencegah re-render UI global.
+- **Priority:** High
+- **Status:** DONE
+- **Dependencies:** TASK-1303
+- **Acceptance Criteria:** Mengubah status tugas (Task) tidak memicu render ulang (re-render) pada komponen kebiasaan (Habit) atau catatan (Note).
+
+---
+
 ## 🔄 PENDING TASKS
 
 ## M2 - Task Management
@@ -720,18 +732,6 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Progress:** 100%
 - **Related Docs:** None
 - **Notes:** Menunggu Manual UAT oleh User.
-
----
-
-## M13 - Operation Stabilization
-
-
-### [TASK-1304] AppContext Splitting
-- **Description:** Pecah "God Context" (`AppContext`) menjadi konteks tersendiri (`TaskContext`, `HabitContext`, `NoteContext`, `SettingsContext`) untuk mencegah re-render UI global.
-- **Priority:** High
-- **Status:** TODO
-- **Dependencies:** TASK-1303
-- **Acceptance Criteria:** Mengubah status tugas (Task) tidak memicu render ulang (re-render) pada komponen kebiasaan (Habit) atau catatan (Note).
 
 ---
 

@@ -3,7 +3,11 @@ import './Settings.css';
 import { SettingsSection } from './components/SettingsSection';
 import { SettingsItem } from './components/SettingsItem';
 import { useAppContext, STORAGE_KEYS } from '../../context/AppContext';
-import type { AppSettings } from '../../context/AppContext';
+import { useTaskContext } from '../../context/TaskContext';
+import { useHabitContext } from '../../context/HabitContext';
+import { useNoteContext } from '../../context/NoteContext';
+import { useSettingsContext } from '../../context/SettingsContext';
+import type { AppSettings } from '../../types';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
 import { Modal } from '../../components/ui/Modal';
@@ -12,9 +16,11 @@ import packageJson from '../../../package.json';
 import { DEFAULT_AVATAR } from '../../components/layout/assets';
 
 export const Settings: React.FC = () => {
-  const { 
-    isAppLoading, appData, xp, habits, habitHistory, streakData, historyData, notes, settings, setSettings 
-  } = useAppContext();
+  const { isAppLoading, xp, historyData } = useAppContext();
+  const { appData } = useTaskContext();
+  const { habits, habitHistory, streakData } = useHabitContext();
+  const { notes } = useNoteContext();
+  const { settings, setSettings } = useSettingsContext();
   const { showToast } = useToast();
   const { user, loginWithGoogle, logout } = useAuth();
   const [confirmOpen, setConfirmOpen] = useState(false);
