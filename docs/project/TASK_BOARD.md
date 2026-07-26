@@ -5,7 +5,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 📊 Overall Progress: 73% (46/63 Tasks Completed)
+## 📊 Overall Progress: 74% (47/63 Tasks Completed)
 
 ---
 
@@ -544,6 +544,18 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
+## M13 - Operation Stabilization
+
+
+### [TASK-1303] IndexedDB Storage Migration
+- **Description:** Pindahkan penyimpanan data dari `localStorage` sinkronus ke IndexedDB (Dexie.js) secara asinkronus. Keluarkan fungsi tulis dari *useEffect*.
+- **Priority:** Critical
+- **Status:** DONE
+- **Dependencies:** TASK-1302
+- **Acceptance Criteria:** Operasi simpan (write) berjalan asinkronus dan tidak membekukan UI saat data berjumlah besar.
+
+---
+
 ## 🔄 PENDING TASKS
 
 ## M2 - Task Management
@@ -713,13 +725,6 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ## M13 - Operation Stabilization
 
-
-### [TASK-1303] IndexedDB Storage Migration
-- **Description:** Pindahkan penyimpanan data dari `localStorage` sinkronus ke IndexedDB (Dexie.js) secara asinkronus. Keluarkan fungsi tulis dari *useEffect*.
-- **Priority:** Critical
-- **Status:** TODO
-- **Dependencies:** TASK-1302
-- **Acceptance Criteria:** Operasi simpan (write) berjalan asinkronus dan tidak membekukan UI saat data berjumlah besar.
 
 ### [TASK-1304] AppContext Splitting
 - **Description:** Pecah "God Context" (`AppContext`) menjadi konteks tersendiri (`TaskContext`, `HabitContext`, `NoteContext`, `SettingsContext`) untuk mencegah re-render UI global.

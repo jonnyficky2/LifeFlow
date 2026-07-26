@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { getDbData, setDbData } from '../services/db';
 import type { ReactNode } from 'react';
 
 export const STORAGE_KEYS = {
@@ -12,14 +13,46 @@ export const STORAGE_KEYS = {
   SETTINGS: "settings"
 };
 
-function getLocalData<T>(key: string, defaultValue: T): T {
-  try {
-    const data = localStorage.getItem(key);
-    return data ? (JSON.parse(data) as T) : defaultValue;
-  } catch (error) {
-    console.error(`Gagal membaca ${key} dari LocalStorage:`, error);
-    return defaultValue;
-  }
+function usePersistentState<T>(key: string, defaultValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+  const [state, setState] = useState<T>(defaultValue);
+
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      const lsData = localStorage.getItem(key);
+      let initialData = defaultValue;
+
+      if (lsData) {
+         try {
+           initialData = JSON.parse(lsData) as T;
+         } catch(e) {}
+      }
+
+      const dbData = await getDbData<T | null>(key, null);
+      if (dbData !== null) {
+        initialData = dbData;
+      } else if (lsData) {
+        await setDbData(key, initialData);
+      }
+      
+      if (mounted) {
+        setState(initialData);
+      }
+    };
+    load();
+    return () => { mounted = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  
+  const setPersistentState: React.Dispatch<React.SetStateAction<T>> = useCallback((value) => {
+    setState(prev => {
+      const nextValue = typeof value === 'function' ? (value as any)(prev) : value;
+      setDbData(key, nextValue).catch(e => console.error("Failed to save", key, e));
+      return nextValue;
+    });
+  }, [key]);
+
+  return [state, setPersistentState];
 }
 
 export interface Subtask {
@@ -129,14 +162,14 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [appData, setAppData] = useState<Category[]>(getLocalData<Category[]>(STORAGE_KEYS.APP_DATA, [{ name: "Inbox", tasks: [] }]));
-  const [xp, setXp] = useState<number>(Number(localStorage.getItem(STORAGE_KEYS.XP)) || 0);
-  const [habits, setHabits] = useState<Habit[]>(getLocalData<Habit[]>(STORAGE_KEYS.HABITS, []));
-  const [habitHistory, setHabitHistory] = useState<HabitHistory>(getLocalData<HabitHistory>(STORAGE_KEYS.HABIT_HISTORY, {}));
-  const [streakData, setStreakData] = useState<StreakData>(getLocalData<StreakData>(STORAGE_KEYS.STREAK_DATA, []));
-  const [historyData, setHistoryData] = useState<HistoryData>(getLocalData<HistoryData>(STORAGE_KEYS.HISTORY_DATA, {}));
-  const [notes, setNotes] = useState<Note[]>(getLocalData<Note[]>(STORAGE_KEYS.NOTES, []));
-  const [settings, setSettings] = useState<AppSettings>(getLocalData<AppSettings>(STORAGE_KEYS.SETTINGS, {}));
+  const [appData, setAppData] = usePersistentState<Category[]>(STORAGE_KEYS.APP_DATA, [{ name: "Inbox", tasks: [] }]);
+  const [xp, setXp] = usePersistentState<number>(STORAGE_KEYS.XP, 0);
+  const [habits, setHabits] = usePersistentState<Habit[]>(STORAGE_KEYS.HABITS, []);
+  const [habitHistory, setHabitHistory] = usePersistentState<HabitHistory>(STORAGE_KEYS.HABIT_HISTORY, {});
+  const [streakData, setStreakData] = usePersistentState<StreakData>(STORAGE_KEYS.STREAK_DATA, []);
+  const [historyData, setHistoryData] = usePersistentState<HistoryData>(STORAGE_KEYS.HISTORY_DATA, {});
+  const [notes, setNotes] = usePersistentState<Note[]>(STORAGE_KEYS.NOTES, []);
+  const [settings, setSettings] = usePersistentState<AppSettings>(STORAGE_KEYS.SETTINGS, {});
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -206,17 +239,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  // Sync to local storage when state changes
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.APP_DATA, JSON.stringify(appData));
-    localStorage.setItem(STORAGE_KEYS.XP, xp.toString());
-    localStorage.setItem(STORAGE_KEYS.HABITS, JSON.stringify(habits));
-    localStorage.setItem(STORAGE_KEYS.HABIT_HISTORY, JSON.stringify(habitHistory));
-    localStorage.setItem(STORAGE_KEYS.STREAK_DATA, JSON.stringify(streakData));
-    localStorage.setItem(STORAGE_KEYS.HISTORY_DATA, JSON.stringify(historyData));
-    localStorage.setItem(STORAGE_KEYS.NOTES, JSON.stringify(notes));
-    localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
-  }, [appData, xp, habits, habitHistory, streakData, historyData, notes, settings]);
 
   return (
     <AppContext.Provider value={{
