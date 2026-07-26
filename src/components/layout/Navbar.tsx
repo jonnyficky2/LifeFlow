@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext, AppSettings } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
 import { APP_LOGO, DEFAULT_AVATAR } from './assets';
 
@@ -8,7 +8,7 @@ export const Navbar: React.FC = () => {
   const { user, loginWithGoogle } = useAuth();
 
   const toggleTheme = () => {
-    setSettings((prev: any) => ({
+    setSettings((prev: AppSettings) => ({
       ...prev,
       theme: prev.theme === 'light' ? 'dark' : 'light'
     }));

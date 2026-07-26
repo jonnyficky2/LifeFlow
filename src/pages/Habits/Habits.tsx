@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
-import type { HabitRepeatType, HabitRepeatConfig } from '../../context/AppContext';
+import type { HabitRepeatType, HabitRepeatConfig, Habit } from '../../context/AppContext';
 import { useHabits } from '../../hooks/useHabits';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
@@ -90,7 +90,7 @@ export const Habits: React.FC = () => {
     }
   };
 
-  const getRepeatText = (habit: any) => {
+  const getRepeatText = (habit: Habit) => {
     let baseText = 'Daily';
     
     if (habit.repeat) {

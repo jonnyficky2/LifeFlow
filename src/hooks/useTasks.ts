@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useAppContext } from '../context/AppContext';
-import type { Task } from '../context/AppContext';
+import type { Task, HistoryData } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 
 export function getToday() {
@@ -59,7 +59,7 @@ export function useTasks() {
 
     const percent = total ? Math.round((done / total) * 100) : 0;
     
-    setHistoryData((prev: any) => ({
+    setHistoryData((prev: HistoryData) => ({
       ...prev,
       [today]: percent
     }));

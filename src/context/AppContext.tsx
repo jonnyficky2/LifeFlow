@@ -12,10 +12,10 @@ export const STORAGE_KEYS = {
   SETTINGS: "settings"
 };
 
-function getLocalData(key: string, defaultValue: any) {
+function getLocalData<T>(key: string, defaultValue: T): T {
   try {
     const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : defaultValue;
+    return data ? (JSON.parse(data) as T) : defaultValue;
   } catch (error) {
     console.error(`Gagal membaca ${key} dari LocalStorage:`, error);
     return defaultValue;
@@ -68,6 +68,13 @@ export interface Habit {
 
 export type HabitHistory = Record<string, string[]>;
 
+export type StreakData = string[];
+export type HistoryData = Record<string, number>;
+export interface AppSettings {
+  theme?: string;
+  [key: string]: unknown;
+}
+
 export interface Note {
   id: string;
   title: string;
@@ -89,14 +96,14 @@ interface AppContextType {
   setHabits: React.Dispatch<React.SetStateAction<Habit[]>>;
   habitHistory: HabitHistory;
   setHabitHistory: React.Dispatch<React.SetStateAction<HabitHistory>>;
-  streakData: any[];
-  setStreakData: React.Dispatch<React.SetStateAction<any[]>>;
-  historyData: any;
-  setHistoryData: React.Dispatch<React.SetStateAction<any>>;
+  streakData: StreakData;
+  setStreakData: React.Dispatch<React.SetStateAction<StreakData>>;
+  historyData: HistoryData;
+  setHistoryData: React.Dispatch<React.SetStateAction<HistoryData>>;
   notes: Note[];
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
-  settings: any;
-  setSettings: React.Dispatch<React.SetStateAction<any>>;
+  settings: AppSettings;
+  setSettings: React.Dispatch<React.SetStateAction<AppSettings>>;
   
   isSidebarOpen: boolean;
   setSidebarOpen: (isOpen: boolean) => void;
@@ -122,14 +129,14 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [appData, setAppData] = useState<Category[]>(getLocalData(STORAGE_KEYS.APP_DATA, [{ name: "Inbox", tasks: [] }]));
+  const [appData, setAppData] = useState<Category[]>(getLocalData<Category[]>(STORAGE_KEYS.APP_DATA, [{ name: "Inbox", tasks: [] }]));
   const [xp, setXp] = useState<number>(Number(localStorage.getItem(STORAGE_KEYS.XP)) || 0);
-  const [habits, setHabits] = useState<Habit[]>(getLocalData(STORAGE_KEYS.HABITS, []));
-  const [habitHistory, setHabitHistory] = useState<HabitHistory>(getLocalData(STORAGE_KEYS.HABIT_HISTORY, {}));
-  const [streakData, setStreakData] = useState<any[]>(getLocalData(STORAGE_KEYS.STREAK_DATA, []));
-  const [historyData, setHistoryData] = useState<any>(getLocalData(STORAGE_KEYS.HISTORY_DATA, {}));
-  const [notes, setNotes] = useState<Note[]>(getLocalData(STORAGE_KEYS.NOTES, []));
-  const [settings, setSettings] = useState<any>(getLocalData(STORAGE_KEYS.SETTINGS, {}));
+  const [habits, setHabits] = useState<Habit[]>(getLocalData<Habit[]>(STORAGE_KEYS.HABITS, []));
+  const [habitHistory, setHabitHistory] = useState<HabitHistory>(getLocalData<HabitHistory>(STORAGE_KEYS.HABIT_HISTORY, {}));
+  const [streakData, setStreakData] = useState<StreakData>(getLocalData<StreakData>(STORAGE_KEYS.STREAK_DATA, []));
+  const [historyData, setHistoryData] = useState<HistoryData>(getLocalData<HistoryData>(STORAGE_KEYS.HISTORY_DATA, {}));
+  const [notes, setNotes] = useState<Note[]>(getLocalData<Note[]>(STORAGE_KEYS.NOTES, []));
+  const [settings, setSettings] = useState<AppSettings>(getLocalData<AppSettings>(STORAGE_KEYS.SETTINGS, {}));
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');

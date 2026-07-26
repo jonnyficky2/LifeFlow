@@ -5,6 +5,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
+## 📊 Overall Progress: 73% (46/63 Tasks Completed)
+
+---
+
+## ✅ COMPLETED TASKS
+
 ## M1 - Foundation
 *(Setup Project, App Shell, & Global CSS)*
 
@@ -42,16 +48,6 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Progress:** 100%
 - **Related Docs:** [UAT_CHECKLIST_PHASE2.md](../testing/UAT_CHECKLIST_PHASE2.md)
 - **Notes:** UAT Lulus. UX friction resolved (inline category creation).
-
-### [TASK-202] Inline Task Input (Zero-Friction)
-- **Description:** Hapus sistem penambahan Task tradisional (modal panjang) untuk penambahan cepat. Buat input satu baris (command line style) persis di atas halaman Tasks.
-- **Priority:** Medium
-- **Status:** BACKLOG
-- **Dependencies:** TASK-201
-- **Acceptance Criteria:** Menekan "Enter" membuat task baru, field langsung bersih.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** Optimalisasi User Experience (UX) lanjutan.
 
 ---
 
@@ -97,13 +93,6 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Progress:** 100%
 - **Related Docs:** None
 - **Notes:** UAT Lulus. M5 telah di-push ke main.
-
----
-
-## M5.5 - Product Polish
-*(Peningkatan Kualitas dan Stabilitas)*
-
-Deskripsi: "Milestone ini berfokus pada peningkatan kualitas, performa, konsistensi UI/UX, maintainability, accessibility, dan kesiapan aplikasi menuju Release v1.0."
 
 ### [TASK-551] UI Consistency Audit
 - **Description:** Audit spacing, typography, icon, button, modal, dan card.
@@ -175,112 +164,10 @@ Deskripsi: "Milestone ini berfokus pada peningkatan kualitas, performa, konsiste
 - **Related Docs:** None
 - **Notes:** Dependensi React Hooks di useTasks dirapikan untuk menghilangkan warning exhaustive-deps.
 
-### [TASK-558] Release Candidate Audit
-- **Description:** Audit kelayakan pra-rilis.
-- **Priority:** High
-- **Status:** FAILED
-- **Dependencies:** TASK-551, TASK-552, TASK-553, TASK-554, TASK-555, TASK-556, TASK-557
-- **Acceptance Criteria:** npm run build PASS, TypeScript PASS, lint PASS, tidak ada console error, UAT PASS, siap ditandai sebagai Release Candidate sebelum M6.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** Gagal pada saat visual inspection UAT oleh User (UI Regression).
-
 ---
 
-## M5.6 - UI Restoration
-*(Restorasi Tampilan & Pixel Perfect)*
-
-Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang pecah akibat variabel CSS tidak terdefinisi serta ketidaksesuaian DOM dengan versi HTML legacy."
-
-### [TASK-561] Restore Layout Wrapper
-- **Description:** Mengimpor index.css ke main.tsx dan menyesuaikan agar tidak menimpa background & font legacy.
-- **Priority:** High
-- **Status:** TESTING
-- **Dependencies:** None
-- **Acceptance Criteria:** Variabel spacing/radius terdefinisi secara global tanpa merusak font Poppins & gradien latar belakang.
-- **Progress:** 100%
-- **Related Docs:** None
-- **Notes:** index.css diimpor, override global yang menimpa visual legacy dibersihkan, font Poppins dimuat di index.html.
-
-### [TASK-562] Restore Sidebar
-- **Description:** Memperbaiki layout, padding, serta urutan z-index sidebar dan overlay.
-- **Priority:** High
-- **Status:** TODO
-- **Dependencies:** TASK-561
-- **Acceptance Criteria:** Sidebar terbuka/tutup dengan transisi halus tanpa tertutup overlay.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** -
-
-### [TASK-563] Restore Header
-- **Description:** Menyelaraskan struktur header dan navbar agar sesuai dengan tinggi & layout legacy.
-- **Priority:** Medium
-- **Status:** TODO
-- **Dependencies:** TASK-561
-- **Acceptance Criteria:** Header setinggi 96px (desktop) / 70px (mobile), logo dan action terposisi tepat.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** -
-
-### [TASK-564] Restore Dashboard
-- **Description:** Memulihkan grid, gap, spacing, dan layout card pada halaman utama Dashboard.
-- **Priority:** High
-- **Status:** TODO
-- **Dependencies:** TASK-561
-- **Acceptance Criteria:** Level progress box, quick stats, activity heatmap, dan motivation quote sejajar pixel-perfect.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** -
-
-### [TASK-565] Restore Bottom Navigation
-- **Description:** Mengembalikan DOM bottom nav menggunakan ID `#bottomNav` dan menghapus teks label tombol.
-- **Priority:** High
-- **Status:** TODO
-- **Dependencies:** TASK-561
-- **Acceptance Criteria:** Bottom nav melayang di posisi yang tepat di mobile, bersembunyi di desktop, tombol memuat emoji saja.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** -
-
-### [TASK-566] Responsive Fix
-- **Description:** Menyesuaikan media query CSS agar layout konsisten di berbagai ukuran layar.
-- **Priority:** Medium
-- **Status:** TESTING
-- **Dependencies:** TASK-561
-- **Acceptance Criteria:** Layout grid dan navbar merespons breakpoints 1100px, 768px, 640px dengan benar.
-- **Progress:** 100%
-- **Related Docs:** None
-- **Notes:** Diselesaikan dengan integrasi safe-area inset (iOS notch), layout stacking di settings, wrapping di notes dan task tags/subtasks, serta modal scrollable.
-
-### [TASK-567] Pixel Perfect Audit
-- **Description:** Audit visual menyeluruh membandingkan versi React vs HTML legacy.
-- **Priority:** High
-- **Status:** TODO
-- **Dependencies:** TASK-561, TASK-562, TASK-563, TASK-564, TASK-565, TASK-566
-- **Acceptance Criteria:** Tidak ada penyimpangan visual, layout stabil, warna & spacing identik dengan legacy.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** -
-
-### [TASK-568] Release Candidate v2
-- **Description:** Pengujian build, lint, dan UAT akhir untuk restorasi UI.
-- **Priority:** High
-- **Status:** TODO
-- **Dependencies:** TASK-567
-- **Acceptance Criteria:** build PASS, lint PASS, UAT final PASS oleh pengguna manusia.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** -
-
-### [TASK-569] Simplify Task Creation UX
-- **Description:** Penyederhanaan alur pembuatan task inline dengan menghapus tombol detail modal dan menggantinya dengan trailing icon plus di kanan input serta menambahkan petunjuk tombol pintas (Press Enter ↵).
-- **Priority:** Medium
-- **Status:** TESTING
-- **Dependencies:** None
-- **Acceptance Criteria:** Aksi Enter dan klik ikon "+" memicu penambahan task yang sama, placeholder "What needs to be done today?", hint teks kecil muncul di bawah input.
-- **Progress:** 100%
-- **Related Docs:** None
-- **Notes:** -
+## M5 - Notes (IN PROGRESS)
+*(Area catatan bebas berbasis Markdown)*
 
 ### [TASK-570] Design System & UX Consistency Audit
 - **Description:** Audit menyeluruh visual hierarchy, typography, colors, inputs, buttons, cards, spacing, icons, responsive behavior, dan buat Design System.
@@ -332,19 +219,7 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Related Docs:** docs/design/DESIGN_SYSTEM.md
 - **Notes:** Implementasi selesai dan Manual UAT dinyatakan PASS oleh User.
 
-### [TASK-575] Final UI Polish
-- **Description:** Pembersihan inline CSS style di seluruh JSX file, penyelarasan ikonografi, transisi, dan pengujian build akhir.
-- **Priority:** Low
-- **Status:** TESTING
-- **Dependencies:** TASK-571, TASK-572, TASK-573, TASK-574
-- **Acceptance Criteria:** Seluruh JSX bebas inline styles, transisi animasi halus di semua resolusi layar, build PASS.
-- **Progress:** 100%
-- **Related Docs:** docs/design/DESIGN_SYSTEM.md
-- **Notes:** -
-
 ---
-
-> **Note**: Roadmap berikut menggunakan pendekatan **Offline First**. Seluruh fitur inti dikembangkan dan divalidasi secara lokal sebelum integrasi Authentication dan Cloud Sync.
 
 ## M6 - Settings & Local Features
 *(Settings Page, Theme, Import/Export, Dashboard Parity)*
@@ -641,6 +516,169 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
 - **Notes:** Audit PASS. Tidak ada gap kritis. Perbedaan minor (notification toggle, splash screen) diterima. Semua fitur inti CRUD sudah paritas.
 
+---
+
+## M13 - Operation Stabilization
+
+
+### [TASK-1301] Legacy Code Cleanup
+- **Description:** Hapus folder `legacy_html_version/` dan script lama yang tidak dipakai.
+- **Priority:** High
+- **Status:** DONE
+- **Dependencies:** None
+- **Acceptance Criteria:** Repository bersih dari file legacy JS/HTML/Python.
+
+## 🔄 PENDING TASKS (TODO / TESTING / BACKLOG)
+
+---
+
+## M13 - Operation Stabilization
+
+
+### [TASK-1302] Strict Type Safety Patch
+- **Description:** Hapus penggunaan tipe `any` di seluruh project (terutama di `AppContext.tsx`) dan gunakan interface ketat.
+- **Priority:** High
+- **Status:** DONE
+- **Dependencies:** TASK-1301
+- **Acceptance Criteria:** Tidak ada peringatan `any` saat menjalankan TypeScript linting.
+
+---
+
+## 🔄 PENDING TASKS
+
+## M2 - Task Management
+*(Migrasi Core Task Logic, UI Tasks, dan Modal)*
+
+### [TASK-202] Inline Task Input (Zero-Friction)
+- **Description:** Hapus sistem penambahan Task tradisional (modal panjang) untuk penambahan cepat. Buat input satu baris (command line style) persis di atas halaman Tasks.
+- **Priority:** Medium
+- **Status:** BACKLOG
+- **Dependencies:** TASK-201
+- **Acceptance Criteria:** Menekan "Enter" membuat task baru, field langsung bersih.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** Optimalisasi User Experience (UX) lanjutan.
+
+### [TASK-558] Release Candidate Audit
+- **Description:** Audit kelayakan pra-rilis.
+- **Priority:** High
+- **Status:** FAILED
+- **Dependencies:** TASK-551, TASK-552, TASK-553, TASK-554, TASK-555, TASK-556, TASK-557
+- **Acceptance Criteria:** npm run build PASS, TypeScript PASS, lint PASS, tidak ada console error, UAT PASS, siap ditandai sebagai Release Candidate sebelum M6.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** Gagal pada saat visual inspection UAT oleh User (UI Regression).
+
+### [TASK-561] Restore Layout Wrapper
+- **Description:** Mengimpor index.css ke main.tsx dan menyesuaikan agar tidak menimpa background & font legacy.
+- **Priority:** High
+- **Status:** TESTING
+- **Dependencies:** None
+- **Acceptance Criteria:** Variabel spacing/radius terdefinisi secara global tanpa merusak font Poppins & gradien latar belakang.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** index.css diimpor, override global yang menimpa visual legacy dibersihkan, font Poppins dimuat di index.html.
+
+### [TASK-562] Restore Sidebar
+- **Description:** Memperbaiki layout, padding, serta urutan z-index sidebar dan overlay.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Sidebar terbuka/tutup dengan transisi halus tanpa tertutup overlay.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-563] Restore Header
+- **Description:** Menyelaraskan struktur header dan navbar agar sesuai dengan tinggi & layout legacy.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Header setinggi 96px (desktop) / 70px (mobile), logo dan action terposisi tepat.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-564] Restore Dashboard
+- **Description:** Memulihkan grid, gap, spacing, dan layout card pada halaman utama Dashboard.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Level progress box, quick stats, activity heatmap, dan motivation quote sejajar pixel-perfect.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-565] Restore Bottom Navigation
+- **Description:** Mengembalikan DOM bottom nav menggunakan ID `#bottomNav` dan menghapus teks label tombol.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Bottom nav melayang di posisi yang tepat di mobile, bersembunyi di desktop, tombol memuat emoji saja.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-566] Responsive Fix
+- **Description:** Menyesuaikan media query CSS agar layout konsisten di berbagai ukuran layar.
+- **Priority:** Medium
+- **Status:** TESTING
+- **Dependencies:** TASK-561
+- **Acceptance Criteria:** Layout grid dan navbar merespons breakpoints 1100px, 768px, 640px dengan benar.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** Diselesaikan dengan integrasi safe-area inset (iOS notch), layout stacking di settings, wrapping di notes dan task tags/subtasks, serta modal scrollable.
+
+### [TASK-567] Pixel Perfect Audit
+- **Description:** Audit visual menyeluruh membandingkan versi React vs HTML legacy.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-561, TASK-562, TASK-563, TASK-564, TASK-565, TASK-566
+- **Acceptance Criteria:** Tidak ada penyimpangan visual, layout stabil, warna & spacing identik dengan legacy.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-568] Release Candidate v2
+- **Description:** Pengujian build, lint, dan UAT akhir untuk restorasi UI.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-567
+- **Acceptance Criteria:** build PASS, lint PASS, UAT final PASS oleh pengguna manusia.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-569] Simplify Task Creation UX
+- **Description:** Penyederhanaan alur pembuatan task inline dengan menghapus tombol detail modal dan menggantinya dengan trailing icon plus di kanan input serta menambahkan petunjuk tombol pintas (Press Enter ↵).
+- **Priority:** Medium
+- **Status:** TESTING
+- **Dependencies:** None
+- **Acceptance Criteria:** Aksi Enter dan klik ikon "+" memicu penambahan task yang sama, placeholder "What needs to be done today?", hint teks kecil muncul di bawah input.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** -
+
+---
+
+## M5 - Notes (IN PROGRESS)
+*(Area catatan bebas berbasis Markdown)*
+
+### [TASK-575] Final UI Polish
+- **Description:** Pembersihan inline CSS style di seluruh JSX file, penyelarasan ikonografi, transisi, dan pengujian build akhir.
+- **Priority:** Low
+- **Status:** TESTING
+- **Dependencies:** TASK-571, TASK-572, TASK-573, TASK-574
+- **Acceptance Criteria:** Seluruh JSX bebas inline styles, transisi animasi halus di semua resolusi layar, build PASS.
+- **Progress:** 100%
+- **Related Docs:** docs/design/DESIGN_SYSTEM.md
+- **Notes:** -
+
+---
+
+## M12 - Final Release Candidate
+*(Pra-rilis, Theme Detection, dan UAT Akhir)*
+
 ### [TASK-1203] Final Manual UAT
 - **Description:** Regresi seluruh fungsi CRUD, UI interactions, performa form, auth, serta fungsionalitas offline.
 - **Priority:** High
@@ -670,6 +708,25 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 - **Progress:** 100%
 - **Related Docs:** None
 - **Notes:** Menunggu Manual UAT oleh User.
+
+---
+
+## M13 - Operation Stabilization
+
+
+### [TASK-1303] IndexedDB Storage Migration
+- **Description:** Pindahkan penyimpanan data dari `localStorage` sinkronus ke IndexedDB (Dexie.js) secara asinkronus. Keluarkan fungsi tulis dari *useEffect*.
+- **Priority:** Critical
+- **Status:** TODO
+- **Dependencies:** TASK-1302
+- **Acceptance Criteria:** Operasi simpan (write) berjalan asinkronus dan tidak membekukan UI saat data berjumlah besar.
+
+### [TASK-1304] AppContext Splitting
+- **Description:** Pecah "God Context" (`AppContext`) menjadi konteks tersendiri (`TaskContext`, `HabitContext`, `NoteContext`, `SettingsContext`) untuk mencegah re-render UI global.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1303
+- **Acceptance Criteria:** Mengubah status tugas (Task) tidak memicu render ulang (re-render) pada komponen kebiasaan (Habit) atau catatan (Note).
 
 ---
 
@@ -716,33 +773,3 @@ Deskripsi: "Milestone ini bertujuan memperbaiki regresi visual dan layout yang p
 
 ---
 
-## M13 - Operation Stabilization
-*(Fokus pada pembersihan Technical Debt, Type Safety, dan Storage Migration sebelum melangkah ke rilis stabil)*
-
-### [TASK-1301] Legacy Code Cleanup
-- **Description:** Hapus folder `legacy_html_version/` dan script lama yang tidak dipakai.
-- **Priority:** High
-- **Status:** DONE
-- **Dependencies:** None
-- **Acceptance Criteria:** Repository bersih dari file legacy JS/HTML/Python.
-
-### [TASK-1302] Strict Type Safety Patch
-- **Description:** Hapus penggunaan tipe `any` di seluruh project (terutama di `AppContext.tsx`) dan gunakan interface ketat.
-- **Priority:** High
-- **Status:** TODO
-- **Dependencies:** TASK-1301
-- **Acceptance Criteria:** Tidak ada peringatan `any` saat menjalankan TypeScript linting.
-
-### [TASK-1303] IndexedDB Storage Migration
-- **Description:** Pindahkan penyimpanan data dari `localStorage` sinkronus ke IndexedDB (Dexie.js) secara asinkronus. Keluarkan fungsi tulis dari *useEffect*.
-- **Priority:** Critical
-- **Status:** TODO
-- **Dependencies:** TASK-1302
-- **Acceptance Criteria:** Operasi simpan (write) berjalan asinkronus dan tidak membekukan UI saat data berjumlah besar.
-
-### [TASK-1304] AppContext Splitting
-- **Description:** Pecah "God Context" (`AppContext`) menjadi konteks tersendiri (`TaskContext`, `HabitContext`, `NoteContext`, `SettingsContext`) untuk mencegah re-render UI global.
-- **Priority:** High
-- **Status:** TODO
-- **Dependencies:** TASK-1303
-- **Acceptance Criteria:** Mengubah status tugas (Task) tidak memicu render ulang (re-render) pada komponen kebiasaan (Habit) atau catatan (Note).

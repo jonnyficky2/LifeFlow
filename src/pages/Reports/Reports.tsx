@@ -92,7 +92,7 @@ export const Reports: React.FC = () => {
 
       let completedHabits = 0;
       if (habitHistory) {
-        Object.values(habitHistory).forEach((dates: any) => {
+        Object.values(habitHistory).forEach((dates: string[]) => {
           if (Array.isArray(dates) && dates.includes(dateKey)) {
             completedHabits++;
           }

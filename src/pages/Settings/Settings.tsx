@@ -3,6 +3,7 @@ import './Settings.css';
 import { SettingsSection } from './components/SettingsSection';
 import { SettingsItem } from './components/SettingsItem';
 import { useAppContext, STORAGE_KEYS } from '../../context/AppContext';
+import type { AppSettings } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
 import { Modal } from '../../components/ui/Modal';
@@ -111,7 +112,7 @@ export const Settings: React.FC = () => {
   };
 
   const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSettings((prev: any) => ({ ...prev, theme: e.target.value }));
+    setSettings((prev: AppSettings) => ({ ...prev, theme: e.target.value }));
   };
 
   if (isAppLoading) {

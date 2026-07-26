@@ -30,7 +30,7 @@ export const Dashboard: React.FC = () => {
     const today = getLocalDateString(new Date());
 
     appData.forEach(category => {
-      category.tasks?.forEach((task: any) => {
+      category.tasks?.forEach((task: Task) => {
         total++;
         if (task.deadline === today) todayTasks++;
         if (task.done) done++;
