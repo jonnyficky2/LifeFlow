@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import { APP_LOGO, DEFAULT_AVATAR } from './assets';
 
 export const Navbar: React.FC = () => {
-  const { isSidebarOpen, setSidebarOpen, activeSection } = useAppContext();
+  const { isSidebarOpen, setSidebarOpen, activeSection, setActiveSection } = useAppContext();
   const { undoTask, redoTask } = useTaskContext();
   const { undoHabit, redoHabit } = useHabitContext();
   const { undoNote, redoNote } = useNoteContext();
@@ -40,7 +40,19 @@ export const Navbar: React.FC = () => {
       <div className="navbar-container">
         
         {/* Logo & Title */}
-        <div className="navbar-brand">
+        <div 
+          className="navbar-brand"
+          onClick={() => setActiveSection('home')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setActiveSection('home');
+            }
+          }}
+          aria-label="Go to LifeFlow Dashboard"
+        >
           <img src={APP_LOGO} alt="Logo" className="navbar-logo" />
           <span className="navbar-title sidebar-title">Life<span>Flow</span></span>
         </div>
@@ -48,7 +60,7 @@ export const Navbar: React.FC = () => {
         <div className="navbar-actions">
           <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" aria-label="Undo last action" onClick={handleUndo}>↩</button>
           <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" aria-label="Redo last action" onClick={handleRedo}>↪</button>
-          <button id="desktopThemeToggle" type="button" className="btn btn--icon" aria-label="Toggle theme" onClick={toggleTheme} style={{marginRight: '12px'}}>◐</button>
+          <button id="desktopThemeToggle" type="button" className="btn btn--icon" aria-label="Toggle theme" onClick={toggleTheme}>◐</button>
 
           {!user ? (
             <button id="navLoginBtn" type="button" className="nav-login-btn" onClick={loginWithGoogle}>Sign In</button>

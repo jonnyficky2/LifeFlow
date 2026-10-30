@@ -616,12 +616,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-563] Restore Header
 - **Description:** Menyelaraskan struktur header dan navbar agar sesuai dengan tinggi & layout legacy.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Header setinggi 96px (desktop) / 70px (mobile), logo dan action terposisi tepat.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** (1) Tinggi navbar diselaraskan 96px (desktop) dan 70px (mobile) dengan safe-area inset; (2) `.navbar-brand` dibuat interaktif mengarah ke dashboard saat diklik dengan `pointer-events: auto`; (3) Definisi kelas `.btn--icon` untuk tombol undo, redo, dan tema dengan styling konsisten 40px; (4) Standarisasi ukuran tombol Auth login dan avatar menjadi 40px sejajar tombol lain; (5) Menghapus inline style pada tombol toggle tema di JSX; (6) Menambahkan styling responsive navbar untuk breakpoint 640px, 480px, dan 360px serta glassmorphism backdrop pada mobile agar konten scroll tidak bertabrakan. Menunggu Manual UAT.
 
 ### [TASK-564] Restore Dashboard
 - **Description:** Memulihkan grid, gap, spacing, dan layout card pada halaman utama Dashboard.

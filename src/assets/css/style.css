@@ -31,6 +31,7 @@
   text-decoration: none;
   color: white;
   flex-shrink: 0;
+  pointer-events: auto;
 }
 
 .navbar-logo {
@@ -57,14 +58,55 @@
   pointer-events: auto; /* Memungkinkan klik di area tombol */
 }
 
+/* Icon Buttons in Navbar (Undo, Redo, Theme) */
+.btn--icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--dash-text);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+}
+
+.btn--icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn--icon:active {
+  transform: scale(0.95);
+}
+
+body.light-mode .btn--icon {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #0f172a;
+}
+
+body.light-mode .btn--icon:hover {
+  background: rgba(0, 0, 0, 0.09);
+  color: #000;
+}
+
 .nav-login-btn {
   background: linear-gradient(135deg, var(--primary), var(--primary)) !important;
   color: white !important;
-  padding: var(--space-2) 24px !important;
-  height: 42px !important;
+  padding: var(--space-2) 20px !important;
+  height: 40px !important;
   font-size: 14px !important;
   font-weight: 600 !important;
-  border-radius: var(--dash-radius) !important;
+  border-radius: var(--radius-sm) !important;
   border: none !important;
   white-space: nowrap;
   box-shadow: 0 4px 12px rgba(77, 112, 255, 0.2);
@@ -79,8 +121,8 @@
 }
 
 .nav-user-img {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-sm);
   object-fit: cover;
   border: 2px solid var(--color-primary);
@@ -2258,6 +2300,7 @@ header {
 
 .navbar-brand {
   display: flex;
+  pointer-events: auto;
 }
 
 .sidebar-toggle {
@@ -2996,8 +3039,10 @@ body.light-mode .sidebar-streak-card span {
     left: 0;
     height: calc(70px + env(safe-area-inset-top));
     padding-top: env(safe-area-inset-top);
-    background: transparent;
-    border-bottom: none;
+    background: rgba(6, 16, 31, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     pointer-events: auto;
   }
 
@@ -3009,6 +3054,7 @@ body.light-mode .sidebar-streak-card span {
 
   .navbar-brand {
     display: flex;
+    pointer-events: auto;
   }
 
   .app-sidebar {
@@ -3054,6 +3100,28 @@ body.light-mode .sidebar-streak-card span {
 }
 
 @media (max-width: 640px) {
+  .navbar-actions {
+    gap: var(--space-2);
+  }
+
+  .btn--icon,
+  .sidebar-toggle {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+
+  .nav-login-btn {
+    height: 36px !important;
+    padding: 0 14px !important;
+    font-size: 13px !important;
+  }
+
+  .nav-user-img {
+    width: 36px;
+    height: 36px;
+  }
+
   .dashboard-header {
     align-items: stretch;
     flex-direction: column;
@@ -3096,6 +3164,33 @@ body.light-mode .sidebar-streak-card span {
 }
 
 @media (max-width: 480px) {
+  .navbar-actions {
+    gap: 6px;
+  }
+
+  .navbar-title {
+    font-size: 16px;
+  }
+
+  .btn--icon,
+  .sidebar-toggle {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 14px;
+  }
+
+  .nav-user-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-login-btn {
+    height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 12px !important;
+  }
+
   #levelBox {
     padding: var(--space-4);
     gap: var(--space-3);
@@ -3103,6 +3198,11 @@ body.light-mode .sidebar-streak-card span {
 }
 
 @media (max-width: 360px) {
+  #undoBtn,
+  #redoBtn {
+    display: none;
+  }
+
   #quickStats {
     grid-template-columns: 1fr;
   }

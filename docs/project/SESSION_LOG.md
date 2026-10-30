@@ -209,6 +209,16 @@
   - Memverifikasi build lolos 100% tanpa error TypeScript dan Vite build.
   - Manual UAT divalidasi dan dinyatakan PASS oleh user.
   - Status tiket di TASK_BOARD.md diperbarui menjadi DONE.
+- **[TASK-563] Restore Header & Navbar Alignment (Status: TESTING):**
+  - Menyelaraskan tinggi header/navbar 96px di desktop dan 70px di mobile dengan kalkulasi `env(safe-area-inset-top)`.
+  - Menjadikan `.navbar-brand` interaktif (dapat diklik/di-Enter untuk kembali ke Dashboard) dan memastikan `pointer-events: auto;`.
+  - Mengimplementasikan styling kelas `.btn--icon` terpadu untuk tombol Undo, Redo, dan Theme Toggle (ukuran 40px, rounded corners, hover/active elevation, dan dukungan Dark/Light mode).
+  - Standarisasi tinggi tombol Auth login dan avatar menjadi 40px agar sejajar harmonis dengan ikon aksi lainnya.
+  - Menghapus inline style `style={{marginRight: '12px'}}` pada JSX Navbar.
+  - Menambahkan penyesuaian breakpoint responsive di 640px, 480px, dan 360px serta efek glassmorphism backdrop pada mobile agar konten scroll tidak bertabrakan dengan navbar.
+  - Memverifikasi build akhir (`npm run build`) sukses 100% tanpa error.
+  - Menyiapkan skenario Manual UAT untuk validasi user.
+
 
 
 
