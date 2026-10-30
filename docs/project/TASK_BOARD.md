@@ -626,12 +626,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-564] Restore Dashboard
 - **Description:** Memulihkan grid, gap, spacing, dan layout card pada halaman utama Dashboard.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Level progress box, quick stats, activity heatmap, dan motivation quote sejajar pixel-perfect.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** (1) Grid #levelBox diperbaiki dari 3-kolom (140px 1fr 140px) ke 2-kolom proporsional (auto 1fr), menghilangkan celah kosong dan teks level yang terpotong; (2) Memulihkan .activity-panel yang sebelumnya tertimpa display:none sehingga heatmap aktivitas 30 hari muncul kembali; (3) Grid #heatmap diatur 10 kolom di desktop dan 6 kolom di mobile agar genap 30 kotak; (4) .dashboard-grid diseimbangkan menjadi 2 kolom simetris 1fr 1fr dengan tinggi panel yang sejajar; (5) Tipografi quote motivasi dirapikan dengan keterbacaan penuh di dark & light mode. Menunggu Manual UAT.
 
 ### [TASK-565] Restore Bottom Navigation
 - **Description:** Mengembalikan DOM bottom nav menggunakan ID `#bottomNav` dan menghapus teks label tombol.

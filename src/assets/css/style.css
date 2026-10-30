@@ -845,47 +845,35 @@ body.light-mode .task-right button{
    HEATMAP
 ========================= */
 
-#heatmap{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(7,1fr);
-
+#heatmap {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
   gap: var(--space-2);
-
-  margin-top: var(--space-5);
-
-  max-width:320px;
+  margin-top: var(--space-4);
+  width: 100%;
 }
 
-.day-box{
-
-  aspect-ratio:1/1;
-
+.day-box {
+  aspect-ratio: 1 / 1;
   border-radius: var(--radius-sm);
-
-  background:
-    rgba(255,255,255,.08);
-
-  transition:.2s;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-body.light-mode .day-box{
-  background: var(--color-bg-deep);
+.day-box:hover {
+  transform: scale(1.12);
 }
 
-.day-active{
+body.light-mode .day-box {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.04);
+}
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--primary),
-      var(--secondary)
-    );
-
-  box-shadow:
-    0 0 15px rgba(56,189,248,.4);
+.day-active {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
 }
 
 /* =========================
@@ -2516,9 +2504,9 @@ header {
 
 #levelBox {
   display: grid;
-  grid-template-columns: 140px 1fr 140px;
+  grid-template-columns: minmax(180px, auto) 1fr;
   align-items: center;
-  gap: 26px;
+  gap: var(--space-6);
   padding: var(--space-6);
   margin-bottom: var(--space-5);
   background: var(--card);
@@ -2526,6 +2514,13 @@ header {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(18px);
+}
+
+.xp-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
 }
 
 body.light-mode #levelBox {
@@ -2679,9 +2674,13 @@ body.light-mode #levelBox {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(360px, 1.05fr) minmax(360px, 1.35fr);
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-5);
   margin-bottom: var(--space-5);
+}
+
+.activity-panel {
+  display: block;
 }
 
 .dashboard-panel {
@@ -2772,34 +2771,39 @@ body.light-mode #levelBox {
 }
 
 .dashboard-side {
-  display: grid;
-  gap: var(--space-5);
+  display: flex;
+  flex-direction: column;
 }
 
 .motivation-panel {
   position: relative;
   min-height: 190px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .motivation-panel h2 {
-  margin-bottom: 34px;
+  margin-bottom: var(--space-3);
 }
 
 #quoteText {
   position: relative;
   z-index: 1;
-  max-width: 65%;
+  max-width: 100%;
   color: #c8d1e4;
-  font-size: 22px;
-  line-height: 1.45;
+  font-size: 18px;
+  line-height: 1.5;
+  font-style: italic;
 }
 
 #quoteAuthor {
   position: relative;
   z-index: 1;
   color: var(--dash-muted);
-  font-size: 16px;
+  font-size: 15px;
+  margin-top: var(--space-2);
 }
 
 .mountain-art {
@@ -2917,9 +2921,7 @@ body.has-categories .category-empty-row {
   display: none;
 }
 
-.activity-panel {
-  display: none;
-}
+/* Activity Panel is visible on dashboard */
 
 .category {
   margin-top: var(--space-4);
@@ -3151,6 +3153,11 @@ body.light-mode .sidebar-streak-card span {
   #quoteText {
     max-width: 100%;
     font-size: 18px;
+  }
+
+  #heatmap {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
   }
 
   .mountain-art {

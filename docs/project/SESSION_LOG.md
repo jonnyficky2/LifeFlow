@@ -219,6 +219,15 @@
   - Memverifikasi build akhir (`npm run build`) sukses 100% tanpa error.
   - Manual UAT divalidasi dan dinyatakan PASS oleh user.
   - Status tiket di TASK_BOARD.md diperbarui menjadi DONE.
+- **[TASK-564] Restore Dashboard Layout, Level Box & Heatmap (Status: TESTING):**
+  - Mengubah layout `#levelBox` dari 3-kolom kaku (`140px 1fr 140px`) menjadi 2-kolom proporsional (`minmax(180px, auto) 1fr`), menghilangkan void kosong sebelah kanan dan membuat judul level serta progress XP presisi.
+  - Memulihkan Activity Panel (`.activity-panel`) yang sebelumnya tertimpa `display: none;`, mengembalikan tampilan activity heatmap 30 hari di halaman utama.
+  - Merapikan susunan grid `#heatmap` menjadi 10 kolom × 3 baris di desktop dan 6 kolom × 5 baris di mobile (total 30 kotak simetris tanpa kotak yatim).
+  - Menyeimbangkan `.dashboard-grid` menjadi 2-kolom seimbang (`1fr 1fr`) sehingga Activity Panel dan Motivation Panel memiliki tinggi dan batas border sejajar.
+  - Memperbaiki tipografi dan styling quote motivasi (`#quoteText`) agar responsif penuh dan kontras jelas di mode terang maupun gelap.
+  - Memverifikasi build lulus 100% tanpa error TypeScript dan Vite build.
+  - Menyiapkan skenario Manual UAT untuk validasi user.
+
 
 
 
