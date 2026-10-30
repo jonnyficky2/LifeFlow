@@ -606,12 +606,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-562] Restore Sidebar
 - **Description:** Memperbaiki layout, padding, serta urutan z-index sidebar dan overlay.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Sidebar terbuka/tutup dengan transisi halus tanpa tertutup overlay.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** 3 bug CSS diperbaiki: (1) `.app-sidebar` padding di-restore dengan `env(safe-area-inset-top)` agar konten tidak terpotong di iPhone notch; (2) `.sidebar-header` Set B ditambahkan `display: flex; align-items: center;` agar brand logo & tombol close ter-align vertikal; (3) `.sidebar-close` di media query mobile diubah dari `display: block` ke `display: flex` agar ikon × tetap ter-center. Hanya file `style.css` yang berubah.
 
 ### [TASK-563] Restore Header
 - **Description:** Menyelaraskan struktur header dan navbar agar sesuai dengan tinggi & layout legacy.

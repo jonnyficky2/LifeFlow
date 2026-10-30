@@ -2296,7 +2296,8 @@ header {
 .app-sidebar {
   left: -288px;
   width: 288px;
-  padding: var(--space-6) 16px 24px;
+  /* Restore safe-area-inset-top so content isn't clipped behind iPhone notch */
+  padding: calc(var(--space-6) + env(safe-area-inset-top)) 16px 24px calc(16px + env(safe-area-inset-left));
   background: rgba(6, 16, 31, 0.92);
   border-right: 1px solid var(--dash-border);
   box-shadow: 18px 0 50px rgba(0, 0, 0, 0.24);
@@ -2308,8 +2309,10 @@ header {
 }
 
 .sidebar-header {
-  padding: 0 var(--space-4);
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 0 var(--space-4);
 }
 
 .app-sidebar-brand {
@@ -3017,7 +3020,8 @@ body.light-mode .sidebar-streak-card span {
   }
 
   .sidebar-close {
-    display: block;
+    /* Keep flex so the × icon stays centered — do NOT override to block */
+    display: flex;
   }
 
   #levelBox,
