@@ -202,12 +202,13 @@
   - Memverifikasi build akhir (`npm run build`) 100% lulus tanpa kendala.
 
 ## 2026-10-30
-- **[TASK-562] Restore Sidebar Layout & Responsive Fix (Status: TESTING):**
+- **[TASK-562] Restore Sidebar Layout & Responsive Fix (Status: DONE):**
   - Mengembalikan padding safe-area iPhone notch pada `.app-sidebar` (`calc(var(--space-6) + env(safe-area-inset-top)) 16px 24px calc(16px + env(safe-area-inset-left))`).
   - Menyelaraskan tata letak `.sidebar-header` dengan `display: flex; align-items: center; justify-content: space-between;` agar brand logo dan tombol close ter-align secara vertikal.
   - Memperbaiki tombol `.sidebar-close` pada media query mobile agar tetap `display: flex` (mencegah override `display: block` yang menyebabkan ikon × tidak terpusat).
   - Memverifikasi build lolos 100% tanpa error TypeScript dan Vite build.
-  - Menyiapkan skenario Manual UAT untuk divalidasi oleh pengguna sebelum penandaan DONE di TASK_BOARD.md.
+  - Manual UAT divalidasi dan dinyatakan PASS oleh user.
+  - Status tiket di TASK_BOARD.md diperbarui menjadi DONE.
 
 
 

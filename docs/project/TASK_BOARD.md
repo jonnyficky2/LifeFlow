@@ -5,7 +5,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 📊 Overall Progress: 76% (48/63 Tasks Completed)
+## 📊 Overall Progress: 78% (49/63 Tasks Completed)
 
 ---
 
@@ -606,12 +606,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-562] Restore Sidebar
 - **Description:** Memperbaiki layout, padding, serta urutan z-index sidebar dan overlay.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Sidebar terbuka/tutup dengan transisi halus tanpa tertutup overlay.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** 3 bug CSS diperbaiki: (1) `.app-sidebar` padding di-restore dengan `env(safe-area-inset-top)` agar konten tidak terpotong di iPhone notch; (2) `.sidebar-header` Set B ditambahkan `display: flex; align-items: center;` agar brand logo & tombol close ter-align vertikal; (3) `.sidebar-close` di media query mobile diubah dari `display: block` ke `display: flex` agar ikon × tetap ter-center. Hanya file `style.css` yang berubah.
+- **Notes:** UAT Lulus. 3 bug CSS diperbaiki: (1) `.app-sidebar` padding di-restore dengan `env(safe-area-inset-top)` agar konten tidak terpotong di iPhone notch; (2) `.sidebar-header` Set B ditambahkan `display: flex; align-items: center;` agar brand logo & tombol close ter-align vertikal; (3) `.sidebar-close` di media query mobile diubah dari `display: block` ke `display: flex` agar ikon × tetap ter-center. Hanya file `style.css` yang berubah.
 
 ### [TASK-563] Restore Header
 - **Description:** Menyelaraskan struktur header dan navbar agar sesuai dengan tinggi & layout legacy.
