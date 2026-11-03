@@ -244,6 +244,11 @@
   - Memverifikasi penataan Service Worker dan precache manifest PWA (`workbox`, `dist/sw.js`).
   - Seluruh kriteria penerimaan teknis terpenuhi tanpa error atau peringatan kritis.
   - Mempersiapkan rilis UI Restoration (M5) untuk validasi Manual UAT final oleh pengguna.
+- **[TASK-1203] Final Manual UAT Preparation (Status: TESTING):**
+  - Menyusun panduan dan matriks uji regresi menyeluruh untuk 9 modul utama aplikasi: Dashboard, Tasks & Categories CRUD, Habits Tracker, Calendar, Notes, Focus Timer, Reports & Statistics, Settings (Backup/Restore/Reset), serta Autentikasi dan PWA Offline.
+  - Memverifikasi tidak adanya console error dan kompatibilitas penuh antar platform (Mobile & Desktop).
+  - Menyiapkan langkah UAT bertahap bagi pengguna sebelum rilis publik akhir v1.0 (TASK-1204).
+
 
 
 

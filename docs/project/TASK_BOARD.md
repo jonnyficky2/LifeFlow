@@ -706,12 +706,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1203] Final Manual UAT
 - **Description:** Regresi seluruh fungsi CRUD, UI interactions, performa form, auth, serta fungsionalitas offline.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-1202
 - **Acceptance Criteria:** Semua skenario lulus (PASS) tanpa konsol eror.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Matriks skenario uji regresi komprehensif disiapkan mencakup 9 modul utama: Dashboard, Tasks & Categories CRUD, Habits Tracker, Calendar, Notes, Focus Timer, Reports & Statistics, Settings (Backup/Restore), dan Auth/PWA Offline. Menunggu validasi UAT akhir oleh pengguna.
 
 ### [TASK-1204] Release Candidate v1.0
 - **Description:** Pembungkusan komitmen akhir, penyesuaian versi rilis, pembuatan tag v1.0, dan deployment publik.
