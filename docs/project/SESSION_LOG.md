@@ -233,6 +233,13 @@
   - Memperbarui styling `#bottomNav button` menjadi tombol berukuran 52x52px dengan `border-radius: 16px`, ukuran emoji 24px, dan efek interaktif mikro saat aktif/ditekan (`transform: scale(0.92)`).
   - Menyelaraskan padding `#bottomNav` (8px 12px) agar melayang proporsional di atas safe-area mobile (`calc(var(--space-3) + env(safe-area-inset-bottom))`) dan tetap tersembunyi secara otomatis di tampilan desktop (> 1100px).
   - Memverifikasi build akhir (`npm run build`) sukses tanpa TypeScript atau Vite error.
+- **[TASK-567] Pixel Perfect Audit (Status: TESTING):**
+  - Melakukan visual audit komparatif menyeluruh antara versi React + TypeScript dengan rancangan HTML/CSS legacy.
+  - Memverifikasi keterbacaan dan penerapan font Poppins secara global di seluruh komponen teks, tombol, judul, dan angka statistik.
+  - Mengonfirmasi konsistensi background gradient, border colors, dan shadow tokens di mode gelap (`dark-mode`) dan terang (`light-mode`).
+  - Memeriksa kestabilan layout responsif di desktop (> 1100px), tablet (768px - 1100px), dan mobile (< 640px) tanpa clipping, overflow horizontal, atau tabrakan elemen.
+  - Memverifikasi hasil build (`npm run build`) dan linting (`npm run lint`) bersih dengan 0 error.
+
 
 
 
