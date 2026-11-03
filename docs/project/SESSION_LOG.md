@@ -239,6 +239,12 @@
   - Mengonfirmasi konsistensi background gradient, border colors, dan shadow tokens di mode gelap (`dark-mode`) dan terang (`light-mode`).
   - Memeriksa kestabilan layout responsif di desktop (> 1100px), tablet (768px - 1100px), dan mobile (< 640px) tanpa clipping, overflow horizontal, atau tabrakan elemen.
   - Memverifikasi hasil build (`npm run build`) dan linting (`npm run lint`) bersih dengan 0 error.
+- **[TASK-568] Release Candidate v2 (Status: TESTING):**
+  - Menjalankan serangkaian pengujian integrasi akhir untuk Milestone UI Restoration: pemeriksaan linting (`npm run lint`), validasi tipe TypeScript (`tsc -b`), dan kompilasi production bundle (`vite build`).
+  - Memverifikasi penataan Service Worker dan precache manifest PWA (`workbox`, `dist/sw.js`).
+  - Seluruh kriteria penerimaan teknis terpenuhi tanpa error atau peringatan kritis.
+  - Mempersiapkan rilis UI Restoration (M5) untuk validasi Manual UAT final oleh pengguna.
+
 
 
 

@@ -666,12 +666,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-568] Release Candidate v2
 - **Description:** Pengujian build, lint, dan UAT akhir untuk restorasi UI.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-567
 - **Acceptance Criteria:** build PASS, lint PASS, UAT final PASS oleh pengguna manusia.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** Build PASS (tsc -b && vite build), lint PASS (oxlint 0 errors), TypeScript PASS. Service worker dan precache PWA tergenerasi dengan sukses. Menunggu validasi final UAT dari pengguna.
 
 ### [TASK-569] Simplify Task Creation UX
 - **Description:** Penyederhanaan alur pembuatan task inline dengan menghapus tombol detail modal dan menggantinya dengan trailing icon plus di kanan input serta menambahkan petunjuk tombol pintas (Press Enter ↵).
