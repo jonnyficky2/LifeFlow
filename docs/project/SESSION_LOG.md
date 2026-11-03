@@ -227,6 +227,13 @@
   - Memperbaiki tipografi dan styling quote motivasi (`#quoteText`) agar responsif penuh dan kontras jelas di mode terang maupun gelap.
   - Memverifikasi build lulus 100% tanpa error TypeScript dan Vite build.
   - Menyiapkan skenario Manual UAT untuk validasi user.
+- **[TASK-565] Restore Bottom Navigation (Status: TESTING):**
+  - Menghapus seluruh label teks tombol (`Home`, `Calendar`, `Habits`, `Stats`, `Notes`) pada komponen `BottomNav.tsx` dan mempertahankan ikon emoji terpusat.
+  - Mengembalikan emoji legacy `🏠` untuk menu Home serta menyematkan ID tombol legacy (`#navHomeBtn`, `#navCalendarBtn`, `#navHabitBtn`, `#navStatsBtn`, `#navNotesBtn`) dan `aria-label` untuk mempertahankan standar aksesibilitas web.
+  - Memperbarui styling `#bottomNav button` menjadi tombol berukuran 52x52px dengan `border-radius: 16px`, ukuran emoji 24px, dan efek interaktif mikro saat aktif/ditekan (`transform: scale(0.92)`).
+  - Menyelaraskan padding `#bottomNav` (8px 12px) agar melayang proporsional di atas safe-area mobile (`calc(var(--space-3) + env(safe-area-inset-bottom))`) dan tetap tersembunyi secara otomatis di tampilan desktop (> 1100px).
+  - Memverifikasi build akhir (`npm run build`) sukses tanpa TypeScript atau Vite error.
+
 
 
 

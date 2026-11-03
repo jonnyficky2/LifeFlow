@@ -1048,7 +1048,7 @@ body.light-mode .day-box {
 
   max-width:450px;
 
-  padding: var(--space-4);
+  padding: 8px 12px;
 
   display:flex;
 
@@ -1086,48 +1086,58 @@ body.light-mode #bottomNav{
 
   display: flex;
 
-  flex-direction: column;
-
   align-items: center;
 
   justify-content: center;
 
-  font-size: 10px;
-
-  font-family: 'Poppins', sans-serif;
-
-  font-weight: 500;
-
-  gap: 2px;
+  font-size: 24px;
 
   cursor: pointer;
 
-  transition: color 0.15s, background-color 0.15s;
+  transition: color 0.15s, background-color 0.15s, transform 0.15s;
 
-  padding: 4px;
+  padding: 0;
+
+  width: 52px;
+
+  height: 52px;
 
   min-width: 44px;
 
   min-height: 44px;
 
+  border-radius: 16px;
+
 }
 
 #bottomNav button .nav-icon {
 
-  font-size: 18px;
+  font-size: 24px;
 
   line-height: 1;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
 }
 
 #bottomNav button.is-active {
 
   color: var(--color-primary);
 
-  background: rgba(85, 116, 255, 0.08);
+  background: rgba(85, 116, 255, 0.12);
+}
+
+#bottomNav button:active {
+
+  transform: scale(0.92);
 }
 
 body.light-mode #bottomNav button.is-active {
-  background: var(--color-bg-deep);
+  background: rgba(85, 116, 255, 0.1);
   color: var(--color-primary);
 }
 
@@ -1655,9 +1665,9 @@ body.light-mode .task:hover{
 
 #bottomNav button{
 
-  border-radius: var(--radius-sm);
+  border-radius: 16px;
 
-  width:56px;
+  width:52px;
   height:52px;
 }
 

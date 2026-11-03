@@ -636,12 +636,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-565] Restore Bottom Navigation
 - **Description:** Mengembalikan DOM bottom nav menggunakan ID `#bottomNav` dan menghapus teks label tombol.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Bottom nav melayang di posisi yang tepat di mobile, bersembunyi di desktop, tombol memuat emoji saja.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** (1) Menghapus seluruh label teks tombol (Home, Calendar, Habits, Stats, Notes) di BottomNav.tsx dan mempertahankan ikon emoji; (2) Mengembalikan emoji legacy 🏠 untuk Home serta menambahkan ID tombol legacy (#navHomeBtn, #navCalendarBtn, #navHabitBtn, #navStatsBtn, #navNotesBtn) dan aria-label untuk aksesibilitas; (3) Memperbaiki styling #bottomNav button menjadi 52x52px dengan border-radius 16px, transisi halus, dan state aktif terpusat; (4) Menyesuaikan padding floating nav bar (8px 12px) agar melayang proporsional di atas safe-area mobile dan tetap tersembunyi di desktop (> 1100px). Menunggu Manual UAT.
 
 ### [TASK-566] Responsive Fix
 - **Description:** Menyesuaikan media query CSS agar layout konsisten di berbagai ukuran layar.
