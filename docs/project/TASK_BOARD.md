@@ -596,12 +596,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-561] Restore Layout Wrapper
 - **Description:** Mengimpor index.css ke main.tsx dan menyesuaikan agar tidak menimpa background & font legacy.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** Variabel spacing/radius terdefinisi secara global tanpa merusak font Poppins & gradien latar belakang.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** index.css diimpor, override global yang menimpa visual legacy dibersihkan, font Poppins dimuat di index.html.
+- **Notes:** UAT Lulus. index.css diimpor, override global yang menimpa visual legacy dibersihkan, font Poppins dimuat di index.html.
 
 ### [TASK-562] Restore Sidebar
 - **Description:** Memperbaiki layout, padding, serta urutan z-index sidebar dan overlay.
@@ -626,62 +626,62 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-564] Restore Dashboard
 - **Description:** Memulihkan grid, gap, spacing, dan layout card pada halaman utama Dashboard.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Level progress box, quick stats, activity heatmap, dan motivation quote sejajar pixel-perfect.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** (1) Grid #levelBox diperbaiki dari 3-kolom (140px 1fr 140px) ke 2-kolom proporsional (auto 1fr), menghilangkan celah kosong dan teks level yang terpotong; (2) Memulihkan .activity-panel yang sebelumnya tertimpa display:none sehingga heatmap aktivitas 30 hari muncul kembali; (3) Grid #heatmap diatur 10 kolom di desktop dan 6 kolom di mobile agar genap 30 kotak; (4) .dashboard-grid diseimbangkan menjadi 2 kolom simetris 1fr 1fr dengan tinggi panel yang sejajar; (5) Tipografi quote motivasi dirapikan dengan keterbacaan penuh di dark & light mode. Menunggu Manual UAT.
+- **Notes:** UAT Lulus. (1) Grid #levelBox diperbaiki dari 3-kolom (140px 1fr 140px) ke 2-kolom proporsional (auto 1fr), menghilangkan celah kosong dan teks level yang terpotong; (2) Memulihkan .activity-panel yang sebelumnya tertimpa display:none sehingga heatmap aktivitas 30 hari muncul kembali; (3) Grid #heatmap diatur 10 kolom di desktop dan 6 kolom di mobile agar genap 30 kotak; (4) .dashboard-grid diseimbangkan menjadi 2 kolom simetris 1fr 1fr dengan tinggi panel yang sejajar; (5) Tipografi quote motivasi dirapikan dengan keterbacaan penuh di dark & light mode.
 
 ### [TASK-565] Restore Bottom Navigation
 - **Description:** Mengembalikan DOM bottom nav menggunakan ID `#bottomNav` dan menghapus teks label tombol.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Bottom nav melayang di posisi yang tepat di mobile, bersembunyi di desktop, tombol memuat emoji saja.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** (1) Menghapus seluruh label teks tombol (Home, Calendar, Habits, Stats, Notes) di BottomNav.tsx dan mempertahankan ikon emoji; (2) Mengembalikan emoji legacy 🏠 untuk Home serta menambahkan ID tombol legacy (#navHomeBtn, #navCalendarBtn, #navHabitBtn, #navStatsBtn, #navNotesBtn) dan aria-label untuk aksesibilitas; (3) Memperbaiki styling #bottomNav button menjadi 52x52px dengan border-radius 16px, transisi halus, dan state aktif terpusat; (4) Menyesuaikan padding floating nav bar (8px 12px) agar melayang proporsional di atas safe-area mobile dan tetap tersembunyi di desktop (> 1100px). Menunggu Manual UAT.
+- **Notes:** UAT Lulus. (1) Menghapus seluruh label teks tombol (Home, Calendar, Habits, Stats, Notes) di BottomNav.tsx dan mempertahankan ikon emoji; (2) Mengembalikan emoji legacy 🏠 untuk Home serta menambahkan ID tombol legacy (#navHomeBtn, #navCalendarBtn, #navHabitBtn, #navStatsBtn, #navNotesBtn) dan aria-label untuk aksesibilitas; (3) Memperbaiki styling #bottomNav button menjadi 52x52px dengan border-radius 16px, transisi halus, dan state aktif terpusat; (4) Menyesuaikan padding floating nav bar (8px 12px) agar melayang proporsional di atas safe-area mobile dan tetap tersembunyi di desktop (> 1100px).
 
 ### [TASK-566] Responsive Fix
 - **Description:** Menyesuaikan media query CSS agar layout konsisten di berbagai ukuran layar.
 - **Priority:** Medium
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-561
 - **Acceptance Criteria:** Layout grid dan navbar merespons breakpoints 1100px, 768px, 640px dengan benar.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Diselesaikan dengan integrasi safe-area inset (iOS notch), layout stacking di settings, wrapping di notes dan task tags/subtasks, serta modal scrollable.
+- **Notes:** UAT Lulus. Diselesaikan dengan integrasi safe-area inset (iOS notch), layout stacking di settings, wrapping di notes dan task tags/subtasks, serta modal scrollable.
 
 ### [TASK-567] Pixel Perfect Audit
 - **Description:** Audit visual menyeluruh membandingkan versi React vs HTML legacy.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-561, TASK-562, TASK-563, TASK-564, TASK-565, TASK-566
 - **Acceptance Criteria:** Tidak ada penyimpangan visual, layout stabil, warna & spacing identik dengan legacy.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** (1) Audit menyeluruh terhadap seluruh komponen dan modul (Navbar, Sidebar, Dashboard, Tasks, Categories, Calendar, Habits, Reports, Notes, Focus Timer, Settings, Bottom Nav); (2) Memverifikasi font Poppins & palette warna gradien terpasang konsisten di Dark dan Light mode; (3) Memverifikasi kestabilan breakpoints responsive (desktop > 1100px, tablet 768px-1100px, mobile <= 640px) tanpa layout shift maupun horizontal overflow; (4) Hasil linting dan production build bersih (0 error). Menunggu verifikasi visual akhir dari pengguna.
+- **Notes:** UAT Lulus. (1) Audit menyeluruh terhadap seluruh komponen dan modul (Navbar, Sidebar, Dashboard, Tasks, Categories, Calendar, Habits, Reports, Notes, Focus Timer, Settings, Bottom Nav); (2) Memverifikasi font Poppins & palette warna gradien terpasang konsisten di Dark dan Light mode; (3) Memverifikasi kestabilan breakpoints responsive (desktop > 1100px, tablet 768px-1100px, mobile <= 640px) tanpa layout shift maupun horizontal overflow; (4) Hasil linting dan production build bersih (0 error).
 
 ### [TASK-568] Release Candidate v2
 - **Description:** Pengujian build, lint, dan UAT akhir untuk restorasi UI.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-567
 - **Acceptance Criteria:** build PASS, lint PASS, UAT final PASS oleh pengguna manusia.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Build PASS (tsc -b && vite build), lint PASS (oxlint 0 errors), TypeScript PASS. Service worker dan precache PWA tergenerasi dengan sukses. Menunggu validasi final UAT dari pengguna.
+- **Notes:** UAT Lulus. Build PASS (tsc -b && vite build), lint PASS (oxlint 0 errors), TypeScript PASS. Service worker dan precache PWA tergenerasi dengan sukses.
 
 ### [TASK-569] Simplify Task Creation UX
 - **Description:** Penyederhanaan alur pembuatan task inline dengan menghapus tombol detail modal dan menggantinya dengan trailing icon plus di kanan input serta menambahkan petunjuk tombol pintas (Press Enter ↵).
 - **Priority:** Medium
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** Aksi Enter dan klik ikon "+" memicu penambahan task yang sama, placeholder "What needs to be done today?", hint teks kecil muncul di bawah input.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** UAT Lulus.
 
 ---
 
@@ -691,12 +691,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-575] Final UI Polish
 - **Description:** Pembersihan inline CSS style di seluruh JSX file, penyelarasan ikonografi, transisi, dan pengujian build akhir.
 - **Priority:** Low
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-571, TASK-572, TASK-573, TASK-574
 - **Acceptance Criteria:** Seluruh JSX bebas inline styles, transisi animasi halus di semua resolusi layar, build PASS.
 - **Progress:** 100%
 - **Related Docs:** docs/design/DESIGN_SYSTEM.md
-- **Notes:** -
+- **Notes:** UAT Lulus.
 
 ---
 
@@ -706,32 +706,32 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1203] Final Manual UAT
 - **Description:** Regresi seluruh fungsi CRUD, UI interactions, performa form, auth, serta fungsionalitas offline.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-1202
 - **Acceptance Criteria:** Semua skenario lulus (PASS) tanpa konsol eror.
 - **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** Matriks skenario uji regresi komprehensif disiapkan mencakup 9 modul utama: Dashboard, Tasks & Categories CRUD, Habits Tracker, Calendar, Notes, Focus Timer, Reports & Statistics, Settings (Backup/Restore), dan Auth/PWA Offline. Menunggu validasi UAT akhir oleh pengguna.
+- **Notes:** UAT Lulus. Matriks skenario uji regresi komprehensif mencakup 9 modul utama: Dashboard, Tasks & Categories CRUD, Habits Tracker, Calendar, Notes, Focus Timer, Reports & Statistics, Settings (Backup/Restore), dan Auth/PWA Offline.
 
 ### [TASK-1204] Release Candidate v1.0
 - **Description:** Pembungkusan komitmen akhir, penyesuaian versi rilis, pembuatan tag v1.0, dan deployment publik.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-1203
 - **Acceptance Criteria:** Aplikasi siap disebarluaskan di channel publik dengan branch v1.0 tercatat rapi.
 - **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** Build PASS (tsc + vite), lint PASS (0 errors), tag git v1.0 dibuat dan di-push ke remote. Siap deployment publik. Menunggu konfirmasi final dari pengguna.
+- **Notes:** UAT Lulus. Build PASS, lint PASS, TypeScript PASS. Git tag v1.0 dibuat dan di-push ke remote GitHub. Aplikasi siap deployment publik.
 
 ### [TASK-1205] Post-Release UX Polishing & Habit Bug Fixes
 - **Description:** Menghapus fitur share IG story, perbaikan layout header sidebar, fixing timezone Habit, dan membersihkan elemen redundan di Dashboard (UX Audit).
 - **Priority:** Medium
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** Dashboard lebih bersih tanpa teks Streak ganda, Undo/Redo di navbar, Habit stats akurat terhadap zona waktu lokal.
 - **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Menunggu Manual UAT oleh User.
+- **Notes:** UAT Lulus.
 
 ---
 
