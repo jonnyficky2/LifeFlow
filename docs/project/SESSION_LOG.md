@@ -248,6 +248,11 @@
   - Menyusun panduan dan matriks uji regresi menyeluruh untuk 9 modul utama aplikasi: Dashboard, Tasks & Categories CRUD, Habits Tracker, Calendar, Notes, Focus Timer, Reports & Statistics, Settings (Backup/Restore/Reset), serta Autentikasi dan PWA Offline.
   - Memverifikasi tidak adanya console error dan kompatibilitas penuh antar platform (Mobile & Desktop).
   - Menyiapkan langkah UAT bertahap bagi pengguna sebelum rilis publik akhir v1.0 (TASK-1204).
+- **[TASK-1204] Release Candidate v1.0 (Status: TESTING):**
+  - Menjalankan final build check: `tsc -b && vite build` PASS, `oxlint` PASS (0 errors), service worker & PWA precache tergenerasi.
+  - Menyusun commit penutup Milestone dan menyiapkan tag rilis `v1.0` di git repository.
+  - Aplikasi siap didistribusikan ke channel publik.
+
 
 
 

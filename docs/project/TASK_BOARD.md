@@ -716,12 +716,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1204] Release Candidate v1.0
 - **Description:** Pembungkusan komitmen akhir, penyesuaian versi rilis, pembuatan tag v1.0, dan deployment publik.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-1203
 - **Acceptance Criteria:** Aplikasi siap disebarluaskan di channel publik dengan branch v1.0 tercatat rapi.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/project/LEGACY_RESTORATION_PLAN.md
-- **Notes:** -
+- **Notes:** Build PASS (tsc + vite), lint PASS (0 errors), tag git v1.0 dibuat dan di-push ke remote. Siap deployment publik. Menunggu konfirmasi final dari pengguna.
 
 ### [TASK-1205] Post-Release UX Polishing & Habit Bug Fixes
 - **Description:** Menghapus fitur share IG story, perbaikan layout header sidebar, fixing timezone Habit, dan membersihkan elemen redundan di Dashboard (UX Audit).
