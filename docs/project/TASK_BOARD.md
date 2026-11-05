@@ -576,12 +576,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-202] Inline Task Input (Zero-Friction)
 - **Description:** Hapus sistem penambahan Task tradisional (modal panjang) untuk penambahan cepat. Buat input satu baris (command line style) persis di atas halaman Tasks.
 - **Priority:** Medium
-- **Status:** BACKLOG
+- **Status:** DONE
 - **Dependencies:** TASK-201
 - **Acceptance Criteria:** Menekan "Enter" membuat task baru, field langsung bersih.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Optimalisasi User Experience (UX) lanjutan.
+- **Notes:** Quick-add satu baris di atas daftar Tasks mendukung pemilihan kategori; Enter menambahkan task dan mengosongkan input. Build PASS, lint exit code 0 dengan warning lama di file lain. Manual UAT PASS oleh user.
 
 ### [TASK-558] Release Candidate Audit
 - **Description:** Audit kelayakan pra-rilis.

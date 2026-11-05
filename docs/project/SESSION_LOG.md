@@ -263,6 +263,13 @@
   - Pemeriksaan ulang teknis: `npm run build` PASS (termasuk TypeScript dan PWA bundle); `npm run lint` selesai dengan exit code 0 dan 10 warning. Status TASK-558 dipindahkan ke TESTING untuk menunggu Manual UAT akhir; belum dinyatakan DONE.
   - User menyatakan Manual UAT TASK-558 PASS. Status tiket diperbarui menjadi DONE dengan progress 100%.
 
+## 2026-11-06
+- **[TASK-202] Inline Task Input (Status: TESTING):**
+  - Menambahkan quick-add satu baris di atas halaman Tasks dengan pilihan kategori; Enter membuat task melalui `addTask` dan mengosongkan input.
+  - Menghapus input duplikat di bagian bawah setiap kategori.
+  - `npm run build` PASS. `npm run lint` exit code 0 dengan 10 warning yang sudah ada pada context, Focus, dan `usePersistentState`; tidak ada warning di file TASK-202.
+  - Manual UAT PASS oleh user; status tiket diperbarui menjadi DONE.
+
 
 
 

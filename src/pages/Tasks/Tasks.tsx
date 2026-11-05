@@ -13,7 +13,8 @@ export const Tasks: React.FC = () => {
 
   const [filter, setFilter] = useState<'all' | 'pending' | 'done'>('all');
   const [search, setSearch] = useState('');
-  const [inlineTaskNames, setInlineTaskNames] = useState<Record<number, string>>({});
+  const [quickTaskName, setQuickTaskName] = useState('');
+  const [quickTaskCategory, setQuickTaskCategory] = useState(0);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [isAddingCategory, setIsAddingCategory] = useState(false);
 
@@ -56,19 +57,12 @@ export const Tasks: React.FC = () => {
     setTargetTaskIndex(null);
   };
 
-  const handleCreateInlineTask = (catIndex: number) => {
-    const val = (inlineTaskNames[catIndex] || '').trim();
-    if (val) {
-      addTask(catIndex, val);
-      setInlineTaskNames(prev => ({ ...prev, [catIndex]: '' }));
-    }
-  };
-
-  const handleInlineTaskKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, catIndex: number) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleCreateInlineTask(catIndex);
-    }
+  const handleQuickTaskSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const name = quickTaskName.trim();
+    if (!name || !appData[quickTaskCategory]) return;
+    addTask(quickTaskCategory, name);
+    setQuickTaskName('');
   };
 
   const filterTask = (task: Task) => {
@@ -140,6 +134,30 @@ export const Tasks: React.FC = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
+
+      {appData.length > 0 && !isAppLoading && (
+        <form className="tasks-quick-add" onSubmit={handleQuickTaskSubmit}>
+          <input
+            type="text"
+            className="tasks-quick-add__input"
+            placeholder="Add a task and press Enter..."
+            aria-label="New task name"
+            value={quickTaskName}
+            onChange={(e) => setQuickTaskName(e.target.value)}
+          />
+          <select
+            className="tasks-quick-add__category"
+            aria-label="Task category"
+            value={quickTaskCategory}
+            onChange={(e) => setQuickTaskCategory(Number(e.target.value))}
+          >
+            {appData.map((category, index) => (
+              <option key={`${category.name}-${index}`} value={index}>{category.name}</option>
+            ))}
+          </select>
+          <button type="submit" className="tasks-quick-add__submit">Add</button>
+        </form>
+      )}
 
       <div className="dashboard-panel tasks-panel">
         <div className="panel-header">
@@ -279,31 +297,6 @@ export const Tasks: React.FC = () => {
                   })}
                 </div>
 
-                <div className="task-inline-input-container task-inline-input-row">
-                  <div className="task-inline-input-wrapper">
-                    <input 
-                      type="text" 
-                      className="inline-task-input"
-                      placeholder="What needs to be done today?" 
-                      value={inlineTaskNames[catIndex] || ''}
-                      onChange={(e) => setInlineTaskNames(prev => ({ ...prev, [catIndex]: e.target.value }))}
-                      onKeyDown={(e) => handleInlineTaskKeyDown(e, catIndex)}
-                    />
-
-                    <button 
-                      type="button"
-                      onClick={() => handleCreateInlineTask(catIndex)}
-                      title="Add Task"
-                      aria-label="Add task"
-                      className="inline-task-submit-btn"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <small className="task-inline-input-tip">
-                    Press Enter ↵ to create a task.
-                  </small>
-                </div>
               </div>
             );
           }))}
