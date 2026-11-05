@@ -261,6 +261,7 @@
   - Kandidat lanjutan paling relevan adalah analisis ulang TASK-558, karena audit release sebelumnya gagal pada inspeksi visual UAT. Belum ada perubahan tiket atau implementasi; rencana scope dan penyebab kegagalan perlu disepakati sebelum coding sesuai workflow.
   - **[TASK-558] Re-audit:** Riwayat SESSION_LOG menunjukkan regresi M5.5 berasal dari import `index.css` yang hilang, override global yang menimpa style legacy, dan selector/layout UI yang tidak selaras. Pemulihan tercatat pada TASK-561 hingga TASK-571.
   - Pemeriksaan ulang teknis: `npm run build` PASS (termasuk TypeScript dan PWA bundle); `npm run lint` selesai dengan exit code 0 dan 10 warning. Status TASK-558 dipindahkan ke TESTING untuk menunggu Manual UAT akhir; belum dinyatakan DONE.
+  - User menyatakan Manual UAT TASK-558 PASS. Status tiket diperbarui menjadi DONE dengan progress 100%.
 
 
 

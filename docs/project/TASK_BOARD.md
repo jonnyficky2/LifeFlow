@@ -586,12 +586,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-558] Release Candidate Audit
 - **Description:** Audit kelayakan pra-rilis.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-551, TASK-552, TASK-553, TASK-554, TASK-555, TASK-556, TASK-557
 - **Acceptance Criteria:** npm run build PASS, TypeScript PASS, lint PASS, tidak ada console error, UAT PASS, siap ditandai sebagai Release Candidate sebelum M6.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Percobaan awal gagal pada visual inspection UAT karena regresi UI M5.5. Perbaikan UI dicatat pada TASK-561 sampai TASK-571. Audit ulang 2026-11-05: `npm run build` PASS; `npm run lint` exit code 0 dengan 10 warning. Menunggu konfirmasi Manual UAT akhir, termasuk console bersih.
+- **Notes:** Percobaan awal gagal pada visual inspection UAT karena regresi UI M5.5. Perbaikan UI dicatat pada TASK-561 sampai TASK-571. Audit ulang 2026-11-05: `npm run build` PASS; `npm run lint` exit code 0 dengan 10 warning. Manual UAT akhir dinyatakan PASS oleh user pada 2026-11-05.
 
 ### [TASK-561] Restore Layout Wrapper
 - **Description:** Mengimpor index.css ke main.tsx dan menyesuaikan agar tidak menimpa background & font legacy.
