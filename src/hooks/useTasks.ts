@@ -213,12 +213,46 @@ export function useTasks() {
     showToast('Task added', 'success');
   }, [saveTaskSnapshot, setAppData, showToast]);
 
+  const batchAddTasks = useCallback((catIndex: number, tasksToAdd: { name: string; priority?: string }[]) => {
+    if (tasksToAdd.length === 0) return;
+    saveTaskSnapshot();
+    let targetCatName = 'Inbox';
+
+    setAppData(prevData => {
+      return prevData.map((cat, cIdx) => {
+        if (cIdx !== catIndex) return cat;
+        targetCatName = cat.name;
+        const newTasks: Task[] = tasksToAdd.map(item => ({
+          name: item.name,
+          done: false,
+          deadline: "",
+          time: "",
+          location: "",
+          note: "",
+          priority: item.priority || "low",
+          tags: [],
+          subtasks: [],
+          streak: 0,
+          lastCompleted: null,
+          completedDates: [],
+          reminder: ""
+        }));
+        return {
+          ...cat,
+          tasks: [...(cat.tasks || []), ...newTasks]
+        };
+      });
+    });
+    showToast(`${tasksToAdd.length} task${tasksToAdd.length > 1 ? 's' : ''} added to ${targetCatName}`, 'success');
+  }, [saveTaskSnapshot, setAppData, showToast]);
+
   return {
     toggleTask,
     toggleSubtask,
     deleteTask,
     deleteCategory,
     addCategory,
-    addTask
+    addTask,
+    batchAddTasks
   };
 }

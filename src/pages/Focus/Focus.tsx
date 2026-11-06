@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Focus.css';
 import { useAppContext } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
@@ -62,6 +62,26 @@ export const Focus: React.FC = () => {
     }
   }, []);
 
+  const handleComplete = useCallback(() => {
+    setIsRunning(false);
+    localStorage.removeItem('focus_end_time');
+    localStorage.removeItem('focus_duration');
+
+    // Reward XP
+    setXp((prev) => prev + 5);
+
+    // Play sound and fireworks
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+    playSuccessSound();
+
+    showToast("Focus session complete! +5 XP earned.", "success");
+    setTimeLeft(duration); // reset for next
+  }, [duration, setXp, showToast]);
+
   // Timer loop
   useEffect(() => {
     if (isRunning) {
@@ -83,7 +103,7 @@ export const Focus: React.FC = () => {
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
     };
-  }, [isRunning]);
+  }, [isRunning, handleComplete]);
 
   const handleStart = () => {
     if (isRunning) return;
@@ -109,26 +129,6 @@ export const Focus: React.FC = () => {
     const secs = minutes * 60;
     setDuration(secs);
     setTimeLeft(secs);
-  };
-
-  const handleComplete = () => {
-    setIsRunning(false);
-    localStorage.removeItem('focus_end_time');
-    localStorage.removeItem('focus_duration');
-    
-    // Reward XP
-    setXp((prev) => prev + 5);
-    
-    // Play sound and fireworks
-    confetti({
-      particleCount: 150,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
-    playSuccessSound();
-    
-    showToast("Focus session complete! +5 XP earned.", "success");
-    setTimeLeft(duration); // reset for next
   };
 
   // UI calculations

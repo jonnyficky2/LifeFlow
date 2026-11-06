@@ -13,7 +13,9 @@ export function usePersistentState<T>(key: string, defaultValue: T): [T, React.D
       if (lsData) {
          try {
            initialData = JSON.parse(lsData) as T;
-         } catch(e) {}
+         } catch {
+           // ignore corrupted JSON in localStorage
+         }
       }
 
       const dbData = await getDbData<T | null>(key, null);

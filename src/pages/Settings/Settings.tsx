@@ -243,7 +243,25 @@ export const Settings: React.FC = () => {
           } />
         </SettingsSection>
 
-        {/* 5. Data Management */}
+        {/* 5. AI Workspace */}
+        <SettingsSection title="AI Workspace" icon="✨">
+          <SettingsItem
+            title="Gemini API Key"
+            description="Optional: enhanced semantic extraction with Google Gemini (leave empty for smart local-first extractor)"
+            rightElement={
+              <input
+                type="password"
+                className="form-input"
+                style={{ width: '200px', padding: '6px 10px', fontSize: '0.85rem' }}
+                placeholder="AIzaSy... (optional)"
+                value={(settings?.geminiApiKey as string) || ''}
+                onChange={(e) => setSettings(prev => ({ ...prev, geminiApiKey: e.target.value }))}
+              />
+            }
+          />
+        </SettingsSection>
+
+        {/* 6. Data Management */}
         <SettingsSection title="Data Management" icon="💾">
           <SettingsItem title="Sync Status" description="Not synced" rightElement={
             <button className="settings-btn">Sync Now</button>

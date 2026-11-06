@@ -338,3 +338,240 @@ body.light-mode .notes-group-header {
 .notes-editor-divider {
   margin: 24px 0;
 }
+
+/* ==========================================================================
+   AI TASK EXTRACTION (TASK-701)
+   ========================================================================== */
+.btn-extract-tasks {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-extract-tasks:hover:not(:disabled) {
+  background: var(--color-primary-light, rgba(99, 102, 241, 0.1));
+  border-color: var(--color-primary);
+}
+
+.btn-extract-tasks:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.extract-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  padding: 16px;
+}
+
+.extract-modal-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeInModal 0.2s ease-out;
+}
+
+.extract-modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.extract-modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.extract-engine-badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--color-primary-light, rgba(99, 102, 241, 0.15));
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.extract-modal-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.extract-target-category {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.extract-target-category label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.extract-list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.extract-count-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.extract-selection-helpers {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.extract-text-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.extract-text-btn:hover {
+  opacity: 0.8;
+}
+
+.extract-divider {
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.extract-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.extract-task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-deep);
+  border: 1px solid var(--color-border);
+  transition: border-color 0.2s;
+}
+
+.extract-task-item.is-selected {
+  border-color: var(--color-primary);
+}
+
+.extract-task-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.extract-task-priority {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.extract-task-priority.high {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-danger);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.extract-task-priority.medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--color-warning);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.extract-task-priority.low {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-success);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.extract-task-remove {
+  background: transparent;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.extract-task-remove:hover {
+  color: var(--color-danger);
+}
+
+.extract-modal-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: var(--color-surface);
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

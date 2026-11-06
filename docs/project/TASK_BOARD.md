@@ -5,7 +5,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 📊 Overall Progress: 79% (50/63 Tasks Completed)
+## 📊 Overall Progress: 98% (64/65 Tasks Completed)
 
 ---
 
@@ -761,13 +761,13 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ### [TASK-701] Invisible AI: Extract Tasks from Notes
 - **Description:** Tambahkan tombol (✨ AI) di dalam editor Notes untuk mengekstrak paragraf menjadi To-Do list dan dikirim ke modul Tasks.
-- **Priority:** Low
-- **Status:** BACKLOG
+- **Priority:** Medium
+- **Status:** DONE
 - **Dependencies:** TASK-501, TASK-201
-- **Acceptance Criteria:** API mendeteksi frasa aksi dan meresolusi menjadi Task Item terstruktur.
-- **Progress:** 0%
-- **Related Docs:** API Docs (Gemini/OpenAI)
-- **Notes:** Fokus pada "Invisible AI", bukan antarmuka chatbot full-screen.
+- **Acceptance Criteria:** Deteksi frasa aksi dari catatan markdown, review pratinjau daftar tugas terstruktur, pemilihan kategori target, dan penambahan tugas ke modul Tasks.
+- **Progress:** 100%
+- **Related Docs:** docs/product/CORE_PRODUCT_PRINCIPLES.md, docs/product/FUTURE_PRODUCT_VISION.md
+- **Notes:** Tombol "✨ Extract Tasks" di toolbar Notes, modal review interaktif (pilih/edit/hapus/ubah prioritas item tugas), batch add ke Tasks via useTasks, local-first rule extractor + opsional Gemini API key di Settings. Manual UAT PASS oleh user.
 
 ---
 

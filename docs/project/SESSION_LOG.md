@@ -269,6 +269,19 @@
   - Menghapus input duplikat di bagian bawah setiap kategori.
   - `npm run build` PASS. `npm run lint` exit code 0 dengan 10 warning yang sudah ada pada context, Focus, dan `usePersistentState`; tidak ada warning di file TASK-202.
   - Manual UAT PASS oleh user; status tiket diperbarui menjadi DONE.
+- **Code Hygiene & Documentation Synchronization (Status: DONE):**
+  - Menyelesaikan warning linting `exhaustive-deps` pada `Focus.tsx` dengan membungkus `handleComplete` menggunakan `useCallback` dan memasukkannya ke dependency array `useEffect`.
+  - Menghapus parameter error yang tidak terpakai pada block catch di `usePersistentState.ts`.
+  - Mengonfigurasi rule override pada `.oxlintrc.json` untuk folder `src/context/` agar ekspor provider dan hook tidak memicu warning Fast Refresh.
+  - Hasil linting (`npm run lint`) dan build (`npm run build`) kini 100% bersih (0 error, 0 warning).
+- **[TASK-701] Invisible AI: Extract Tasks from Notes (Status: DONE):**
+  - Membuat utility ekstraksi aksi [src/utils/aiExtractor.ts](src/utils/aiExtractor.ts) yang mengimplementasikan arsitektur *Invisible AI* & *Local-First* (mendeteksi checkbox markdown `- [ ]`, `TODO:`, frasa aksi Bahasa Indonesia/Inggris, deteksi prioritas cepat, dan opsi integrasi Google Gemini API via REST fetch).
+  - Menambahkan metode `batchAddTasks` di [src/hooks/useTasks.ts](src/hooks/useTasks.ts) untuk penambahan tugas terstruktur sekaligus secara atomik dengan satu notifikasi toast dan snapshot history.
+  - Menambahkan tombol tenang `✨ Extract Tasks` di header editor Notes [src/pages/Notes/Notes.tsx](src/pages/Notes/Notes.tsx) beserta modal review interaktif (memilih/mengedit nama tugas, mengubah prioritas, memilih kategori target, select/deselect all, dan menambahkan tugas terpilih).
+  - Menambahkan opsi konfigurasi `Gemini API Key` opsional di halaman Pengaturan [src/pages/Settings/Settings.tsx](src/pages/Settings/Settings.tsx) di bawah bagian AI Workspace.
+  - Memperbarui styling interaktif dan modal review di [src/pages/Notes/Notes.css](src/pages/Notes/Notes.css) yang adaptif terhadap Dark dan Light mode.
+  - Memastikan hasil build (`npm run build`) dan linter (`npm run lint`) 100% lulus tanpa kendala (0 error, 0 warning).
+  - Manual UAT divalidasi dan dinyatakan PASS oleh user. Status tiket resmi dialihkan ke DONE.
 
 
 

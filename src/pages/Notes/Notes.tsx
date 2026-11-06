@@ -1,15 +1,24 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useNoteContext } from '../../context/NoteContext';
+import { useTaskContext } from '../../context/TaskContext';
+import { useSettingsContext } from '../../context/SettingsContext';
 import { useNotes } from '../../hooks/useNotes';
+import { useTasks } from '../../hooks/useTasks';
+import { useToast } from '../../context/ToastContext';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
+import { extractTasks, type ExtractedTask } from '../../utils/aiExtractor';
 import './Notes.css';
 
 export const Notes: React.FC = () => {
   const { isAppLoading } = useAppContext();
   const { notes } = useNoteContext();
+  const { appData } = useTaskContext();
+  const { settings } = useSettingsContext();
   const { addNote, updateNote, deleteNote } = useNotes();
+  const { batchAddTasks } = useTasks();
+  const { showToast } = useToast();
 
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -22,6 +31,13 @@ export const Notes: React.FC = () => {
   const [localDeadline, setLocalDeadline] = useState('');
   const [localTime, setLocalTime] = useState('');
   const [localReminder, setLocalReminder] = useState('none');
+
+  // AI Task Extraction states
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [extractModalOpen, setExtractModalOpen] = useState(false);
+  const [extractedTasks, setExtractedTasks] = useState<ExtractedTask[]>([]);
+  const [extractionEngine, setExtractionEngine] = useState<'local' | 'gemini'>('local');
+  const [targetCatIndex, setTargetCatIndex] = useState(0);
 
   const activeNoteData = useMemo(() => {
     return notes.find(n => n.id === activeNoteId) || null;
@@ -133,6 +149,64 @@ export const Notes: React.FC = () => {
     setConfirmOpen(true);
   };
 
+  const handleExtractTasks = async () => {
+    if (!localContent || !localContent.trim()) {
+      showToast('Note content is empty. Write some text first!', 'info');
+      return;
+    }
+
+    setIsExtracting(true);
+    try {
+      const apiKey = typeof settings?.geminiApiKey === 'string' ? settings.geminiApiKey : undefined;
+      const result = await extractTasks(localContent, apiKey);
+      if (result.tasks.length === 0) {
+        showToast('No actionable tasks detected in this note.', 'info');
+      } else {
+        setExtractedTasks(result.tasks);
+        setExtractionEngine(result.engine);
+        setTargetCatIndex(0);
+        setExtractModalOpen(true);
+      }
+    } catch (err) {
+      console.error('Failed to extract tasks', err);
+      showToast('Failed to extract tasks', 'error');
+    } finally {
+      setIsExtracting(false);
+    }
+  };
+
+  const toggleExtractedTask = (id: string) => {
+    setExtractedTasks(prev => prev.map(t => t.id === id ? { ...t, selected: !t.selected } : t));
+  };
+
+  const updateExtractedTaskName = (id: string, name: string) => {
+    setExtractedTasks(prev => prev.map(t => t.id === id ? { ...t, name } : t));
+  };
+
+  const cycleExtractedTaskPriority = (id: string) => {
+    const nextPriority: Record<string, 'low' | 'medium' | 'high'> = {
+      low: 'medium',
+      medium: 'high',
+      high: 'low'
+    };
+    setExtractedTasks(prev => prev.map(t => t.id === id ? { ...t, priority: nextPriority[t.priority] || 'low' } : t));
+  };
+
+  const removeExtractedTask = (id: string) => {
+    setExtractedTasks(prev => prev.filter(t => t.id !== id));
+  };
+
+  const handleConfirmAddTasks = () => {
+    const validTasks = extractedTasks.filter(t => t.selected && t.name.trim().length > 0);
+    if (validTasks.length === 0) return;
+
+    batchAddTasks(
+      targetCatIndex,
+      validTasks.map(t => ({ name: t.name.trim(), priority: t.priority }))
+    );
+    setExtractModalOpen(false);
+  };
+
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
     return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -222,16 +296,33 @@ export const Notes: React.FC = () => {
                   }
                 }}
               />
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <button 
-                  className={`btn-pin-note ${activeNoteData.isPinned ? 'active' : ''}`} 
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button
+                  type="button"
+                  className="btn-extract-tasks"
+                  onClick={handleExtractTasks}
+                  title="Extract Tasks from Note (✨ AI)"
+                  disabled={isExtracting || !localContent.trim()}
+                  aria-label="Extract tasks"
+                >
+                  {isExtracting ? '⏳ Extracting...' : '✨ Extract Tasks'}
+                </button>
+                <button
+                  type="button"
+                  className={`btn-pin-note ${activeNoteData.isPinned ? 'active' : ''}`}
                   onClick={() => updateNote(activeNoteId, { isPinned: !activeNoteData.isPinned })}
                   title={activeNoteData.isPinned ? "Unpin Note" : "Pin Note"}
                   aria-label="Pin note"
                 >
                   {activeNoteData.isPinned ? '📍' : '📌'}
                 </button>
-                <button className="btn-delete-note" onClick={handleDelete} title="Delete Note" aria-label="Delete note">
+                <button
+                  type="button"
+                  className="btn-delete-note"
+                  onClick={handleDelete}
+                  title="Delete Note"
+                  aria-label="Delete note"
+                >
                   🗑
                 </button>
               </div>
@@ -249,8 +340,8 @@ export const Notes: React.FC = () => {
               </select>
             </div>
             <div className="notes-editor-body">
-              <textarea 
-                className="note-content-textarea" 
+              <textarea
+                className="note-content-textarea"
                 value={localContent}
                 onChange={(e) => setLocalContent(e.target.value)}
                 placeholder="Start typing your note here... (Markdown supported)"
@@ -259,6 +350,126 @@ export const Notes: React.FC = () => {
           </>
         )}
       </div>
+
+      {extractModalOpen && (
+        <div className="extract-modal-overlay">
+          <div className="extract-modal-card">
+            <div className="extract-modal-header">
+              <h3>
+                <span>✨ Extract Tasks</span>
+                <span className="extract-engine-badge">
+                  {extractionEngine === 'gemini' ? 'Gemini AI' : 'Smart Local Parser'}
+                </span>
+              </h3>
+              <button
+                type="button"
+                className="extract-task-remove"
+                onClick={() => setExtractModalOpen(false)}
+                title="Close"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="extract-modal-body">
+              <div className="extract-target-category">
+                <label htmlFor="extract-cat-select">Add selected tasks to category:</label>
+                <select
+                  id="extract-cat-select"
+                  className="form-input"
+                  value={targetCatIndex}
+                  onChange={(e) => setTargetCatIndex(Number(e.target.value))}
+                >
+                  {appData.map((cat, idx) => (
+                    <option key={cat.name || idx} value={idx}>
+                      {cat.name || 'Unnamed Category'}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="extract-list-toolbar">
+                <span className="extract-count-label">
+                  {extractedTasks.filter(t => t.selected).length} of {extractedTasks.length} selected
+                </span>
+                <div className="extract-selection-helpers">
+                  <button
+                    type="button"
+                    className="extract-text-btn"
+                    onClick={() => setExtractedTasks(prev => prev.map(t => ({ ...t, selected: true })))}
+                  >
+                    Select All
+                  </button>
+                  <span className="extract-divider">•</span>
+                  <button
+                    type="button"
+                    className="extract-text-btn"
+                    onClick={() => setExtractedTasks(prev => prev.map(t => ({ ...t, selected: false })))}
+                  >
+                    Deselect All
+                  </button>
+                </div>
+              </div>
+
+              <div className="extract-task-list">
+                {extractedTasks.map(task => (
+                  <div key={task.id} className={`extract-task-item ${task.selected ? 'is-selected' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={task.selected}
+                      onChange={() => toggleExtractedTask(task.id)}
+                      aria-label="Select task"
+                    />
+                    <input
+                      type="text"
+                      className="extract-task-input"
+                      value={task.name}
+                      onChange={(e) => updateExtractedTaskName(task.id, e.target.value)}
+                      placeholder="Task name"
+                    />
+                    <button
+                      type="button"
+                      className={`extract-task-priority ${task.priority}`}
+                      onClick={() => cycleExtractedTaskPriority(task.id)}
+                      title="Click to toggle priority"
+                    >
+                      {task.priority.toUpperCase()}
+                    </button>
+                    <button
+                      type="button"
+                      className="extract-task-remove"
+                      onClick={() => removeExtractedTask(task.id)}
+                      title="Discard item"
+                      aria-label="Discard item"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="extract-modal-footer">
+              <button
+                type="button"
+                className="btn btn--outline"
+                onClick={() => setExtractModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn--primary"
+                onClick={handleConfirmAddTasks}
+                disabled={extractedTasks.filter(t => t.selected && t.name.trim().length > 0).length === 0}
+              >
+                Add {extractedTasks.filter(t => t.selected && t.name.trim().length > 0).length} Task{extractedTasks.filter(t => t.selected && t.name.trim().length > 0).length !== 1 ? 's' : ''} to Tasks
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {confirmOpen && (
         <div className="modal show">
