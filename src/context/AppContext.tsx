@@ -26,6 +26,9 @@ interface AppContextType {
   activeSection: string;
   setActiveSection: (section: string) => void;
 
+  isAiChatOpen: boolean;
+  setAiChatOpen: (isOpen: boolean) => void;
+
   isAppLoading: boolean;
 }
 
@@ -37,6 +40,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isAiChatOpen, setAiChatOpen] = useState(false);
   const [isAppLoading, setIsAppLoading] = useState(true);
 
   useEffect(() => {
@@ -52,6 +56,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       historyData, setHistoryData,
       isSidebarOpen, setSidebarOpen,
       activeSection, setActiveSection,
+      isAiChatOpen, setAiChatOpen,
       isAppLoading,
     }}>
       {children}

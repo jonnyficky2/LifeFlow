@@ -727,12 +727,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1402] LifeFlow Glassmorphic AI Chat Interface
 - **Description:** Merancang UI/UX kolom chat bertema Glassmorphism khas LifeFlow (blur halus, translusen navy/frosted, micro-borders, bukan generic chatbot widget) yang tenang dan menyatu harmonis dengan Dark & Light Mode.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** DONE
 - **Dependencies:** TASK-1401
 - **Acceptance Criteria:** Modal/Copilot Drawer muncul dengan transisi mulus, styling murni CSS BEM, responsive di mobile & desktop tanpa menutupi layout utama.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/design/DESIGN_SYSTEM.md
-- **Notes:** -
+- **Notes:** Drawer glassmorphic terpasang di layout dengan kontrol buka/tutup Navbar, dialog Escape, responsif desktop/mobile, dan tampilan Dark/Light berbasis design tokens. Komposer menggunakan `askAssistant` (lokal atau Gemini opsional); referensi belum actionable (cakupan TASK-1403). Build, lint, dan Manual UAT PASS.
 
 ### [TASK-1403] Deep-Linking & Actionable Result Cards
 - **Description:** Menghasilkan kartu interaktif di dalam chat bubble agar user dapat langsung mengklik dan membuka Task atau Note yang relevan secara instan.

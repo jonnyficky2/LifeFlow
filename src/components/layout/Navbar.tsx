@@ -9,7 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import { APP_LOGO, DEFAULT_AVATAR } from './assets';
 
 export const Navbar: React.FC = () => {
-  const { isSidebarOpen, setSidebarOpen, activeSection, setActiveSection } = useAppContext();
+  const { isSidebarOpen, setSidebarOpen, activeSection, setActiveSection, setAiChatOpen } = useAppContext();
   const { undoTask, redoTask } = useTaskContext();
   const { undoHabit, redoHabit } = useHabitContext();
   const { undoNote, redoNote } = useNoteContext();
@@ -58,6 +58,7 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="navbar-actions">
+          <button type="button" className="btn btn--icon ai-chat-trigger" title="Buka LifeFlow AI" aria-label="Buka LifeFlow AI" onClick={() => setAiChatOpen(true)}>✦</button>
           <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" aria-label="Undo last action" onClick={handleUndo}>↩</button>
           <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" aria-label="Redo last action" onClick={handleRedo}>↪</button>
           <button id="desktopThemeToggle" type="button" className="btn btn--icon" aria-label="Toggle theme" onClick={toggleTheme}>◐</button>
