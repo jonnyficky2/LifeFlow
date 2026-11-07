@@ -722,7 +722,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Acceptance Criteria:** Query seperti "ada catatan tentang X ga?" atau "ada task tentang Y ga?" dapat dijawab dengan referensi data nyata yang relevan.
 - **Progress:** 100%
 - **Related Docs:** docs/product/CORE_PRODUCT_PRINCIPLES.md
-- **Notes:** Engine selesai di `src/utils/aiAssistant.ts`. Menyediakan `searchLocalKnowledge` (offline, zero-latency) dengan boundary matching untuk single-char (e.g., "Tugas A") dan scoring relevansi lintas Tasks/Notes/Habits, serta `queryGeminiWithContext` dengan fallback otomatis. Build PASS, lint 0 errors. Menunggu integrasi UI chat.
+- **Notes:** Engine selesai di `src/utils/aiAssistant.ts`. Menyediakan `searchLocalKnowledge` (offline, zero-latency) dengan boundary matching untuk single-char (e.g., "Tugas A"), scoring relevansi lintas Tasks/Notes/Habits, filter deadline "hari ini" berbasis tanggal lokal, serta `queryGeminiWithContext` dengan fallback otomatis. Build dan lint PASS; masih menunggu UAT.
 
 ### [TASK-1402] LifeFlow Glassmorphic AI Chat Interface
 - **Description:** Merancang UI/UX kolom chat bertema Glassmorphism khas LifeFlow (blur halus, translusen navy/frosted, micro-borders, bukan generic chatbot widget) yang tenang dan menyatu harmonis dengan Dark & Light Mode.

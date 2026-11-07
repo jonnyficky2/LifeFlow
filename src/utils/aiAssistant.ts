@@ -27,6 +27,7 @@ export interface KnowledgeContext {
 function extractSearchKeywords(rawQuery: string): string[] {
   const clean = rawQuery
     .toLowerCase()
+    .replace(/\b(?:hari\s+ini|today)\b/g, ' ')
     .replace(/[?!.,;:"'()[\]{}]/g, ' ')
     .trim();
 
@@ -81,6 +82,9 @@ function flattenTasks(categories: Category[]): { task: Task; categoryName: strin
 export function searchLocalKnowledge(query: string, context: KnowledgeContext): AssistantAnswer {
   const lowerQuery = query.toLowerCase().trim();
   const keywords = extractSearchKeywords(query);
+  const isAskingToday = /\b(?:hari\s+ini|today)\b/i.test(lowerQuery);
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
   const flatTasks = flattenTasks(context.categories || []);
   const notes = context.notes || [];
@@ -90,7 +94,7 @@ export function searchLocalKnowledge(query: string, context: KnowledgeContext): 
   const matchedNotes: { note: Note; score: number }[] = [];
   const matchedHabits: { habit: Habit; score: number }[] = [];
 
-  const isAskingSchedule = /\b(?:kapan|jadwal|deadline|tanggal|jam|waktu)\b/i.test(lowerQuery);
+  const isAskingSchedule = isAskingToday || /\b(?:kapan|jadwal|deadline|tanggal|jam|waktu)\b/i.test(lowerQuery);
   const isAskingNotesOnly = /\b(?:catatan|note|notes)\b/i.test(lowerQuery) && !/\b(?:task|tugas)\b/i.test(lowerQuery);
   const isAskingTasksOnly = /\b(?:task|tasks|tugas|kerjaan|todo)\b/i.test(lowerQuery) && !/\b(?:catatan|note)\b/i.test(lowerQuery);
   const isAskingHabitsOnly = /\b(?:habit|habits|kebiasaan|rutinitas)\b/i.test(lowerQuery);
@@ -98,14 +102,17 @@ export function searchLocalKnowledge(query: string, context: KnowledgeContext): 
 
   // 1. Scoring Tasks
   for (const { task, categoryName } of flatTasks) {
+    if (isAskingToday && task.deadline !== today) continue;
+
     let score = 0;
     const taskNameLower = task.name;
     const taskNoteLower = task.note || '';
     const catLower = categoryName;
     const tagsLower = (task.tags || []).join(' ');
 
-    if (keywords.length === 0 && isAskingSummary) {
-      if (!task.done) score += 1;
+    if (keywords.length === 0 && (isAskingSummary || isAskingToday)) {
+      if (isAskingToday) score += 2;
+      else if (!task.done) score += 1;
     } else {
       for (const kw of keywords) {
         if (matchesKeyword(taskNameLower, kw)) score += 5;
