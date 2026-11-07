@@ -291,7 +291,13 @@
     - [TASK-1401] Context-Aware Knowledge & Retrieval Engine (Local-first pattern matcher & Gemini fallback)
     - [TASK-1402] LifeFlow Glassmorphic AI Chat Interface
     - [TASK-1403] Deep-Linking & Actionable Result Cards
-    - [TASK-1404] AI Assistant Integration, Testing & Verification
+- **[TASK-1401] Context-Aware Knowledge & Retrieval Engine (Status: TESTING):**
+  - Mengembangkan modul retrieval cerdas [src/utils/aiAssistant.ts](src/utils/aiAssistant.ts) untuk mengolah pertanyaan bahasa alami pengguna seputar Tasks, Notes, Habits, dan Jadwal/Deadline.
+  - Mengimplementasikan `searchLocalKnowledge`: parser lokal offline (zero latency, privacy-first) dengan ekstraksi kata kunci cerdas, boundary word matching untuk single-character query (contoh: "Tugas A", "Task B"), serta algoritma skoring relevansi multi-faktor.
+  - Mengimplementasikan `queryGeminiWithContext`: integrasi Gemini 1.5 Flash yang merangkum data aktif ke dalam prompt terstruktur, lengkap dengan penanganan fallback otomatis ke mesin pencari lokal jika offline atau terjadi kendala jaringan.
+  - Menyediakan API terpadu `askAssistant` yang mengembalikan pesan balasan beserta referensi data terstruktur (ID, judul, tipe, kategori, dan section target).
+  - Memverifikasi hasil build (`npm run build`) dan linting (`npm run lint`) sukses 100% tanpa error dan tanpa warning.
+
 
 
 
