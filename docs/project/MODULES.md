@@ -28,4 +28,5 @@ Setiap modul wajib melewati status berikut secara berurutan, tanpa boleh ada sta
 | **Authentication** | `DONE` | High | M10 - Auth | M9 | 100% | Firebase Auth Google login, avatar sync navbar & sidebar. UAT Pass. |
 | **PWA & Offline** | `DONE` | High | M11 - PWA | M10 | 100% | Workbox service worker caching, offline fallback, manifest PWA installable. UAT Pass. |
 | **AI Workspace** | `DONE` | Low | M7 - AI Workspace | M5, M2 | 100% | Ekstraksi tugas otomatis dari teks catatan menggunakan LLM & Local-First parser. UAT Pass. |
+| **AI Companion & Retrieval** | `IN_PROGRESS` | High | M14 - AI Companion | M1-M5 | 0% | Chat assistant kontekstual (Q&A Tasks/Notes/Calendar) dengan Glassmorphism UI & deep linking. |
 | **Team Collaboration**| `NOT_STARTED` | Low | M8 - Team Collaboration| M2 | 0% | Fitur sharing task dan workspace antar pengguna. |
