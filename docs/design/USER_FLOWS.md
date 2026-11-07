@@ -1,3 +1,11 @@
+---
+id: FLOW-001
+type: User Flows
+parent: docs/design/READING_ORDER.md
+child: None
+reference: docs/project/TASK_BOARD.md, docs/product/CORE_PRODUCT_PRINCIPLES.md, docs/ai/MODEL_MAPPING.md
+---
+
 # Unified User Flows Map
 
 Dokumen ini memetakan seluruh alur interaksi pengguna (User Flows) utama pada aplikasi LifeFlow. Ini menjamin perancang (Designer) dan pengembang (Developer) memiliki persepsi yang sama tentang jalur navigasi (navigation paths) pengguna.
@@ -72,3 +80,45 @@ Dokumen ini memetakan seluruh alur interaksi pengguna (User Flows) utama pada ap
    - Pengguna mengklik tombol toggle tema.
    - Perubahan dideteksi oleh React effect, kelas `.light-mode` ditambahkan/dihapus dari tag `body`.
    - Warna latar dan teks berubah secara instan mengikuti skema warna baru di `variables.css`.
+
+---
+
+## 7. LifeFlow AI Assistant (M14) — Rancangan Hybrid
+
+**Status:** Draft, menunggu persetujuan desain.
+
+### Tujuan dan Batas
+- Assistant terasa ramah dan memahami bahasa sehari-hari, serta membantu pengguna menemukan informasi di Tasks, Notes, Habits, dan Calendar.
+- Sapaan dan permintaan sederhana yang bisa dijawab dari data lokal diproses tanpa jaringan.
+- Gemini hanya digunakan bila pengguna sudah mengatur API Key. Pertanyaan umum tidak membawa data LifeFlow; pertanyaan tentang data LifeFlow boleh memakai ringkasan konteks untuk menjawabnya.
+- Tanpa API Key, assistant tetap melayani sapaan dan pencarian lokal. Untuk pertanyaan umum yang tak bisa dijawab lokal, assistant menjelaskan batasnya dan mengarahkan pengguna ke hal yang bisa dibantu.
+- Riwayat percakapan hanya berada di memori sesi aplikasi; tidak disimpan ke localStorage.
+
+### Alur Percakapan
+1. Pengguna membuka drawer AI dan menyapa, misalnya “halo”. Assistant menjawab: “Halo! Saya Jofi AI, asisten Anda di LifeFlow. Saya bisa membantu tugas, catatan, jadwal, dan habit.” Sapaan ditangani lokal.
+2. Pengguna mengirim pertanyaan yang jelas, misalnya “tugas saya hari ini apa?”. Assistant mencari data lokal, menjawab, dan menampilkan referensi yang cocok.
+3. Jika pengguna hanya menulis nama area seperti “tugas”, assistant menampilkan daftar task yang tersedia lalu bertanya: “Detail tugas mana yang ingin Anda ketahui?”
+4. **Usulan batas daftar:** tampilkan maksimal 5 task per jawaban dan sebutkan jumlah total bila ada lebih banyak. Pengguna dapat meminta sisanya atau mempersempit pencarian.
+5. Pengguna menjawab klarifikasi, misalnya nama task atau “yang prioritas tinggi”. Assistant memakai konteks percakapan aktif untuk mempersempit hasil dan menjawab detail yang tersedia.
+6. Pengguna bertanya hal umum di luar data LifeFlow. Jika Gemini API Key tersedia, assistant menjawab tanpa mengirim konteks Tasks/Notes/Habits. Tanpa API Key, assistant menjelaskan kemampuan lokalnya dengan ramah.
+
+### Contoh Interaksi
+```text
+Pengguna: Halo
+Jofi AI: Halo! Saya Jofi AI, asisten Anda di LifeFlow. Saya bisa membantu tugas, catatan, jadwal, dan habit.
+
+Pengguna: Tugas
+Jofi AI: Saya menemukan beberapa tugas Anda: [daftar task]. Detail tugas mana yang ingin Anda ketahui?
+Pengguna: Yang laporan mingguan
+Jofi AI: [jawaban berdasarkan detail task yang tersimpan]
+```
+
+### Pendekatan yang Dipilih
+- **Hybrid (dipilih pengguna):** intent sederhana, sapaan, dan pencarian data yang cocok ditangani lokal; Gemini opsional dipakai untuk bahasa yang lebih terbuka jika API Key tersedia. Data LifeFlow hanya disertakan saat pertanyaan memang membahas data LifeFlow.
+- **Local-only:** paling menjaga privasi dan tetap offline, tetapi tidak menjawab pertanyaan umum dengan baik.
+- **Gemini untuk semua pesan:** paling fleksibel, tetapi mengirim kueri umum beserta konteks pribadi ke jaringan dan bergantung pada koneksi/API Key.
+
+### Non-Goals dan Hal yang Perlu Disetujui
+- Assistant tidak mengubah atau membuat task secara otomatis dari percakapan ini.
+- Referensi task/note menjadi tombol navigasi mengikuti cakupan TASK-1403.
+- Batas 5 task per jawaban adalah usulan untuk mencegah daftar panjang; minta seluruh task sekaligus tetap dapat digunakan bila lebih sesuai.

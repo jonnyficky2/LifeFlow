@@ -1,5 +1,13 @@
 # Session Log
 
+---
+id: SESSION-001
+type: Session Log
+parent: docs/project/DEVELOPMENT_WORKFLOW.md
+child: None
+reference: docs/project/TASK_BOARD.md
+---
+
 ## 2026-07-25
 - **Mobile Responsive Audit & Fixes (Status: TESTING):**
   - Melakukan audit responsivitas layar mobile dan tablet (320px - 1024px) untuk seluruh modul aplikasi.
@@ -284,6 +292,9 @@
   - Manual UAT divalidasi dan dinyatakan PASS oleh user. Status tiket resmi dialihkan ke DONE.
 
 ## 2026-11-07
+- **[TASK-1401] UAT lanjutan dan rancangan perilaku AI percakapan:**
+  - Pengguna mengonfirmasi pencarian task “hari ini” kini berfungsi; TASK-1401 tetap TESTING sampai seluruh skenario UAT disetujui.
+  - Menambahkan rancangan hybrid untuk sapaan, permintaan data yang ambigu, klarifikasi multi-turn, fallback lokal, dan privasi konteks Gemini ke [USER_FLOWS.md](../design/USER_FLOWS.md). Rancangan menunggu persetujuan sebelum implementasi.
 - **Roadmap Expansion: M14 - AI Companion & Intelligent Retrieval (Personal OS Assistant):**
   - Menerima arahan produk dari pengguna untuk menghadirkan fitur AI Chat Assistant berbasis konteks data aplikasi (mampu menjawab pertanyaan seputar Tasks, Notes, dan kategori).
   - Menyepakati arah desain UI/UX: Mengusung estetika Glassmorphism khas LifeFlow (translusen, micro-border, blur halus, menyatu dengan tema Dark & Light mode) dan menjauh dari tampilan generic chatbot yang kaku (*Calm & Minimal UX*).
@@ -303,6 +314,10 @@
   - Menambahkan tombol LifeFlow AI pada Navbar; drawer dapat ditutup dengan tombol, klik backdrop, atau Escape.
   - Menghubungkan komposer ke `askAssistant` menggunakan data Tasks, Notes, Habits dan Gemini API Key opsional; hasil menampilkan referensi non-klik untuk cakupan TASK-1403.
   - Verifikasi `npm run build`, `npm run lint`, dan `git diff --check` lulus; pengguna mengonfirmasi Manual UAT PASS.
+
+- **[TASK-1401] Perbaikan pencarian task "hari ini" (Status: TESTING):**
+  - Menemukan akar masalah: retrieval lokal sebelumnya mencocokkan kata kueri hanya terhadap nama, kategori, tag, dan catatan task, tanpa memeriksa deadline.
+  - Menambahkan pengenalan frasa "hari ini"/"today" dan filter task berdasarkan deadline tanggal lokal perangkat.
 
 
 
