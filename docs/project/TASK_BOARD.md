@@ -735,6 +735,51 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
+## M14 - AI Companion & Intelligent Retrieval
+*(Personal OS Assistant dengan Context-Aware Retrieval & Glassmorphism UI)*
+
+### [TASK-1401] Context-Aware Knowledge & Retrieval Engine
+- **Description:** Membangun retrieval engine yang merangkum konteks aktif (Tasks, Notes, Categories) untuk menjawab pertanyaan pengguna baik secara offline/local-first (keyword & semantic pattern matcher) maupun via Gemini LLM jika API Key tersedia.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** None
+- **Acceptance Criteria:** Query seperti "ada catatan tentang X ga?" atau "ada task tentang Y ga?" dapat dijawab dengan referensi data nyata yang relevan.
+- **Progress:** 0%
+- **Related Docs:** docs/product/CORE_PRODUCT_PRINCIPLES.md
+- **Notes:** -
+
+### [TASK-1402] LifeFlow Glassmorphic AI Chat Interface
+- **Description:** Merancang UI/UX kolom chat bertema Glassmorphism khas LifeFlow (blur halus, translusen navy/frosted, micro-borders, bukan generic chatbot widget) yang tenang dan menyatu harmonis dengan Dark & Light Mode.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1401
+- **Acceptance Criteria:** Modal/Copilot Drawer muncul dengan transisi mulus, styling murni CSS BEM, responsive di mobile & desktop tanpa menutupi layout utama.
+- **Progress:** 0%
+- **Related Docs:** docs/design/DESIGN_SYSTEM.md
+- **Notes:** -
+
+### [TASK-1403] Deep-Linking & Actionable Result Cards
+- **Description:** Menghasilkan kartu interaktif di dalam chat bubble agar user dapat langsung mengklik dan membuka Task atau Note yang relevan secara instan.
+- **Priority:** Medium
+- **Status:** TODO
+- **Dependencies:** TASK-1402
+- **Acceptance Criteria:** Item catatan/tugas yang ditemukan dapat diklik dan mengarahkan navigasi aplikasi ke detail catatan atau halaman task bersangkutan.
+- **Progress:** 0%
+- **Related Docs:** None
+- **Notes:** -
+
+### [TASK-1404] AI Assistant Integration, Testing & Verification
+- **Description:** Pengujian integrasi menyeluruh, penempatan tombol akses di Navbar/Floating Copilot, verifikasi `npm run build` dan `npm run lint`, serta pengujian responsivitas.
+- **Priority:** High
+- **Status:** TODO
+- **Dependencies:** TASK-1401, TASK-1402, TASK-1403
+- **Acceptance Criteria:** Build PASS, lint 0 errors, interaksi mulus di mobile & desktop, lulus UAT manual.
+- **Progress:** 0%
+- **Related Docs:** docs/project/TASK_BOARD.md
+- **Notes:** -
+
+---
+
 ## Archived / Future Roadmap
 
 > **Migration Note:** Roadmap setelah Legacy Restoration menggunakan milestone baru berdasarkan ADR. Roadmap lama di bawah ini (M6 - M8 versi awal) dipindahkan ke bagian Archived/Future Roadmap agar histori dokumentasi tetap konsisten dan dapat ditelusuri.

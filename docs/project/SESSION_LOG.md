@@ -283,6 +283,17 @@
   - Memastikan hasil build (`npm run build`) dan linter (`npm run lint`) 100% lulus tanpa kendala (0 error, 0 warning).
   - Manual UAT divalidasi dan dinyatakan PASS oleh user. Status tiket resmi dialihkan ke DONE.
 
+## 2026-11-07
+- **Roadmap Expansion: M14 - AI Companion & Intelligent Retrieval (Personal OS Assistant):**
+  - Menerima arahan produk dari pengguna untuk menghadirkan fitur AI Chat Assistant berbasis konteks data aplikasi (mampu menjawab pertanyaan seputar Tasks, Notes, dan kategori).
+  - Menyepakati arah desain UI/UX: Mengusung estetika Glassmorphism khas LifeFlow (translusen, micro-border, blur halus, menyatu dengan tema Dark & Light mode) dan menjauh dari tampilan generic chatbot yang kaku (*Calm & Minimal UX*).
+  - Memetakan 4 tiket baru pada TASK_BOARD.md:
+    - [TASK-1401] Context-Aware Knowledge & Retrieval Engine (Local-first pattern matcher & Gemini fallback)
+    - [TASK-1402] LifeFlow Glassmorphic AI Chat Interface
+    - [TASK-1403] Deep-Linking & Actionable Result Cards
+    - [TASK-1404] AI Assistant Integration, Testing & Verification
+
+
 
 
 
