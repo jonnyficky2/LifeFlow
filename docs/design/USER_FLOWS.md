@@ -85,12 +85,12 @@ Dokumen ini memetakan seluruh alur interaksi pengguna (User Flows) utama pada ap
 
 ## 7. LifeFlow AI Assistant (M14) — Rancangan Hybrid
 
-**Status:** Draft, menunggu persetujuan desain.
+**Status:** Implementasi selesai; Manual UAT PASS.
 
 ### Tujuan dan Batas
 - Assistant terasa ramah dan memahami bahasa sehari-hari, serta membantu pengguna menemukan informasi di Tasks, Notes, Habits, dan Calendar.
 - Sapaan dan permintaan sederhana yang bisa dijawab dari data lokal diproses tanpa jaringan.
-- Gemini hanya digunakan bila pengguna sudah mengatur API Key. Pertanyaan umum tidak membawa data LifeFlow; pertanyaan tentang data LifeFlow boleh memakai ringkasan konteks untuk menjawabnya.
+- Gemini hanya digunakan bila pengguna sudah mengatur API Key. Pertanyaan umum tidak membawa data LifeFlow; pertanyaan tentang data LifeFlow boleh memakai ringkasan konteks untuk menjawabnya. Jika model utama mengembalikan HTTP 503, assistant mencoba sekali dengan Gemini 3.5 Flash-Lite sebelum memakai fallback lokal atau menampilkan error.
 - Tanpa API Key, assistant tetap melayani sapaan dan pencarian lokal. Untuk pertanyaan umum yang tak bisa dijawab lokal, assistant menjelaskan batasnya dan mengarahkan pengguna ke hal yang bisa dibantu.
 - Riwayat percakapan hanya berada di memori sesi aplikasi; tidak disimpan ke localStorage.
 

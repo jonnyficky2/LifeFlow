@@ -5,13 +5,14 @@ import { useNoteContext } from '../../context/NoteContext';
 import { useSettingsContext } from '../../context/SettingsContext';
 import { useTaskContext } from '../../context/TaskContext';
 import { askAssistant } from '../../utils/aiAssistant';
-import type { AssistantAnswer } from '../../utils/aiAssistant';
+import type { AssistantAnswer, AssistantConversationTurn, AssistantIntent } from '../../utils/aiAssistant';
 import './AiChatDrawer.css';
 
 interface ChatMessage {
   id: number;
   role: 'user' | 'assistant';
   text: string;
+  intent?: AssistantIntent;
   answer?: AssistantAnswer;
 }
 
@@ -49,16 +50,25 @@ export const AiChatDrawer: React.FC = () => {
 
     setQuestion('');
     setIsSending(true);
-    setMessages(previous => [...previous, { id: ++messageId.current, role: 'user', text }]);
+    const userMessageId = ++messageId.current;
+    const conversation: AssistantConversationTurn[] = messages.slice(-8).map(message => ({
+      role: message.role,
+      text: message.text,
+      intent: message.intent || 'general',
+      references: message.role === 'assistant' ? message.answer?.references : undefined
+    }));
+    setMessages(previous => [...previous, { id: userMessageId, role: 'user', text }]);
     try {
-      const answer = await askAssistant(text, { categories: appData, notes, habits }, settings?.geminiApiKey as string | undefined);
-      setMessages(previous => [...previous, { id: ++messageId.current, role: 'assistant', text: answer.reply, answer }]);
+      const answer = await askAssistant(text, { categories: appData, notes, habits }, settings?.geminiApiKey as string | undefined, conversation);
+      setMessages(previous => [
+        ...previous.map(message => message.id === userMessageId ? { ...message, intent: answer.intent } : message),
+        { id: ++messageId.current, role: 'assistant', text: answer.reply, intent: answer.intent, answer }
+      ]);
     } catch {
-      setMessages(previous => [...previous, {
-        id: ++messageId.current,
-        role: 'assistant',
-        text: 'Maaf, saya belum bisa memproses pertanyaan itu. Silakan coba lagi.'
-      }]);
+      setMessages(previous => [
+        ...previous.map(message => message.id === userMessageId ? { ...message, intent: 'general' as const } : message),
+        { id: ++messageId.current, role: 'assistant', text: 'Maaf, saya belum bisa memproses pertanyaan itu. Silakan coba lagi.', intent: 'general' }
+      ]);
     } finally {
       setIsSending(false);
     }

@@ -292,6 +292,18 @@ reference: docs/project/TASK_BOARD.md
   - Manual UAT divalidasi dan dinyatakan PASS oleh user. Status tiket resmi dialihkan ke DONE.
 
 ## 2026-11-07
+- **[TASK-1401] Diagnosis error panggilan Gemini (Status: DONE / UAT PASS):**
+  - Akar masalah pada pesan yang dilaporkan: semua error HTTP selain 401/403/404/429 (termasuk HTTP 400, respons umum untuk API key tidak valid) dipetakan ke pesan seolah koneksi internet bermasalah.
+  - Menambahkan pembacaan aman atas detail error HTTP Gemini tanpa mencatat API Key; balasan kini membedakan key tidak valid, format request, billing, kuota, izin, model, layanan Gemini, dan kegagalan jaringan browser.
+  - Pengguna memberikan bukti HTTP 503. Sesuai status layanan sementara overload/down, request kini mencoba satu kali ke model stabil Gemini 3.5 Flash-Lite setelah 503 dari Gemini 3.8 Flash.
+  - Pengguna mengonfirmasi pertanyaan umum berhasil dijawab dan memberikan UAT PASS. TASK-1401 dialihkan ke DONE.
+  - Build, lint, dan pemeriksaan diff diverifikasi; pengujian langsung API tidak dilakukan karena memakai API Key pribadi pengguna.
+- **[M14] Hybrid Conversational AI (Status: DONE / UAT PASS):**
+  - Mengimplementasikan sapaan dan identitas Jofi AI, daftar ringkas untuk permintaan area umum, serta klarifikasi task berdasarkan prioritas atau pilihan dari daftar sebelumnya.
+  - Menjaga riwayat percakapan dalam memori sesi; pertanyaan umum ke Gemini tidak membawa konteks Tasks/Notes/Habits.
+  - Pertanyaan LifeFlow dapat memakai Gemini dengan ringkasan konteks saat API Key tersedia, dan tetap memakai pencarian lokal saat offline/tanpa API Key.
+  - Memperbarui kedua jalur Gemini dari model `gemini-1.5-flash` yang tidak lagi direkomendasikan ke `gemini-3.8-flash`; menambahkan pesan kegagalan khusus untuk timeout, API Key, izin, model, dan kuota.
+  - Build dan lint PASS; pengguna menyatakan UAT fitur assistant PASS setelah jawaban umum berhasil diterima.
 - **[TASK-1401] UAT lanjutan dan rancangan perilaku AI percakapan:**
   - Pengguna mengonfirmasi pencarian task “hari ini” kini berfungsi; TASK-1401 tetap TESTING sampai seluruh skenario UAT disetujui.
   - Menambahkan rancangan hybrid untuk sapaan, permintaan data yang ambigu, klarifikasi multi-turn, fallback lokal, dan privasi konteks Gemini ke [USER_FLOWS.md](../design/USER_FLOWS.md). Rancangan menunggu persetujuan sebelum implementasi.
