@@ -5,7 +5,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 📊 Overall Progress: 98% (64/65 Tasks Completed)
+## 📊 Overall Progress: 94% (64/68 Tasks Completed)
 
 ---
 
@@ -49,6 +49,16 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Related Docs:** [UAT_CHECKLIST_PHASE2.md](../testing/UAT_CHECKLIST_PHASE2.md)
 - **Notes:** UAT Lulus. UX friction resolved (inline category creation).
 
+### [TASK-202] Inline Task Input (Zero-Friction)
+- **Description:** Hapus sistem penambahan Task tradisional (modal panjang) untuk penambahan cepat. Buat input satu baris (command line style) persis di atas halaman Tasks.
+- **Priority:** Medium
+- **Status:** DONE
+- **Dependencies:** TASK-201
+- **Acceptance Criteria:** Menekan "Enter" membuat task baru, field langsung bersih.
+- **Progress:** 100%
+- **Related Docs:** None
+- **Notes:** Quick-add satu baris di atas daftar Tasks mendukung pemilihan kategori; Enter menambahkan task dan mengosongkan input. Build PASS, lint exit code 0 dengan warning lama di file lain. Manual UAT PASS oleh user.
+
 ---
 
 ## M3 - Calendar
@@ -66,7 +76,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## M4 - Habit Tracker (IN PROGRESS)
+## M4 - Habit Tracker
 *(Grid Kontribusi Github-style)*
 
 ### [TASK-401] Habit Tracker Grid UI
@@ -81,7 +91,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## M5 - Notes (IN PROGRESS)
+## M5 - Notes
 *(Area catatan bebas berbasis Markdown)*
 
 ### [TASK-501] Two-Pane Notes Editor
@@ -166,8 +176,8 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## M5 - Notes (IN PROGRESS)
-*(Area catatan bebas berbasis Markdown)*
+## M5.5 - Design System & UX Standardization
+*(Audit konsistensi UI, standardisasi input, kartu, dan sistem warna)*
 
 ### [TASK-570] Design System & UX Consistency Audit
 - **Description:** Audit menyeluruh visual hierarchy, typography, colors, inputs, buttons, cards, spacing, icons, responsive behavior, dan buat Design System.
@@ -519,7 +529,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ---
 
 ## M13 - Operation Stabilization
-
+*(Pembersihan kode legacy, perbaikan tipe data, migrasi IndexedDB, dan pemisahan Context)*
 
 ### [TASK-1301] Legacy Code Cleanup
 - **Description:** Hapus folder `legacy_html_version/` dan script lama yang tidak dipakai.
@@ -528,13 +538,6 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Dependencies:** None
 - **Acceptance Criteria:** Repository bersih dari file legacy JS/HTML/Python.
 
-## 🔄 PENDING TASKS (TODO / TESTING / BACKLOG)
-
----
-
-## M13 - Operation Stabilization
-
-
 ### [TASK-1302] Strict Type Safety Patch
 - **Description:** Hapus penggunaan tipe `any` di seluruh project (terutama di `AppContext.tsx`) dan gunakan interface ketat.
 - **Priority:** High
@@ -542,22 +545,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Dependencies:** TASK-1301
 - **Acceptance Criteria:** Tidak ada peringatan `any` saat menjalankan TypeScript linting.
 
----
-
-## M13 - Operation Stabilization
-
-
 ### [TASK-1303] IndexedDB Storage Migration
 - **Description:** Pindahkan penyimpanan data dari `localStorage` sinkronus ke IndexedDB (Dexie.js) secara asinkronus. Keluarkan fungsi tulis dari *useEffect*.
 - **Priority:** Critical
 - **Status:** DONE
 - **Dependencies:** TASK-1302
 - **Acceptance Criteria:** Operasi simpan (write) berjalan asinkronus dan tidak membekukan UI saat data berjumlah besar.
-
----
-
-## M13 - Operation Stabilization
-
 
 ### [TASK-1304] AppContext Splitting
 - **Description:** Pecah "God Context" (`AppContext`) menjadi konteks tersendiri (`TaskContext`, `HabitContext`, `NoteContext`, `SettingsContext`) untuk mencegah re-render UI global.
@@ -568,20 +561,8 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 🔄 PENDING TASKS
-
-## M2 - Task Management
-*(Migrasi Core Task Logic, UI Tasks, dan Modal)*
-
-### [TASK-202] Inline Task Input (Zero-Friction)
-- **Description:** Hapus sistem penambahan Task tradisional (modal panjang) untuk penambahan cepat. Buat input satu baris (command line style) persis di atas halaman Tasks.
-- **Priority:** Medium
-- **Status:** DONE
-- **Dependencies:** TASK-201
-- **Acceptance Criteria:** Menekan "Enter" membuat task baru, field langsung bersih.
-- **Progress:** 100%
-- **Related Docs:** None
-- **Notes:** Quick-add satu baris di atas daftar Tasks mendukung pemilihan kategori; Enter menambahkan task dan mengosongkan input. Build PASS, lint exit code 0 dengan warning lama di file lain. Manual UAT PASS oleh user.
+## M5.6 - UI Restoration & Parity Fixes
+*(Pemulihan komponen layout, responsive design, dan release candidate v2)*
 
 ### [TASK-558] Release Candidate Audit
 - **Description:** Audit kelayakan pra-rilis.
@@ -683,11 +664,6 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Related Docs:** None
 - **Notes:** UAT Lulus.
 
----
-
-## M5 - Notes (IN PROGRESS)
-*(Area catatan bebas berbasis Markdown)*
-
 ### [TASK-575] Final UI Polish
 - **Description:** Pembersihan inline CSS style di seluruh JSX file, penyelarasan ikonografi, transisi, dan pengujian build akhir.
 - **Priority:** Low
@@ -700,8 +676,8 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## M12 - Final Release Candidate
-*(Pra-rilis, Theme Detection, dan UAT Akhir)*
+## M12.1 - Release Candidate v1.0 & UAT Wrap-up
+*(UAT Akhir, Rilis Publik v1.0, dan Post-Release UX Polishing)*
 
 ### [TASK-1203] Final Manual UAT
 - **Description:** Regresi seluruh fungsi CRUD, UI interactions, performa form, auth, serta fungsionalitas offline.
@@ -780,31 +756,22 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## Archived / Future Roadmap
+## Archived & Future Roadmap
 
-> **Migration Note:** Roadmap setelah Legacy Restoration menggunakan milestone baru berdasarkan ADR. Roadmap lama di bawah ini (M6 - M8 versi awal) dipindahkan ke bagian Archived/Future Roadmap agar histori dokumentasi tetap konsisten dan dapat ditelusuri.
-
----
-
-## M6 - Analytics
-*(Global Analytics & Focus Timer)*
-
-### [TASK-601] Focus Timer
-- **Description:** Pomodoro-style timer yang terhubung langsung dengan penyelesaian Tasks.
-- **Priority:** Low
-- **Status:** BACKLOG
-- **Dependencies:** TASK-201
-- **Acceptance Criteria:** Timer dapat dihitung mundur, sesi dicatat ke data harian.
-- **Progress:** 0%
-- **Related Docs:** None
-- **Notes:** Kini disupervisi oleh TASK-801 di roadmap baru.
+> **Migration Note:** Roadmap awal dipindahkan ke bagian ini agar histori dokumentasi tetap terlacak tanpa menyebabkan duplikasi ID milestone aktif.
 
 ---
 
-## M7 - AI Workspace
-*(Ekstraksi otomatis dan generative features)*
+### [Archived] Focus Timer (Superseded)
+- **Original ID:** TASK-601
+- **Status:** SUPERSEDED by [TASK-801] (DONE)
+- **Notes:** Fitur Pomodoro Focus Timer telah resmi dibangun dan diintegrasikan pada Milestone M8 ([TASK-801] Focus Timer).
 
-### [TASK-701] Invisible AI: Extract Tasks from Notes
+---
+
+## AI Features & Generative Workflows
+
+### [TASK-705] Invisible AI: Extract Tasks from Notes
 - **Description:** Tambahkan tombol (✨ AI) di dalam editor Notes untuk mengekstrak paragraf menjadi To-Do list dan dikirim ke modul Tasks.
 - **Priority:** Medium
 - **Status:** DONE
@@ -812,11 +779,11 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Acceptance Criteria:** Deteksi frasa aksi dari catatan markdown, review pratinjau daftar tugas terstruktur, pemilihan kategori target, dan penambahan tugas ke modul Tasks.
 - **Progress:** 100%
 - **Related Docs:** docs/product/CORE_PRODUCT_PRINCIPLES.md, docs/product/FUTURE_PRODUCT_VISION.md
-- **Notes:** Tombol "✨ Extract Tasks" di toolbar Notes, modal review interaktif (pilih/edit/hapus/ubah prioritas item tugas), batch add ke Tasks via useTasks, local-first rule extractor + opsional Gemini API key di Settings. Manual UAT PASS oleh user.
+- **Notes:** Tombol "✨ Extract Tasks" di toolbar Notes, modal review interaktif (pilih/edit/hapus/ubah prioritas item tugas), batch add ke Tasks via useTasks, local-first rule extractor + opsional Gemini API key di Settings. Manual UAT PASS oleh user. (Diubah dari ID sementara TASK-701 menjadi TASK-705 agar tidak bentrok dengan TASK-701 Notes Metadata).
 
 ---
 
-## M8 - Team Collaboration
+## Future Roadmap: Team Collaboration
 *(Fase lanjut skalabilitas)*
 
 *(Fitur berbagi dan kolaborasi ditangguhkan ke masa depan)*
