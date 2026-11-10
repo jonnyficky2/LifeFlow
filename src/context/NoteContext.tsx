@@ -7,6 +7,8 @@ import type { Note } from '../types';
 interface NoteContextType {
   notes: Note[];
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
+  activeNoteId: string | null;
+  setActiveNoteId: (id: string | null) => void;
   undoNote: () => void;
   redoNote: () => void;
   saveNoteSnapshot: () => void;
@@ -16,6 +18,7 @@ const NoteContext = createContext<NoteContextType | undefined>(undefined);
 
 export const NoteProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [notes, setNotes] = usePersistentState<Note[]>(STORAGE_KEYS.NOTES, []);
+  const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
 
   const [undoStack, setUndoStack] = useState<string[]>([]);
   const [redoStack, setRedoStack] = useState<string[]>([]);
@@ -49,6 +52,7 @@ export const NoteProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   return (
     <NoteContext.Provider value={{
       notes, setNotes,
+      activeNoteId, setActiveNoteId,
       undoNote, redoNote, saveNoteSnapshot
     }}>
       {children}

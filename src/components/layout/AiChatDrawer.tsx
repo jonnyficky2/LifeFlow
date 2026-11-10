@@ -4,8 +4,9 @@ import { useHabitContext } from '../../context/HabitContext';
 import { useNoteContext } from '../../context/NoteContext';
 import { useSettingsContext } from '../../context/SettingsContext';
 import { useTaskContext } from '../../context/TaskContext';
+import { useTasks } from '../../hooks/useTasks';
 import { askAssistant } from '../../utils/aiAssistant';
-import type { AssistantAnswer, AssistantConversationTurn, AssistantIntent } from '../../utils/aiAssistant';
+import type { AssistantAnswer, AssistantConversationTurn, AssistantIntent, AssistantReference } from '../../utils/aiAssistant';
 import './AiChatDrawer.css';
 
 interface ChatMessage {
@@ -17,17 +18,47 @@ interface ChatMessage {
 }
 
 export const AiChatDrawer: React.FC = () => {
-  const { isAiChatOpen, setAiChatOpen } = useAppContext();
-  const { appData } = useTaskContext();
-  const { notes } = useNoteContext();
+  const { isAiChatOpen, setAiChatOpen, setActiveSection } = useAppContext();
+  const { appData, setTaskModalOpen, setEditingTask } = useTaskContext();
+  const { notes, setActiveNoteId } = useNoteContext();
   const { habits } = useHabitContext();
   const { settings } = useSettingsContext();
+  const { executeAssistantAction } = useTasks();
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isSending, setIsSending] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageId = useRef(0);
+
+  const handleReferenceClick = (reference: AssistantReference) => {
+    if (reference.type === 'task') {
+      const refTitleNorm = reference.title.trim().toLowerCase();
+      for (let cIdx = 0; cIdx < appData.length; cIdx++) {
+        const cat = appData[cIdx];
+        if (!cat.tasks) continue;
+        const tIdx = cat.tasks.findIndex(t => t.name.trim().toLowerCase() === refTitleNorm);
+        if (tIdx !== -1) {
+          setEditingTask({ catIndex: cIdx, taskIndex: tIdx });
+          setTaskModalOpen(true);
+          return;
+        }
+      }
+      setActiveSection('tasks');
+    } else if (reference.type === 'note') {
+      if (reference.id) {
+        setActiveNoteId(reference.id);
+      } else {
+        const foundNote = notes.find(n => n.title.trim().toLowerCase() === reference.title.trim().toLowerCase());
+        if (foundNote) setActiveNoteId(foundNote.id);
+      }
+      setActiveSection('notes');
+      setAiChatOpen(false);
+    } else if (reference.type === 'habit') {
+      setActiveSection('habit');
+      setAiChatOpen(false);
+    }
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -60,6 +91,11 @@ export const AiChatDrawer: React.FC = () => {
     setMessages(previous => [...previous, { id: userMessageId, role: 'user', text }]);
     try {
       const answer = await askAssistant(text, { categories: appData, notes, habits }, settings?.geminiApiKey as string | undefined, conversation);
+      if (answer.actions && answer.actions.length > 0) {
+        for (const action of answer.actions) {
+          executeAssistantAction(action);
+        }
+      }
       setMessages(previous => [
         ...previous.map(message => message.id === userMessageId ? { ...message, intent: answer.intent } : message),
         { id: ++messageId.current, role: 'assistant', text: answer.reply, intent: answer.intent, answer }
@@ -109,7 +145,20 @@ export const AiChatDrawer: React.FC = () => {
               {message.answer && message.answer.references.length > 0 && (
                 <div className="ai-chat-results" aria-label="Referensi terkait">
                   {message.answer.references.map((reference, index) => (
-                    <div className="ai-chat-result" key={`${reference.type}-${reference.id || reference.title}-${index}`}>
+                    <div
+                      className={`ai-chat-result ai-chat-result--${reference.type}`}
+                      key={`${reference.type}-${reference.id || reference.title}-${index}`}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => handleReferenceClick(reference)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleReferenceClick(reference);
+                        }
+                      }}
+                      title="Buka item ini"
+                    >
                       <span className="ai-chat-result-type">{reference.type}</span>
                       <strong>{reference.title}</strong>
                       {reference.subtitle && <span>{reference.subtitle}</span>}

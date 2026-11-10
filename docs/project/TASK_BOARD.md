@@ -735,24 +735,24 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Notes:** Drawer glassmorphic terpasang di layout dengan kontrol buka/tutup Navbar, dialog Escape, responsif desktop/mobile, dan tampilan Dark/Light berbasis design tokens. Komposer menggunakan `askAssistant` (lokal atau Gemini opsional); referensi belum actionable (cakupan TASK-1403). Build, lint, dan Manual UAT PASS.
 
 ### [TASK-1403] Deep-Linking & Actionable Result Cards
-- **Description:** Menghasilkan kartu interaktif di dalam chat bubble agar user dapat langsung mengklik dan membuka Task atau Note yang relevan secara instan.
+- **Description:** Menghasilkan kartu interaktif di dalam chat bubble agar user dapat langsung mengklik dan membuka Task atau Note yang relevan secara instan, serta membedakan warna latar belakang kartu catatan secara lembut.
 - **Priority:** Medium
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-1402
-- **Acceptance Criteria:** Item catatan/tugas yang ditemukan dapat diklik dan mengarahkan navigasi aplikasi ke detail catatan atau halaman task bersangkutan.
-- **Progress:** 0%
+- **Acceptance Criteria:** Item catatan/tugas yang ditemukan dapat diklik dan mengarahkan navigasi aplikasi ke detail catatan atau modal task yang bersangkutan; kartu referensi catatan memiliki warna soft background berbeda.
+- **Progress:** 95%
 - **Related Docs:** None
-- **Notes:** -
+- **Notes:** Mengimplementasikan `handleReferenceClick` di `AiChatDrawer.tsx` yang membuka `TaskModal` untuk task, navigasi ke editor dan seleksi note untuk catatan via `activeNoteId` di `NoteContext`, dan navigasi ke Habit. Menambahkan class `.ai-chat-result--note` dengan warna soft amber background. Siap untuk validasi Manual UAT oleh pengguna.
 
 ### [TASK-1404] AI Assistant Integration, Testing & Verification
-- **Description:** Pengujian integrasi menyeluruh, penempatan tombol akses di Navbar/Floating Copilot, verifikasi `npm run build` dan `npm run lint`, serta pengujian responsivitas.
+- **Description:** Pengujian integrasi menyeluruh, parsing aksi task bahasa alami offline (buat/update/done/pindah), deteksi duplikasi, serta pencarian terpadu (Unified Global Search) lintas Tasks, Notes, dan Categories.
 - **Priority:** High
-- **Status:** TODO
+- **Status:** TESTING
 - **Dependencies:** TASK-1401, TASK-1402, TASK-1403
-- **Acceptance Criteria:** Build PASS, lint 0 errors, interaksi mulus di mobile & desktop, lulus UAT manual.
-- **Progress:** 0%
+- **Acceptance Criteria:** Perintah offline seperti "buat task A jam 9" (default Inbox) berjalan instan, deteksi task yang sudah ada merespons waktu & kategorinya tanpa duplikasi, mutasi (mark done, ubah, pindah) dieksekusi dengan benar; satu unified search menggantikan search bar per-halaman.
+- **Progress:** 95%
 - **Related Docs:** docs/project/TASK_BOARD.md
-- **Notes:** -
+- **Notes:** Mengembangkan parser perintah task offline `parseOfflineTaskCommand` di `src/utils/aiAssistant.ts`, menambahkan mutator di `useTasks.ts` (`addTaskWithDetails`, `updateTaskFields`, `setTaskDone`, `moveTask`, `executeAssistantAction`), menghubungkan eksekusi di `AiChatDrawer.tsx`, membangun modal pencarian global `UnifiedSearchModal` (`Cmd+K` / `Ctrl+K` dan tombol navbar), serta membersihkan search bar redundan di Tasks dan Notes. Siap untuk validasi Manual UAT oleh pengguna.
 
 ---
 

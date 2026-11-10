@@ -12,7 +12,6 @@ export const Tasks: React.FC = () => {
   const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory, addTask } = useTasks();
 
   const [filter, setFilter] = useState<'all' | 'pending' | 'done'>('all');
-  const [search, setSearch] = useState('');
   const [quickTaskName, setQuickTaskName] = useState('');
   const [quickTaskCategory, setQuickTaskCategory] = useState(0);
   const [newCategoryName, setNewCategoryName] = useState('');
@@ -66,19 +65,11 @@ export const Tasks: React.FC = () => {
   };
 
   const filterTask = (task: Task) => {
-    const matchFilter = 
-      (filter === "all") ||
+    return (
+      filter === "all" ||
       (filter === "done" && task.done) ||
-      (filter === "pending" && !task.done);
-
-    const keyword = search.toLowerCase();
-    const matchSearch =
-      !keyword ||
-      ((task.name || "").toLowerCase().includes(keyword) ||
-       (task.note || "").toLowerCase().includes(keyword) ||
-       (task.location || "").toLowerCase().includes(keyword));
-
-    return matchFilter && matchSearch;
+      (filter === "pending" && !task.done)
+    );
   };
 
   const handleAddTask = (catIndex: number) => {
@@ -122,17 +113,6 @@ export const Tasks: React.FC = () => {
           <h1>☑ Tasks</h1>
           <p>Manage and track your tasks</p>
         </div>
-      </div>
-
-      <div className="search-box tasks-search-container">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Search task..."
-          aria-label="Search tasks"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
       </div>
 
       {appData.length > 0 && !isAppLoading && (

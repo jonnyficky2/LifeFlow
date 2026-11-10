@@ -331,6 +331,23 @@ reference: docs/project/TASK_BOARD.md
   - Menemukan akar masalah: retrieval lokal sebelumnya mencocokkan kata kueri hanya terhadap nama, kategori, tag, dan catatan task, tanpa memeriksa deadline.
   - Menambahkan pengenalan frasa "hari ini"/"today" dan filter task berdasarkan deadline tanggal lokal perangkat.
 
+## 2026-11-10
+- **[TASK-1403] Deep-Linking & Actionable Result Cards (Status: TESTING):**
+  - Mengimplementasikan deep-linking interaktif pada kartu referensi di [src/components/layout/AiChatDrawer.tsx](src/components/layout/AiChatDrawer.tsx): mengklik referensi task langsung membuka `TaskModal` dengan state task terpilih (`setEditingTask`), mengklik referensi note membuka halaman Notes dan memuat catatan yang sesuai via `activeNoteId` di [src/context/NoteContext.tsx](src/context/NoteContext.tsx), serta mengklik habit menavigasikan pengguna ke halaman Habit Tracker.
+  - Menambahkan kelas modifikasi `.ai-chat-result--note` di [src/components/layout/AiChatDrawer.css](src/components/layout/AiChatDrawer.css) dengan warna latar belakang soft amber/warm tint yang berbeda dari task dan habit, lengkap dengan efek hover dan transisi mikro.
+- **[TASK-1404] Offline Natural Language Task Commands & Unified Global Search (Status: TESTING):**
+  - Mengembangkan parser perintah bahasa alami offline [src/utils/aiAssistant.ts](src/utils/aiAssistant.ts) (`parseOfflineTaskCommand`) yang bekerja 100% luring (zero network latency):
+    - **Buat/Tambah Task:** Mengekstraksi nama task, waktu (contoh: "jam 9", "pukul 14.30"), batas waktu/deadline ("hari ini", "besok", "lusa", atau tanggal ISO), dan kategori tujuan (default: `"Inbox"`).
+    - **Deteksi Task Eksis:** Jika task yang dibuat sudah ada di database lokal, asisten tidak membuat duplikat melainkan memberi tahu pengguna secara tepat: *"Tugas '[Nama]' sudah ada di jam [Waktu] (kategori [Kategori])."*
+    - **Ubah/Update:** Mendukung perintah seperti "update task A jam 10" atau "ubah task A pukul 15.00" dan menerapkan perubahan waktu/deadline.
+    - **Selesaikan/Mark Done & Undone:** Mendukung perintah "mark done task A", "tandai task A selesai", "selesaikan task A", dan "belum selesai task A".
+    - **Pindahkan Kategori:** Mendukung perintah "pindah task A ke Kerja" / "pindahkan task A ke kategori Pribadi".
+  - Menambahkan mutator helper di [src/hooks/useTasks.ts](src/hooks/useTasks.ts) (`addTaskWithDetails`, `updateTaskFields`, `setTaskDone`, `moveTask`, `executeAssistantAction`) yang menjaga konsistensi XP reward (+3 XP), daily history, status streak, dan snapshot undo/redo.
+  - Membangun komponen modal pencarian global [src/components/modals/UnifiedSearchModal.tsx](src/components/modals/UnifiedSearchModal.tsx) & [src/components/modals/UnifiedSearchModal.css](src/components/modals/UnifiedSearchModal.css) yang mencari sekaligus di **Tasks**, **Notes**, dan **Categories** secara instan:
+    - Dilengkapi shortcut keyboard global `Cmd+K` / `Ctrl+K`, tombol pencarian 🔍 di Navbar [src/components/layout/Navbar.tsx](src/components/layout/Navbar.tsx), navigasi keyboard panah atas/bawah, dan tombol Enter untuk membuka hasil.
+    - Membersihkan search bar per-halaman yang redundan di [src/pages/Tasks/Tasks.tsx](src/pages/Tasks/Tasks.tsx) dan [src/pages/Notes/Notes.tsx](src/pages/Notes/Notes.tsx) sehingga pengalaman pencarian LifeFlow terpadu menjadi satu pintu.
+  - Memperbarui status [TASK-1403] dan [TASK-1404] di [docs/project/TASK_BOARD.md](docs/project/TASK_BOARD.md) menjadi TESTING untuk persiapan validasi Manual UAT oleh pengguna.
+
 
 
 

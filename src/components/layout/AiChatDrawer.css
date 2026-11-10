@@ -89,7 +89,45 @@
 .ai-chat-message--user { align-self: flex-end; background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface)); border-color: color-mix(in srgb, var(--color-primary) 28%, var(--color-border)); }
 .ai-chat-message--assistant { align-self: flex-start; background: var(--color-surface); }
 .ai-chat-results { display: grid; gap: 8px; margin-top: 12px; }
-.ai-chat-result { display: grid; gap: 3px; padding: 10px; background: color-mix(in srgb, var(--color-bg) 55%, transparent); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
+.ai-chat-result {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--color-bg) 55%, transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-micro) ease;
+  text-align: left;
+}
+.ai-chat-result:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 55%, var(--color-border));
+  transform: translateY(-1px);
+}
+.ai-chat-result--note {
+  background: color-mix(in srgb, #f59e0b 11%, var(--color-surface));
+  border-color: color-mix(in srgb, #f59e0b 35%, var(--color-border));
+}
+.ai-chat-result--note:hover {
+  background: color-mix(in srgb, #f59e0b 18%, var(--color-surface));
+  border-color: color-mix(in srgb, #f59e0b 60%, var(--color-border));
+}
+.ai-chat-result--note .ai-chat-result-type {
+  color: #f59e0b;
+  font-weight: 700;
+}
+.ai-chat-result--task .ai-chat-result-type {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+.ai-chat-result--habit {
+  background: color-mix(in srgb, #ec4899 9%, var(--color-surface));
+  border-color: color-mix(in srgb, #ec4899 30%, var(--color-border));
+}
+.ai-chat-result--habit .ai-chat-result-type {
+  color: #ec4899;
+  font-weight: 700;
+}
 .ai-chat-result-type { color: var(--color-primary); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
 .ai-chat-result strong { font-size: 13px; }
 .ai-chat-result > span:last-child { color: var(--color-muted); font-size: 12px; }

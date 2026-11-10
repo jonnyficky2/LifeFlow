@@ -29,6 +29,9 @@ interface AppContextType {
   isAiChatOpen: boolean;
   setAiChatOpen: (isOpen: boolean) => void;
 
+  isUnifiedSearchOpen: boolean;
+  setUnifiedSearchOpen: (isOpen: boolean) => void;
+
   isAppLoading: boolean;
 }
 
@@ -41,6 +44,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isAiChatOpen, setAiChatOpen] = useState(false);
+  const [isUnifiedSearchOpen, setUnifiedSearchOpen] = useState(false);
   const [isAppLoading, setIsAppLoading] = useState(true);
 
   useEffect(() => {
@@ -50,6 +54,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setUnifiedSearchOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <AppContext.Provider value={{
       xp, setXp,
@@ -57,6 +72,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       isSidebarOpen, setSidebarOpen,
       activeSection, setActiveSection,
       isAiChatOpen, setAiChatOpen,
+      isUnifiedSearchOpen, setUnifiedSearchOpen,
       isAppLoading,
     }}>
       {children}

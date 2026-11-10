@@ -3,6 +3,7 @@ import { useTaskContext } from '../context/TaskContext';
 import { useAppContext } from '../context/AppContext';
 import { useHabitContext } from '../context/HabitContext';
 import type { Task, HistoryData } from '../types';
+import type { AssistantAction } from '../utils/aiAssistant';
 import { useToast } from '../context/ToastContext';
 
 export function getToday() {
@@ -246,6 +247,199 @@ export function useTasks() {
     showToast(`${tasksToAdd.length} task${tasksToAdd.length > 1 ? 's' : ''} added to ${targetCatName}`, 'success');
   }, [saveTaskSnapshot, setAppData, showToast]);
 
+  const addTaskWithDetails = useCallback((catIndex: number, taskData: Partial<Task> & { name: string }) => {
+    saveTaskSnapshot();
+    let targetCatName = 'Inbox';
+    setAppData(prevData => {
+      return prevData.map((cat, cIdx) => {
+        if (cIdx !== catIndex) return cat;
+        targetCatName = cat.name;
+        const newTask: Task = {
+          name: taskData.name,
+          done: Boolean(taskData.done),
+          deadline: taskData.deadline || "",
+          time: taskData.time || "",
+          location: taskData.location || "",
+          note: taskData.note || "",
+          priority: taskData.priority || "low",
+          tags: taskData.tags || [],
+          subtasks: taskData.subtasks || [],
+          streak: 0,
+          lastCompleted: null,
+          completedDates: [],
+          reminder: taskData.reminder || ""
+        };
+        return {
+          ...cat,
+          tasks: [...(cat.tasks || []), newTask]
+        };
+      });
+    });
+    showToast(`Task "${taskData.name}" ditambahkan ke ${targetCatName}`, 'success');
+  }, [saveTaskSnapshot, setAppData, showToast]);
+
+  const updateTaskFields = useCallback((catIndex: number, taskIndex: number, patch: Partial<Task>) => {
+    saveTaskSnapshot();
+    setAppData(prevData => {
+      return prevData.map((cat, cIdx) => {
+        if (cIdx !== catIndex) return cat;
+        return {
+          ...cat,
+          tasks: cat.tasks.map((t, tIdx) => {
+            if (tIdx !== taskIndex) return t;
+            return {
+              ...t,
+              ...patch
+            };
+          })
+        };
+      });
+    });
+    showToast('Tugas berhasil diperbarui', 'success');
+  }, [saveTaskSnapshot, setAppData, showToast]);
+
+  const setTaskDone = useCallback((catIndex: number, taskIndex: number, done: boolean) => {
+    const currentTask = appData[catIndex]?.tasks[taskIndex];
+    if (!currentTask) return;
+    if (currentTask.done !== done) {
+      toggleTask(catIndex, taskIndex);
+    }
+  }, [appData, toggleTask]);
+
+  const moveTask = useCallback((sourceCatIndex: number, taskIndex: number, targetCatIndex: number) => {
+    if (sourceCatIndex === targetCatIndex) return;
+    const taskToMove = appData[sourceCatIndex]?.tasks[taskIndex];
+    if (!taskToMove) return;
+
+    saveTaskSnapshot();
+    setAppData(prevData => {
+      const sourceCat = prevData[sourceCatIndex];
+      const targetCat = prevData[targetCatIndex];
+      if (!sourceCat || !targetCat) return prevData;
+
+      const moving = sourceCat.tasks[taskIndex];
+      if (!moving) return prevData;
+
+      return prevData.map((cat, cIdx) => {
+        if (cIdx === sourceCatIndex) {
+          return {
+            ...cat,
+            tasks: cat.tasks.filter((_, tIdx) => tIdx !== taskIndex)
+          };
+        }
+        if (cIdx === targetCatIndex) {
+          return {
+            ...cat,
+            tasks: [...(cat.tasks || []), moving]
+          };
+        }
+        return cat;
+      });
+    });
+    const targetName = appData[targetCatIndex]?.name || 'kategori baru';
+    showToast(`Tugas dipindahkan ke ${targetName}`, 'success');
+  }, [appData, saveTaskSnapshot, setAppData, showToast]);
+
+  const executeAssistantAction = useCallback((action: AssistantAction) => {
+    if (action.type === 'create_task') {
+      const targetName = (action.payload.categoryName || 'Inbox').trim().toLowerCase();
+      let catIndex = appData.findIndex(c => c.name.trim().toLowerCase() === targetName);
+      if (catIndex === -1) {
+        saveTaskSnapshot();
+        const newCatName = action.payload.categoryName || 'Inbox';
+        const newTask: Task = {
+          name: action.payload.taskName,
+          done: false,
+          deadline: action.payload.deadline || "",
+          time: action.payload.time || "",
+          location: "",
+          note: action.payload.note || "",
+          priority: action.payload.priority || "low",
+          tags: [],
+          subtasks: [],
+          streak: 0,
+          lastCompleted: null,
+          completedDates: [],
+          reminder: ""
+        };
+        setAppData(prev => [...prev, { name: newCatName, tasks: [newTask] }]);
+        showToast(`Task "${action.payload.taskName}" ditambahkan ke ${newCatName}`, 'success');
+      } else {
+        addTaskWithDetails(catIndex, {
+          name: action.payload.taskName,
+          time: action.payload.time,
+          deadline: action.payload.deadline,
+          priority: action.payload.priority || 'low',
+          note: action.payload.note
+        });
+      }
+    } else if (action.type === 'update_task') {
+      for (let cIdx = 0; cIdx < appData.length; cIdx++) {
+        const cat = appData[cIdx];
+        if (!cat.tasks) continue;
+        const tIdx = cat.tasks.findIndex(t => t.name.trim().toLowerCase() === action.payload.taskName.trim().toLowerCase());
+        if (tIdx !== -1) {
+          updateTaskFields(cIdx, tIdx, {
+            time: action.payload.time,
+            deadline: action.payload.deadline,
+            priority: action.payload.priority,
+            note: action.payload.note
+          });
+          break;
+        }
+      }
+    } else if (action.type === 'set_task_done') {
+      for (let cIdx = 0; cIdx < appData.length; cIdx++) {
+        const cat = appData[cIdx];
+        if (!cat.tasks) continue;
+        const tIdx = cat.tasks.findIndex(t => t.name.trim().toLowerCase() === action.payload.taskName.trim().toLowerCase());
+        if (tIdx !== -1) {
+          setTaskDone(cIdx, tIdx, Boolean(action.payload.done));
+          break;
+        }
+      }
+    } else if (action.type === 'move_task') {
+      let sourceCIdx = -1;
+      let targetTIdx = -1;
+      const targetTaskNorm = action.payload.taskName.trim().toLowerCase();
+
+      for (let cIdx = 0; cIdx < appData.length; cIdx++) {
+        const cat = appData[cIdx];
+        if (!cat.tasks) continue;
+        const idx = cat.tasks.findIndex(t => t.name.trim().toLowerCase() === targetTaskNorm);
+        if (idx !== -1) {
+          sourceCIdx = cIdx;
+          targetTIdx = idx;
+          break;
+        }
+      }
+
+      if (sourceCIdx !== -1 && targetTIdx !== -1 && action.payload.targetCategoryName) {
+        const destCatNameNorm = action.payload.targetCategoryName.trim().toLowerCase();
+        let targetCIdx = appData.findIndex(c => c.name.trim().toLowerCase() === destCatNameNorm);
+        if (targetCIdx === -1) {
+          saveTaskSnapshot();
+          setAppData(prev => {
+            const movingTask = prev[sourceCIdx]?.tasks[targetTIdx];
+            if (!movingTask) return prev;
+            const updatedSource = {
+              ...prev[sourceCIdx],
+              tasks: prev[sourceCIdx].tasks.filter((_, i) => i !== targetTIdx)
+            };
+            const newCat = {
+              name: action.payload.targetCategoryName!,
+              tasks: [movingTask]
+            };
+            return prev.map((cat, idx) => idx === sourceCIdx ? updatedSource : cat).concat(newCat);
+          });
+          showToast(`Tugas dipindahkan ke ${action.payload.targetCategoryName}`, 'success');
+        } else {
+          moveTask(sourceCIdx, targetTIdx, targetCIdx);
+        }
+      }
+    }
+  }, [appData, saveTaskSnapshot, setAppData, showToast, addTaskWithDetails, updateTaskFields, setTaskDone, moveTask]);
+
   return {
     toggleTask,
     toggleSubtask,
@@ -253,6 +447,11 @@ export function useTasks() {
     deleteCategory,
     addCategory,
     addTask,
-    batchAddTasks
+    batchAddTasks,
+    addTaskWithDetails,
+    updateTaskFields,
+    setTaskDone,
+    moveTask,
+    executeAssistantAction
   };
 }

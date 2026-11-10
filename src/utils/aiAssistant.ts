@@ -31,11 +31,28 @@ export interface AssistantReference {
   section: 'home' | 'tasks' | 'notes' | 'habit' | 'calendar';
 }
 
+export type AssistantActionType = 'create_task' | 'update_task' | 'set_task_done' | 'move_task';
+
+export interface AssistantAction {
+  type: AssistantActionType;
+  payload: {
+    taskName: string;
+    categoryName?: string;
+    targetCategoryName?: string;
+    time?: string;
+    deadline?: string;
+    priority?: 'low' | 'medium' | 'high';
+    done?: boolean;
+    note?: string;
+  };
+}
+
 export interface AssistantAnswer {
   reply: string;
   references: AssistantReference[];
   engine: 'local' | 'gemini';
   intent: AssistantIntent;
+  actions?: AssistantAction[];
 }
 
 export interface KnowledgeContext {
@@ -267,6 +284,383 @@ function getLifeFlowHistory(history: AssistantConversationTurn[]): AssistantConv
 
 function getGeneralHistory(history: AssistantConversationTurn[]): AssistantConversationTurn[] {
   return history.filter(turn => turn.intent === 'general').slice(-8);
+}
+
+function getLocalTodayDate(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+}
+
+function getLocalTomorrowDate(): string {
+  const date = new Date();
+  date.setDate(date.getDate() + 1);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+function getLocalDayAfterTomorrowDate(): string {
+  const date = new Date();
+  date.setDate(date.getDate() + 2);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+function extractTimeFromText(input: string): { time: string; textWithoutTime: string } | null {
+  // 1. (jam|pukul|at)\s*(\d{1,2})(?:[:.](\d{2}))?\s*(pagi|siang|sore|malam|am|pm)?
+  const pattern1 = /\b(?:jam|pukul|at)\s*(\d{1,2})(?:[:.](\d{2}))?\s*(pagi|siang|sore|malam|am|pm)?\b/i;
+  const match1 = input.match(pattern1);
+  if (match1) {
+    let hour = parseInt(match1[1], 10);
+    const minute = match1[2] ? parseInt(match1[2], 10) : 0;
+    const period = match1[3]?.toLowerCase();
+
+    if (period === 'malam' && hour < 12) hour += 12;
+    else if (period === 'siang' && hour < 12 && hour !== 12) hour += 12;
+    else if (period === 'sore' && hour < 12) hour += 12;
+    else if (period === 'pm' && hour < 12) hour += 12;
+    else if (period === 'am' && hour === 12) hour = 0;
+
+    const timeStr = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+    const textWithoutTime = input.replace(pattern1, ' ').trim();
+    return { time: timeStr, textWithoutTime };
+  }
+
+  // 2. Bare time like 09:30 or 14.00
+  const pattern2 = /\b(\d{1,2})[:.](\d{2})\b/;
+  const match2 = input.match(pattern2);
+  if (match2) {
+    const hour = parseInt(match2[1], 10);
+    const minute = parseInt(match2[2], 10);
+    if (hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59) {
+      const timeStr = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      const textWithoutTime = input.replace(pattern2, ' ').trim();
+      return { time: timeStr, textWithoutTime };
+    }
+  }
+
+  return null;
+}
+
+function extractDeadlineFromText(input: string): { deadline: string; textWithoutDeadline: string } | null {
+  if (/\b(?:besok|tomorrow)\b/i.test(input)) {
+    return {
+      deadline: getLocalTomorrowDate(),
+      textWithoutDeadline: input.replace(/\b(?:besok|tomorrow)\b/gi, ' ').trim()
+    };
+  }
+  if (/\b(?:lusa)\b/i.test(input)) {
+    return {
+      deadline: getLocalDayAfterTomorrowDate(),
+      textWithoutDeadline: input.replace(/\b(?:lusa)\b/gi, ' ').trim()
+    };
+  }
+  if (/\b(?:hari\s+ini|today)\b/i.test(input)) {
+    return {
+      deadline: getLocalTodayDate(),
+      textWithoutDeadline: input.replace(/\b(?:hari\s+ini|today)\b/gi, ' ').trim()
+    };
+  }
+  const isoMatch = input.match(/\b(\d{4}-\d{2}-\d{2})\b/);
+  if (isoMatch) {
+    return {
+      deadline: isoMatch[1],
+      textWithoutDeadline: input.replace(isoMatch[0], ' ').trim()
+    };
+  }
+  return null;
+}
+
+function extractCategoryFromText(input: string): { category: string; textWithoutCategory: string } | null {
+  const catRegex = /\b(?:di\s+kategori|ke\s+kategori|kategori|in\s+category|to\s+category)\s+([a-zA-Z0-9_\-\s]+?)(?=\s+(?:jam|pukul|deadline|hari|besok|$))/i;
+  const match = input.match(catRegex);
+  if (match) {
+    const category = match[1].trim();
+    const textWithoutCategory = input.replace(match[0], ' ').trim();
+    return { category, textWithoutCategory };
+  }
+  return null;
+}
+
+function cleanTaskTargetName(raw: string): string {
+  return raw
+    .replace(/^["'“”]|["'“”]$/g, '')
+    .replace(/^(?:task|tugas)\s+/i, '')
+    .replace(/\s+(?:ke|di)\s+kategori.*$/i, '')
+    .replace(/\s+(?:untuk|pada|di)\s+(?:jam|pukul).*$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function findExistingTask(categories: Category[], targetName: string): {
+  task: Task;
+  categoryName: string;
+} | null {
+  const norm = targetName.trim().toLowerCase();
+  if (!norm) return null;
+
+  // 1. Exact match (case-insensitive)
+  for (const cat of categories) {
+    if (!cat.tasks) continue;
+    for (const task of cat.tasks) {
+      if (task.name.trim().toLowerCase() === norm) {
+        return { task, categoryName: cat.name };
+      }
+    }
+  }
+
+  // 2. Inclusion match if length >= 2
+  if (norm.length >= 2) {
+    for (const cat of categories) {
+      if (!cat.tasks) continue;
+      for (const task of cat.tasks) {
+        const tNorm = task.name.trim().toLowerCase();
+        if (tNorm.includes(norm) || norm.includes(tNorm)) {
+          return { task, categoryName: cat.name };
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Natural language task action parser for offline use.
+ * Handles:
+ * - create task ("buat task A jam 9", default "Inbox", duplicate detection)
+ * - mark done / undone ("mark done task A", "selesaikan tugas B")
+ * - update ("update task A jam 10", "ubah task A pukul 14:00")
+ * - move ("pindah task A ke Kerja")
+ */
+export function parseOfflineTaskCommand(query: string, context: KnowledgeContext): AssistantAnswer | null {
+  const clean = query.trim();
+
+  // 1. Move task
+  const moveMatch = clean.match(/\b(?:pindah(?:kan)?|move)\s+(?:task|tugas)?\s*(.+?)\s+(?:ke\s+(?:kategori\s+)?|to\s+(?:category\s+)?)(.+)/i);
+  if (moveMatch) {
+    const targetTaskName = cleanTaskTargetName(moveMatch[1]);
+    const targetCategoryName = moveMatch[2].trim();
+    const existing = findExistingTask(context.categories || [], targetTaskName);
+
+    if (existing) {
+      return {
+        reply: `Tugas "${existing.task.name}" berhasil dipindahkan dari kategori "${existing.categoryName}" ke "${targetCategoryName}".`,
+        references: [{
+          type: 'task',
+          title: existing.task.name,
+          subtitle: `[${targetCategoryName}] ${existing.task.done ? 'Selesai' : 'Pending'} • Jam: ${existing.task.time || '-'}`,
+          category: targetCategoryName,
+          section: 'tasks'
+        }],
+        engine: 'local',
+        intent: 'tasks',
+        actions: [{
+          type: 'move_task',
+          payload: {
+            taskName: existing.task.name,
+            categoryName: existing.categoryName,
+            targetCategoryName
+          }
+        }]
+      };
+    }
+
+    return {
+      reply: `Saya tidak menemukan tugas "${targetTaskName}" untuk dipindahkan.`,
+      references: [],
+      engine: 'local',
+      intent: 'tasks'
+    };
+  }
+
+  // 2. Mark Done / Undone
+  const undoneMatch = clean.match(/\b(?:unmark|tandai\s*(?:belum\s*)?selesai|batal(?:kan)?\s*selesai|belum\s+selesai)\s+(?:task|tugas)?\s*(.+)/i)
+    || clean.match(/^(.+?)\s+(?:belum\s+selesai|batal\s+selesai|unmark)$/i);
+  if (undoneMatch) {
+    const targetTaskName = cleanTaskTargetName(undoneMatch[1]);
+    const existing = findExistingTask(context.categories || [], targetTaskName);
+    if (existing) {
+      return {
+        reply: `Tugas "${existing.task.name}" ditandai belum selesai.`,
+        references: [{
+          type: 'task',
+          title: existing.task.name,
+          subtitle: `[${existing.categoryName}] Pending • Jam: ${existing.task.time || '-'}`,
+          category: existing.categoryName,
+          section: 'tasks'
+        }],
+        engine: 'local',
+        intent: 'tasks',
+        actions: [{
+          type: 'set_task_done',
+          payload: {
+            taskName: existing.task.name,
+            categoryName: existing.categoryName,
+            done: false
+          }
+        }]
+      };
+    }
+    return {
+      reply: `Saya tidak menemukan tugas "${targetTaskName}" untuk diperbarui statusnya.`,
+      references: [],
+      engine: 'local',
+      intent: 'tasks'
+    };
+  }
+
+  const doneMatch = clean.match(/\b(?:mark\s*done|tandai\s*(?:sudah\s*)?selesai|selesaikan|sudah\s+selesai|centang)\s+(?:task|tugas)?\s*(.+)/i)
+    || clean.match(/^(.+?)\s+(?:sudah\s+selesai|mark\s*done)$/i);
+  if (doneMatch) {
+    const targetTaskName = cleanTaskTargetName(doneMatch[1]);
+    const existing = findExistingTask(context.categories || [], targetTaskName);
+    if (existing) {
+      return {
+        reply: `Tugas "${existing.task.name}" telah ditandai selesai ✓.`,
+        references: [{
+          type: 'task',
+          title: existing.task.name,
+          subtitle: `[${existing.categoryName}] Selesai • Jam: ${existing.task.time || '-'}`,
+          category: existing.categoryName,
+          section: 'tasks'
+        }],
+        engine: 'local',
+        intent: 'tasks',
+        actions: [{
+          type: 'set_task_done',
+          payload: {
+            taskName: existing.task.name,
+            categoryName: existing.categoryName,
+            done: true
+          }
+        }]
+      };
+    }
+    return {
+      reply: `Saya tidak menemukan tugas "${targetTaskName}" untuk ditandai selesai.`,
+      references: [],
+      engine: 'local',
+      intent: 'tasks'
+    };
+  }
+
+  // 3. Update task
+  const updateMatch = clean.match(/\b(?:update|ubah|ganti)\s+(?:task|tugas|jadwal|jam|deadline)?\s*(.+)/i);
+  if (updateMatch) {
+    let remaining = updateMatch[1];
+    const timeResult = extractTimeFromText(remaining);
+    if (timeResult) remaining = timeResult.textWithoutTime;
+    const deadlineResult = extractDeadlineFromText(remaining);
+    if (deadlineResult) remaining = deadlineResult.textWithoutDeadline;
+
+    const targetTaskName = cleanTaskTargetName(remaining.replace(/\b(?:jadi|menjadi|ke|pada)\b/gi, ' '));
+    const existing = findExistingTask(context.categories || [], targetTaskName);
+
+    if (existing) {
+      const newTime = timeResult ? timeResult.time : existing.task.time;
+      const newDeadline = deadlineResult ? deadlineResult.deadline : existing.task.deadline;
+      const changes: string[] = [];
+      if (timeResult) changes.push(`jam ${newTime}`);
+      if (deadlineResult) changes.push(`deadline ${newDeadline}`);
+
+      return {
+        reply: `Tugas "${existing.task.name}" berhasil diubah${changes.length ? ` (${changes.join(', ')})` : ''}.`,
+        references: [{
+          type: 'task',
+          title: existing.task.name,
+          subtitle: `[${existing.categoryName}] ${existing.task.done ? 'Selesai' : 'Pending'} • Jam: ${newTime || '-'}`,
+          category: existing.categoryName,
+          section: 'tasks'
+        }],
+        engine: 'local',
+        intent: 'tasks',
+        actions: [{
+          type: 'update_task',
+          payload: {
+            taskName: existing.task.name,
+            categoryName: existing.categoryName,
+            time: newTime,
+            deadline: newDeadline
+          }
+        }]
+      };
+    }
+
+    if (targetTaskName.length > 0) {
+      return {
+        reply: `Saya tidak menemukan tugas "${targetTaskName}" untuk diperbarui.`,
+        references: [],
+        engine: 'local',
+        intent: 'tasks'
+      };
+    }
+  }
+
+  // 4. Create task
+  const createMatch = clean.match(/\b(?:buat(?:kan)?|tambah(?:kan)?|bikin|create|add)\s+(?:task|tugas)?\s*(.+)/i)
+    || clean.match(/\b(?:task|tugas)\s+(.+?)\s+(?:jam|pukul)\s*(\d{1,2}.*)/i);
+  if (createMatch) {
+    let remaining = createMatch[1];
+    if (createMatch[2]) remaining = `${createMatch[1]} jam ${createMatch[2]}`;
+
+    const catResult = extractCategoryFromText(remaining);
+    if (catResult) remaining = catResult.textWithoutCategory;
+
+    const timeResult = extractTimeFromText(remaining);
+    if (timeResult) remaining = timeResult.textWithoutTime;
+
+    const deadlineResult = extractDeadlineFromText(remaining);
+    if (deadlineResult) remaining = deadlineResult.textWithoutDeadline;
+
+    const taskName = cleanTaskTargetName(remaining);
+    if (!taskName) return null;
+
+    const categoryName = catResult?.category || 'Inbox';
+    const timeStr = timeResult ? timeResult.time : '';
+    const deadlineStr = deadlineResult ? deadlineResult.deadline : getLocalTodayDate();
+
+    // Check duplicate detection as requested:
+    // "terus kalo tasknya sudah ada maka ai juga harus bisa menjawab task a sudah ada di jam a"
+    const existing = findExistingTask(context.categories || [], taskName);
+    if (existing) {
+      const timeInfo = existing.task.time ? `jam ${existing.task.time}` : 'belum diatur jamnya';
+      return {
+        reply: `Tugas "${existing.task.name}" sudah ada di ${timeInfo} (kategori ${existing.categoryName}).`,
+        references: [{
+          type: 'task',
+          title: existing.task.name,
+          subtitle: `[${existing.categoryName}] ${existing.task.done ? 'Selesai' : 'Pending'} • Jam: ${existing.task.time || 'belum diatur'}`,
+          category: existing.categoryName,
+          section: 'tasks'
+        }],
+        engine: 'local',
+        intent: 'tasks'
+      };
+    }
+
+    return {
+      reply: `Siap! Tugas "${taskName}" telah dibuat${timeStr ? ` untuk jam ${timeStr}` : ''} di kategori ${categoryName}.`,
+      references: [{
+        type: 'task',
+        title: taskName,
+        subtitle: `[${categoryName}] Pending • Jam: ${timeStr || '-'}`,
+        category: categoryName,
+        section: 'tasks'
+      }],
+      engine: 'local',
+      intent: 'tasks',
+      actions: [{
+        type: 'create_task',
+        payload: {
+          taskName,
+          categoryName,
+          time: timeStr,
+          deadline: deadlineStr,
+          priority: 'low'
+        }
+      }]
+    };
+  }
+
+  return null;
 }
 
 /**
@@ -685,6 +1079,12 @@ export async function askAssistant(
   }
   if (/^(?:terima kasih|makasih|thanks|thank you)[!.\s]*$/i.test(cleanQuery)) {
     return { reply: 'Sama-sama! Ada hal lain yang bisa saya bantu di LifeFlow?', references: [], engine: 'local', intent: 'greeting' };
+  }
+
+  // Check offline natural language task commands first (create, update, mark done/undone, move)
+  const taskCommandAnswer = parseOfflineTaskCommand(cleanQuery, context);
+  if (taskCommandAnswer) {
+    return taskCommandAnswer;
   }
 
   const isGeneralQuestion = isGeneralKnowledgeQuestion(cleanQuery);

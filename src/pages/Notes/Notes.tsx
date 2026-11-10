@@ -13,7 +13,7 @@ import './Notes.css';
 
 export const Notes: React.FC = () => {
   const { isAppLoading } = useAppContext();
-  const { notes } = useNoteContext();
+  const { notes, activeNoteId, setActiveNoteId } = useNoteContext();
   const { appData } = useTaskContext();
   const { settings } = useSettingsContext();
   const { addNote, updateNote, deleteNote } = useNotes();
@@ -22,8 +22,11 @@ export const Notes: React.FC = () => {
 
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const [search, setSearch] = useState('');
-  const [activeNoteId, setActiveNoteId] = useState<string | null>(notes.length > 0 ? notes[0].id : null);
+  useEffect(() => {
+    if (!activeNoteId && notes.length > 0) {
+      setActiveNoteId(notes[0].id);
+    }
+  }, [activeNoteId, notes, setActiveNoteId]);
 
   // Local state for the editor to avoid laggy keystrokes
   const [localTitle, setLocalTitle] = useState('');
@@ -89,10 +92,7 @@ export const Notes: React.FC = () => {
     }
   }, [localTitle, localContent, localDeadline, localTime, localReminder, activeNoteId, updateNote, activeNoteData]);
 
-  const filteredNotes = notes.filter(n => 
-    n.title.toLowerCase().includes(search.toLowerCase()) || 
-    n.content.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredNotes = notes;
 
   const getNoteDateGroup = (isoString: string): string => {
     const date = new Date(isoString);
@@ -219,15 +219,6 @@ export const Notes: React.FC = () => {
         <div className="notes-sidebar-header">
           <h2>Notes</h2>
           <button className="btn-new-note" onClick={handleCreateNote}>+ New</button>
-        </div>
-        <div className="notes-search">
-          <input 
-            type="text" 
-            placeholder="Search notes..." 
-            aria-label="Search notes"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
         </div>
         <div className="notes-list">
           {isAppLoading ? (
