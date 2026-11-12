@@ -159,3 +159,11 @@
   opacity: 0.5;
   font-size: 0.9rem;
 }
+
+.progress-list { display: grid; gap: 14px; }
+.progress-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) 42px; align-items: center; gap: 12px; }
+.progress-label, .progress-row strong { font-size: 13px; color: var(--color-muted); }
+.progress-row strong { text-align: right; color: var(--color-text); }
+.progress-track { height: 8px; overflow: hidden; border-radius: 999px; background: var(--color-bg-deep); }
+.progress-fill { height: 100%; border-radius: inherit; background: var(--color-primary); transition: width .4s ease; }
+.progress-fill--success { background: var(--color-success); }
