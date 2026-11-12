@@ -6,6 +6,38 @@ child: None
 reference: docs/project/TASK_BOARD.md, docs/product/CORE_PRODUCT_PRINCIPLES.md, docs/ai/MODEL_MAPPING.md
 ---
 
+## M15 UX Remediation Flows
+
+### A. Dashboard first action
+
+1. User membuka aplikasi dan melihat Today/Pending serta tombol `+ Add task` pada first viewport.
+2. User menekan `+ Add task` atau quick-add.
+3. Task tersimpan sebagai pending dan tampil di daftar Today/Pending.
+4. Completion: user dapat membuat task tanpa mencari tombol melalui sidebar atau membuka modal yang tidak diperlukan.
+
+### B. Profile to Settings
+
+1. User menekan avatar di Navbar.
+2. Aplikasi membuka section Settings.
+3. Focus keyboard dan pointer menghasilkan tujuan yang sama.
+4. Completion: tidak ada dropdown kosong atau dead click pada avatar.
+
+### C. Task completion feedback
+
+1. User mencentang task.
+2. Checkbox, text/status row, dan counter berubah segera.
+3. Compact toast memberi konfirmasi XP/status.
+4. User unchecks task dan menerima status pending dengan pola feedback yang sama.
+5. Completion: toast tidak menutupi task atau mengubah layout halaman.
+
+### D. Search discovery
+
+1. User melihat control Search pada posisi navbar yang konsisten.
+2. User mengklik atau memakai `Cmd+K`/`Ctrl+K`.
+3. Search modal terbuka dan fokus berada pada input.
+4. Hasil mengarah ke task, note, atau kategori yang relevan.
+5. Completion: user dapat menemukan Search tanpa harus mengetahui shortcut.
+
 # Unified User Flows Map
 
 Dokumen ini memetakan seluruh alur interaksi pengguna (User Flows) utama pada aplikasi LifeFlow. Ini menjamin perancang (Designer) dan pengembang (Developer) memiliki persepsi yang sama tentang jalur navigasi (navigation paths) pengguna.

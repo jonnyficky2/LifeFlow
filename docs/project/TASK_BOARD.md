@@ -756,6 +756,70 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
+## M15 - Post-Release UX Simplification & Responsive Remediation
+*(Audit-driven redesign untuk hierarchy, navigation, feedback, responsive behavior, dan brand consistency)*
+
+> Status M15: `NOT_STARTED`. Task di bawah ini berasal dari audit static 2026-11-13. Tidak ada task yang boleh diubah menjadi `DONE` sebelum build, functional QA, dan Manual UAT PASS.
+
+### [TASK-1501] Define Task-First Dashboard and Navigation Hierarchy
+- **Description:** Susun ulang Dashboard agar primary action, tugas hari ini, pending/overdue, dan quick stats mudah dipindai; kelompokkan navigasi desktop dan sederhanakan mobile navigation.
+- **Priority:** High
+- **Status:** NOT_STARTED
+- **Dependencies:** None
+- **Acceptance Criteria:** Wireframe dan design review disetujui; Dashboard memiliki primary `+ Add task`, Today/Pending section, dan shortcut yang jelas; navigasi desktop/mobile memiliki hierarchy yang terdokumentasi.
+- **Progress:** 0%
+- **Related Docs:** docs/design/DESIGN_REVIEW.md, docs/design/USER_FLOWS.md, docs/design/WIREFRAMES.md
+- **Notes:** Tidak menghapus fitur lama tanpa persetujuan user.
+
+### [TASK-1502] Standardize Primary Actions, Search, Profile, and Utility Controls
+- **Description:** Tetapkan lokasi dan label konsisten untuk tombol Add, Search, profile, theme, undo, dan redo; profile mengarah langsung ke Settings.
+- **Priority:** High
+- **Status:** NOT_STARTED
+- **Dependencies:** TASK-1501
+- **Acceptance Criteria:** Setiap halaman utama memiliki primary action yang mudah ditemukan; global search memiliki label/accessible name; avatar dapat diklik dan difokuskan untuk membuka Settings; utility controls tidak overflow.
+- **Progress:** 0%
+- **Related Docs:** docs/design/COMPONENT_LIBRARY.md, docs/design/USER_FLOWS.md
+- **Notes:** Implementasi tidak membuat dropdown profile tambahan kecuali disetujui user.
+
+### [TASK-1503] Compact Task Completion Feedback
+- **Description:** Kecilkan toast completed/pending dan lengkapi dengan feedback inline pada task row tanpa menghilangkan informasi status atau XP.
+- **Priority:** High
+- **Status:** NOT_STARTED
+- **Dependencies:** TASK-1502
+- **Acceptance Criteria:** Toast success/info tidak menutupi task utama, tidak memakai gradient dekoratif, memiliki ukuran compact, dan status checkbox/text tetap terlihat setelah toggle.
+- **Progress:** 0%
+- **Related Docs:** docs/design/COMPONENT_LIBRARY.md, docs/testing/UAT_CHECKLIST_FINAL.md
+
+### [TASK-1504] Unify Icons, Brand Logo, and Visual Tokens
+- **Description:** Ganti icon navigation/action yang berbasis emoji/simbol dengan sistem icon konsisten dan siapkan logo mark/wordmark untuk app shell, favicon, dan PWA.
+- **Priority:** Medium
+- **Status:** NOT_STARTED
+- **Dependencies:** TASK-1501
+- **Acceptance Criteria:** Ikon navigasi dan action konsisten lintas platform; logo terbaca pada ukuran kecil dan dark/light mode; token warna dan semantic states memiliki satu sumber penggunaan yang terdokumentasi.
+- **Progress:** 0%
+- **Related Docs:** docs/design/COMPONENT_LIBRARY.md, docs/design/DESIGN_REVIEW.md
+- **Notes:** Logo final membutuhkan persetujuan user sebelum aset diganti.
+
+### [TASK-1505] Responsive and Theme Parity Verification
+- **Description:** Uji dan perbaiki overflow, modal, navbar, sidebar, bottom nav, dashboard, dan theme pada viewport target desktop, tablet, dan mobile.
+- **Priority:** High
+- **Status:** NOT_STARTED
+- **Dependencies:** TASK-1501, TASK-1502, TASK-1503, TASK-1504
+- **Acceptance Criteria:** Tidak ada horizontal overflow atau elemen terpotong pada 375x812, 390x844, 768x1024, 1024x768, 1280x800, dan 1440x900; dark/light mode konsisten; keyboard focus terlihat.
+- **Progress:** 0%
+- **Related Docs:** docs/design/DESIGN_REVIEW.md, docs/testing/UAT_CHECKLIST_FINAL.md
+
+### [TASK-1506] Browser QA and Manual UAT for UX Remediation
+- **Description:** Jalankan smoke test, interaction test, screenshot review, dan Manual UAT untuk seluruh perubahan M15.
+- **Priority:** High
+- **Status:** NOT_STARTED
+- **Dependencies:** TASK-1505
+- **Acceptance Criteria:** Build/lint PASS; navigasi, Add, Search, profile, checkbox feedback, theme, dan responsive viewport lulus checklist; hasil UAT user dicatat sebelum status task menjadi DONE.
+- **Progress:** 0%
+- **Related Docs:** docs/testing/UAT_CHECKLIST_FINAL.md, docs/project/UI_AUDIT.md
+
+---
+
 ## Archived & Future Roadmap
 
 > **Migration Note:** Roadmap awal dipindahkan ke bagian ini agar histori dokumentasi tetap terlacak tanpa menyebabkan duplikasi ID milestone aktif.

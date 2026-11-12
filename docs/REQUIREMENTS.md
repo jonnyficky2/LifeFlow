@@ -50,3 +50,20 @@ Dokumen ini diturunkan langsung dari [PRD.md](./product/PRD.md). Ini adalah kont
 
 ### NFR4. Availability
 - Aplikasi berstatus **Offline First** (PWA). Akses penuh pada fitur inti walau mode pesawat (*Airplane Mode*) dinyalakan pada perangkat.
+
+### NFR5. UX Hierarchy and Discoverability (M15)
+- **5.1.** Dashboard harus menampilkan primary action `+ Add task` dan Today/Pending content pada first viewport.
+- **5.2.** Setiap modul utama memiliki satu lokasi primary action yang konsisten dan label yang menjelaskan hasil aksinya.
+- **5.3.** Search memiliki visible label atau accessible name, dan dapat dibuka dengan click serta `Cmd+K`/`Ctrl+K`.
+- **5.4.** Klik atau keyboard activation pada avatar membuka Settings secara langsung.
+- **5.5.** Utility controls tidak boleh menyebabkan navbar overflow pada target viewport.
+
+### NFR6. Responsive and Theme Parity (M15)
+- **6.1.** Tidak ada horizontal overflow, clipping, atau modal keluar viewport pada 375x812, 390x844, 768x1024, 1024x768, 1280x800, dan 1440x900.
+- **6.2.** Dark dan light theme menggunakan semantic tokens yang sama; tidak ada teks atau border yang kehilangan kontras.
+- **6.3.** Semua interactive controls memiliki target minimal 44x44px dan visible keyboard focus.
+
+### NFR7. Feedback and Visual Consistency (M15)
+- **7.1.** Task toggle mengubah checkbox, status row, dan counter secara langsung.
+- **7.2.** Toast complete/pending bersifat compact, tidak menggunakan gradient dekoratif, tidak menutupi primary content, dan tidak memaksa layout reflow.
+- **7.3.** Navigation dan action icons berasal dari satu sistem visual; emoji bukan icon system utama.

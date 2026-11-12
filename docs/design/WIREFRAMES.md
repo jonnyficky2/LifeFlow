@@ -4,6 +4,38 @@ Dokumen ini mendefinisikan panduan referensi visual (Wireframes) untuk pengemban
 
 ---
 
+## 0. M15 Target Layout Contract
+
+Wireframe berikut adalah struktur dan prioritas, bukan keputusan pixel final. Implementasi harus mempertahankan urutan informasi ini pada target viewport.
+
+### Dashboard
+
+- Header: greeting/date di kiri; satu `+ Add task` primary action di kanan.
+- First content: Today/Pending/Overdue task list yang dapat langsung dikerjakan.
+- Secondary content: compact stats untuk pending, completed, today, dan habit progress.
+- Tertiary content: activity heatmap dan quote; tidak boleh mendorong task utama keluar first viewport.
+
+### Desktop shell
+
+- Sidebar: grouped navigation (Workspace, Planning, Insights, System).
+- Navbar: brand/page context di kiri; Search dan limited utility actions di kanan; avatar terakhir.
+- Main content: container dengan max-width dan gap konsisten, tanpa horizontal overflow.
+
+### Mobile shell
+
+- Navbar: menu, page title, Search, avatar.
+- Bottom navigation: maksimal lima destination utama; item sekunder berada di sidebar/More.
+- Primary action: tetap terlihat di header atau floating area yang tidak menutupi input/task.
+
+### Task feedback
+
+- Checkbox dan status row berubah inline.
+- Compact toast berada di safe area, tidak menutupi first content, dan tidak memaksa layout reflow.
+
+### Profile flow
+
+- Avatar → Settings, tanpa intermediate dropdown kecuali kebutuhan produk berubah.
+
 ## 1. Figma Design System Connection
 
 Semua rancangan antarmuka fidelitas tinggi (high-fidelity mock-ups) dan komponen visual dikelola secara tersentralisasi pada ruang kerja Figma:

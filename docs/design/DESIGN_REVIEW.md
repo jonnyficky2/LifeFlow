@@ -4,6 +4,29 @@ Dokumen ini mendefinisikan panduan peninjauan desain (Design Review) dan proses 
 
 ---
 
+## 0. Current Design Direction: M15 UX Remediation
+
+LifeFlow adalah productivity tool untuk penggunaan berulang, sehingga arah visual yang disetujui untuk M15 adalah **calm, task-first, predictable, dan responsive**. Elemen dekoratif tidak boleh mengalahkan pekerjaan utama pengguna.
+
+### Hierarchy
+
+1. Primary action halaman, terutama `+ Add task`, harus terlihat pada first viewport.
+2. Dashboard memprioritaskan Today, Pending/Overdue, dan shortcut kerja; XP, quote, dan heatmap menjadi secondary content.
+3. Satu halaman memakai satu primary action utama; utility controls tidak bersaing dengan action tersebut.
+4. Desktop memakai sidebar yang dikelompokkan; mobile memakai navigasi ringkas dengan akses ke item sekunder melalui More/Sidebar.
+
+### Interaction rules
+
+- Avatar adalah button yang membuka Settings secara langsung.
+- Search memiliki label/accessible name yang jelas dan posisi konsisten.
+- Toggle task memberi feedback inline segera; toast hanya compact confirmation.
+- Action icon menggunakan satu sistem SVG/icon yang konsisten; emoji bukan icon navigasi utama.
+- Light dan dark theme harus memakai semantic tokens yang sama tanpa warna hardcoded per halaman.
+
+### Responsive contract
+
+Target viewport: `375x812`, `390x844`, `768x1024`, `1024x768`, `1280x800`, `1440x900`. Setiap target harus bebas horizontal overflow, clipping, dan modal yang keluar viewport.
+
 ## 1. Visual Regression Checklist (Daftar Periksa UAT)
 
 Setiap pengembang atau QA harus memverifikasi poin-poin berikut pada build pengembangan lokal sebelum menyetujui rilis:

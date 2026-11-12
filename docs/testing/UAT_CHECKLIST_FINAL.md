@@ -8,6 +8,41 @@ Dokumen ini berisi daftar skenario pengujian manual yang harus diverifikasi untu
 
 ---
 
+## 0. M15 UX Remediation Revalidation (Not Yet Tested)
+
+Checklist ini sengaja belum dicentang. Uji setelah TASK-1501 sampai TASK-1505 selesai; status M15 tidak boleh menjadi DONE sebelum user memberikan hasil Manual UAT.
+
+### Navigation and discoverability
+
+- [ ] Dashboard menampilkan `+ Add task` pada first viewport.
+- [ ] User dapat menemukan Tasks, Search, Settings, dan navigasi utama tanpa mengetahui shortcut.
+- [ ] Avatar membuka Settings melalui pointer dan keyboard.
+- [ ] Navbar tidak overflow pada viewport target.
+
+### Dashboard hierarchy
+
+- [ ] Today/Pending/Overdue task terlihat sebelum secondary analytics.
+- [ ] Quick stats tidak mengalahkan primary task workflow.
+- [ ] Empty state memiliki CTA yang jelas.
+
+### Feedback
+
+- [ ] Checklist task memberi feedback inline segera.
+- [ ] Toast completed/pending compact dan tidak menutupi content utama.
+- [ ] Toast tidak menyebabkan layout reflow atau horizontal overflow.
+
+### Responsive and theme
+
+- [ ] 375x812: tidak ada clipping atau horizontal scroll.
+- [ ] 390x844: navbar, modal, toast, dan bottom navigation tidak bertabrakan.
+- [ ] 768x1024: tablet layout tetap dapat dipindai.
+- [ ] 1024x768: landscape layout tidak memotong content.
+- [ ] 1280x800 dan 1440x900: sidebar, navbar, dan dashboard sejajar.
+- [ ] Dark mode dan light mode tidak mencampur background/text/border.
+- [ ] Tab navigation menampilkan visible focus pada semua control.
+
+---
+
 ## 1. Fungsionalitas Inti (CRUD)
 
 - [x] **Kategori:**

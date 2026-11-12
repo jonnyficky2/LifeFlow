@@ -4,6 +4,31 @@ Dokumen ini mendefinisikan pustaka komponen antarmuka (UI Components) yang digun
 
 ---
 
+## 0. M15 Interaction Standards
+
+### Primary action
+
+- Gunakan satu label konsisten: `+ Add task`, `+ Add habit`, `+ New note`, atau `+ Add category`.
+- Letakkan primary action di header halaman; pada mobile action tetap terlihat tanpa menutupi content.
+- Minimum touch target: `44px`; gunakan class komponen, bukan inline style.
+
+### Navigation and profile
+
+- Navigation icon harus berasal dari satu icon system dan memiliki accessible label.
+- Avatar harus dirender sebagai button dan membuka Settings langsung.
+- Search harus memiliki visible label pada desktop atau tooltip plus accessible label pada mobile.
+
+### Compact toast
+
+- Toast task complete/pending adalah confirmation singkat, bukan alert besar.
+- Gunakan max-width `min(320px, calc(100vw - 32px))`, padding compact, tanpa gradient dekoratif, dan tidak menutupi primary content.
+- Status task tetap terlihat inline melalui checkbox, text style, atau status label.
+
+### Dashboard cards
+
+- Card statistik harus mendukung scanning dan tidak mengambil prioritas dari Today/Pending tasks.
+- Hindari card di dalam card; gunakan section dan gap yang jelas.
+
 ## 1. Skeleton Loader (`.skeleton`)
 
 Digunakan sebagai kerangka muat (placeholder loading) sebelum data asli selesai diambil dari penyimpanan lokal.

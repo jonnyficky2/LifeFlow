@@ -50,7 +50,45 @@ Dokumen ini berisi hasil audit menyeluruh terhadap antarmuka pengguna (UI) dan p
 
 ---
 
-## 2. Prioritas Implementasi Perbaikan
+## 2. Audit Lanjutan: Post-Release UX Review (2026-11-13)
+
+Audit ini berasal dari static source review. Browser interaction, screenshots, runtime console, dan cross-device visual comparison belum diverifikasi; item tersebut tetap berstatus **UNVERIFIED** sampai Manual UAT.
+
+### A. Hierarki dan navigasi
+
+- **High — Dashboard tidak cukup task-first**: Dashboard berisi XP, statistik, heatmap, dan quote, tetapi belum menonjolkan daftar tugas hari ini atau primary action `Add task`.
+- **High — Primary action tidak konsisten**: label dan posisi tombol tambah berbeda antara Tasks, Habits, Categories, dan Notes.
+- **High — Navbar terlalu padat**: search, AI, undo, redo, theme, profile, dan sidebar toggle berada pada satu baris utility.
+- **Medium — Sidebar terlalu panjang**: sembilan item utama tanpa grouping meningkatkan beban pemahaman pengguna baru.
+- **High — Profile tidak actionable**: avatar di `src/components/layout/Navbar.tsx` belum memiliki `onClick` atau keyboard action menuju Settings.
+- **Medium — Search kurang discoverable**: global search hanya berupa icon button tanpa label visual.
+
+### B. Visual system dan feedback
+
+- **High — Emoji/simbol dipakai sebagai icon system**: navigasi dan action memakai karakter seperti `⌂`, `☑`, `✏️`, dan `🗑`; tampilannya dapat berbeda antar platform dan tidak membentuk icon language yang konsisten.
+- **High — Toast terlalu besar untuk checklist feedback**: `notifications.css` memakai padding besar, min-width 200px, max-width 300px, dan gradient; task complete/pending menjadi terlalu dominan.
+- **High — CSS ownership tidak jelas**: `style.css` berisi override berulang untuk sidebar, buttons, light mode, bottom nav, dan toast sehingga perubahan mudah saling menimpa.
+- **Medium — Token warna berlapis**: `variables.css` masih memiliki alias lama (`--bg`, `--primary`, `--dash-*`, dan lainnya) yang membuat sumber warna sulit dilacak.
+- **Medium — Logo belum memiliki sistem brand**: `APP_LOGO` langsung menunjuk ke `favicon.svg`, tanpa pemisahan mark, wordmark, favicon, dan PWA icon.
+
+### C. Responsive dan accessibility
+
+- **High — Risiko overflow lintas device**: navbar, dashboard grid, heatmap, modal, dan sidebar perlu diuji pada 375, 390, 768, 1024, 1280, dan 1440px.
+- **Medium — Theme parity belum terbukti**: static code menunjukkan banyak override `body.light-mode`; setiap halaman perlu diuji agar tidak ada teks putih pada surface terang atau surface gelap yang tersisa.
+- **Medium — Profile dan overlay keyboard behavior belum lengkap**: avatar perlu menjadi button yang dapat difokuskan; sidebar overlay perlu memiliki dismiss behavior yang dapat diakses.
+
+### Status evidence
+
+| Area | Status | Bukti saat ini |
+|---|---|---|
+| Build dan TypeScript | PASS | `npm run build` pada 2026-11-13 |
+| Lint | PASS | `npm run lint` pada 2026-11-13 |
+| Browser clicks/input | UNVERIFIED | Browser automation belum tersedia di sesi ini |
+| Screenshots cross-device | UNVERIFIED | Belum ada baseline baru |
+| Runtime console/network | UNVERIFIED | Belum dijalankan di browser |
+| Manual UAT | REQUIRED | Menunggu implementasi dan validasi user |
+
+## 3. Prioritas Implementasi Perbaikan
 
 Kami merekomendasikan pembagian pekerjaan perbaikan dalam urutan berikut demi meminimalkan risiko regresi visual:
 
