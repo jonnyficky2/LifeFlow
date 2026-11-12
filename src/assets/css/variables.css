@@ -4,25 +4,25 @@
 
 :root {
   /* Brand / Accent Colors */
-  --color-primary: #5574ff;
-  --color-secondary: #8e5cff;
-  --color-success: #48d66d;
-  --color-warning: #f2c94c;
-  --color-danger: #ef4444;
+  --color-primary: #0a84ff;
+  --color-secondary: #5e5ce6;
+  --color-success: #30d158;
+  --color-warning: #ffd60a;
+  --color-danger: #ff453a;
 
   /* Neutral Dark Theme Colors */
-  --color-bg: #07111f;
-  --color-bg-deep: #040b15;
-  --color-surface: rgba(14, 27, 49, 0.72);
-  --color-surface-strong: rgba(17, 33, 60, 0.84);
-  --color-border: rgba(148, 163, 184, 0.18);
-  --color-text: #f7fbff;
-  --color-muted: #a7b3c7;
+  --color-bg: #000000;
+  --color-bg-deep: #0b0b0d;
+  --color-surface: #1c1c1e;
+  --color-surface-strong: #2c2c2e;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-text: #f5f5f7;
+  --color-muted: #98989d;
   --color-white: #ffffff;
 
   /* Dark Theme Specific (Legacy compat) */
-  --bg-dark-1: #020617;
-  --bg-dark-2: #0f172a;
+  --bg-dark-1: var(--color-bg);
+  --bg-dark-2: var(--color-bg-deep);
   --card-dark: rgba(255, 255, 255, 0.06);
   --border-dark: rgba(255, 255, 255, 0.08);
   --text-dark: #ffffff;
@@ -96,7 +96,7 @@
   --secondary: var(--color-success);
   --danger: var(--color-danger);
   --warning: var(--color-warning);
-  --nav-bg: rgba(6, 16, 31, 0.92);
+  --nav-bg: rgba(28, 28, 30, 0.92);
 
   /* React boilerplate variables mapping to unified design system tokens */
   --primary-color: var(--color-primary);

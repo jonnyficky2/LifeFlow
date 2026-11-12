@@ -1,29 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useTaskContext } from '../../context/TaskContext';
 import type { Task } from '../../types';
 import { Skeleton } from '../../components/ui/Skeleton';
-import { quoteManager } from '../../utils/QuoteProvider';
-
-import { getLevelData } from '../../utils/level';
-
-const levelNames = [
-  "Rookie", "Grinder", "Focused", "Achiever", "Discipline",
-  "Advanced", "Elite", "Mastermind", "Legend", "Monster"
-];
 
 const getLocalDateString = (dateObj: Date) => {
   return `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}`;
 };
 
 export const Dashboard: React.FC = () => {
-  const { xp, historyData, isAppLoading } = useAppContext();
-  const { appData } = useTaskContext();
-  const [quote] = useState(() => quoteManager.getDailyQuote());
-
-  const { level, remainingXP, xpNeeded } = useMemo(() => getLevelData(xp), [xp]);
-  const levelName = levelNames[Math.min(level - 1, 9)];
-  const xpPercent = (remainingXP / xpNeeded) * 100;
+  const { historyData, isAppLoading, setActiveSection } = useAppContext();
+  const { appData, setTaskModalOpen, setCurrentCategoryIndex } = useTaskContext();
 
   const stats = useMemo(() => {
     let done = 0;
@@ -67,68 +54,65 @@ export const Dashboard: React.FC = () => {
     return boxes;
   }, [historyData]);
 
+  const todayTasks = useMemo(() => appData.flatMap((category, catIndex) =>
+    (category.tasks || []).map((task, taskIndex) => ({ task, catIndex, taskIndex }))
+  ).filter(({ task }) => !task.done && task.deadline === getLocalDateString(new Date())).slice(0, 5), [appData]);
+
+  const openAddTask = () => {
+    setCurrentCategoryIndex(0);
+    setTaskModalOpen(true);
+  };
+
   return (
     <div id="homeSection" className="dashboard-wrapper section-page">
       <section className="dashboard-header">
         <div>
-          <h1>Good morning! </h1>
+          <h1>Good morning!</h1>
           <p>Let's make today productive.</p>
+        </div>
+        <div className="dashboard-header-actions">
+          <button type="button" className="btn btn-primary" onClick={openAddTask}>+ Add task</button>
         </div>
       </section>
 
-      {/* LEVEL & XP */}
-      <div id="levelBox">
-        {isAppLoading ? (
-          <>
-            <Skeleton type="title" width="40%" />
-            <Skeleton type="block" height="22px" className="dashboard-skeleton-xp-bar" />
-            <Skeleton type="text" width="20%" className="dashboard-skeleton-text-small" />
-          </>
+      <section className="dashboard-panel dashboard-today-panel">
+        <div className="panel-header">
+          <div>
+            <h2>Today</h2>
+            <p>Tasks that need your attention now.</p>
+          </div>
+          <button type="button" className="btn btn-secondary" onClick={() => setActiveSection('tasks')}>View tasks</button>
+        </div>
+        {todayTasks.length > 0 ? (
+          <div className="dashboard-today-list">
+            {todayTasks.map(({ task, catIndex, taskIndex }) => <div className="dashboard-today-item" key={`${catIndex}-${taskIndex}`}><span className="dashboard-today-dot" />{task.name}</div>)}
+          </div>
         ) : (
-          <>
-            <h2 id="levelText">🏆 Level {level} {levelName && `\n${levelName}`}</h2>
-            <div className="xp-progress-container">
-              <div className="xp-bar">
-                <div id="xpFill" style={{ width: `${xpPercent}%` }}></div>
-              </div>
-              <p id="xpText">{remainingXP} / {xpNeeded} XP</p>
-            </div>
-          </>
+          <p className="dashboard-empty-copy">No pending tasks for today.</p>
         )}
-      </div>
+      </section>
 
-      {/* QUICK STATS */}
+      {/* QUICK SUMMARY */}
       <div id="quickStats" className="quick-stats-grid">
         <div className="stat-card">
-          <span className="stat-icon stat-icon-blue">▤</span>
           <div>
-            <p>All Tasks</p>
-            {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="allTaskCount">{stats.total}</h3>}
-            <small>Total tasks</small>
-          </div>
-        </div>
-        <div className="stat-card">
-          <span className="stat-icon stat-icon-yellow">◷</span>
-          <div>
-            <p>Pending</p>
+            <p>Remaining</p>
             {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="pendingCount">{stats.pending}</h3>}
             <small>Tasks to do</small>
           </div>
         </div>
         <div className="stat-card">
-          <span className="stat-icon stat-icon-green">✓</span>
           <div>
-            <p>Done</p>
+            <p>Completed today</p>
             {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="doneCount">{stats.done}</h3>}
-            <small>Tasks completed</small>
+            <small>Finished tasks</small>
           </div>
         </div>
         <div className="stat-card">
-          <span className="stat-icon stat-icon-purple">▣</span>
           <div>
-            <p>Today</p>
+            <p>Due today</p>
             {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="todayCount">{stats.todayTasks}</h3>}
-            <small>Tasks for today</small>
+            <small>Scheduled tasks</small>
           </div>
         </div>
       </div>
@@ -146,13 +130,7 @@ export const Dashboard: React.FC = () => {
           </div>
         </section>
 
-        <div className="dashboard-side">
-          <div id="quoteContainer" className="dashboard-panel motivation-panel">
-            <h2>Motivation</h2>
-            <p id="quoteText">"{quote.text}"</p>
-            <small id="quoteAuthor">- {quote.author}</small>
-          </div>
-        </div>
+
       </section>
     </div>
   );

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Icon } from './Icon';
 import type { ErrorInfo, ReactNode } from 'react';
 
 interface Props {
@@ -47,7 +48,7 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="error-boundary-container">
           <div className="error-boundary-card">
-            <div className="error-boundary-icon">⚠️</div>
+            <div className="error-boundary-icon"><Icon name="warning" /></div>
             <h1 className="error-boundary-title">Something went wrong</h1>
             <p className="error-boundary-desc">
               LifeFlow encountered an unexpected error. Don't worry, your data is safe. Try reloading the app first.

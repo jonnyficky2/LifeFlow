@@ -1,3 +1,4 @@
+import { Icon } from '../../components/ui/Icon';
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useHabitContext } from '../../context/HabitContext';
@@ -175,7 +176,7 @@ export const Habits: React.FC = () => {
                     </div>
                   </div>
                   <div className="habit-actions">
-                    <button aria-label={`Delete habit ${habit.name}`} onClick={() => triggerDeleteHabit(habit.id, habit.name)}>🗑</button>
+                    <button aria-label={`Delete habit ${habit.name}`} onClick={() => triggerDeleteHabit(habit.id, habit.name)}><Icon name="trash" /></button>
                   </div>
                 </div>
 

@@ -1,3 +1,4 @@
+import { Icon } from '../../components/ui/Icon';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Focus.css';
 import { useAppContext } from '../../context/AppContext';
@@ -143,7 +144,7 @@ export const Focus: React.FC = () => {
     <div className="fade-in">
       <div className="dashboard-header" style={{ marginBottom: '24px' }}>
         <div>
-          <h1>⏱ Focus Timer</h1>
+          <h1><Icon name="focus" /> Focus Timer</h1>
           <p>Stay focused and complete your Pomodoro sessions to gain XP</p>
         </div>
       </div>
@@ -177,7 +178,7 @@ export const Focus: React.FC = () => {
             </button>
           )}
           <button className="btn outline" style={{ padding: '12px 30px', fontSize: '1.1rem', borderRadius: '50px' }} onClick={handleReset}>
-            ↩ Reset
+            <Icon name="reset" /> Reset
           </button>
         </div>
 

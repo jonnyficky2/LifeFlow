@@ -1,0 +1,93 @@
+/* Calm Utility dark mode overrides: neutral Apple-style night mode. */
+body:not(.light-mode) {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+body:not(.light-mode) .navbar-title,
+body:not(.light-mode) .sidebar-title,
+body:not(.light-mode) .sidebar-title span {
+  background: none;
+  color: var(--color-text);
+  -webkit-text-fill-color: currentColor;
+}
+
+body:not(.light-mode) .app-sidebar {
+  background: rgba(11, 11, 13, 0.96);
+  border-right-color: var(--color-border);
+  box-shadow: 18px 0 50px rgba(0, 0, 0, 0.35);
+}
+
+body:not(.light-mode) .app-nav,
+body:not(.light-mode) .sidebar-streak-card,
+body:not(.light-mode) .dashboard-panel,
+body:not(.light-mode) .add-box,
+body:not(.light-mode) .toolbar,
+body:not(.light-mode) .backup-box,
+body:not(.light-mode) .filter-box,
+body:not(.light-mode) .search-box,
+body:not(.light-mode) .stat-card {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: none;
+  backdrop-filter: blur(18px);
+}
+
+body:not(.light-mode) .sidebar-item {
+  color: var(--color-muted);
+  border-color: transparent;
+}
+
+body:not(.light-mode) .sidebar-item:hover,
+body:not(.light-mode) .sidebar-item.is-active {
+  color: var(--color-text);
+  background: var(--color-surface-strong);
+  border-color: var(--color-border);
+}
+
+body:not(.light-mode) .nav-login-btn {
+  background: var(--color-surface-strong) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: none;
+}
+
+body:not(.light-mode) .nav-login-btn:hover {
+  background: #3a3a3c !important;
+  box-shadow: none;
+}
+
+body:not(.light-mode) .category {
+  background: var(--color-surface-strong);
+}
+
+body:not(.light-mode) .dashboard-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body:not(.light-mode) #heatmap {
+  grid-template-columns: repeat(30, minmax(24px, 1fr));
+}
+
+body:not(.light-mode) .day-active {
+  background: rgba(48, 209, 88, 0.55);
+  box-shadow: none;
+}
+
+body:not(.light-mode) .dashboard-header-actions button,
+body:not(.light-mode) #viewTasksBtn,
+body:not(.light-mode) #emptyAddTaskBtn {
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  body:not(.light-mode) #heatmap {
+    grid-template-columns: repeat(15, minmax(24px, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  body:not(.light-mode) #heatmap {
+    grid-template-columns: repeat(10, minmax(22px, 1fr));
+  }
+}

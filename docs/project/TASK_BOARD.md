@@ -764,10 +764,11 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1501] Define Task-First Dashboard and Navigation Hierarchy
 - **Description:** Susun ulang Dashboard agar primary action, tugas hari ini, pending/overdue, dan quick stats mudah dipindai; kelompokkan navigasi desktop dan sederhanakan mobile navigation.
 - **Priority:** High
-- **Status:** NOT_STARTED
+- **Status:** IN_PROGRESS
 - **Dependencies:** None
 - **Acceptance Criteria:** Wireframe dan design review disetujui; Dashboard memiliki primary `+ Add task`, Today/Pending section, dan shortcut yang jelas; navigasi desktop/mobile memiliki hierarchy yang terdokumentasi.
-- **Progress:** 0%
+- **Progress:** 35%
+- **Notes:** Implementasi awal selesai: Dashboard memiliki `+ Add task` dan Today panel; Categories dihapus dari sidebar; BottomNav memakai Home, Tasks, Calendar, Notes, More. Full responsive/browser UAT masih pending.
 - **Related Docs:** docs/design/DESIGN_REVIEW.md, docs/design/USER_FLOWS.md, docs/design/WIREFRAMES.md
 - **Notes:** Tidak menghapus fitur lama tanpa persetujuan user.
 
@@ -779,7 +780,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Acceptance Criteria:** Setiap halaman utama memiliki primary action yang mudah ditemukan; global search memiliki label/accessible name; avatar dapat diklik dan difokuskan untuk membuka Settings; utility controls tidak overflow.
 - **Progress:** 0%
 - **Related Docs:** docs/design/COMPONENT_LIBRARY.md, docs/design/USER_FLOWS.md
-- **Notes:** Implementasi tidak membuat dropdown profile tambahan kecuali disetujui user.
+- **Notes:** Implementasi awal: avatar membuka Settings lewat click/keyboard; Categories dihapus dari sidebar; Undo/Redo dipindahkan ke header Tasks. Search dan AI tetap global. Full responsive/browser UAT masih pending.
 
 ### [TASK-1503] Compact Task Completion Feedback
 - **Description:** Kecilkan toast completed/pending dan lengkapi dengan feedback inline pada task row tanpa menghilangkan informasi status atau XP.

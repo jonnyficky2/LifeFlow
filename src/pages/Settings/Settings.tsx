@@ -1,3 +1,4 @@
+import { Icon } from '../../components/ui/Icon';
 import React, { useRef, useState } from 'react';
 import './Settings.css';
 import { SettingsSection } from './components/SettingsSection';
@@ -278,7 +279,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* 6. Statistics Summary */}
-        <SettingsSection title="Your Statistics" icon="📊">
+        <SettingsSection title="Your Statistics" icon={<Icon name="chart" />}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '10px' }}>
             <div>
               <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>Total Tasks</span>
@@ -312,7 +313,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* Danger Zone */}
-        <SettingsSection title="Danger Zone" icon="⚠️" style={{ marginTop: '24px', border: '1px solid var(--color-danger)' }}>
+        <SettingsSection title="Danger Zone" icon={<Icon name="warning" />} style={{ marginTop: '24px', border: '1px solid var(--color-danger)' }}>
           <SettingsItem title="Reset Data" description="Clear all local data and restore defaults" rightElement={
             <button className="settings-btn danger" style={{ background: 'var(--color-danger)', color: '#ffffff' }} onClick={handleResetData}>Reset Application Data</button>
           } />

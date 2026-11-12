@@ -1,3 +1,4 @@
+import { Icon } from '../../components/ui/Icon';
 import React, { useState } from 'react';
 import { useTaskContext } from '../../context/TaskContext';
 import { useTasks } from '../../hooks/useTasks';
@@ -47,7 +48,7 @@ export const Categories: React.FC = () => {
     <div id="categoriesSection" className="categories-wrapper section-page">
       <div className="dashboard-header categories-header-wrapper">
         <div>
-          <h1>▣ Categories</h1>
+          <h1><Icon name="document" /> Categories</h1>
           <p>Organize your tasks into custom categories</p>
         </div>
       </div>
@@ -97,8 +98,8 @@ export const Categories: React.FC = () => {
                       </span>
                     </span>
                     <div>
-                      <button onClick={() => handleEditCategory(index)} className="category-action-btn category-action-edit">✏️</button>
-                      <button onClick={() => triggerDeleteCategory(index)} className="category-action-btn category-action-delete">🗑</button>
+                      <button onClick={() => handleEditCategory(index)} className="category-action-btn category-action-edit"><Icon name="edit" /></button>
+                      <button onClick={() => triggerDeleteCategory(index)} className="category-action-btn category-action-delete"><Icon name="trash" /></button>
                     </div>
                   </>
                 )}

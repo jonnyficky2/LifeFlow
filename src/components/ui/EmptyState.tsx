@@ -2,7 +2,7 @@ import React from 'react';
 import '../../assets/css/empty-states.css';
 
 interface EmptyStateProps {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   description: string;
   children?: React.ReactNode;

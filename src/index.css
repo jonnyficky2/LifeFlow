@@ -1,5 +1,6 @@
 @import "./assets/css/variables.css";
 @import "./assets/css/notifications.css";
+@import "./assets/css/night-mode.css";
 
 /* Accessibility overrides for keyboard users */
 button:focus-visible,
@@ -9,7 +10,7 @@ select:focus-visible,
 textarea:focus-visible,
 summary:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid #5574ff !important;
+  outline: 2px solid var(--color-primary) !important;
   outline-offset: 2px !important;
 }
 

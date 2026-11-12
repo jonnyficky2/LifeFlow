@@ -1,3 +1,4 @@
+import { Icon } from '../../components/ui/Icon';
 import React, { useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useTaskContext } from '../../context/TaskContext';
@@ -46,7 +47,7 @@ export const Reports: React.FC = () => {
       const diff = todayValue - yesterdayValue;
 
       if (diff > 0) {
-        dailyText = `🔥 Today ${diff}% is better than yesterday`;
+        dailyText = `Today ${diff}% is better than yesterday`;
       } else if (diff < 0) {
         dailyText = `📉 Today down ${Math.abs(diff)}%`;
       } else {
@@ -113,7 +114,7 @@ export const Reports: React.FC = () => {
     return (
       <div id="statsSection" className="section-page">
         <div id="statsEmptyState" className="empty-state">
-          <div className="empty-state__icon">📊</div>
+          <div className="empty-state__icon"><Icon name="chart" /></div>
           <h3 className="empty-state__title">No Analytics Yet</h3>
           <p className="empty-state__description">Complete tasks and build habits to generate your productivity reports.</p>
           <button 
@@ -152,7 +153,7 @@ export const Reports: React.FC = () => {
           </div>
         </div>
 
-        <h2>📊 Statistics</h2>
+        <h2><Icon name="chart" /> Statistics</h2>
         <div className="chart-box" id="statsChartBox">
           <div className="chart-container">
             {tasksChartData.map((d, idx) => (
@@ -166,7 +167,7 @@ export const Reports: React.FC = () => {
           </div>
         </div>
 
-        <h2>🔥 Habit Statistics</h2>
+        <h2><Icon name="habits" /> Habit Statistics</h2>
         <div className="chart-box" id="habitChartBox">
           <div className="chart-container">
             {habitsChartData.map((d, idx) => (

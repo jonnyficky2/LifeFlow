@@ -1,3 +1,4 @@
+import { Icon } from '../../components/ui/Icon';
 import React, { useState, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useTaskContext } from '../../context/TaskContext';
@@ -182,14 +183,14 @@ export const Calendar: React.FC = () => {
                   <span className={`calendar-selected-task-name ${t.done ? 'is-done' : ''}`}>
                     {t.name}
                   </span>
-                  <span className="calendar-selected-task-edit-btn">✏️ Edit</span>
+                  <span className="calendar-selected-task-edit-btn"><Icon name="edit" /> Edit</span>
                 </div>
               ))}
             </div>
           ) : (
             <div className="calendar-empty-state-wrapper">
               <EmptyState 
-                icon="📅" 
+                icon={<Icon name="calendar" />}
                 title="Free Day!" 
                 description="No tasks are due on this date. Enjoy your time!" 
               />

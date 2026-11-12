@@ -1,3 +1,4 @@
+import { Icon } from '../ui/Icon';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useTaskContext } from '../../context/TaskContext';
@@ -182,7 +183,7 @@ export const UnifiedSearchModal: React.FC = () => {
     >
       <div className="unified-search-dialog glass-effect">
         <header className="unified-search-header">
-          <span className="unified-search-icon" aria-hidden="true">🔍</span>
+          <span className="unified-search-icon" aria-hidden="true"><Icon name="search" /></span>
           <input
             ref={inputRef}
             type="text"
@@ -212,7 +213,7 @@ export const UnifiedSearchModal: React.FC = () => {
               <p className="unified-search-hint">Ketik untuk mencari di semua modul LifeFlow</p>
               <div className="unified-search-stats">
                 <span className="unified-stat-pill">📋 {totalTasks} Tugas</span>
-                <span className="unified-stat-pill">📝 {totalNotes} Catatan</span>
+                <span className="unified-stat-pill"><Icon name="document" /> {totalNotes} Catatan</span>
                 <span className="unified-stat-pill">📁 {totalCategories} Kategori</span>
               </div>
             </div>

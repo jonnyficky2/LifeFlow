@@ -44,10 +44,8 @@
 .navbar-title {
   font-size: 18px;
   font-weight: 700;
-  background: linear-gradient(90deg, #60a5fa, #a855f7);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-text);
+  -webkit-text-fill-color: currentColor;
   white-space: nowrap;
 }
 
@@ -855,6 +853,7 @@ body.light-mode .task-right button{
 
 .day-box {
   aspect-ratio: 1 / 1;
+  min-width: 0;
   border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.04);
@@ -872,8 +871,8 @@ body.light-mode .day-box {
 }
 
 .day-active {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
+  background: var(--color-primary);
+  box-shadow: none;
 }
 
 /* =========================
@@ -2489,13 +2488,57 @@ header {
 }
 
 .dashboard-header-actions button {
-  width: 48px;
-  height: 44px;
-  padding: 0;
+  min-height: 44px;
+  padding: 0 16px;
   border-radius: var(--radius-sm);
-  background: rgba(17, 33, 60, 0.68);
-  border: 1px solid var(--dash-border);
   box-shadow: none;
+}
+
+.dashboard-today-panel {
+  margin-bottom: var(--space-5);
+}
+
+.dashboard-today-panel .panel-header {
+  align-items: center;
+}
+
+.dashboard-today-panel .panel-header h2,
+.dashboard-today-panel .panel-header p {
+  margin: 0;
+}
+
+.dashboard-today-panel .panel-header p {
+  margin-top: 4px;
+  color: var(--dash-muted);
+  font-size: 0.875rem;
+}
+
+.dashboard-today-list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dashboard-today-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--task-bg);
+}
+
+.dashboard-today-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+}
+
+.dashboard-empty-copy {
+  margin: 0;
+  color: var(--dash-muted);
 }
 
 .dashboard-panel,

@@ -1,3 +1,4 @@
+import { Icon } from '../ui/Icon';
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useHabitContext } from '../../context/HabitContext';
@@ -119,7 +120,7 @@ export const AiChatDrawer: React.FC = () => {
       <section className="ai-chat-drawer" role="dialog" aria-modal="true" aria-labelledby="ai-chat-title">
         <header className="ai-chat-header">
           <div className="ai-chat-heading">
-            <span className="ai-chat-mark" aria-hidden="true">✦</span>
+            <span className="ai-chat-mark" aria-hidden="true"><Icon name="spark" /></span>
             <div>
               <h2 id="ai-chat-title">LifeFlow AI</h2>
               <p>Asisten pribadi berbasis data Anda</p>

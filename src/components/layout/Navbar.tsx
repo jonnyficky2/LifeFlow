@@ -1,39 +1,12 @@
+import { Icon } from '../ui/Icon';
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
-import { useTaskContext } from '../../context/TaskContext';
-import { useHabitContext } from '../../context/HabitContext';
-import { useNoteContext } from '../../context/NoteContext';
-import { useSettingsContext } from '../../context/SettingsContext';
-import type { AppSettings } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { APP_LOGO, DEFAULT_AVATAR } from './assets';
 
 export const Navbar: React.FC = () => {
-  const { isSidebarOpen, setSidebarOpen, activeSection, setActiveSection, setAiChatOpen, setUnifiedSearchOpen } = useAppContext();
-  const { undoTask, redoTask } = useTaskContext();
-  const { undoHabit, redoHabit } = useHabitContext();
-  const { undoNote, redoNote } = useNoteContext();
-  const { setSettings } = useSettingsContext();
-
-  const handleUndo = () => {
-    if (activeSection === 'notes') undoNote();
-    else if (activeSection === 'habits') undoHabit();
-    else undoTask();
-  };
-
-  const handleRedo = () => {
-    if (activeSection === 'notes') redoNote();
-    else if (activeSection === 'habits') redoHabit();
-    else redoTask();
-  };
+  const { isSidebarOpen, setSidebarOpen, setActiveSection, setAiChatOpen, setUnifiedSearchOpen } = useAppContext();
   const { user, loginWithGoogle } = useAuth();
-
-  const toggleTheme = () => {
-    setSettings((prev: AppSettings) => ({
-      ...prev,
-      theme: prev.theme === 'light' ? 'dark' : 'light'
-    }));
-  };
 
   return (
     <nav id="navbar" className="navbar">
@@ -58,11 +31,8 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="navbar-actions">
-          <button type="button" className="btn btn--icon navbar-search-btn" title="Cari (⌘K / Ctrl+K)" aria-label="Cari tugas, catatan, kategori" onClick={() => setUnifiedSearchOpen(true)}>🔍</button>
-          <button type="button" className="btn btn--icon ai-chat-trigger" title="Buka LifeFlow AI" aria-label="Buka LifeFlow AI" onClick={() => setAiChatOpen(true)}>✦</button>
-          <button id="undoBtn" type="button" className="btn btn--icon" title="Undo" aria-label="Undo last action" onClick={handleUndo}>↩</button>
-          <button id="redoBtn" type="button" className="btn btn--icon" title="Redo" aria-label="Redo last action" onClick={handleRedo}>↪</button>
-          <button id="desktopThemeToggle" type="button" className="btn btn--icon" aria-label="Toggle theme" onClick={toggleTheme}>◐</button>
+          <button type="button" className="btn btn--icon navbar-search-btn" title="Cari (⌘K / Ctrl+K)" aria-label="Cari tugas, catatan, kategori" onClick={() => setUnifiedSearchOpen(true)}><Icon name="search" /></button>
+          <button type="button" className="btn btn--icon ai-chat-trigger" title="Buka LifeFlow AI" aria-label="Buka LifeFlow AI" onClick={() => setAiChatOpen(true)}><Icon name="spark" /></button>
 
           {!user ? (
             <button id="navLoginBtn" type="button" className="nav-login-btn" onClick={loginWithGoogle}>Sign In</button>
@@ -74,6 +44,16 @@ export const Navbar: React.FC = () => {
               className="nav-user-img" 
               referrerPolicy="no-referrer" 
               loading="lazy" 
+              role="button"
+              tabIndex={0}
+              onClick={() => setActiveSection('settings')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveSection('settings');
+                }
+              }}
+              aria-label="Open Settings"
             />
           )}
         

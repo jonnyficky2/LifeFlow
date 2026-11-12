@@ -1,3 +1,4 @@
+import { Icon } from '../../components/ui/Icon';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useNoteContext } from '../../context/NoteContext';
@@ -265,7 +266,7 @@ export const Notes: React.FC = () => {
           </div>
         ) : !activeNoteId || !activeNoteData ? (
           <EmptyState 
-            icon="📝" 
+            icon={<Icon name="document" />}
             title="Your Notes" 
             description="Select a note from the sidebar or create a new one to start writing." 
           />
@@ -314,7 +315,7 @@ export const Notes: React.FC = () => {
                   title="Delete Note"
                   aria-label="Delete note"
                 >
-                  🗑
+                  <Icon name="trash" />
                 </button>
               </div>
             </div>

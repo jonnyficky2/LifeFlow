@@ -1,3 +1,4 @@
+import { Icon } from '../../components/ui/Icon';
 import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useTaskContext } from '../../context/TaskContext';
@@ -8,7 +9,7 @@ import { EmptyState } from '../../components/ui/EmptyState';
 
 export const Tasks: React.FC = () => {
   const { isAppLoading } = useAppContext();
-  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask, setAppData, saveTaskSnapshot } = useTaskContext();
+  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask, setAppData, saveTaskSnapshot, undoTask, redoTask } = useTaskContext();
   const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory, addTask } = useTasks();
 
   const [filter, setFilter] = useState<'all' | 'pending' | 'done'>('all');
@@ -90,11 +91,11 @@ export const Tasks: React.FC = () => {
     const diff = Math.ceil((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
     if (diff < 0) {
-      return <div className="deadline-warning overdue">⚠️ Deadline passed</div>;
+      return <div className="deadline-warning overdue"><Icon name="warning" /> Deadline passed</div>;
     } else if (diff === 0) {
-      return <div className="deadline-warning">⏰ Deadline today</div>;
+      return <div className="deadline-warning"><Icon name="clock" /> Deadline today</div>;
     } else {
-      return <div className="deadline-warning">📅 {diff} days left</div>;
+      return <div className="deadline-warning"><Icon name="calendar" /> {diff} days left</div>;
     }
   };
 
@@ -110,8 +111,13 @@ export const Tasks: React.FC = () => {
     <div id="tasksSection" className="tasks-wrapper section-page">
       <div className="dashboard-header tasks-header-wrapper">
         <div>
-          <h1>☑ Tasks</h1>
+          <h1><Icon name="tasks" /> Tasks</h1>
           <p>Manage and track your tasks</p>
+        </div>
+        <div className="dashboard-header-actions">
+          <button type="button" className="btn btn-secondary" onClick={undoTask} aria-label="Undo last task action">Undo</button>
+          <button type="button" className="btn btn-secondary" onClick={redoTask} aria-label="Redo last task action">Redo</button>
+          <button type="button" className="btn btn-primary" onClick={() => handleAddTask(0)}>+ Add task</button>
         </div>
       </div>
 
@@ -215,8 +221,8 @@ export const Tasks: React.FC = () => {
                         <button aria-label="Edit category" onClick={() => {
                           setEditingCatIndex(catIndex);
                           setEditingCatName(category.name);
-                        }}>✏️</button>
-                        <button aria-label="Delete category" onClick={() => triggerDeleteCategory(catIndex)}>🗑</button>
+                        }}><Icon name="edit" /></button>
+                        <button aria-label="Delete category" onClick={() => triggerDeleteCategory(catIndex)}><Icon name="trash" /></button>
                       </div>
                     </>
                   )}
@@ -238,7 +244,7 @@ export const Tasks: React.FC = () => {
                           <div>
                             <div className="tasks-name-row">
                               <span>{task.name}</span>
-                              {task.time && <span className="task-time-badge">⏰ {task.time}</span>}
+                              {task.time && <span className="task-time-badge"><Icon name="clock" /> {task.time}</span>}
                             </div>
                             
                             {renderDeadline(task.deadline)}
@@ -269,8 +275,8 @@ export const Tasks: React.FC = () => {
                         </div>
 
                         <div className="task-right">
-                          <button aria-label="Edit task" onClick={() => handleEditTask(catIndex, originalTaskIndex)}>✏️</button>
-                          <button aria-label="Delete task" onClick={() => triggerDeleteTask(catIndex, originalTaskIndex)}>🗑</button>
+                          <button aria-label="Edit task" onClick={() => handleEditTask(catIndex, originalTaskIndex)}><Icon name="edit" /></button>
+                          <button aria-label="Delete task" onClick={() => triggerDeleteTask(catIndex, originalTaskIndex)}><Icon name="trash" /></button>
                         </div>
                       </div>
                     );
