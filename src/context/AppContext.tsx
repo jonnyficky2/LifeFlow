@@ -59,6 +59,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setUnifiedSearchOpen(prev => !prev);
+      } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'j') {
+        e.preventDefault();
+        setAiChatOpen(prev => !prev);
       }
     };
     window.addEventListener('keydown', handleKeyDown);

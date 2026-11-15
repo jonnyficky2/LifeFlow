@@ -42,11 +42,9 @@ export const useHabits = () => {
     if (currentDates.includes(dateString)) {
       // Remove date
       newHistory[habitId] = currentDates.filter(d => d !== dateString);
-      showToast('Habit unchecked', 'info');
     } else {
       // Add date
       newHistory[habitId] = [...currentDates, dateString];
-      showToast('Habit completed! Well done!', 'success');
     }
     
     setHabitHistory(newHistory);

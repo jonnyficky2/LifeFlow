@@ -32,7 +32,7 @@ export const Navbar: React.FC = () => {
 
         <div className="navbar-actions">
           <button type="button" className="btn btn--icon navbar-search-btn" title="Cari (⌘K / Ctrl+K)" aria-label="Cari tugas, catatan, kategori" onClick={() => setUnifiedSearchOpen(true)}><Icon name="search" /></button>
-          <button type="button" className="btn btn--icon ai-chat-trigger" title="Buka LifeFlow AI" aria-label="Buka LifeFlow AI" onClick={() => setAiChatOpen(true)}><Icon name="spark" /></button>
+          <button type="button" className="btn btn--icon ai-chat-trigger" title="Buka LifeFlow AI (⌘J / Ctrl+J)" aria-label="Buka LifeFlow AI (⌘J / Ctrl+J)" onClick={() => setAiChatOpen(true)}><Icon name="spark" /></button>
 
           {!user ? (
             <button id="navLoginBtn" type="button" className="nav-login-btn" onClick={loginWithGoogle}>Sign In</button>
