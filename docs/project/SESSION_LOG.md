@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-11-15 — AI Companion (M14) Testing Verification & Next Roadmap Review
+- **Status:** M14 (`TASK-1403`, `TASK-1404`) di status `TESTING` menunggu konfirmasi Manual UAT; M15 siap dikerjakan.
+- **Pekerjaan Sesi Ini:**
+  - Audit dan verifikasi status implementasi `AiChatDrawer.tsx` dan `UnifiedSearchModal.tsx`.
+  - Mendaftarkan global keyboard shortcut `⌘J` / `Ctrl+J` untuk membuka/menutup LifeFlow AI Assistant Drawer langsung dari mana saja.
+  - Memperbarui tooltip dan `aria-label` tombol AI di Navbar (`⌘J / Ctrl+J`).
+  - Membersihkan file komponen redundan `AiAssistantModal.tsx` dan stylesheet terpisah agar tidak terjadi double-mount dengan `AiChatDrawer`.
+  - Verifikasi linting (`oxlint` 0 error) dan build (`tsc -b && vite build` lolos dalam 68ms).
+  - Push commit ke branch `main`: `d3cf1a6`.
+- **Rencana Berikutnya:**
+  - Melakukan pengujian Manual UAT bersama pengguna untuk `TASK-1403` & `TASK-1404` (Actionable Cards & AI Assistant Integration).
+  - Melanjutkan pengerjaan ke **Milestone M15** (Post-Release UX Simplification & Responsive Remediation), diawali dengan `[TASK-1501]` (Define Task-First Dashboard and Navigation Hierarchy).
+
+---
+
 ## 2026-11-13 — M15 Post-Release UX Audit Documentation
 - **Status:** Documentation updated; implementation and Manual UAT not started.
 - **Scope:** Recorded static audit findings for Dashboard hierarchy, navigation discoverability, primary actions, profile-to-Settings flow, compact task feedback, icon/logo consistency, CSS/token ownership, responsive behavior, theme parity, and accessibility.
