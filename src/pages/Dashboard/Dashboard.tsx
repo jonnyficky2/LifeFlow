@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useTaskContext } from '../../context/TaskContext';
+import { useHabitContext } from '../../context/HabitContext';
+import { useTasks } from '../../hooks/useTasks';
+import { useAuth } from '../../context/AuthContext';
 import type { Task } from '../../types';
 import { Skeleton } from '../../components/ui/Skeleton';
 
@@ -10,26 +13,56 @@ const getLocalDateString = (dateObj: Date) => {
 
 export const Dashboard: React.FC = () => {
   const { historyData, isAppLoading, setActiveSection } = useAppContext();
-  const { appData, setTaskModalOpen, setCurrentCategoryIndex } = useTaskContext();
+  const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask } = useTaskContext();
+  const { habits, habitHistory } = useHabitContext();
+  const { toggleTask } = useTasks();
+  const { user } = useAuth();
+
+  const todayStr = getLocalDateString(new Date());
+
+  // Dynamic greeting based on time of day
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    let timeGreeting = 'Good morning';
+    if (hour >= 12 && hour < 17) timeGreeting = 'Good afternoon';
+    else if (hour >= 17) timeGreeting = 'Good evening';
+
+    const name = user?.displayName ? user.displayName.split(' ')[0] : '';
+    return name ? `${timeGreeting}, ${name}!` : `${timeGreeting}!`;
+  }, [user]);
+
+  const formattedDate = useMemo(() => {
+    return new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric'
+    }).format(new Date());
+  }, []);
 
   const stats = useMemo(() => {
     let done = 0;
     let pending = 0;
     let total = 0;
     let todayTasks = 0;
-    const today = getLocalDateString(new Date());
 
     appData.forEach(category => {
       category.tasks?.forEach((task: Task) => {
         total++;
-        if (task.deadline === today) todayTasks++;
+        if (task.deadline === todayStr) todayTasks++;
         if (task.done) done++;
         else pending++;
       });
     });
 
     return { done, pending, total, todayTasks };
-  }, [appData]);
+  }, [appData, todayStr]);
+
+  const habitStats = useMemo(() => {
+    const total = habits.length;
+    if (total === 0) return { completed: 0, total: 0, text: '0/0' };
+    const completed = habits.filter(h => (habitHistory[h.id] || []).includes(todayStr)).length;
+    return { completed, total, text: `${completed}/${total}` };
+  }, [habits, habitHistory, todayStr]);
 
   // Heatmap: 30 days
   const heatmapBoxes = useMemo(() => {
@@ -54,12 +87,49 @@ export const Dashboard: React.FC = () => {
     return boxes;
   }, [historyData]);
 
-  const todayTasks = useMemo(() => appData.flatMap((category, catIndex) =>
-    (category.tasks || []).map((task, taskIndex) => ({ task, catIndex, taskIndex }))
-  ).filter(({ task }) => !task.done && task.deadline === getLocalDateString(new Date())).slice(0, 5), [appData]);
+  // Actionable tasks: Overdue first, then Today, then General Pending (max 5)
+  const priorityTasks = useMemo(() => {
+    const overdue: { task: Task; catIndex: number; taskIndex: number; categoryName: string; isOverdue: boolean }[] = [];
+    const todayList: { task: Task; catIndex: number; taskIndex: number; categoryName: string; isOverdue: boolean }[] = [];
+    const generalPending: { task: Task; catIndex: number; taskIndex: number; categoryName: string; isOverdue: boolean }[] = [];
+
+    appData.forEach((category, catIndex) => {
+      (category.tasks || []).forEach((task: Task, taskIndex: number) => {
+        if (!task.done) {
+          const item = {
+            task,
+            catIndex,
+            taskIndex,
+            categoryName: category.name || 'Inbox',
+            isOverdue: Boolean(task.deadline && task.deadline < todayStr)
+          };
+          if (item.isOverdue) {
+            overdue.push(item);
+          } else if (task.deadline === todayStr) {
+            todayList.push(item);
+          } else {
+            generalPending.push(item);
+          }
+        }
+      });
+    });
+
+    const combined = [...overdue, ...todayList];
+    if (combined.length === 0) {
+      return generalPending.slice(0, 5);
+    }
+    return combined.slice(0, 5);
+  }, [appData, todayStr]);
 
   const openAddTask = () => {
+    setEditingTask(null);
     setCurrentCategoryIndex(0);
+    setTaskModalOpen(true);
+  };
+
+  const handleOpenTaskDetail = (catIndex: number, taskIndex: number) => {
+    setEditingTask({ catIndex, taskIndex });
+    setCurrentCategoryIndex(catIndex);
     setTaskModalOpen(true);
   };
 
@@ -67,8 +137,8 @@ export const Dashboard: React.FC = () => {
     <div id="homeSection" className="dashboard-wrapper section-page">
       <section className="dashboard-header">
         <div>
-          <h1>Good morning!</h1>
-          <p>Let's make today productive.</p>
+          <h1>{greeting}</h1>
+          <p>{formattedDate} — Let's make today productive.</p>
         </div>
         <div className="dashboard-header-actions">
           <button type="button" className="btn btn-primary" onClick={openAddTask}>+ Add task</button>
@@ -78,17 +148,47 @@ export const Dashboard: React.FC = () => {
       <section className="dashboard-panel dashboard-today-panel">
         <div className="panel-header">
           <div>
-            <h2>Today</h2>
+            <h2>Today & Overdue</h2>
             <p>Tasks that need your attention now.</p>
           </div>
-          <button type="button" className="btn btn-secondary" onClick={() => setActiveSection('tasks')}>View tasks</button>
+          <button type="button" className="btn btn-secondary" onClick={() => setActiveSection('tasks')}>View all tasks</button>
         </div>
-        {todayTasks.length > 0 ? (
+        {priorityTasks.length > 0 ? (
           <div className="dashboard-today-list">
-            {todayTasks.map(({ task, catIndex, taskIndex }) => <div className="dashboard-today-item" key={`${catIndex}-${taskIndex}`}><span className="dashboard-today-dot" />{task.name}</div>)}
+            {priorityTasks.map(({ task, catIndex, taskIndex, categoryName, isOverdue }) => (
+              <div className="dashboard-today-item" key={`${catIndex}-${taskIndex}`}>
+                <input
+                  type="checkbox"
+                  className="dashboard-today-checkbox"
+                  checked={task.done}
+                  onChange={() => toggleTask(catIndex, taskIndex)}
+                  aria-label={`Mark "${task.name}" as done`}
+                />
+                <button
+                  type="button"
+                  className="dashboard-today-task-btn"
+                  onClick={() => handleOpenTaskDetail(catIndex, taskIndex)}
+                  title="Click to view or edit task"
+                >
+                  {task.name}
+                </button>
+                <div className="dashboard-task-tags">
+                  {isOverdue && (
+                    <span className="dashboard-task-tag dashboard-task-tag--overdue">Overdue</span>
+                  )}
+                  {!isOverdue && task.deadline === todayStr && (
+                    <span className="dashboard-task-tag dashboard-task-tag--today">Today</span>
+                  )}
+                  {task.time && (
+                    <span className="dashboard-task-tag">{task.time}</span>
+                  )}
+                  <span className="dashboard-task-tag dashboard-task-tag--category">{categoryName}</span>
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
-          <p className="dashboard-empty-copy">No pending tasks for today.</p>
+          <p className="dashboard-empty-copy">🎉 All caught up! No pending tasks right now.</p>
         )}
       </section>
 
@@ -115,6 +215,13 @@ export const Dashboard: React.FC = () => {
             <small>Scheduled tasks</small>
           </div>
         </div>
+        <div className="stat-card">
+          <div>
+            <p>Habits today</p>
+            {isAppLoading ? <Skeleton height={28} width={40} className="dashboard-skeleton-stat-num" /> : <h3 id="habitCount">{habitStats.text}</h3>}
+            <small>Habit consistency</small>
+          </div>
+        </div>
       </div>
 
       {/* ACTIVITY & MOTIVATION */}
@@ -129,8 +236,6 @@ export const Dashboard: React.FC = () => {
             ) : heatmapBoxes}
           </div>
         </section>
-
-
       </section>
     </div>
   );

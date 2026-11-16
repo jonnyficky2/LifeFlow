@@ -50,7 +50,7 @@ export const BottomNav: React.FC = () => {
         onClick={() => setSidebarOpen(true)}
         aria-label="More options"
       >
-        <span className="nav-icon" aria-hidden="true">•••</span>
+        <Icon name="more" className="nav-icon" />
       </button>
     </nav>
   );

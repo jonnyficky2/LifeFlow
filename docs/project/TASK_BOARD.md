@@ -5,7 +5,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 📊 Overall Progress: 94% (64/68 Tasks Completed)
+## 📊 Overall Progress: 97% (66/68 Tasks Completed)
 
 ---
 
@@ -737,22 +737,22 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1403] Deep-Linking & Actionable Result Cards
 - **Description:** Menghasilkan kartu interaktif di dalam chat bubble agar user dapat langsung mengklik dan membuka Task atau Note yang relevan secara instan, serta membedakan warna latar belakang kartu catatan secara lembut.
 - **Priority:** Medium
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-1402
 - **Acceptance Criteria:** Item catatan/tugas yang ditemukan dapat diklik dan mengarahkan navigasi aplikasi ke detail catatan atau modal task yang bersangkutan; kartu referensi catatan memiliki warna soft background berbeda.
-- **Progress:** 95%
+- **Progress:** 100%
 - **Related Docs:** None
-- **Notes:** Mengimplementasikan `handleReferenceClick` di `AiChatDrawer.tsx` yang membuka `TaskModal` untuk task, navigasi ke editor dan seleksi note untuk catatan via `activeNoteId` di `NoteContext`, dan navigasi ke Habit. Menambahkan class `.ai-chat-result--note` dengan warna soft amber background. Siap untuk validasi Manual UAT oleh pengguna.
+- **Notes:** Mengimplementasikan `handleReferenceClick` di `AiChatDrawer.tsx` yang membuka `TaskModal` untuk task, navigasi ke editor dan seleksi note untuk catatan via `activeNoteId` di `NoteContext`, dan navigasi ke Habit. Menambahkan class `.ai-chat-result--note` dengan warna soft amber background. Manual UAT PASS oleh pengguna.
 
 ### [TASK-1404] AI Assistant Integration, Testing & Verification
 - **Description:** Pengujian integrasi menyeluruh, parsing aksi task bahasa alami offline (buat/update/done/pindah), deteksi duplikasi, serta pencarian terpadu (Unified Global Search) lintas Tasks, Notes, dan Categories.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-1401, TASK-1402, TASK-1403
 - **Acceptance Criteria:** Perintah offline seperti "buat task A jam 9" (default Inbox) berjalan instan, deteksi task yang sudah ada merespons waktu & kategorinya tanpa duplikasi, mutasi (mark done, ubah, pindah) dieksekusi dengan benar; satu unified search menggantikan search bar per-halaman.
-- **Progress:** 95%
+- **Progress:** 100%
 - **Related Docs:** docs/project/TASK_BOARD.md
-- **Notes:** Mengembangkan parser perintah task offline `parseOfflineTaskCommand` di `src/utils/aiAssistant.ts`, menambahkan mutator di `useTasks.ts` (`addTaskWithDetails`, `updateTaskFields`, `setTaskDone`, `moveTask`, `executeAssistantAction`), menghubungkan eksekusi di `AiChatDrawer.tsx`, membangun modal pencarian global `UnifiedSearchModal` (`Cmd+K` / `Ctrl+K` dan tombol navbar), serta membersihkan search bar redundan di Tasks dan Notes. Siap untuk validasi Manual UAT oleh pengguna.
+- **Notes:** Mengembangkan parser perintah task, note, dan habit offline di `src/utils/aiAssistant.ts`, menambahkan mutator di `useTasks.ts` (`addTaskWithDetails`, `updateTaskFields`, `setTaskDone`, `moveTask`, `executeAssistantAction`), menghubungkan eksekusi mutasi di `AiChatDrawer.tsx` (tasks, notes, habits), membangun modal pencarian global `UnifiedSearchModal` (`Cmd+K` / `Ctrl+K` dan tombol navbar), serta membersihkan search bar redundan di Tasks dan Notes. Manual UAT PASS oleh pengguna.
 
 ---
 
@@ -764,13 +764,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1501] Define Task-First Dashboard and Navigation Hierarchy
 - **Description:** Susun ulang Dashboard agar primary action, tugas hari ini, pending/overdue, dan quick stats mudah dipindai; kelompokkan navigasi desktop dan sederhanakan mobile navigation.
 - **Priority:** High
-- **Status:** IN_PROGRESS
+- **Status:** TESTING
 - **Dependencies:** None
 - **Acceptance Criteria:** Wireframe dan design review disetujui; Dashboard memiliki primary `+ Add task`, Today/Pending section, dan shortcut yang jelas; navigasi desktop/mobile memiliki hierarchy yang terdokumentasi.
-- **Progress:** 35%
-- **Notes:** Implementasi awal selesai: Dashboard memiliki `+ Add task` dan Today panel; Categories dihapus dari sidebar; BottomNav memakai Home, Tasks, Calendar, Notes, More. Full responsive/browser UAT masih pending.
+- **Progress:** 95%
+- **Notes:** Task-First Dashboard disusun ulang dengan primary `+ Add task`, Today & Overdue actionable panel (checkbox langsung dari dashboard, klik judul membuka TaskModal, indikator status Overdue / Today / Time / Category), 4 quick stats cards simetris (Remaining, Completed today, Due today, Habits today), navigasi desktop dikelompokkan secara semantik di Sidebar (Workspace, Planning, Insights, System) dengan label kategori, BottomNav mobile memakai Icon SVG konsisten. Siap untuk validasi Manual UAT oleh pengguna.
 - **Related Docs:** docs/design/DESIGN_REVIEW.md, docs/design/USER_FLOWS.md, docs/design/WIREFRAMES.md
-- **Notes:** Tidak menghapus fitur lama tanpa persetujuan user.
 
 ### [TASK-1502] Standardize Primary Actions, Search, Profile, and Utility Controls
 - **Description:** Tetapkan lokasi dan label konsisten untuk tombol Add, Search, profile, theme, undo, dan redo; profile mengarah langsung ke Settings.

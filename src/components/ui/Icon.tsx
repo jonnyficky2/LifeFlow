@@ -1,6 +1,6 @@
 import React from 'react';
 
-type IconName = 'home' | 'tasks' | 'habits' | 'focus' | 'calendar' | 'reports' | 'notes' | 'settings' | 'search' | 'spark' | 'edit' | 'trash' | 'warning' | 'clock' | 'reset' | 'chart' | 'document';
+type IconName = 'home' | 'tasks' | 'habits' | 'focus' | 'calendar' | 'reports' | 'notes' | 'settings' | 'search' | 'spark' | 'edit' | 'trash' | 'warning' | 'clock' | 'reset' | 'chart' | 'document' | 'more';
 
 const paths: Record<IconName, React.ReactNode> = {
   home: <><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/><path d="M9 21v-6h6v6"/></>,
@@ -20,6 +20,7 @@ const paths: Record<IconName, React.ReactNode> = {
   reset: <><path d="M4 12a8 8 0 1 0 2-5"/><path d="M4 4v5h5"/></>,
   chart: <><path d="M4 19V5M4 19h17"/><path d="M7 15v-3M11 15V8M15 15v-5M19 15v-8"/></>,
   document: <><path d="M5 3h10l4 4v14H5z"/><path d="M15 3v5h4"/></>,
+  more: <><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="19" cy="12" r="2" fill="currentColor"/><circle cx="5" cy="12" r="2" fill="currentColor"/></>,
 };
 
 export const Icon: React.FC<{ name: IconName; size?: number; className?: string }> = ({ name, size = 18, className }) => (

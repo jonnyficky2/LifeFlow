@@ -2,7 +2,27 @@
 
 ---
 
-## 2026-11-15 — AI Companion (M14) Testing Verification & Next Roadmap Review
+## 2026-11-16 — Milestone M14 Completion & TASK-1501 Task-First Dashboard Implementation
+- **Status:** M14 (`TASK-1403`, `TASK-1404`) **DONE** (lulus validasi UAT pengguna); M15 `[TASK-1501]` di status `TESTING` siap untuk Manual UAT.
+- **Pekerjaan Sesi Ini:**
+  - Menandai Milestone M14 (AI Companion & Retrieval) sebagai `DONE` di [TASK_BOARD.md](docs/project/TASK_BOARD.md) dan [MODULES.md](docs/project/MODULES.md) berdasarkan konfirmasi UAT pengguna.
+  - Implementasi **`[TASK-1501]` (Define Task-First Dashboard and Navigation Hierarchy)**:
+    - **Task-First Dashboard (`Dashboard.tsx`)**:
+      - Header dengan dynamic greeting waktu & nama pengguna, tanggal terformat jelas, dan primary action `+ Add task`.
+      - Panel **Today & Overdue**: menyaring task pending terpenting (overdue di posisi teratas dengan tag merah, task deadline hari ini, atau inbox pending).
+      - Interaktivitas langsung: checkbox di row dashboard untuk menyelesaikan task secara instan (memperbarui XP, streak, dan histori), serta tombol judul task untuk membuka modal detail/edit `TaskModal`.
+      - Indikator status terstandar: `.dashboard-task-tag--overdue`, `.dashboard-task-tag--today`, waktu, dan nama kategori.
+      - **Quick Stats Simetris (4 Kartu)**: Remaining, Completed today, Due today, dan Habits today (konsistensi habit harian).
+    - **Navigation Hierarchy (`Sidebar.tsx` & `BottomNav.tsx`)**:
+      - Mengelompokkan navigasi Sidebar desktop secara semantik: **Workspace** (Dashboard, Tasks, Notes), **Planning** (Calendar, Habits, Focus Timer), **Insights** (Reports), dan **System** (Settings).
+      - Menambahkan styling label grup navigasi `.sidebar-group-label` dan perbaikan `min-height: 44px` serta scroll container pada sidebar.
+      - Menambahkan ikon SVG `more` di `Icon.tsx` dan menerapkannya pada tombol "More options" di `BottomNav.tsx` untuk konsistensi sistem ikon tanpa teks simbol/emoji.
+  - **Verifikasi**: `npm run lint` (0 error) dan `npm run build` (lulus bersih dalam 86ms).
+- **Rencana Berikutnya:**
+  - Melakukan Manual UAT untuk `[TASK-1501]` (uji aksi checklist di Dashboard, klik edit task, dan grouped navigasi sidebar).
+  - Melanjutkan pengerjaan ke **`[TASK-1502]` (Standardize Primary Actions, Search, Profile, and Utility Controls)**.
+
+---
 - **Status:** M14 (`TASK-1403`, `TASK-1404`) di status `TESTING` menunggu konfirmasi Manual UAT; M15 siap dikerjakan.
 - **Pekerjaan Sesi Ini:**
   - Audit dan verifikasi status implementasi `AiChatDrawer.tsx` dan `UnifiedSearchModal.tsx`.
@@ -372,6 +392,12 @@ reference: docs/project/TASK_BOARD.md
     - Dilengkapi shortcut keyboard global `Cmd+K` / `Ctrl+K`, tombol pencarian 🔍 di Navbar [src/components/layout/Navbar.tsx](src/components/layout/Navbar.tsx), navigasi keyboard panah atas/bawah, dan tombol Enter untuk membuka hasil.
     - Membersihkan search bar per-halaman yang redundan di [src/pages/Tasks/Tasks.tsx](src/pages/Tasks/Tasks.tsx) dan [src/pages/Notes/Notes.tsx](src/pages/Notes/Notes.tsx) sehingga pengalaman pencarian LifeFlow terpadu menjadi satu pintu.
   - Memperbarui status [TASK-1403] dan [TASK-1404] di [docs/project/TASK_BOARD.md](docs/project/TASK_BOARD.md) menjadi TESTING untuk persiapan validasi Manual UAT oleh pengguna.
+  - Menemukan dan memperbaiki root cause mis-klaim perintah offline: ketika user meminta *buat note/catatan* atau *buat habit*, parser offline sebelumnya terlalu longgar sehingga mengarah ke aksi *create_task*.
+  - Menambahkan `parseOfflineNoteCommand` dan `parseOfflineHabitCommand` (dijalankan sebelum `parseOfflineTaskCommand`) serta menegaskan trigger harus mengandung kata kunci `note/catatan` atau `habit/kebiasaan`.
+  - Menambahkan parsing deadline untuk format *"tanggal 18 november"* / *"18 november"* agar deadline bisa diekstrak benar.
+  - Memperluas eksekusi aksi di [src/components/layout/AiChatDrawer.tsx](src/components/layout/AiChatDrawer.tsx) agar `create_note`, `update_note`, dan `create_habit` benar-benar memutasi state di modul Notes & Habits.
+  - Membuat skrip regresi lokal (TSX via tsx) untuk verifikasi parser offline: [aiAssistant_offline_commands.test.ts] dan tes spesifik note/habit.
+
 
 
 

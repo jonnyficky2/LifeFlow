@@ -31,7 +31,7 @@ export interface AssistantReference {
   section: 'home' | 'tasks' | 'notes' | 'habit' | 'calendar';
 }
 
-export type AssistantActionType = 'create_task' | 'update_task' | 'set_task_done' | 'move_task';
+export type AssistantActionType = 'create_task' | 'update_task' | 'set_task_done' | 'move_task' | 'create_note' | 'update_note' | 'create_habit';
 
 export interface AssistantAction {
   type: AssistantActionType;
@@ -358,6 +358,36 @@ function extractDeadlineFromText(input: string): { deadline: string; textWithout
       textWithoutDeadline: input.replace(/\b(?:hari\s+ini|today)\b/gi, ' ').trim()
     };
   }
+  // Support: "tanggal 18 november" / "18 november"
+  const monthMatch = input.match(/\b(?:tanggal\s+)?(\d{1,2})\s+(januari|februari|maret|april|mei|juni|juli|agustus|september|oktober|november|desember)\b/i);
+  if (monthMatch) {
+    const day = parseInt(monthMatch[1], 10);
+    const monthName = monthMatch[2].toLowerCase();
+    const monthMap: Record<string, number> = {
+      januari: 1,
+      februari: 2,
+      maret: 3,
+      april: 4,
+      mei: 5,
+      juni: 6,
+      juli: 7,
+      agustus: 8,
+      september: 9,
+      oktober: 10,
+      november: 11,
+      desember: 12
+    };
+    const month = monthMap[monthName];
+    if (month) {
+      const year = new Date().getFullYear();
+      const deadline = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      return {
+        deadline,
+        textWithoutDeadline: input.replace(monthMatch[0], ' ').trim()
+      };
+    }
+  }
+
   const isoMatch = input.match(/\b(\d{4}-\d{2}-\d{2})\b/);
   if (isoMatch) {
     return {
@@ -421,6 +451,202 @@ function findExistingTask(categories: Category[], targetName: string): {
 
   return null;
 }
+
+function cleanNoteTargetTitle(raw: string): string {
+  return raw
+    .replace(/^\s*["'“”]+/, '')
+    .replace(/["'“”]+\s*$/g, '')
+    .replace(/^note\s+/i, '')
+    .replace(/^catatan\s+/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function findExistingNote(notes: Note[], targetTitle: string): Note | null {
+  const norm = targetTitle.trim().toLowerCase();
+  if (!norm) return null;
+
+  for (const note of notes) {
+    if ((note.title || '').trim().toLowerCase() === norm) return note;
+  }
+
+  // Inclusion fallback (for slightly different phrasing)
+  if (norm.length >= 2) {
+    for (const note of notes) {
+      const tNorm = (note.title || '').trim().toLowerCase();
+      if (tNorm.includes(norm) || norm.includes(tNorm)) return note;
+    }
+  }
+
+  return null;
+}
+
+function cleanHabitTargetName(raw: string): string {
+  return raw
+    .replace(/^\s*["'“”]+/, '')
+    .replace(/["'“”]+\s*$/g, '')
+    .replace(/^habit\s+/i, '')
+    .replace(/^kebiasaan\s+/i, '')
+    .replace(/^rutinitas\s+/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function findExistingHabit(habits: Habit[] | undefined, targetName: string): Habit | null {
+  const norm = targetName.trim().toLowerCase();
+  if (!norm) return null;
+  const list = habits || [];
+  for (const habit of list) {
+    if ((habit.name || '').trim().toLowerCase() === norm) return habit;
+  }
+  if (norm.length >= 2) {
+    for (const habit of list) {
+      const hNorm = (habit.name || '').trim().toLowerCase();
+      if (hNorm.includes(norm) || norm.includes(hNorm)) return habit;
+    }
+  }
+  return null;
+}
+
+function formatNoteSubtitle(note: Note): string {
+  const excerpt = (note.content || '').replace(/[#*`\n]/g, ' ').trim().slice(0, 60);
+  return excerpt ? excerpt : 'Catatan kosong';
+}
+
+function formatHabitSubtitle(habit: Habit): string {
+  return habit.time ? `Waktu: ${habit.time}` : 'Habit harian';
+}
+
+function parseOfflineNoteCommand(query: string, context: KnowledgeContext): AssistantAnswer | null {
+  const clean = query.trim();
+
+  // Create/update note: "buat note <judul> tanggal 18 november", "ubah catatan <judul> jam 07"
+  // IMPORTANT: Harus mengandung kata kunci note/catatan agar tidak tertukar dengan task/habit.
+  const noteCreateMatch = clean.match(/\b(?:buat(?:kan)?|tambah(?:kan)?|bikin|create|add)\s+(?:note|notes|catatan)\s+(.+)/i)
+    || clean.match(/\b(?:ubah|update)\s+(?:note|notes|catatan)\s+(.+)/i);
+
+  if (!noteCreateMatch) return null;
+
+  let remaining = noteCreateMatch[1];
+
+  const timeResult = extractTimeFromText(remaining);
+  if (timeResult) remaining = timeResult.textWithoutTime;
+
+  const deadlineResult = extractDeadlineFromText(remaining);
+  if (deadlineResult) remaining = deadlineResult.textWithoutDeadline;
+
+  const title = cleanNoteTargetTitle(remaining);
+  if (!title) return null;
+
+  const deadlineStr = deadlineResult ? deadlineResult.deadline : undefined;
+  const timeStr = timeResult ? timeResult.time : undefined;
+
+  const existing = findExistingNote(context.notes || [], title);
+
+  if (existing) {
+    return {
+      reply: `Catatan "${existing.title}" sudah ada. ${deadlineStr ? `deadline diset ke ${deadlineStr}` : ''}${timeStr ? `${deadlineStr ? ' dan ' : ''}waktu diset ke ${timeStr}` : ''}`.trim(),
+      references: [{
+        type: 'note',
+        id: existing.id,
+        title: existing.title || 'Untitled Note',
+        subtitle: formatNoteSubtitle(existing),
+        section: 'notes'
+      }],
+      engine: 'local',
+      intent: 'notes',
+      actions: [{
+        type: 'update_note',
+        payload: {
+          taskName: existing.title,
+          deadline: deadlineStr,
+          time: timeStr
+        }
+      }]
+    };
+  }
+
+  return {
+    reply: `Siap! Catatan "${title}" dibuat${deadlineStr ? ` untuk ${deadlineStr}` : ''}${timeStr ? ` pada ${timeStr}` : ''}.`,
+    references: [{
+      type: 'note',
+      title,
+      subtitle: 'Catatan baru (kosong)',
+      section: 'notes'
+    }],
+    engine: 'local',
+    intent: 'notes',
+    actions: [{
+      type: 'create_note',
+      payload: {
+        taskName: title,
+        deadline: deadlineStr,
+        time: timeStr
+      }
+    }]
+  };
+}
+
+function parseOfflineHabitCommand(query: string, context: KnowledgeContext): AssistantAnswer | null {
+  const clean = query.trim();
+
+  const habitCreateMatch = clean.match(/\b(?:buat(?:kan)?|tambah(?:kan)?|bikin|create|add)\s+(?:habit|kebiasaan|rutinitas)\s+(.+)/i);
+  if (!habitCreateMatch) return null;
+
+  let remaining = habitCreateMatch[1];
+
+  const timeResult = extractTimeFromText(remaining);
+  if (timeResult) remaining = timeResult.textWithoutTime;
+
+  const name = cleanHabitTargetName(remaining);
+  if (!name) return null;
+
+  const timeStr = timeResult ? timeResult.time : undefined;
+  const existing = findExistingHabit(context.habits || [], name);
+
+  if (existing) {
+    return {
+      reply: `Habit "${existing.name}" sudah ada.${timeStr ? ` Saat ini waktu terset ${existing.time || timeStr}.` : ''}`.trim(),
+      references: [{
+        type: 'habit',
+        id: existing.id,
+        title: `${existing.icon || '🔥'} ${existing.name}`,
+        subtitle: formatHabitSubtitle(existing),
+        section: 'habit'
+      }],
+      engine: 'local',
+      intent: 'habits'
+    };
+  }
+
+  return {
+    reply: `Siap! Habit "${name}" dibuat${timeStr ? ` pada ${timeStr}` : ''}.`,
+    references: [{
+      type: 'habit',
+      title: `🔥 ${name}`,
+      subtitle: timeStr ? `Waktu: ${timeStr}` : 'Habit harian',
+      section: 'habit'
+    }],
+    engine: 'local',
+    intent: 'habits',
+    actions: [{
+      type: 'create_habit',
+      payload: {
+        taskName: name,
+        time: timeStr
+      }
+    }]
+  };
+}
+
+/**
+ * Natural language task action parser for offline use.
+ * Handles:
+ * - create task ("buat task A jam 9", default "Inbox", duplicate detection)
+ * - mark done / undone ("mark done task A", "selesaikan tugas B")
+ * - update ("update task A jam 10", "ubah task A pukul 14:00")
+ * - move ("pindah task A ke Kerja")
+ */
 
 /**
  * Natural language task action parser for offline use.
@@ -1081,7 +1307,17 @@ export async function askAssistant(
     return { reply: 'Sama-sama! Ada hal lain yang bisa saya bantu di LifeFlow?', references: [], engine: 'local', intent: 'greeting' };
   }
 
-  // Check offline natural language task commands first (create, update, mark done/undone, move)
+  // Check offline natural language commands first (notes/habits/tasks mutations)
+  const noteCommandAnswer = parseOfflineNoteCommand(cleanQuery, context);
+  if (noteCommandAnswer) {
+    return noteCommandAnswer;
+  }
+
+  const habitCommandAnswer = parseOfflineHabitCommand(cleanQuery, context);
+  if (habitCommandAnswer) {
+    return habitCommandAnswer;
+  }
+
   const taskCommandAnswer = parseOfflineTaskCommand(cleanQuery, context);
   if (taskCommandAnswer) {
     return taskCommandAnswer;

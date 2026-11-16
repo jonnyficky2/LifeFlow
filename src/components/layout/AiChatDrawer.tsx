@@ -5,6 +5,8 @@ import { useHabitContext } from '../../context/HabitContext';
 import { useNoteContext } from '../../context/NoteContext';
 import { useSettingsContext } from '../../context/SettingsContext';
 import { useTaskContext } from '../../context/TaskContext';
+import { useNotes } from '../../hooks/useNotes';
+import { useHabits } from '../../hooks/useHabits';
 import { useTasks } from '../../hooks/useTasks';
 import { askAssistant } from '../../utils/aiAssistant';
 import type { AssistantAnswer, AssistantConversationTurn, AssistantIntent, AssistantReference } from '../../utils/aiAssistant';
@@ -24,6 +26,8 @@ export const AiChatDrawer: React.FC = () => {
   const { notes, setActiveNoteId } = useNoteContext();
   const { habits } = useHabitContext();
   const { settings } = useSettingsContext();
+  const { addNote, updateNote } = useNotes();
+  const { addHabit } = useHabits();
   const { executeAssistantAction } = useTasks();
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -94,7 +98,40 @@ export const AiChatDrawer: React.FC = () => {
       const answer = await askAssistant(text, { categories: appData, notes, habits }, settings?.geminiApiKey as string | undefined, conversation);
       if (answer.actions && answer.actions.length > 0) {
         for (const action of answer.actions) {
-          executeAssistantAction(action);
+          if (action.type === 'create_task' || action.type === 'update_task' || action.type === 'set_task_done' || action.type === 'move_task') {
+            executeAssistantAction(action);
+            continue;
+          }
+
+          if (action.type === 'create_note') {
+            const title = action.payload.taskName;
+            const newId = addNote(title);
+            if (action.payload.deadline || action.payload.time) {
+              updateNote(newId, {
+                deadline: action.payload.deadline,
+                time: action.payload.time
+              });
+            }
+            continue;
+          }
+
+          if (action.type === 'update_note') {
+            const title = action.payload.taskName;
+            const target = notes.find(n => n.title.trim().toLowerCase() === title.trim().toLowerCase());
+            if (target) {
+              updateNote(target.id, {
+                deadline: action.payload.deadline,
+                time: action.payload.time
+              });
+            }
+            continue;
+          }
+
+          if (action.type === 'create_habit') {
+            const name = action.payload.taskName;
+            addHabit(name, 'var(--primary-color)', '🎯', undefined, action.payload.time);
+            continue;
+          }
         }
       }
       setMessages(previous => [

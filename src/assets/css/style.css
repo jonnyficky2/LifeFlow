@@ -2383,28 +2383,54 @@ header {
   flex-direction: column;
   justify-content: space-between;
   min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 2px;
 }
 
 .app-nav {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-5);
+  gap: var(--space-3);
+  margin-top: var(--space-4);
   padding: var(--space-3);
   border-radius: var(--dash-radius);
   background: var(--dash-panel);
   border: 1px solid var(--dash-border);
 }
 
+.sidebar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sidebar-group-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dash-muted);
+  padding: 6px 12px 3px;
+  opacity: 0.75;
+}
+
 .sidebar-item {
-  min-height: 56px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
-  padding: 0 var(--space-5);
+  padding: 0 var(--space-4);
   color: var(--color-muted);
   background: transparent;
-  border: 1px solid var(--color-border);
+  border: 1px solid transparent;
   box-shadow: none;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .sidebar-item:hover,
@@ -2514,7 +2540,8 @@ header {
 }
 
 .dashboard-today-list {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-2);
 }
 
@@ -2522,18 +2549,80 @@ header {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  min-height: 44px;
-  padding: 10px 12px;
+  min-height: 48px;
+  padding: 10px 14px;
   border-radius: var(--radius-sm);
   background: var(--task-bg);
+  border: 1px solid var(--dash-border);
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.dashboard-today-dot {
-  width: 8px;
-  height: 8px;
+.dashboard-today-item:hover {
+  background: var(--dash-panel-hover, rgba(255, 255, 255, 0.04));
+  border-color: var(--color-border);
+}
+
+.dashboard-today-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
   flex: 0 0 auto;
+}
+
+.dashboard-today-task-btn {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  font-size: 14px;
+  color: var(--dash-text);
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-today-task-btn:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.dashboard-task-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.dashboard-task-tag {
+  font-size: 11px;
+  padding: 2px 8px;
   border-radius: var(--radius-full);
-  background: var(--color-primary);
+  font-weight: 500;
+  line-height: 1.4;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--dash-muted);
+}
+
+.dashboard-task-tag--overdue {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  font-weight: 600;
+}
+
+.dashboard-task-tag--today {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.dashboard-task-tag--category {
+  background: rgba(148, 108, 255, 0.15);
+  color: #c4b5fd;
 }
 
 .dashboard-empty-copy {

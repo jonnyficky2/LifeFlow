@@ -36,15 +36,30 @@ export const Sidebar: React.FC = () => {
         </div>
 
         <div className="sidebar-content">
-          <nav className="sidebar-menu app-nav">
-            <button type="button" className={`sidebar-item ${activeSection === 'home' ? 'is-active' : ''}`} onClick={() => handleNavClick('home')}><Icon name="home" /> Dashboard</button>
-            <button type="button" className={`sidebar-item ${activeSection === 'tasks' ? 'is-active' : ''}`} onClick={() => handleNavClick('tasks')}><Icon name="tasks" /> Tasks</button>
-            <button type="button" className={`sidebar-item ${activeSection === 'habit' ? 'is-active' : ''}`} onClick={() => handleNavClick('habit')}><Icon name="habits" /> Habits</button>
-            <button type="button" className={`sidebar-item ${activeSection === 'focus' ? 'is-active' : ''}`} onClick={() => handleNavClick('focus')}><Icon name="focus" /> Focus Timer</button>
-            <button type="button" className={`sidebar-item ${activeSection === 'calendar' ? 'is-active' : ''}`} onClick={() => handleNavClick('calendar')}><Icon name="calendar" /> Calendar</button>
-            <button type="button" className={`sidebar-item ${activeSection === 'stats' ? 'is-active' : ''}`} onClick={() => handleNavClick('stats')}><Icon name="reports" /> Reports</button>
-            <button type="button" className={`sidebar-item ${activeSection === 'notes' ? 'is-active' : ''}`} onClick={() => handleNavClick('notes')}><Icon name="notes" /> Notes</button>
-            <button type="button" className={`sidebar-item ${activeSection === 'settings' ? 'is-active' : ''}`} onClick={() => handleNavClick('settings')}><Icon name="settings" /> Settings</button>
+          <nav className="sidebar-menu app-nav" aria-label="Main Navigation">
+            <div className="sidebar-group">
+              <span className="sidebar-group-label">Workspace</span>
+              <button type="button" className={`sidebar-item ${activeSection === 'home' ? 'is-active' : ''}`} onClick={() => handleNavClick('home')}><Icon name="home" /> Dashboard</button>
+              <button type="button" className={`sidebar-item ${activeSection === 'tasks' ? 'is-active' : ''}`} onClick={() => handleNavClick('tasks')}><Icon name="tasks" /> Tasks</button>
+              <button type="button" className={`sidebar-item ${activeSection === 'notes' ? 'is-active' : ''}`} onClick={() => handleNavClick('notes')}><Icon name="notes" /> Notes</button>
+            </div>
+
+            <div className="sidebar-group">
+              <span className="sidebar-group-label">Planning</span>
+              <button type="button" className={`sidebar-item ${activeSection === 'calendar' ? 'is-active' : ''}`} onClick={() => handleNavClick('calendar')}><Icon name="calendar" /> Calendar</button>
+              <button type="button" className={`sidebar-item ${activeSection === 'habit' ? 'is-active' : ''}`} onClick={() => handleNavClick('habit')}><Icon name="habits" /> Habits</button>
+              <button type="button" className={`sidebar-item ${activeSection === 'focus' ? 'is-active' : ''}`} onClick={() => handleNavClick('focus')}><Icon name="focus" /> Focus Timer</button>
+            </div>
+
+            <div className="sidebar-group">
+              <span className="sidebar-group-label">Insights</span>
+              <button type="button" className={`sidebar-item ${activeSection === 'stats' ? 'is-active' : ''}`} onClick={() => handleNavClick('stats')}><Icon name="reports" /> Reports</button>
+            </div>
+
+            <div className="sidebar-group">
+              <span className="sidebar-group-label">System</span>
+              <button type="button" className={`sidebar-item ${activeSection === 'settings' ? 'is-active' : ''}`} onClick={() => handleNavClick('settings')}><Icon name="settings" /> Settings</button>
+            </div>
           </nav>
 
 
