@@ -5,7 +5,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 📊 Overall Progress: 97% (66/68 Tasks Completed)
+## 📊 Overall Progress: 99% (67/68 Tasks Completed)
 
 ---
 
@@ -764,11 +764,11 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1501] Define Task-First Dashboard and Navigation Hierarchy
 - **Description:** Susun ulang Dashboard agar primary action, tugas hari ini, pending/overdue, dan quick stats mudah dipindai; kelompokkan navigasi desktop dan sederhanakan mobile navigation.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** None
 - **Acceptance Criteria:** Wireframe dan design review disetujui; Dashboard memiliki primary `+ Add task`, Today/Pending section, dan shortcut yang jelas; navigasi desktop/mobile memiliki hierarchy yang terdokumentasi.
-- **Progress:** 95%
-- **Notes:** Task-First Dashboard disusun ulang dengan primary `+ Add task`, Today & Overdue actionable panel (checkbox langsung dari dashboard, klik judul membuka TaskModal, indikator status Overdue / Today / Time / Category), 4 quick stats cards simetris (Remaining, Completed today, Due today, Habits today), navigasi desktop dikelompokkan secara semantik di Sidebar (Workspace, Planning, Insights, System) dengan label kategori, BottomNav mobile memakai Icon SVG konsisten. Siap untuk validasi Manual UAT oleh pengguna.
+- **Progress:** 100%
+- **Notes:** Task-First Dashboard disusun ulang dengan primary `+ Add task`, Today & Overdue actionable panel (checkbox langsung dari dashboard, klik judul membuka TaskModal, indikator status Overdue / Today / Time / Category), 4 quick stats cards simetris (Remaining, Completed today, Due today, Habits today), navigasi desktop dikelompokkan secara semantik di Sidebar (Workspace, Planning, Insights, System) dengan label kategori, BottomNav mobile memakai Icon SVG konsisten. Manual UAT PASS oleh pengguna.
 - **Related Docs:** docs/design/DESIGN_REVIEW.md, docs/design/USER_FLOWS.md, docs/design/WIREFRAMES.md
 
 ### [TASK-1502] Standardize Primary Actions, Search, Profile, and Utility Controls
