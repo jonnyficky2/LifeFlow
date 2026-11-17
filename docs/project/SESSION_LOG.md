@@ -398,6 +398,17 @@ reference: docs/project/TASK_BOARD.md
   - Memperluas eksekusi aksi di [src/components/layout/AiChatDrawer.tsx](src/components/layout/AiChatDrawer.tsx) agar `create_note`, `update_note`, dan `create_habit` benar-benar memutasi state di modul Notes & Habits.
   - Membuat skrip regresi lokal (TSX via tsx) untuk verifikasi parser offline: [aiAssistant_offline_commands.test.ts] dan tes spesifik note/habit.
 
+## 2026-11-17
+- **[TASK-1502] Standardize Primary Actions, Search, Profile & Utility Controls (Status: DONE, UAT PASS):**
+  - Audit menemukan implementasi awal sudah ada (avatar → Settings via click/keyboard, `aria-label` pada search ⌘K dan AI ⌘J, Categories dihapus dari sidebar, Undo/Redo pindah ke header Tasks), tetapi menyisakan 3 celah konsistensi:
+    - `src/pages/Habits/Habits.tsx`: primary action memakai `.btn` biasa dan label "+ New Habit" → diubah menjadi `.btn.btn-primary` dengan label "+ Add habit".
+    - `src/pages/Notes/Notes.tsx`: label "+ New" ambigu → "+ Add note".
+    - `src/assets/css/style.css`: `.dashboard-header` dan `.dashboard-header-actions` tidak punya `flex-wrap` sehingga utility controls (Undo/Redo/Add task) meluber horizontal di 360px → ditambahkan `flex-wrap: wrap`.
+  - Build PASS, lint 0 error (2 warning lama di `useHabits.ts` dan `useTasks.ts`).
+- **Perbaikan temuan UAT pada [TASK-1502]:**
+  - `src/pages/Notes/Notes.css`: textarea catatan terlalu pendek karena `.app-main` bertinggi `auto` sehingga `height: 100%` di `.notes-wrapper` tidak punya acuan dan textarea jatuh ke tinggi default browser. Diganti tinggi definit `calc(100dvh - 116px - var(--space-6) - safe-area)` (desktop) dan `calc(100dvh - 90px - 120px - safe-area)` (≤640px), plus `min-height: 0` pada `.notes-editor-body`. Hasil: list catatan dan editor sama-sama penuh sampai bawah dengan scroll internal masing-masing.
+  - `src/assets/css/style.css`: logo LifeFlow menyatu dengan dark mode karena `lifeflow-mark.svg` memakai `stroke="currentColor"` yang di dalam `<img>` selalu resolve ke hitam. Ditambahkan `filter: brightness(0) invert(1)` untuk `body:not(.light-mode)` pada `.navbar-logo` dan `.app-sidebar-brand .sidebar-profile-img`. Light mode tetap hitam karena sidebar light mode berlatar terang.
+
 
 
 

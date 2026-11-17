@@ -1,6 +1,9 @@
 .notes-wrapper {
   display: flex;
-  height: 100%;
+  /* Tinggi definit: .app-main tingginya auto, jadi height:100% tidak punya acuan.
+     Nilai dikurangi padding .app-main (116px atas, 32px bawah) + safe-area. */
+  height: calc(100vh - 116px - var(--space-6) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  height: calc(100dvh - 116px - var(--space-6) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   overflow: hidden;
   background: var(--bg-primary);
 }
@@ -165,6 +168,7 @@
 
 .notes-editor-body {
   flex: 1;
+  min-height: 0; /* agar textarea bisa menyusut & scroll di dalam pane */
   padding: var(--space-5) 32px;
   overflow-y: auto;
 }
@@ -234,6 +238,14 @@
 
   .notes-editor-body {
     padding: var(--space-4) 20px;
+  }
+}
+
+/* Padding .app-main di mobile (90px atas, 120px bawah untuk bottom nav) */
+@media (max-width: 640px) {
+  .notes-wrapper {
+    height: calc(100vh - 90px - 120px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    height: calc(100dvh - 90px - 120px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 }
 

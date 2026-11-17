@@ -219,7 +219,7 @@ export const Notes: React.FC = () => {
       <div className="notes-sidebar">
         <div className="notes-sidebar-header">
           <h2>Notes</h2>
-          <button className="btn-new-note" onClick={handleCreateNote}>+ New</button>
+          <button className="btn-new-note" onClick={handleCreateNote}>+ Add note</button>
         </div>
         <div className="notes-list">
           {isAppLoading ? (

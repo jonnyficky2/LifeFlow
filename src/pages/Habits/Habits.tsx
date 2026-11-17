@@ -131,7 +131,7 @@ export const Habits: React.FC = () => {
           </h1>
           <p className="habits-header-subtitle">Build consistency, one day at a time.</p>
         </div>
-        <button className="btn" onClick={handleCreateHabit}>+ New Habit</button>
+        <button className="btn btn-primary" onClick={handleCreateHabit}>+ Add habit</button>
       </div>
 
       <div className="habits-list">

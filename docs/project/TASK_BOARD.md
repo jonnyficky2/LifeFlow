@@ -774,12 +774,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1502] Standardize Primary Actions, Search, Profile, and Utility Controls
 - **Description:** Tetapkan lokasi dan label konsisten untuk tombol Add, Search, profile, theme, undo, dan redo; profile mengarah langsung ke Settings.
 - **Priority:** High
-- **Status:** NOT_STARTED
+- **Status:** DONE
 - **Dependencies:** TASK-1501
 - **Acceptance Criteria:** Setiap halaman utama memiliki primary action yang mudah ditemukan; global search memiliki label/accessible name; avatar dapat diklik dan difokuskan untuk membuka Settings; utility controls tidak overflow.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/design/COMPONENT_LIBRARY.md, docs/design/USER_FLOWS.md
-- **Notes:** Implementasi awal: avatar membuka Settings lewat click/keyboard; Categories dihapus dari sidebar; Undo/Redo dipindahkan ke header Tasks. Search dan AI tetap global. Full responsive/browser UAT masih pending.
+- **Notes:** Avatar membuka Settings lewat click/keyboard; Categories dihapus dari sidebar; Undo/Redo dipindahkan ke header Tasks; search global (⌘K) & AI (⌘J) punya `aria-label`. Konsistensi primary action: Habits `+ Add habit` memakai `btn-primary`, Notes `+ Add note`. Overflow utility di 360px diperbaiki dengan `flex-wrap` pada `.dashboard-header` dan `.dashboard-header-actions`. Build PASS, lint 0 error. UAT PASS oleh user; temuan UAT tambahan yang ikut diperbaiki: tinggi Notes (list & editor kini penuh sampai bawah) dan logo LifeFlow di dark mode.
 
 ### [TASK-1503] Compact Task Completion Feedback
 - **Description:** Kecilkan toast completed/pending dan lengkapi dengan feedback inline pada task row tanpa menghilangkan informasi status atau XP.
