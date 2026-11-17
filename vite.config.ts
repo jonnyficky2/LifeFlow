@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['assets/icons/lifeflow-favicon.svg', 'assets/icons/lifeflow-favicon-180.png'],
       manifest: {
         name: 'LifeFlow',
         short_name: 'LifeFlow',
@@ -19,10 +19,16 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
-            src: 'favicon.svg',
-            sizes: '192x192 512x512',
+            src: 'assets/icons/lifeflow-favicon.svg',
+            sizes: 'any',
             type: 'image/svg+xml',
-            purpose: 'any maskable'
+            purpose: 'any'
+          },
+          {
+            src: 'assets/icons/lifeflow-favicon-180.png',
+            sizes: '180x180',
+            type: 'image/png',
+            purpose: 'any'
           }
         ]
       },
