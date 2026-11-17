@@ -67,7 +67,7 @@ body:not(.light-mode) .navbar-logo {
 }
 
 /* Icon Buttons in Navbar (Undo, Redo, Theme) */
-.btn--icon {
+.btn.btn--icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -85,14 +85,18 @@ body:not(.light-mode) .navbar-logo {
   pointer-events: auto;
 }
 
-.btn--icon:hover {
+.btn.btn--icon .icon {
+  display: block;
+}
+
+.btn.btn--icon:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
   color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.btn--icon:active {
+.btn.btn--icon:active {
   transform: scale(0.95);
 }
 
@@ -108,7 +112,7 @@ body.light-mode .btn--icon:hover {
 }
 
 .nav-login-btn {
-  background: linear-gradient(135deg, var(--primary), var(--primary)) !important;
+  background: var(--primary) !important;
   color: white !important;
   padding: var(--space-2) 20px !important;
   height: 40px !important;
@@ -568,7 +572,7 @@ button:hover::before{  transition: all 0.2s ease-in-out;
 
 /* LIGHT BUTTON */
 
-body.light-mode button{
+body.light-mode button:not([class*="btn"]){
 
   color: var(--color-text);
 
@@ -1502,7 +1506,7 @@ button{  transition: all 0.2s ease-in-out;
 
 /* LIGHT MODE BUTTON FIX */
 
-body.light-mode button{
+body.light-mode button:not([class*="btn"]){
 
   color:#0f172a;
 
@@ -3174,17 +3178,6 @@ body.light-mode .sidebar-toggle {
 
 body.light-mode .sidebar-toggle span {
   background: var(--color-text); /* Menyelaraskan dengan Design System */
-}
-
-body.light-mode .dashboard-header-actions button {
-  background: var(--color-surface) !important;
-  color: var(--color-text) !important;
-  border: 1px solid var(--color-border) !important;
-  box-shadow: var(--shadow-sm);
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 body.light-mode .dashboard-header h1,

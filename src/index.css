@@ -206,24 +206,6 @@ summary:focus-visible,
   justify-content: flex-end;
 }
 
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-secondary {
-  background-color: #334155;
-  color: #F1F5F9;
-}
-
-.btn-secondary:hover {
-  background-color: #475569;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

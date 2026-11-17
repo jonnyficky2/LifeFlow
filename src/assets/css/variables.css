@@ -10,6 +10,10 @@
   --color-warning: #ffd60a;
   --color-danger: #ff453a;
 
+  /* Solid fill for primary actions — #1d4ed8 keeps white text at 6.5:1 in both themes */
+  --color-primary-fill: #1d4ed8;
+  --color-primary-fill-hover: #1e40af;
+
   /* Neutral Dark Theme Colors */
   --color-bg: #000000;
   --color-bg-deep: #0b0b0d;

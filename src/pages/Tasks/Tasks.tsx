@@ -201,7 +201,7 @@ export const Tasks: React.FC = () => {
                         autoFocus
                         style={{ flex: 1, height: '36px', padding: '0 8px', border: '1px solid var(--color-border)', borderRadius: '6px', background: 'var(--color-bg)', color: 'var(--color-text)' }}
                       />
-                      <button className="btn-primary" onClick={() => {
+                      <button className="btn btn-primary" onClick={() => {
                         if (editingCatName.trim()) {
                           saveTaskSnapshot();
                           setAppData(prev => {
@@ -212,7 +212,7 @@ export const Tasks: React.FC = () => {
                         }
                         setEditingCatIndex(null);
                       }} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Save</button>
-                      <button className="btn-secondary" onClick={() => setEditingCatIndex(null)} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Cancel</button>
+                      <button className="btn btn-secondary" onClick={() => setEditingCatIndex(null)} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Cancel</button>
                     </div>
                   ) : (
                     <>
@@ -313,7 +313,7 @@ export const Tasks: React.FC = () => {
               />
               <button 
                 type="button"
-                className="btn-primary" 
+                className="btn btn-primary" 
                 onClick={() => {
                   if (newCategoryName.trim()) {
                     addCategory(newCategoryName.trim());
@@ -326,7 +326,7 @@ export const Tasks: React.FC = () => {
               </button>
               <button 
                 type="button"
-                className="btn-secondary" 
+                className="btn btn-secondary" 
                 onClick={() => {
                   setIsAddingCategory(false);
                   setNewCategoryName('');

@@ -406,6 +406,76 @@ input[type="radio"]:focus-visible {
 }
 
 /* ==========================================================================
+   BUTTON SYSTEM — single source of truth for every .btn* in the app.
+   Layout + colour live here; themes only change tokens, never these rules.
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-strong);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-micro);
+}
+
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-primary-fill);
+  border-color: var(--color-primary-fill);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-fill-hover);
+  border-color: var(--color-primary-fill-hover);
+}
+
+.btn-secondary {
+  background: var(--color-surface-strong);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-surface);
+}
+
+.btn--outline {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn--outline:hover:not(:disabled) {
+  background: var(--color-surface-strong);
+}
+
+.btn-danger {
+  background: transparent;
+  border-color: currentColor;
+  color: var(--color-danger);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-danger) 14%, transparent);
+}
+
+/* ==========================================================================
    SUBTASK DELETE INLINE STYLE MIGRATIONS
    ========================================================================== */
 .btn-subtask-delete-clean {

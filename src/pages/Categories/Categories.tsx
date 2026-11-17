@@ -86,8 +86,8 @@ export const Categories: React.FC = () => {
                       autoFocus
                       style={{ flex: 1, height: '36px', padding: '0 8px', border: '1px solid var(--color-border)', borderRadius: '6px', background: 'var(--color-bg)', color: 'var(--color-text)' }}
                     />
-                    <button className="btn-primary" onClick={() => handleSaveCategory(index)} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Save</button>
-                    <button className="btn-secondary" onClick={() => setEditingIndex(null)} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Cancel</button>
+                    <button className="btn btn-primary" onClick={() => handleSaveCategory(index)} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Save</button>
+                    <button className="btn btn-secondary" onClick={() => setEditingIndex(null)} style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Cancel</button>
                   </div>
                 ) : (
                   <>
