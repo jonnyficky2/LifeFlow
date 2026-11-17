@@ -127,7 +127,7 @@ export const Habits: React.FC = () => {
       <div className="habits-header">
         <div>
           <h1 className="habits-header-title">
-            🌱 Habit Tracker
+            <Icon name="habits" size={22} /> Habit Tracker
           </h1>
           <p className="habits-header-subtitle">Build consistency, one day at a time.</p>
         </div>
@@ -152,7 +152,7 @@ export const Habits: React.FC = () => {
           ))
         ) : habits.length === 0 ? (
           <EmptyState 
-            icon="🌱" 
+            icon={<Icon name="habits" size={32} />} 
             title="No Habits Yet" 
             description="Start small. Add a daily habit to track your consistency over time."
           >

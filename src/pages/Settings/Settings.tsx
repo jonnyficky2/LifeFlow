@@ -136,14 +136,14 @@ export const Settings: React.FC = () => {
     <div className="settings-wrapper" style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
       <div className="dashboard-header" style={{ marginBottom: '24px' }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: '28px', color: 'var(--color-text)' }}>⚙ Settings</h1>
+          <h1 style={{ margin: 0, fontSize: '28px', color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '10px' }}><Icon name="settings" size={26} /> Settings</h1>
           <p style={{ margin: '4px 0 0 0', color: 'var(--color-muted)' }}>Manage your preferences, account, and data</p>
         </div>
       </div>
 
       <div className="settings-grid">
         {/* 1. Account */}
-        <SettingsSection title="Account" icon="👤">
+        <SettingsSection title="Account" icon={<Icon name="user" />}>
           <div className="settings-profile">
             <img
               src={user?.photoURL || DEFAULT_AVATAR}
@@ -176,7 +176,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* 2. Appearance */}
-        <SettingsSection title="Appearance" icon="🎨">
+        <SettingsSection title="Appearance" icon={<Icon name="palette" />}>
           <SettingsItem title="Theme" description="Select your app theme" rightElement={
             <select className="settings-select" value={settings?.theme || 'system'} onChange={handleThemeChange}>
               <option value="system">System Default</option>
@@ -187,7 +187,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* 3. Notifications */}
-        <SettingsSection title="Notifications" icon="🔔">
+        <SettingsSection title="Notifications" icon={<Icon name="bell" />}>
           <SettingsItem title="Habit Reminders" description="Get notified for incomplete habits" rightElement={
             <label className="toggle-switch">
               <input type="checkbox" defaultChecked />
@@ -215,7 +215,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* 4. Productivity */}
-        <SettingsSection title="Productivity" icon="⚡">
+        <SettingsSection title="Productivity" icon={<Icon name="zap" />}>
           <SettingsItem title="Start of Week" description="First day of the calendar" rightElement={
             <select className="settings-select" defaultValue="monday">
               <option value="monday">Monday</option>
@@ -245,7 +245,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* 5. AI Workspace */}
-        <SettingsSection title="AI Workspace" icon="✨">
+        <SettingsSection title="AI Workspace" icon={<Icon name="spark" />}>
           <SettingsItem
             title="Gemini API Key"
             description="Optional: enhanced semantic extraction with Google Gemini (leave empty for smart local-first extractor)"
@@ -263,7 +263,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* 6. Data Management */}
-        <SettingsSection title="Data Management" icon="💾">
+        <SettingsSection title="Data Management" icon={<Icon name="database" />}>
           <SettingsItem title="Sync Status" description="Not synced" rightElement={
             <button className="settings-btn">Sync Now</button>
           } />
@@ -293,7 +293,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* Legal & Information */}
-        <SettingsSection title="Legal & Information" icon="📄" style={{ marginTop: '24px' }}>
+        <SettingsSection title="Legal & Information" icon={<Icon name="file" />} style={{ marginTop: '24px' }}>
           <SettingsItem title="Privacy Policy" description="Privacy policy and user data protection." rightElement={
             <button className="settings-btn outline" onClick={showPrivacyPolicy}>View</button>
           } />
@@ -306,7 +306,7 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* App Installation */}
-        <SettingsSection title="App Installation" icon="📱" style={{ marginTop: '24px' }}>
+        <SettingsSection title="App Installation" icon={<Icon name="smartphone" />} style={{ marginTop: '24px' }}>
           <SettingsItem title="PWA Application" description="Install LifeFlow on your device for offline access." rightElement={
             <button className="settings-btn outline">Install App</button>
           } />

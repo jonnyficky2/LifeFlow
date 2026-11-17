@@ -142,6 +142,9 @@
 }
 
 .btn-pin-note {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   color: var(--color-muted);
   border: none;
@@ -255,6 +258,9 @@
 }
 
 .notes-group-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 20px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -421,6 +427,12 @@ body.light-mode .notes-group-header {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.extract-modal-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .extract-engine-badge {

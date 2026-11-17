@@ -11,7 +11,7 @@ interface SettingsSectionProps {
 export const SettingsSection: React.FC<SettingsSectionProps> = ({ id, title, icon, children, style }) => {
   return (
     <div className="settings-card" id={id} style={style}>
-      <h3>{icon && <span style={{ marginRight: '8px' }}>{icon}</span>}{title}</h3>
+      <h3>{icon}{title}</h3>
       {children}
     </div>
   );

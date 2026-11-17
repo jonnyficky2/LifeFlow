@@ -119,7 +119,7 @@ export const Notes: React.FC = () => {
     );
 
     sorted.forEach(note => {
-      const key = note.isPinned ? '📌 Pinned' : getNoteDateGroup(note.updatedAt);
+      const key = note.isPinned ? 'Pinned' : getNoteDateGroup(note.updatedAt);
       if (!groups[key]) {
         groups[key] = [];
       }
@@ -131,7 +131,7 @@ export const Notes: React.FC = () => {
       notesList
     }));
 
-    const pinnedIndex = result.findIndex(g => g.title === '📌 Pinned');
+    const pinnedIndex = result.findIndex(g => g.title === 'Pinned');
     if (pinnedIndex > -1) {
       const pinnedGroup = result.splice(pinnedIndex, 1)[0];
       result.unshift(pinnedGroup);
@@ -236,7 +236,9 @@ export const Notes: React.FC = () => {
           ) : (
             groupedNotes.map(group => (
               <div key={group.title} className="notes-group-section">
-                <div className="notes-group-header">{group.title}</div>
+                <div className="notes-group-header">
+                  {group.title === 'Pinned' ? <><Icon name="pin" size={12} /> Pinned</> : group.title}
+                </div>
                 {group.notesList.map(note => (
                   <div 
                     key={note.id} 
@@ -293,11 +295,11 @@ export const Notes: React.FC = () => {
                   type="button"
                   className="btn-extract-tasks"
                   onClick={handleExtractTasks}
-                  title="Extract Tasks from Note (✨ AI)"
+                  title="Extract Tasks from Note (AI)"
                   disabled={isExtracting || !localContent.trim()}
                   aria-label="Extract tasks"
                 >
-                  {isExtracting ? '⏳ Extracting...' : '✨ Extract Tasks'}
+                  {isExtracting ? <><Icon name="clock" size={14} /> Extracting...</> : <><Icon name="spark" size={14} /> Extract Tasks</>}
                 </button>
                 <button
                   type="button"
@@ -306,7 +308,7 @@ export const Notes: React.FC = () => {
                   title={activeNoteData.isPinned ? "Unpin Note" : "Pin Note"}
                   aria-label="Pin note"
                 >
-                  {activeNoteData.isPinned ? '📍' : '📌'}
+                  <Icon name="pin" />
                 </button>
                 <button
                   type="button"
@@ -348,7 +350,7 @@ export const Notes: React.FC = () => {
           <div className="extract-modal-card">
             <div className="extract-modal-header">
               <h3>
-                <span>✨ Extract Tasks</span>
+                <span className="extract-modal-title"><Icon name="spark" /> Extract Tasks</span>
                 <span className="extract-engine-badge">
                   {extractionEngine === 'gemini' ? 'Gemini AI' : 'Smart Local Parser'}
                 </span>
