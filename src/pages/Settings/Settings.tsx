@@ -124,20 +124,20 @@ export const Settings: React.FC = () => {
 
   if (isAppLoading) {
     return (
-      <div className="settings-wrapper" style={{ padding: '24px' }}>
-        <div className="skeleton-title" style={{ width: '200px', marginBottom: '24px' }} />
-        <div className="skeleton" style={{ height: '200px', borderRadius: '12px', marginBottom: '16px' }} />
-        <div className="skeleton" style={{ height: '150px', borderRadius: '12px', marginBottom: '16px' }} />
+      <div className="settings-wrapper">
+        <div className="skeleton skeleton-title settings-skeleton-title" />
+        <div className="skeleton settings-skeleton-card" />
+        <div className="skeleton settings-skeleton-card settings-skeleton-card--short" />
       </div>
     );
   }
 
   return (
-    <div className="settings-wrapper" style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
-      <div className="dashboard-header" style={{ marginBottom: '24px' }}>
+    <div className="settings-wrapper">
+      <div className="dashboard-header settings-header">
         <div>
-          <h1 style={{ margin: 0, fontSize: '28px', color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: '10px' }}><Icon name="settings" size={26} /> Settings</h1>
-          <p style={{ margin: '4px 0 0 0', color: 'var(--color-muted)' }}>Manage your preferences, account, and data</p>
+          <h1 className="settings-title"><Icon name="settings" size={26} /> Settings</h1>
+          <p className="settings-subtitle">Manage your preferences, account, and data</p>
         </div>
       </div>
 
@@ -148,27 +148,26 @@ export const Settings: React.FC = () => {
             <img
               src={user?.photoURL || DEFAULT_AVATAR}
               alt="Profile"
-              style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-border)' }}
             />
             <div className="settings-profile-info">
-              <h4 style={{ margin: '0 0 4px 0', fontSize: '18px', color: 'var(--color-text)' }}>
+              <h4>
                 {user ? (user.displayName || 'LifeFlow User') : 'Guest User'}
               </h4>
-              <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '14px' }}>
+              <p>
                 {user ? user.email : 'Local Data Only'}
               </p>
               {user && (
-                <span style={{ fontSize: '12px', color: '#48d66d', marginTop: '4px', display: 'inline-block' }}>● Signed In</span>
+                <span className="settings-signed-in">● Signed In</span>
               )}
             </div>
           </div>
           <SettingsItem title="">
             {!user ? (
-              <button id="settingsLoginBtn" className="settings-btn outline" style={{ width: '100%', marginTop: '8px' }} onClick={loginWithGoogle}>
+              <button id="settingsLoginBtn" className="settings-btn settings-btn--block outline" onClick={loginWithGoogle}>
                 Sign In with Google
               </button>
             ) : (
-              <button id="settingsLogoutBtn" className="settings-btn outline" style={{ width: '100%', marginTop: '8px' }} onClick={logout}>
+              <button id="settingsLogoutBtn" className="settings-btn settings-btn--block outline" onClick={logout}>
                 Sign Out
               </button>
             )}
@@ -252,8 +251,7 @@ export const Settings: React.FC = () => {
             rightElement={
               <input
                 type="password"
-                className="form-input"
-                style={{ width: '200px', padding: '6px 10px', fontSize: '0.85rem' }}
+                className="form-input settings-input-inline"
                 placeholder="AIzaSy... (optional)"
                 value={(settings?.geminiApiKey as string) || ''}
                 onChange={(e) => setSettings(prev => ({ ...prev, geminiApiKey: e.target.value }))}
@@ -273,27 +271,27 @@ export const Settings: React.FC = () => {
           <SettingsItem title="Restore Data" description="Restore from JSON backup" rightElement={
             <>
               <button className="settings-btn outline" onClick={() => fileInputRef.current?.click()}>Import</button>
-              <input type="file" ref={fileInputRef} accept=".json" style={{ display: 'none' }} onChange={handleImport} />
+              <input type="file" ref={fileInputRef} accept=".json" hidden onChange={handleImport} />
             </>
           } />
         </SettingsSection>
 
         {/* 6. Statistics Summary */}
         <SettingsSection title="Your Statistics" icon={<Icon name="chart" />}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '10px' }}>
+          <div className="settings-stats">
             <div>
-              <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>Total Tasks</span>
-              <div style={{ fontSize: '20px', fontWeight: 600 }}>{totalTasks}</div>
+              <span className="settings-stat-label">Total Tasks</span>
+              <div className="settings-stat-value">{totalTasks}</div>
             </div>
             <div>
-              <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>Completion Rate</span>
-              <div style={{ fontSize: '20px', fontWeight: 600 }}>{completionRate}%</div>
+              <span className="settings-stat-label">Completion Rate</span>
+              <div className="settings-stat-value">{completionRate}%</div>
             </div>
           </div>
         </SettingsSection>
 
         {/* Legal & Information */}
-        <SettingsSection title="Legal & Information" icon={<Icon name="file" />} style={{ marginTop: '24px' }}>
+        <SettingsSection title="Legal & Information" icon={<Icon name="file" />}>
           <SettingsItem title="Privacy Policy" description="Privacy policy and user data protection." rightElement={
             <button className="settings-btn outline" onClick={showPrivacyPolicy}>View</button>
           } />
@@ -306,16 +304,16 @@ export const Settings: React.FC = () => {
         </SettingsSection>
 
         {/* App Installation */}
-        <SettingsSection title="App Installation" icon={<Icon name="smartphone" />} style={{ marginTop: '24px' }}>
+        <SettingsSection title="App Installation" icon={<Icon name="smartphone" />}>
           <SettingsItem title="PWA Application" description="Install LifeFlow on your device for offline access." rightElement={
             <button className="settings-btn outline">Install App</button>
           } />
         </SettingsSection>
 
         {/* Danger Zone */}
-        <SettingsSection title="Danger Zone" icon={<Icon name="warning" />} style={{ marginTop: '24px', border: '1px solid var(--color-danger)' }}>
+        <SettingsSection title="Danger Zone" icon={<Icon name="warning" />} className="settings-section--danger">
           <SettingsItem title="Reset Data" description="Clear all local data and restore defaults" rightElement={
-            <button className="settings-btn danger" style={{ background: 'var(--color-danger)', color: '#ffffff' }} onClick={handleResetData}>Reset Application Data</button>
+            <button className="settings-btn solid-danger" onClick={handleResetData}>Reset Application Data</button>
           } />
         </SettingsSection>
 
@@ -324,10 +322,10 @@ export const Settings: React.FC = () => {
       {/* Reset Data Confirmation Modal */}
       {confirmOpen && (
         <div className="modal show">
-          <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '24px', borderRadius: '12px' }}>
+          <div className="modal-content settings-confirm-modal">
             <h3>Reset Application Data</h3>
-            <p style={{ margin: '16px 0', color: 'var(--color-muted)' }}>Are you sure you want to permanently delete all your tasks, habits, and notes? This action cannot be undone.</p>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <p className="settings-confirm-text">Are you sure you want to permanently delete all your tasks, habits, and notes? This action cannot be undone.</p>
+            <div className="settings-confirm-actions">
               <button className="btn btn-danger" onClick={handleConfirmReset}>Reset Data</button>
               <button className="btn btn-secondary" onClick={() => setConfirmOpen(false)}>Cancel</button>
             </div>

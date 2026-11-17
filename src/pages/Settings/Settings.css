@@ -1,6 +1,115 @@
 /* ========================= SETTINGS PAGE OVERRIDES ========================== */
 @import "../../assets/css/settings.css";
 
+/* ---------- Layout & header ---------- */
+.settings-wrapper {
+  padding: var(--space-5);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.settings-header {
+  margin-bottom: var(--space-5);
+}
+
+.settings-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-subtitle {
+  margin: var(--space-1) 0 0;
+}
+
+/* ---------- Account ---------- */
+.settings-signed-in {
+  display: inline-block;
+  margin-top: var(--space-1);
+  font-size: 12px;
+  color: var(--color-success);
+}
+
+.settings-btn--block {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+/* ---------- AI workspace ---------- */
+.settings-input-inline {
+  width: 200px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+/* ---------- Statistics ---------- */
+.settings-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-top: 10px;
+}
+
+.settings-stat-label {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.settings-stat-value {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ---------- Danger zone ---------- */
+.settings-section--danger {
+  border-color: var(--color-danger);
+}
+
+.settings-btn.solid-danger {
+  background: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  color: #fff;
+}
+
+.settings-btn.solid-danger:hover {
+  filter: brightness(1.08);
+}
+
+/* ---------- Reset confirmation ---------- */
+.settings-confirm-modal {
+  max-width: 400px;
+  padding: var(--space-5);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.settings-confirm-text {
+  margin: var(--space-4) 0;
+  color: var(--color-muted);
+}
+
+.settings-confirm-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+/* ---------- Loading skeletons ---------- */
+.settings-skeleton-title {
+  width: 200px;
+  margin-bottom: var(--space-5);
+}
+
+.settings-skeleton-card {
+  height: 200px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+}
+
+.settings-skeleton-card--short {
+  height: 150px;
+}
+
 .settings-select {
   height: 36px;
   padding: 0 12px;

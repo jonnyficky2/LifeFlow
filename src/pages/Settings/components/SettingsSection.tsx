@@ -5,12 +5,12 @@ interface SettingsSectionProps {
   title: string;
   icon?: React.ReactNode | string;
   children: React.ReactNode;
-  style?: React.CSSProperties;
+  className?: string;
 }
 
-export const SettingsSection: React.FC<SettingsSectionProps> = ({ id, title, icon, children, style }) => {
+export const SettingsSection: React.FC<SettingsSectionProps> = ({ id, title, icon, children, className }) => {
   return (
-    <div className="settings-card" id={id} style={style}>
+    <div className={`settings-card ${className ?? ''}`.trim()} id={id}>
       <h3>{icon}{title}</h3>
       {children}
     </div>
