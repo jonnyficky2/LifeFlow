@@ -171,7 +171,7 @@ export const Habits: React.FC = () => {
                     <div>
                       <h3 className="habit-title">{habit.name}</h3>
                       <div className="habit-stats">
-                        30-Day Consistency: <strong>{completionRate}%</strong> • <span style={{ color: 'var(--color-muted)' }}>{getRepeatText(habit)}</span>
+                        30-Day Consistency: <strong>{completionRate}%</strong> • {getRepeatText(habit)}
                       </div>
                     </div>
                   </div>
@@ -239,9 +239,9 @@ export const Habits: React.FC = () => {
       {/* Create Habit Modal */}
       {habitModalOpen && (
         <div className="modal show">
-          <div className="modal-content" style={{ maxWidth: '450px', padding: '24px', borderRadius: '12px' }}>
-            <h2 style={{ marginBottom: '20px' }}>Create New Habit</h2>
-            <div className="form-group" style={{ marginBottom: '16px' }}>
+          <div className="modal-content habit-modal">
+            <h2>Create New Habit</h2>
+            <div className="form-group habit-field">
               <label htmlFor="habitNameInput">Habit Name</label>
               <input 
                 id="habitNameInput"
@@ -253,7 +253,7 @@ export const Habits: React.FC = () => {
                 autoFocus
               />
             </div>
-            <div className="form-group" style={{ marginBottom: '16px' }}>
+            <div className="form-group habit-field">
               <label htmlFor="habitIconInput">Icon (Emoji)</label>
               <input 
                 id="habitIconInput"
@@ -266,7 +266,7 @@ export const Habits: React.FC = () => {
               />
             </div>
             
-            <div className="form-group" style={{ marginBottom: '24px' }}>
+            <div className="form-group habit-field">
               <label htmlFor="habitRepeatInput">Repeat</label>
               <select
                 id="habitRepeatInput"
@@ -281,11 +281,11 @@ export const Habits: React.FC = () => {
               </select>
 
               {repeatType === 'custom' && (
-                <div style={{ marginTop: '12px' }}>
-                  <p style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--color-muted)' }}>Choose days:</p>
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <div className="habit-repeat-config">
+                  <p className="habit-repeat-label">Choose days:</p>
+                  <div className="habit-days-row">
                     {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, idx) => (
-                      <label key={day} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem', cursor: 'pointer' }}>
+                      <label key={day} className="habit-day-label">
                         <input 
                           type="checkbox"
                           checked={repeatDays.includes(idx)}
@@ -302,11 +302,11 @@ export const Habits: React.FC = () => {
               )}
 
               {repeatType === 'monthly' && (
-                <div style={{ marginTop: '12px' }}>
-                  <p style={{ marginBottom: '8px', fontSize: '0.9rem', color: 'var(--color-muted)' }}>Every date:</p>
+                <div className="habit-repeat-config">
+                  <p className="habit-repeat-label">Every date:</p>
                   <input
                     type="number"
-                    className="form-input"
+                    className="form-input habit-monthly-input"
                     min="1" max="31"
                     value={repeatDate}
                     onChange={(e) => setRepeatDate(Number(e.target.value))}
@@ -315,7 +315,7 @@ export const Habits: React.FC = () => {
               )}
             </div>
 
-            <div className="form-group" style={{ marginBottom: '24px' }}>
+            <div className="form-group habit-field">
               <label htmlFor="habitTimeInput">Time (Optional)</label>
               <input 
                 id="habitTimeInput"
@@ -326,7 +326,7 @@ export const Habits: React.FC = () => {
               />
             </div>
 
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+            <div className="habit-modal-actions">
               <button className="btn btn-secondary" onClick={() => setHabitModalOpen(false)}>Cancel</button>
               <button className="btn btn-primary" onClick={handleCreateHabitSubmit}>Create</button>
             </div>
@@ -337,10 +337,10 @@ export const Habits: React.FC = () => {
       {/* Delete Confirmation Modal */}
       {confirmOpen && (
         <div className="modal show">
-          <div className="modal-content" style={{ maxWidth: '400px', textAlign: 'center', padding: '24px', borderRadius: '12px' }}>
+          <div className="modal-content habit-confirm-modal">
             <h3>Delete Habit</h3>
-            <p style={{ margin: '16px 0', color: 'var(--color-muted)' }}>{confirmMessage}</p>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <p className="habit-confirm-text">{confirmMessage}</p>
+            <div className="habit-confirm-actions">
               <button className="btn btn-danger" onClick={() => {
                 if (targetDeleteHabitId) {
                   deleteHabit(targetDeleteHabitId);
