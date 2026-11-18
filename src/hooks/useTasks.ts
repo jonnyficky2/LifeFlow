@@ -80,8 +80,10 @@ export function useTasks() {
 
     if (willBeDone) {
       setXp(prev => prev + reward);
+      showToast('Task completed (+3 XP)', 'success');
     } else {
       setXp(prev => Math.max(0, prev - reward));
+      showToast('Task marked pending', 'info');
     }
 
     setAppData(prevData => {

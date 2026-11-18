@@ -17,6 +17,22 @@ export const Dashboard: React.FC = () => {
   const { habits, habitHistory } = useHabitContext();
   const { toggleTask } = useTasks();
   const { user } = useAuth();
+  const [justCompletedTasks, setJustCompletedTasks] = React.useState<Set<string>>(new Set());
+
+  const handleToggleTask = (catIndex: number, taskIndex: number, currentDone: boolean) => {
+    if (!currentDone) {
+      const key = `${catIndex}-${taskIndex}`;
+      setJustCompletedTasks(prev => new Set(prev).add(key));
+      setTimeout(() => {
+        setJustCompletedTasks(prev => {
+          const next = new Set(prev);
+          next.delete(key);
+          return next;
+        });
+      }, 1000);
+    }
+    toggleTask(catIndex, taskIndex);
+  };
 
   const todayStr = getLocalDateString(new Date());
 
@@ -156,12 +172,12 @@ export const Dashboard: React.FC = () => {
         {priorityTasks.length > 0 ? (
           <div className="dashboard-today-list">
             {priorityTasks.map(({ task, catIndex, taskIndex, categoryName, isOverdue }) => (
-              <div className="dashboard-today-item" key={`${catIndex}-${taskIndex}`}>
+              <div className={`dashboard-today-item ${justCompletedTasks.has(`${catIndex}-${taskIndex}`) ? 'dashboard-today-item--just-completed' : ''}`} key={`${catIndex}-${taskIndex}`}>
                 <input
                   type="checkbox"
                   className="dashboard-today-checkbox"
                   checked={task.done}
-                  onChange={() => toggleTask(catIndex, taskIndex)}
+                  onChange={() => handleToggleTask(catIndex, taskIndex, task.done)}
                   aria-label={`Mark "${task.name}" as done`}
                 />
                 <button

@@ -785,6 +785,31 @@ body.light-mode .task{
     1px solid rgba(34,197,94,.3);
 }
 
+.task--just-completed::after {
+  content: "+3 XP";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-success);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: none;
+  animation: xpPop 1s ease-out forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes xpPop {
+  0% { opacity: 0; transform: translateY(-50%) scale(0.5); }
+  20% { opacity: 1; transform: translateY(-50%) scale(1.1); }
+  40% { opacity: 1; transform: translateY(-100%) scale(1); }
+  100% { opacity: 0; transform: translateY(-150%) scale(1); }
+}
+
 .task.done span{
   text-decoration:line-through;
 }
@@ -2589,6 +2614,7 @@ body:not(.light-mode) .app-sidebar-brand .sidebar-profile-img {
 }
 
 .dashboard-today-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -2598,6 +2624,24 @@ body:not(.light-mode) .app-sidebar-brand .sidebar-profile-img {
   background: var(--task-bg);
   border: 1px solid var(--dash-border);
   transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dashboard-today-item--just-completed::after {
+  content: "+3 XP";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-success);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: none;
+  animation: xpPop 1s ease-out forwards;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .dashboard-today-item:hover {

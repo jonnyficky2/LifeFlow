@@ -28,6 +28,22 @@ export const Tasks: React.FC = () => {
   const [targetCatIndex, setTargetCatIndex] = useState<number | null>(null);
   const [targetTaskIndex, setTargetTaskIndex] = useState<number | null>(null);
   const [confirmMessage, setConfirmMessage] = useState('');
+  const [justCompletedTasks, setJustCompletedTasks] = useState<Set<string>>(new Set());
+
+  const handleToggleTask = (catIndex: number, originalTaskIndex: number, currentDone: boolean) => {
+    if (!currentDone) {
+      const key = `${catIndex}-${originalTaskIndex}`;
+      setJustCompletedTasks(prev => new Set(prev).add(key));
+      setTimeout(() => {
+        setJustCompletedTasks(prev => {
+          const next = new Set(prev);
+          next.delete(key);
+          return next;
+        });
+      }, 1000);
+    }
+    toggleTask(catIndex, originalTaskIndex);
+  };
 
   const triggerDeleteCategory = (catIndex: number) => {
     setConfirmType('category');
@@ -234,12 +250,12 @@ export const Tasks: React.FC = () => {
                     const originalTaskIndex = category.tasks.indexOf(task);
                     
                     return (
-                      <div key={originalTaskIndex} className={`task ${task.done ? "done" : ""} ${task.priority || "low"}-priority`} draggable>
+                      <div key={originalTaskIndex} className={`task ${task.done ? "done" : ""} ${justCompletedTasks.has(`${catIndex}-${originalTaskIndex}`) ? "task--just-completed" : ""} ${task.priority || "low"}-priority`} draggable>
                         <div className="task-left">
                           <input 
                             type="checkbox" 
                             checked={task.done} 
-                            onChange={() => toggleTask(catIndex, originalTaskIndex)} 
+                            onChange={() => handleToggleTask(catIndex, originalTaskIndex, task.done)} 
                           />
                           <div>
                             <div className="tasks-name-row">

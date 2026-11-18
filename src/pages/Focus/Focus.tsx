@@ -183,7 +183,7 @@ export const Focus: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
-          {[25, 50, 15, 5].map((mins) => (
+          {[5, 10, 15, 25, 50].map((mins) => (
             <button 
               key={mins}
               type="button" 
