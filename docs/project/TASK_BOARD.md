@@ -5,7 +5,7 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 
 ---
 
-## 📊 Overall Progress: 99% (67/68 Tasks Completed)
+## 📊 Overall Progress: 96% (71/74 Tasks — LifeFlow)
 
 ---
 
@@ -784,8 +784,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1503] Compact Task Completion Feedback
 - **Description:** Kecilkan toast completed/pending dan lengkapi dengan feedback inline pada task row tanpa menghilangkan informasi status atau XP.
 - **Priority:** High
-- **Status:** NOT_STARTED
+- **Status:** DONE
 - **Dependencies:** TASK-1502
+- **Acceptance Criteria:** Toast success/info tidak menutupi task utama, tidak memakai gradient dekoratif, memiliki ukuran compact, dan status checkbox/text tetap terlihat setelah toggle.
+- **Progress:** 100%
+- **Related Docs:** docs/design/COMPONENT_LIBRARY.md, docs/testing/UAT_CHECKLIST_FINAL.md
+- **Notes:** Toast dipindahkan ke bottom-right, padding compact tanpa border dekoratif kiri, dibatasi maksimal 2 toast sekaligus. Inline XP feedback (+3 XP) pada task row dan dashboard item. Urutan preset Focus Timer dirapikan (5, 10, 15, 25, 50 min). Manual UAT PASS oleh user.
 - **Acceptance Criteria:** Toast success/info tidak menutupi task utama, tidak memakai gradient dekoratif, memiliki ukuran compact, dan status checkbox/text tetap terlihat setelah toggle.
 - **Progress:** 0%
 - **Related Docs:** docs/design/COMPONENT_LIBRARY.md, docs/testing/UAT_CHECKLIST_FINAL.md

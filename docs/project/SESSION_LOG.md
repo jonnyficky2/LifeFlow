@@ -306,7 +306,14 @@ reference: docs/project/TASK_BOARD.md
   - Menyusun commit penutup Milestone dan menyiapkan tag rilis `v1.0` di git repository.
   - Aplikasi siap didistribusikan ke channel publik.
 
-## 2026-11-05
+## 2026-11-18
+- **[TASK-1503] Compact Task Completion Feedback (Status: DONE / UAT PASS):**
+  - Menghapus border-left (garis aksen tipis) pada toast notifikasi untuk menghilangkan gaya AI-slop dan menjaga estetika *Calm UI*.
+  - Membatasi jumlah pop-up toast aktif secara bersamaan di sudut kanan bawah menjadi maksimal 2 toast untuk mencegah tumpukan berlebih.
+  - Menambahkan animasi pop-up feedback inline `+3 XP` pada baris task (`Tasks.tsx` & `Dashboard.tsx`) saat tugas diselesaikan.
+  - Merapikan urutan tombol preset Focus Timer (`Focus.tsx`) secara kronologis dari kecil ke besar (`5, 10, 15, 25, 50 Min`).
+  - Memverifikasi hasil build (`npm run build`) dan linting (`npm run lint`) sukses 100% tanpa error.
+  - Manual UAT divalidasi dan dinyatakan PASS oleh user. Status tiket resmi diperbarui menjadi DONE.
 - **Project Review & Next Task Planning:**
   - Membaca dokumen prinsip produk, visi, module registry, task board, dan development workflow.
   - Memeriksa status repository; tidak ada perubahan kode lokal yang belum tercatat.
