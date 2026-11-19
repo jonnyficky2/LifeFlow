@@ -29,6 +29,18 @@ export default defineConfig({
             sizes: '180x180',
             type: 'image/png',
             purpose: 'any'
+          },
+          {
+            src: 'assets/icons/lifeflow-favicon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: 'assets/icons/lifeflow-favicon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any'
           }
         ]
       },
