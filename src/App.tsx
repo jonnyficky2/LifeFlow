@@ -9,9 +9,8 @@ import { SettingsProvider } from './context/SettingsContext';
 import { ToastProvider } from './context/ToastContext';
 import { Layout } from './components/layout/Layout';
 import { TaskModal } from './components/modals/TaskModal';
-import { AuthModal } from './components/modals/AuthModal';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard').then(m => ({ default: m.Dashboard })));
 const Tasks = lazy(() => import('./pages/Tasks/Tasks').then(m => ({ default: m.Tasks })));
@@ -34,19 +33,6 @@ const PageFallback = () => (
 const AppContent: React.FC = () => {
   const { activeSection } = useAppContext();
   const { settings } = useSettingsContext();
-  const { user, loading } = useAuth();
-  const [showAuthModal, setShowAuthModal] = React.useState(false);
-
-  React.useEffect(() => {
-    // Show Auth Modal on initial load if not logged in
-    if (!loading && !user) {
-      // Check session storage so we only show it once per session
-      if (!sessionStorage.getItem('authPrompted')) {
-        setShowAuthModal(true);
-        sessionStorage.setItem('authPrompted', 'true');
-      }
-    }
-  }, [user, loading]);
 
   React.useEffect(() => {
     const applyTheme = (isLight: boolean) => {
@@ -88,7 +74,6 @@ const AppContent: React.FC = () => {
         </Suspense>
       </Layout>
       <TaskModal />
-      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
     </>
   );
 };
