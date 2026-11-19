@@ -265,17 +265,17 @@ export async function extractHabitsWithGemini(content: string, apiKey: string): 
  * Unified Habit Extractor (Invisible AI Architecture).
  * Tries Gemini if apiKey is provided, otherwise falls back smoothly to local extraction.
  */
-export async function extractHabits(content: string, apiKey?: string): Promise<ExtractedHabit[]> {
+export async function extractHabits(content: string, apiKey?: string): Promise<{ habits: ExtractedHabit[]; engine: 'local' | 'gemini' }> {
   if (apiKey && apiKey.trim()) {
     try {
       const geminiHabits = await extractHabitsWithGemini(content, apiKey.trim());
       if (geminiHabits.length > 0) {
-        return geminiHabits;
+        return { habits: geminiHabits, engine: 'gemini' };
       }
     } catch (e) {
       console.warn('Gemini habit extraction failed, falling back to local:', e);
     }
   }
 
-  return extractHabitsLocal(content);
+  return { habits: extractHabitsLocal(content), engine: 'local' };
 }

@@ -6,10 +6,11 @@ import { useTaskContext } from '../../context/TaskContext';
 import { useSettingsContext } from '../../context/SettingsContext';
 import { useNotes } from '../../hooks/useNotes';
 import { useTasks } from '../../hooks/useTasks';
+import { useHabits } from '../../hooks/useHabits';
 import { useToast } from '../../context/ToastContext';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
-import { extractTasks, type ExtractedTask } from '../../utils/aiExtractor';
+import { extractTasks, extractHabits, type ExtractedTask, type ExtractedHabit } from '../../utils/aiExtractor';
 import './Notes.css';
 
 export const Notes: React.FC = () => {
@@ -19,6 +20,7 @@ export const Notes: React.FC = () => {
   const { settings } = useSettingsContext();
   const { addNote, updateNote, deleteNote } = useNotes();
   const { batchAddTasks } = useTasks();
+  const { addHabits } = useHabits();
   const { showToast } = useToast();
 
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -42,6 +44,12 @@ export const Notes: React.FC = () => {
   const [extractedTasks, setExtractedTasks] = useState<ExtractedTask[]>([]);
   const [extractionEngine, setExtractionEngine] = useState<'local' | 'gemini'>('local');
   const [targetCatIndex, setTargetCatIndex] = useState(0);
+
+  // AI Habit Extraction states
+  const [isHabitExtracting, setIsHabitExtracting] = useState(false);
+  const [habitExtractOpen, setHabitExtractOpen] = useState(false);
+  const [extractedHabits, setExtractedHabits] = useState<ExtractedHabit[]>([]);
+  const [habitExtractionEngine, setHabitExtractionEngine] = useState<'local' | 'gemini'>('local');
 
   const activeNoteData = useMemo(() => {
     return notes.find(n => n.id === activeNoteId) || null;
@@ -176,6 +184,46 @@ export const Notes: React.FC = () => {
     }
   };
 
+  const handleExtractHabits = async () => {
+    if (!localContent || !localContent.trim()) {
+      showToast('Note content is empty. Write some text first!', 'info');
+      return;
+    }
+
+    setIsHabitExtracting(true);
+    try {
+      const apiKey = typeof settings?.geminiApiKey === 'string' ? settings.geminiApiKey : undefined;
+      const result = await extractHabits(localContent, apiKey);
+      if (result.habits.length === 0) {
+        showToast('No schedule / habit entries detected in this note.', 'info');
+      } else {
+        setExtractedHabits(result.habits);
+        setHabitExtractionEngine(result.engine);
+        setHabitExtractOpen(true);
+      }
+    } catch (err) {
+      console.error('Failed to extract habits', err);
+      showToast('Failed to extract habits', 'error');
+    } finally {
+      setIsHabitExtracting(false);
+    }
+  };
+
+  const toggleExtractedHabit = (id: string) => {
+    setExtractedHabits(prev => prev.map(h => (h.id === id ? { ...h, selected: !h.selected } : h)));
+  };
+
+  const removeExtractedHabit = (id: string) => {
+    setExtractedHabits(prev => prev.filter(h => h.id !== id));
+  };
+
+  const handleConfirmAddHabits = () => {
+    const validHabits = extractedHabits.filter(h => h.selected && h.name.trim().length > 0 && h.time);
+    if (validHabits.length === 0) return;
+    addHabits(validHabits.map(h => ({ name: h.name.trim(), time: h.time })));
+    setHabitExtractOpen(false);
+  };
+
   const toggleExtractedTask = (id: string) => {
     setExtractedTasks(prev => prev.map(t => t.id === id ? { ...t, selected: !t.selected } : t));
   };
@@ -300,6 +348,16 @@ export const Notes: React.FC = () => {
                   aria-label="Extract tasks"
                 >
                   {isExtracting ? <><Icon name="clock" size={14} /> Extracting...</> : <><Icon name="spark" size={14} /> Extract Tasks</>}
+                </button>
+                <button
+                  type="button"
+                  className="btn-extract-tasks"
+                  onClick={handleExtractHabits}
+                  title="Extract Habits from Schedule (AI)"
+                  disabled={isHabitExtracting || !localContent.trim()}
+                  aria-label="Extract habits"
+                >
+                  {isHabitExtracting ? <><Icon name="clock" size={14} /> Extracting...</> : <><Icon name="spark" size={14} /> Extract Habits</>}
                 </button>
                 <button
                   type="button"
@@ -459,6 +517,103 @@ export const Notes: React.FC = () => {
                 disabled={extractedTasks.filter(t => t.selected && t.name.trim().length > 0).length === 0}
               >
                 Add {extractedTasks.filter(t => t.selected && t.name.trim().length > 0).length} Task{extractedTasks.filter(t => t.selected && t.name.trim().length > 0).length !== 1 ? 's' : ''} to Tasks
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {habitExtractOpen && (
+        <div className="extract-modal-overlay">
+          <div className="extract-modal-card">
+            <div className="extract-modal-header">
+              <h3>
+                <span className="extract-modal-title"><Icon name="spark" /> Extract Habits</span>
+                <span className="extract-engine-badge">
+                  {habitExtractionEngine === 'gemini' ? 'Gemini AI' : 'Smart Local Parser'}
+                </span>
+              </h3>
+              <button
+                type="button"
+                className="extract-task-remove"
+                onClick={() => setHabitExtractOpen(false)}
+                title="Close"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="extract-modal-body">
+              <div className="extract-list-toolbar">
+                <span className="extract-count-label">
+                  {extractedHabits.filter(h => h.selected).length} of {extractedHabits.length} selected
+                </span>
+                <div className="extract-selection-helpers">
+                  <button
+                    type="button"
+                    className="extract-text-btn"
+                    onClick={() => setExtractedHabits(prev => prev.map(h => ({ ...h, selected: true })))}
+                  >
+                    Select All
+                  </button>
+                  <span className="extract-divider">•</span>
+                  <button
+                    type="button"
+                    className="extract-text-btn"
+                    onClick={() => setExtractedHabits(prev => prev.map(h => ({ ...h, selected: false })))}
+                  >
+                    Deselect All
+                  </button>
+                </div>
+              </div>
+
+              <div className="extract-task-list">
+                {extractedHabits.map(habit => (
+                  <div key={habit.id} className={`extract-task-item ${habit.selected ? 'is-selected' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={habit.selected}
+                      onChange={() => toggleExtractedHabit(habit.id)}
+                      aria-label="Select habit"
+                    />
+                    <input
+                      type="text"
+                      className="extract-task-input"
+                      value={habit.name}
+                      readOnly
+                      title={`Time: ${habit.time}`}
+                    />
+                    <span className="extract-task-priority">{habit.time}</span>
+                    <button
+                      type="button"
+                      className="extract-task-remove"
+                      onClick={() => removeExtractedHabit(habit.id)}
+                      title="Discard item"
+                      aria-label="Discard habit"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="extract-modal-footer">
+              <button
+                type="button"
+                className="btn btn--outline"
+                onClick={() => setHabitExtractOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn--primary"
+                onClick={handleConfirmAddHabits}
+                disabled={extractedHabits.filter(h => h.selected && h.name.trim().length > 0 && h.time).length === 0}
+              >
+                Add {extractedHabits.filter(h => h.selected && h.name.trim().length > 0 && h.time).length} Habit{extractedHabits.filter(h => h.selected && h.name.trim().length > 0 && h.time).length !== 1 ? 's' : ''} to Habits
               </button>
             </div>
           </div>
