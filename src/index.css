@@ -121,7 +121,7 @@ summary:focus-visible,
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(15, 23, 42, 0.8);
+  background-color: rgba(15, 23, 42, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,9 +131,9 @@ summary:focus-visible,
 }
 
 .modal-container {
-  background-color: #1E293B;
+  background-color: var(--color-surface);
   border-radius: 16px;
-  border: 1px solid #334155;
+  border: 1px solid var(--color-border);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 600px;
@@ -145,7 +145,7 @@ summary:focus-visible,
 
 .modal-header {
   padding: 20px 24px;
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -154,7 +154,7 @@ summary:focus-visible,
 .modal-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #F9FAFB;
+  color: var(--color-text);
 }
 
 .modal-close-btn {
@@ -162,25 +162,38 @@ summary:focus-visible,
   border: none;
   font-size: 2rem;
   line-height: 1;
-  color: #9CA3AF;
+  color: var(--color-muted);
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .modal-close-btn:hover {
-  color: #F9FAFB;
+  color: var(--color-text);
 }
 
 .modal-content {
   padding: 24px;
   overflow-y: auto;
-  color: #CBD5E1;
+  color: var(--color-muted);
 }
 
-.modal-content h3 {
+/* Modal baru memakai kartu di .modal-container; jangan kartu di dalam kartu. */
+.modal-container .modal-content,
+body.light-mode .modal-container .modal-content {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.modal-content h3,
+.modal-content h4 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #F1F5F9;
+  color: var(--color-text);
   margin-bottom: 1rem;
 }
 
@@ -201,7 +214,7 @@ summary:focus-visible,
 
 .modal-footer {
   padding: 16px 24px;
-  border-top: 1px solid #334155;
+  border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: flex-end;
 }
