@@ -22,6 +22,23 @@ export const useHabits = () => {
     showToast(`Habit "${name}" added`, 'success');
   }, [saveHabitSnapshot, setHabits, habits, showToast]);
 
+  const addHabits = useCallback((items: Array<{ name: string; time?: string; repeat?: HabitRepeatConfig; icon?: string }>) => {
+    const valid = items.filter(i => i && i.name && i.name.trim().length > 0);
+    if (valid.length === 0) return;
+    saveHabitSnapshot();
+    const newHabits: Habit[] = valid.map(item => ({
+      id: `habit_${Date.now()}_${Math.random().toString(36).substring(2, 9)}_${Math.random().toString(36).substring(2, 9)}`,
+      name: item.name.trim(),
+      color: 'var(--primary-color)',
+      icon: item.icon || '🎯',
+      createdAt: new Date().toISOString(),
+      repeat: item.repeat,
+      time: item.time
+    }));
+    setHabits(prev => [...prev, ...newHabits]);
+    valid.forEach(item => showToast(`Habit "${item.name.trim()}" added`, 'success'));
+  }, [saveHabitSnapshot, setHabits, showToast]);
+
   const deleteHabit = useCallback((habitId: string) => {
     saveHabitSnapshot();
     setHabits(habits.filter(h => h.id !== habitId));
@@ -78,6 +95,7 @@ export const useHabits = () => {
 
   return {
     addHabit,
+    addHabits,
     deleteHabit,
     toggleHabitDate,
     getCompletionRate

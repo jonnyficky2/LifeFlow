@@ -159,3 +159,123 @@ export async function extractTasks(content: string, apiKey?: string): Promise<Ex
     engine: 'local'
   };
 }
+
+export interface ExtractedHabit {
+  id: string;
+  name: string;
+  time: string;
+  sourceText?: string;
+  selected: boolean;
+}
+
+/**
+ * Local-First Rule-Based Schedule / Habit Extractor.
+ * Parses lines with a leading time (HH:MM or HH.MM) into habit candidates.
+ */
+export function extractHabitsLocal(content: string): ExtractedHabit[] {
+  if (!content || !content.trim()) return [];
+
+  const lines = content.split('\n');
+  const results: ExtractedHabit[] = [];
+  const seen = new Set<string>();
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+
+    const m = line.match(/^(\d{1,2})[:.](\d{2})\s+(.+)$/);
+    if (!m) continue;
+
+    const time = `${m[1].padStart(2, '0')}:${m[2]}`;
+    const name = m[3].replace(/^[-–—.]\s*/, '').trim();
+    if (!name) continue;
+
+    const key = `${time}|${name.toLowerCase()}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    results.push({
+      id: `ext_habit_local_${Date.now()}_${results.length}`,
+      name,
+      time,
+      sourceText: rawLine,
+      selected: true
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Optional Gemini LLM Extractor for schedule / habit entries.
+ * Uses Google Gemini REST API without any external dependencies.
+ */
+export async function extractHabitsWithGemini(content: string, apiKey: string): Promise<ExtractedHabit[]> {
+  const prompt = `Extract all schedule / habit entries from the following content. Each entry must include an activity name and a time (HH:MM).
+  Return ONLY a valid JSON array of objects with keys "name" (string) and "time" (string, HH:MM).
+  Content:
+  ${content}`;
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: 'application/json' }
+        }),
+        signal: controller.signal
+      }
+    );
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Gemini API returned status ${response.status}`);
+    }
+
+    const data = await response.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) return [];
+
+    const parsed = JSON.parse(text);
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed
+      .map((item, idx) => ({
+        id: `ext_habit_gemini_${Date.now()}_${idx}`,
+        name: String(item.name || '').trim(),
+        time: String(item.time || '').trim(),
+        sourceText: content,
+        selected: true
+      }))
+      .filter(h => h.name.length >= 3 && h.time.length > 0);
+  } catch (err) {
+    clearTimeout(timeoutId);
+    throw err;
+  }
+}
+
+/**
+ * Unified Habit Extractor (Invisible AI Architecture).
+ * Tries Gemini if apiKey is provided, otherwise falls back smoothly to local extraction.
+ */
+export async function extractHabits(content: string, apiKey?: string): Promise<ExtractedHabit[]> {
+  if (apiKey && apiKey.trim()) {
+    try {
+      const geminiHabits = await extractHabitsWithGemini(content, apiKey.trim());
+      if (geminiHabits.length > 0) {
+        return geminiHabits;
+      }
+    } catch (e) {
+      console.warn('Gemini habit extraction failed, falling back to local:', e);
+    }
+  }
+
+  return extractHabitsLocal(content);
+}
