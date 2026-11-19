@@ -1,5 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
+import { useAuth } from './AuthContext';
+import { db } from '../services/firebase';
+import { collection, doc, onSnapshot, query, setDoc } from 'firebase/firestore';
 import { STORAGE_KEYS } from './AppContext';
 import { usePersistentState } from '../hooks/usePersistentState';
 import type { Habit, HabitHistory, StreakData } from '../types';
@@ -25,6 +28,32 @@ export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const [undoStack, setUndoStack] = useState<string[]>([]);
   const [redoStack, setRedoStack] = useState<string[]>([]);
+
+  const { user } = useAuth();
+  const habitsRef = useRef<string>('');
+
+  useEffect(() => {
+    if (!user) return;
+    const q = query(collection(db, 'users', user.uid, 'habits'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const mapped = snapshot.docs.map(d => ({ ...(d.data() as Habit), id: d.id }));
+      setHabits(mapped);
+      habitsRef.current = JSON.stringify(mapped);
+    }, (err) => console.error('Failed to sync habits from Firestore:', err));
+    return () => unsubscribe();
+  }, [user, setHabits]);
+
+  useEffect(() => {
+    if (!user || habits.length === 0) return;
+    const current = JSON.stringify(habits);
+    if (current === habitsRef.current) return;
+    habitsRef.current = current;
+    const writes = habits.map(h => {
+      const { id, ...data } = h;
+      return setDoc(doc(db, 'users', user.uid, 'habits', id), data);
+    });
+    Promise.all(writes).catch(err => console.error('Failed to sync habits to Firestore:', err));
+  }, [habits, user]);
 
   const saveHabitSnapshot = () => {
     const snapshot = JSON.stringify({ habits, habitHistory, streakData });
