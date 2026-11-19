@@ -247,7 +247,7 @@ export const Tasks: React.FC = () => {
                 <div>
                   {visibleTasks.map((task) => {
                     // We need original task index for editing/toggling
-                    const originalTaskIndex = category.tasks.indexOf(task);
+                    const originalTaskIndex = (category.tasks || []).indexOf(task);
                     
                     return (
                       <div key={originalTaskIndex} className={`task ${task.done ? "done" : ""} ${justCompletedTasks.has(`${catIndex}-${originalTaskIndex}`) ? "task--just-completed" : ""} ${task.priority || "low"}-priority`} draggable>
