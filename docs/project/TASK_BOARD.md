@@ -822,6 +822,16 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 - **Progress:** 0%
 - **Related Docs:** docs/testing/UAT_CHECKLIST_FINAL.md, docs/project/UI_AUDIT.md
 
+### [TASK-1507] Cross-Device Cloud Sync for All User Data
+- **Description:** Sinkronkan seluruh state pengguna (tasks/kategori, habits, habit history, streak, notes, XP, settings) ke Firestore per akun, termasuk propagasi penghapusan antar device, menggantikan sinkronisasi habit-definition saja.
+- **Priority:** High
+- **Status:** IN_PROGRESS
+- **Dependencies:** TASK-1303, TASK-1304
+- **Acceptance Criteria:** Login dengan akun yang sama di dua device menampilkan data identik; tambah/ubah/hapus task, habit, dan note di device A tampil di device B tanpa reload manual; data akun lama tetap utuh saat berganti akun; build/lint PASS; Manual UAT PASS.
+- **Progress:** 80%
+- **Related Docs:** docs/product/CORE_PRODUCT_PRINCIPLES.md (Local-First, Security & Privacy by Design)
+- **Notes:** Implementasi `users/{uid}/state/{key}` dengan `updatedAt` per dokumen, debounce 800 ms, migrasi habit lama dari `users/{uid}/habits`. `geminiApiKey` sengaja tidak disinkronkan. Butuh verifikasi Firestore rules untuk path `users/{uid}/state/*` sebelum UAT.
+
 ---
 
 ## Archived & Future Roadmap

@@ -427,6 +427,16 @@ reference: docs/project/TASK_BOARD.md
   - `Tasks.tsx` & `Categories.tsx`: 6 tombol yang hanya memakai `btn-primary`/`btn-secondary` tanpa `.btn` ditambahkan base class-nya.
   - Build PASS (119ms), lint 0 error (2 warning lama). Butuh Manual UAT visual light/dark.
 
+- **[TASK-1507] Cross-device cloud sync (Status: IN_PROGRESS / menunggu UAT):**
+  - Root cause: `usePersistentState` hanya menulis ke IndexedDB. Firestore sebelumnya dipakai HabitContext untuk koleksi `users/{uid}/habits` saja (definisi habit), sehingga task, note, habit history, streak, XP, dan settings tidak pernah meninggalkan device.
+  - [src/services/cloudSync.ts](src/services/cloudSync.ts) baru: baca/tulis/dengarkan dokumen `users/{uid}/state/{key}` berisi `{ value, updatedAt }`, plus migrasi habit lama dari `users/{uid}/habits`. `geminiApiKey` dibuang sebelum kirim ke cloud.
+  - [src/hooks/usePersistentState.ts](src/hooks/usePersistentState.ts): hidrasi lokal dulu, lalu tarik cloud. Bandingkan `updatedAt` per key; edit offline yang lebih baru diunggah, bukan ditimpa. Tulis lokal di-debounce 800 ms. `onSnapshot` menerapkan perubahan device lain; array ditulis utuh sehingga penghapusan task/habit/note ikut tersinkron.
+  - Akun berbeda di device yang sama: jika akun baru belum punya data cloud, state lokal di-reset ke default agar data akun lama tidak terbawa. Penanda akun disimpan di `localStorage` (`lifeflow:lastUid`) dan dibaca sekali per uid agar 8 hook tidak saling menimpa.
+  - `HabitContext` tidak lagi punya sinkronisasi Firestore sendiri (dihapus) untuk menghindari dua penulis pada data yang sama.
+  - [src/pages/Settings/Settings.tsx](src/pages/Settings/Settings.tsx): tombol "Sync Now" yang tidak punya handler diganti status nyata (`Auto-sync active for <email>` / `Off`).
+  - Build PASS, `tsc -b` PASS, lint 0 error (1 warning lama di `useHabits.ts`).
+  - Catatan risiko: Firestore rules untuk `users/{uid}/state/*` belum diverifikasi (tidak ada `firestore.rules` di repo); bentrok tulis memakai last-write-wins berbasis jam device; satu dokumen `notes` dibatasi 1 MiB oleh Firestore.
+
 
 
 
