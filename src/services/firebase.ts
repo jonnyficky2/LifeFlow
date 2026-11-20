@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,7 +15,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Firestore
-export const db = getFirestore(app);
+// ignoreUndefinedProperties: field opsional (mis. Habit.repeat) bernilai undefined dan akan
+// membuat setDoc gagal total kalau dibiarkan.
+export const db = initializeFirestore(app, { ignoreUndefinedProperties: true });
 
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
