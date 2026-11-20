@@ -262,9 +262,11 @@ export const Settings: React.FC = () => {
 
         {/* 6. Data Management */}
         <SettingsSection title="Data Management" icon={<Icon name="database" />}>
-          <SettingsItem title="Sync Status" description="Not synced" rightElement={
-            <button className="settings-btn">Sync Now</button>
-          } />
+          <SettingsItem
+            title="Sync Status"
+            description={user ? `Auto-sync active for ${user.email}` : 'Sign in to sync across devices'}
+            rightElement={<span className="settings-stat-label">{user ? 'Synced' : 'Off'}</span>}
+          />
           <SettingsItem title="Backup Data" description="Download a backup JSON" rightElement={
             <button className="settings-btn outline" onClick={handleExport}>Export</button>
           } />
