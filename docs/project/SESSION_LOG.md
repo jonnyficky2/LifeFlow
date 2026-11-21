@@ -419,6 +419,12 @@ reference: docs/project/TASK_BOARD.md
   - Root cause favicon "petir" masih muncul di address bar: `href` di `index.html` memakai path absolut `/LifeFlow/...` sehingga Vite dev server menambahkan `base` lagi menjadi `/LifeFlow/LifeFlow/...` (404). Browser lalu jatuh ke `favicon.ico` lama. Diperbaiki dengan path relatif (`assets/icons/...`), terverifikasi 200 di dev dan build.
 
 ## 2026-11-21
+- **[TASK-1508] Import backup & Reset Data (Status: TESTING):**
+  - Root cause: kedua jalur menulis ke kunci yang salah. `handleImport` hanya `localStorage.setItem`, sedangkan `usePersistentState` memprioritaskan IndexedDB → hasil import diabaikan setelah reload. `handleConfirmReset` hanya `localStorage.clear()` → IndexedDB tidak tersentuh sehingga data kembali. Setelah sync cloud aktif, keduanya juga langsung tertimpa data cloud.
+  - [src/services/db.ts](src/services/db.ts): tambah konstanta `UPDATED_AT_SUFFIX` (dipakai bersama hook) dan `writeLocalState(key, value, at)` yang menulis nilai + stempel waktu ke `localStorage` dan IndexedDB.
+  - [src/pages/Settings/Settings.tsx](src/pages/Settings/Settings.tsx): `applyStateSnapshot` menulis snapshot ke penyimpanan lokal lalu mendorong nilai yang sama ke `users/{uid}/state/*` bila user login, sehingga reload tidak memulihkan data lama. Import memakai helper ini dan menolak file yang tidak memuat satu pun key backup LifeFlow. Reset memakai `EMPTY_STATE` (Inbox kosong, riwayat kosong) dan sengaja tidak menyentuh key `settings` agar tema dan API key tetap. Teks Danger Zone diperbarui: reset berlaku di semua device yang login.
+  - Build PASS, `tsc -b` PASS, lint 0 error (1 warning lama di `useHabits.ts`). Belum di-UAT.
+- **[TASK-1507] Perbaikan pasca-UAT:** [src/services/firebase.ts](src/services/firebase.ts) memakai `initializeFirestore(app, { ignoreUndefinedProperties: true })`. `addHabit`/`addHabits` menyimpan `repeat` dan `time` sebagai `undefined`; Firestore menolak `undefined` sehingga seluruh dokumen `state/habits` (termasuk penghapusan) gagal ditulis tanpa pesan di UI.
 - **Ikon habit diganti dari emoji ke ikon SVG:**
   - `src/pages/Habits/Habits.tsx`: input teks "Icon (Emoji)" di modal Create Habit diganti icon picker 12 pilihan (target, book, dumbbell, droplets, moon, sun, heart, brain, coffee, bike, footprints, apple) dengan `aria-pressed` dan `role="group"`. Nilai disimpan sebagai nama ikon di field `Habit.icon` yang sudah ada, jadi tidak perlu migrasi data.
   - Habit lama yang masih menyimpan emoji tetap tampil sebagai emoji (fallback di render), habit baru memakai `<Icon>`.
