@@ -15,6 +15,22 @@ import { Modal } from '../../components/ui/Modal';
 import { privacyPolicy, termsOfService, openSourceLicenses } from '../../data/legalContent';
 import packageJson from '../../../package.json';
 import { DEFAULT_AVATAR } from '../../components/layout/assets';
+import { writeLocalState } from '../../services/db';
+import { pushCloudValue } from '../../services/cloudSync';
+
+// Reset mengosongkan semua domain data. Settings sengaja dipertahankan karena berisi
+// preferensi tema dan API key milik pengguna.
+const EMPTY_STATE: Record<string, unknown> = {
+  [STORAGE_KEYS.APP_DATA]: [{ name: 'Inbox', tasks: [] }],
+  [STORAGE_KEYS.XP]: 0,
+  [STORAGE_KEYS.HABITS]: [],
+  [STORAGE_KEYS.HABIT_HISTORY]: {},
+  [STORAGE_KEYS.STREAK_DATA]: [],
+  [STORAGE_KEYS.HISTORY_DATA]: {},
+  [STORAGE_KEYS.NOTES]: [],
+};
+
+const BACKUP_KEYS = ['appData', 'xp', 'habits', 'historyData', 'habitHistory', 'streakData', 'notes'];
 
 export const Settings: React.FC = () => {
   const { isAppLoading, xp, historyData } = useAppContext();
@@ -56,6 +72,17 @@ export const Settings: React.FC = () => {
   const completedTasks = allTasks.filter(t => t.done).length;
   const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
+  // Import dan Reset mengubah state di luar hook, jadi nilainya ditulis ke IndexedDB lengkap
+  // dengan stempel waktu sekarang, lalu didorong ke cloud. Tanpa itu, reload berikutnya akan
+  // memulihkan data lama dari cloud dan hasil import/reset seolah hilang.
+  const applyStateSnapshot = async (values: Record<string, unknown>) => {
+    const now = Date.now();
+    await Promise.all(Object.entries(values).map(async ([key, value]) => {
+      await writeLocalState(key, value, now);
+      if (user) await pushCloudValue(user.uid, key, value, now);
+    }));
+  };
+
   const handleExport = () => {
     const exportPayload = {
       appData,
@@ -84,17 +111,23 @@ export const Settings: React.FC = () => {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const imported = JSON.parse(e.target?.result as string);
+        // Tolak file yang bukan backup LifeFlow supaya tidak mengosongkan data pengguna.
+        if (!imported || typeof imported !== 'object' || !BACKUP_KEYS.some(k => k in imported)) {
+          throw new Error('File bukan backup LifeFlow');
+        }
 
-        localStorage.setItem(STORAGE_KEYS.APP_DATA, JSON.stringify(imported.appData || []));
-        localStorage.setItem(STORAGE_KEYS.XP, (Number(imported.xp) || 0).toString());
-        localStorage.setItem(STORAGE_KEYS.HABITS, JSON.stringify(imported.habits || []));
-        localStorage.setItem(STORAGE_KEYS.HISTORY_DATA, JSON.stringify(imported.historyData || {}));
-        localStorage.setItem(STORAGE_KEYS.HABIT_HISTORY, JSON.stringify(imported.habitHistory || {}));
-        localStorage.setItem(STORAGE_KEYS.STREAK_DATA, JSON.stringify(imported.streakData || []));
-        localStorage.setItem(STORAGE_KEYS.NOTES, JSON.stringify(imported.notes || []));
+        await applyStateSnapshot({
+          [STORAGE_KEYS.APP_DATA]: imported.appData || [],
+          [STORAGE_KEYS.XP]: Number(imported.xp) || 0,
+          [STORAGE_KEYS.HABITS]: imported.habits || [],
+          [STORAGE_KEYS.HISTORY_DATA]: imported.historyData || {},
+          [STORAGE_KEYS.HABIT_HISTORY]: imported.habitHistory || {},
+          [STORAGE_KEYS.STREAK_DATA]: imported.streakData || [],
+          [STORAGE_KEYS.NOTES]: imported.notes || [],
+        });
 
         showToast("Data restored successfully! Reloading...", 'success');
         
@@ -113,8 +146,8 @@ export const Settings: React.FC = () => {
     setConfirmOpen(true);
   };
 
-  const handleConfirmReset = () => {
-    localStorage.clear();
+  const handleConfirmReset = async () => {
+    await applyStateSnapshot(EMPTY_STATE);
     window.location.reload();
   };
 
@@ -314,7 +347,7 @@ export const Settings: React.FC = () => {
 
         {/* Danger Zone */}
         <SettingsSection title="Danger Zone" icon={<Icon name="warning" />} className="settings-section--danger">
-          <SettingsItem title="Reset Data" description="Clear all local data and restore defaults" rightElement={
+          <SettingsItem title="Reset Data" description="Delete tasks, habits, and notes for this account on every synced device, then restore defaults." rightElement={
             <button className="settings-btn solid-danger" onClick={handleResetData}>Reset Application Data</button>
           } />
         </SettingsSection>
@@ -326,7 +359,7 @@ export const Settings: React.FC = () => {
         <div className="modal show">
           <div className="modal-content settings-confirm-modal">
             <h3>Reset Application Data</h3>
-            <p className="settings-confirm-text">Are you sure you want to permanently delete all your tasks, habits, and notes? This action cannot be undone.</p>
+            <p className="settings-confirm-text">Are you sure you want to permanently delete all your tasks, habits, and notes? This also deletes them on every other device signed in to this account, and cannot be undone. Your theme and API key are kept.</p>
             <div className="settings-confirm-actions">
               <button className="btn btn-danger" onClick={handleConfirmReset}>Reset Data</button>
               <button className="btn btn-secondary" onClick={() => setConfirmOpen(false)}>Cancel</button>

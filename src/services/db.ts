@@ -30,3 +30,13 @@ export const setDbData = async (key: string, value: unknown): Promise<void> => {
     console.error(`Gagal menyimpan ${key} ke IndexedDB:`, error);
   }
 };
+
+export const UPDATED_AT_SUFFIX = ':updatedAt';
+
+// Dipakai Import dan Reset yang mengubah state di luar hook: tulis nilai sekaligus stempel
+// waktunya, supaya sinkronisasi menganggapnya sebagai versi terbaru dan tidak ditimpa cloud.
+export const writeLocalState = async (key: string, value: unknown, at: number): Promise<void> => {
+  localStorage.setItem(key, JSON.stringify(value));
+  await setDbData(key, value);
+  await setDbData(key + UPDATED_AT_SUFFIX, at);
+};

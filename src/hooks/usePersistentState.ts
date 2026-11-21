@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { auth } from '../services/firebase';
-import { getDbData, setDbData } from '../services/db';
+import { getDbData, setDbData, UPDATED_AT_SUFFIX } from '../services/db';
 import {
   pullCloudValue,
   pushCloudValue,
@@ -13,7 +13,6 @@ import {
 } from '../services/cloudSync';
 import type { CloudRecord } from '../services/cloudSync';
 
-const UPDATED_AT_SUFFIX = ':updatedAt';
 const PUSH_DEBOUNCE_MS = 800;
 const SETTINGS_KEY = 'settings';
 const HABITS_KEY = 'habits';
