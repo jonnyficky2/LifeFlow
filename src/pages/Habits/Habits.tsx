@@ -1,4 +1,5 @@
 import { Icon } from '../../components/ui/Icon';
+import type { IconName } from '../../components/ui/Icon';
 import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useHabitContext } from '../../context/HabitContext';
@@ -8,6 +9,24 @@ import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
 import './Habits.css';
 
+const HABIT_ICON_NAMES = [
+  'target',
+  'book',
+  'dumbbell',
+  'droplets',
+  'moon',
+  'sun',
+  'heart',
+  'brain',
+  'coffee',
+  'bike',
+  'footprints',
+  'apple',
+] as const;
+
+const isHabitIconName = (value: string): value is IconName =>
+  (HABIT_ICON_NAMES as readonly string[]).includes(value);
+
 export const Habits: React.FC = () => {
   const { isAppLoading } = useAppContext();
   const { habits, habitHistory } = useHabitContext();
@@ -16,7 +35,7 @@ export const Habits: React.FC = () => {
   // Create Habit Modal State
   const [habitModalOpen, setHabitModalOpen] = useState(false);
   const [newHabitName, setNewHabitName] = useState('');
-  const [newHabitIcon, setNewHabitIcon] = useState('🎯');
+  const [newHabitIcon, setNewHabitIcon] = useState<string>('target');
   const [repeatType, setRepeatType] = useState<HabitRepeatType>('daily');
   const [repeatDays, setRepeatDays] = useState<number[]>([]);
   const [repeatDate, setRepeatDate] = useState<number>(1);
@@ -74,7 +93,7 @@ export const Habits: React.FC = () => {
 
   const handleCreateHabit = () => {
     setNewHabitName('');
-    setNewHabitIcon('🎯');
+    setNewHabitIcon('target');
     setRepeatType('daily');
     setRepeatDays([]);
     setRepeatDate(1);
@@ -88,7 +107,7 @@ export const Habits: React.FC = () => {
       if (repeatType === 'custom') repeatConfig.customDays = repeatDays;
       if (repeatType === 'monthly') repeatConfig.customDate = repeatDate;
 
-      addHabit(newHabitName.trim(), 'var(--primary-color)', newHabitIcon.trim() || '🎯', repeatConfig, newHabitTime);
+      addHabit(newHabitName.trim(), 'var(--primary-color)', newHabitIcon || 'target', repeatConfig, newHabitTime);
       setHabitModalOpen(false);
     }
   };
@@ -167,7 +186,9 @@ export const Habits: React.FC = () => {
               <div key={habit.id} className="habit-row">
                 <div className="habit-row-header">
                   <div className="habit-info">
-                    <div className="habit-icon">{habit.icon}</div>
+                    <div className="habit-icon">
+                      {isHabitIconName(habit.icon) ? <Icon name={habit.icon} size={20} /> : habit.icon}
+                    </div>
                     <div>
                       <h3 className="habit-title">{habit.name}</h3>
                       <div className="habit-stats">
@@ -254,16 +275,21 @@ export const Habits: React.FC = () => {
               />
             </div>
             <div className="form-group habit-field">
-              <label htmlFor="habitIconInput">Icon (Emoji)</label>
-              <input 
-                id="habitIconInput"
-                type="text" 
-                className="form-input"
-                placeholder="e.g. 🎯"
-                value={newHabitIcon}
-                onChange={(e) => setNewHabitIcon(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleCreateHabitSubmit()}
-              />
+              <span className="habit-field-label" id="habitIconLabel">Icon</span>
+              <div className="habit-icon-picker" role="group" aria-labelledby="habitIconLabel">
+                {HABIT_ICON_NAMES.map(name => (
+                  <button
+                    key={name}
+                    type="button"
+                    className={`habit-icon-option${newHabitIcon === name ? ' is-selected' : ''}`}
+                    aria-label={name}
+                    aria-pressed={newHabitIcon === name}
+                    onClick={() => setNewHabitIcon(name)}
+                  >
+                    <Icon name={name} size={18} />
+                  </button>
+                ))}
+              </div>
             </div>
             
             <div className="form-group habit-field">

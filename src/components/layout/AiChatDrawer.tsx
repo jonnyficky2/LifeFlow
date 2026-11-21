@@ -129,7 +129,7 @@ export const AiChatDrawer: React.FC = () => {
 
           if (action.type === 'create_habit') {
             const name = action.payload.taskName;
-            addHabit(name, 'var(--primary-color)', '🎯', undefined, action.payload.time);
+            addHabit(name, 'var(--primary-color)', 'target', undefined, action.payload.time);
             continue;
           }
         }

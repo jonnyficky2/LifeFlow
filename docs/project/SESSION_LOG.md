@@ -417,6 +417,15 @@ reference: docs/project/TASK_BOARD.md
   - `src/assets/css/style.css`: logo LifeFlow menyatu dengan dark mode karena `lifeflow-mark.svg` memakai `stroke="currentColor"` yang di dalam `<img>` selalu resolve ke hitam. Ditambahkan `filter: brightness(0) invert(1)` untuk `body:not(.light-mode)` pada `.navbar-logo` dan `.app-sidebar-brand .sidebar-profile-img`. Light mode tetap hitam karena sidebar light mode berlatar terang.
   - Aset brand: `favicon.svg`, `favicon.ico`, dan `assets/icons/icon.svg` ternyata masih logo template Vite dan dipakai sebagai favicon, apple-touch-icon, serta ikon PWA manifest. Dibuat `public/assets/icons/lifeflow-favicon.svg` (tile navy `#0F172A` + mark putih agar terbaca di tab terang/gelap) dan `lifeflow-favicon-180.png` (180×180 via `qlmanage`) untuk iOS. `index.html` dan `manifest.icons`/`includeAssets` di `vite.config.ts` diarahkan ke aset baru; ketiga aset Vite dihapus.
   - Root cause favicon "petir" masih muncul di address bar: `href` di `index.html` memakai path absolut `/LifeFlow/...` sehingga Vite dev server menambahkan `base` lagi menjadi `/LifeFlow/LifeFlow/...` (404). Browser lalu jatuh ke `favicon.ico` lama. Diperbaiki dengan path relatif (`assets/icons/...`), terverifikasi 200 di dev dan build.
+
+## 2026-11-21
+- **Ikon habit diganti dari emoji ke ikon SVG:**
+  - `src/pages/Habits/Habits.tsx`: input teks "Icon (Emoji)" di modal Create Habit diganti icon picker 12 pilihan (target, book, dumbbell, droplets, moon, sun, heart, brain, coffee, bike, footprints, apple) dengan `aria-pressed` dan `role="group"`. Nilai disimpan sebagai nama ikon di field `Habit.icon` yang sudah ada, jadi tidak perlu migrasi data.
+  - Habit lama yang masih menyimpan emoji tetap tampil sebagai emoji (fallback di render), habit baru memakai `<Icon>`.
+  - `src/components/ui/Icon.tsx`: menambahkan 12 ikon habit ke map `icons`.
+  - `src/pages/Habits/Habits.css`: style `.habit-icon-picker`, `.habit-icon-option`, `.habit-field-label`.
+  - `src/components/layout/AiChatDrawer.tsx`: habit yang dibuat lewat AI assistant memakai ikon `target`, bukan `🎯`.
+  - Build PASS, lint tanpa warning baru.
 - **Migrasi ikon ke `lucide-react` + sistem tombol terpusat (belum UAT):**
   - `lucide-react@1.74.0` dipasang; sebelumnya hanya ada di project PORTOFOLIO/RESTAURANT, bukan di LifeFlow.
   - [src/components/ui/Icon.tsx](src/components/ui/Icon.tsx): 19 nama ikon dipetakan ke ikon lucide (`House`, `ListChecks`, `Repeat`, `Timer`, `ChartLine`, `ChartColumn`, `StickyNote`, `Pin`, dst) dengan `strokeWidth={1.8}`. API `<Icon name size className>` dipertahankan sehingga 50 call site tidak berubah. Bundle index +8 KB.

@@ -26,6 +26,18 @@ import {
   Database,
   File,
   Smartphone,
+  Target,
+  Book,
+  Dumbbell,
+  Droplets,
+  Moon,
+  Sun,
+  Heart,
+  Brain,
+  Coffee,
+  Bike,
+  Footprints,
+  Apple,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -56,6 +68,19 @@ const icons = {
   database: Database,
   file: File,
   smartphone: Smartphone,
+  /* Ikon habit: nama disimpan sebagai string di Habit.icon */
+  target: Target,
+  book: Book,
+  dumbbell: Dumbbell,
+  droplets: Droplets,
+  moon: Moon,
+  sun: Sun,
+  heart: Heart,
+  brain: Brain,
+  coffee: Coffee,
+  bike: Bike,
+  footprints: Footprints,
+  apple: Apple,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;
