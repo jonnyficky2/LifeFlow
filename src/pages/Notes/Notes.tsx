@@ -11,6 +11,7 @@ import { useToast } from '../../context/ToastContext';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { extractTasks, extractHabits, type ExtractedTask, type ExtractedHabit } from '../../utils/aiExtractor';
+import { noteDisplayTitle } from '../../utils/noteTitle';
 import './Notes.css';
 
 export const Notes: React.FC = () => {
@@ -58,7 +59,8 @@ export const Notes: React.FC = () => {
   // Sync local state when changing selected note
   useEffect(() => {
     if (activeNoteData) {
-      setLocalTitle(activeNoteData.title);
+      // 'Untitled Note' dari catatan lama dianggap belum berjudul agar placeholder 2 kata pertama tampil.
+      setLocalTitle(activeNoteData.title === 'Untitled Note' ? '' : activeNoteData.title);
       setLocalContent(activeNoteData.content);
       setLocalDeadline(activeNoteData.deadline || '');
       setLocalTime(activeNoteData.time || '');
@@ -149,7 +151,7 @@ export const Notes: React.FC = () => {
   }, [filteredNotes]);
 
   const handleCreateNote = () => {
-    const newId = addNote('Untitled Note');
+    const newId = addNote('');
     setActiveNoteId(newId);
   };
 
@@ -293,7 +295,7 @@ export const Notes: React.FC = () => {
                     className={`note-item ${note.id === activeNoteId ? 'is-active' : ''}`}
                     onClick={() => setActiveNoteId(note.id)}
                   >
-                    <h4>{note.title || 'Untitled Note'}</h4>
+                    <h4>{noteDisplayTitle(note)}</h4>
                     <p>{formatDate(note.updatedAt)}</p>
                   </div>
                 ))}
@@ -328,15 +330,7 @@ export const Notes: React.FC = () => {
                 className="note-title-input" 
                 value={localTitle}
                 onChange={(e) => setLocalTitle(e.target.value)}
-                placeholder="Untitled Note"
-                onKeyDown={(e) => {
-                  if (localTitle === 'Untitled Note') {
-                    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
-                      e.preventDefault();
-                      setLocalTitle(e.key);
-                    }
-                  }
-                }}
+                placeholder={noteDisplayTitle({ content: localContent })}
               />
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <button

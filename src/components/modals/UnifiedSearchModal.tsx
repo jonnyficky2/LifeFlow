@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import { useTaskContext } from '../../context/TaskContext';
 import { useNoteContext } from '../../context/NoteContext';
+import { noteDisplayTitle } from '../../utils/noteTitle';
 import './UnifiedSearchModal.css';
 
 export const UnifiedSearchModal: React.FC = () => {
@@ -100,7 +101,7 @@ export const UnifiedSearchModal: React.FC = () => {
         noteMatches.push({
           type: 'note',
           id: `note-${note.id}`,
-          title: note.title || 'Untitled Note',
+          title: noteDisplayTitle(note),
           subtitle: excerpt ? `${excerpt}...` : 'Catatan kosong'
         });
       }

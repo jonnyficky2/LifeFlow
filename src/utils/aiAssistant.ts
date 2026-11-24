@@ -1,4 +1,5 @@
 import type { Category, Habit, Note, Task } from '../types';
+import { noteDisplayTitle } from './noteTitle';
 
 const GEMINI_MODEL = 'gemini-3.8-flash';
 const GEMINI_FALLBACK_MODEL = 'gemini-3.5-flash-lite';
@@ -198,7 +199,7 @@ function answerBroadTopic(topic: 'tasks' | 'notes' | 'habits' | 'calendar', cont
       ? (shown as typeof notes).map(note => ({
         type: 'note',
         id: note.id,
-        title: note.title || 'Untitled Note',
+        title: noteDisplayTitle(note),
         subtitle: note.content.replace(/[#*`\n]/g, ' ').trim().slice(0, 60) || 'Catatan kosong',
         section: 'notes'
       }))
@@ -545,11 +546,11 @@ function parseOfflineNoteCommand(query: string, context: KnowledgeContext): Assi
 
   if (existing) {
     return {
-      reply: `Catatan "${existing.title}" sudah ada. ${deadlineStr ? `deadline diset ke ${deadlineStr}` : ''}${timeStr ? `${deadlineStr ? ' dan ' : ''}waktu diset ke ${timeStr}` : ''}`.trim(),
+      reply: `Catatan "${noteDisplayTitle(existing)}" sudah ada. ${deadlineStr ? `deadline diset ke ${deadlineStr}` : ''}${timeStr ? `${deadlineStr ? ' dan ' : ''}waktu diset ke ${timeStr}` : ''}`.trim(),
       references: [{
         type: 'note',
         id: existing.id,
-        title: existing.title || 'Untitled Note',
+        title: noteDisplayTitle(existing),
         subtitle: formatNoteSubtitle(existing),
         section: 'notes'
       }],
@@ -1011,7 +1012,7 @@ export function searchLocalKnowledge(query: string, context: KnowledgeContext): 
     references.push({
       type: 'note',
       id: note.id,
-      title: note.title || 'Untitled Note',
+      title: noteDisplayTitle(note),
       subtitle: excerpt ? `${excerpt}...` : 'Catatan kosong',
       section: 'notes'
     });
@@ -1105,7 +1106,7 @@ export async function queryGeminiWithContext(
 
   const notesSummary = notes.map(n => ({
     id: n.id,
-    title: n.title || 'Untitled Note',
+    title: noteDisplayTitle(n),
     deadline: n.deadline || null,
     excerpt: n.content.replace(/[#*`\n]/g, ' ').trim().slice(0, 120)
   }));
