@@ -25,6 +25,7 @@ export const Notes: React.FC = () => {
   const { showToast } = useToast();
 
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
 
   useEffect(() => {
     if (!activeNoteId && notes.length > 0) {
@@ -153,6 +154,7 @@ export const Notes: React.FC = () => {
   const handleCreateNote = () => {
     const newId = addNote('');
     setActiveNoteId(newId);
+    setIsEditorOpen(true);
   };
 
   const handleDelete = () => {
@@ -264,7 +266,7 @@ export const Notes: React.FC = () => {
   };
 
   return (
-    <div className="notes-wrapper">
+    <div className={`notes-wrapper ${isEditorOpen ? 'is-editor-open' : 'is-list-open'}`}>
       {/* Left Pane: List */}
       <div className="notes-sidebar">
         <div className="notes-sidebar-header">
@@ -293,7 +295,10 @@ export const Notes: React.FC = () => {
                   <div 
                     key={note.id} 
                     className={`note-item ${note.id === activeNoteId ? 'is-active' : ''}`}
-                    onClick={() => setActiveNoteId(note.id)}
+                    onClick={() => {
+                      setActiveNoteId(note.id);
+                      setIsEditorOpen(true);
+                    }}
                   >
                     <h4>{noteDisplayTitle(note)}</h4>
                     <p>{formatDate(note.updatedAt)}</p>
@@ -325,13 +330,25 @@ export const Notes: React.FC = () => {
         ) : (
           <>
             <div className="notes-editor-header">
-              <input 
-                type="text" 
-                className="note-title-input" 
-                value={localTitle}
-                onChange={(e) => setLocalTitle(e.target.value)}
-                placeholder={noteDisplayTitle({ content: localContent })}
-              />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
+                {/* Tombol kembali khusus mobile saat di editor */}
+                <button
+                  type="button"
+                  className="btn btn-secondary notes-back-btn"
+                  onClick={() => setIsEditorOpen(false)}
+                  aria-label="Back to notes list"
+                  style={{ display: 'none', padding: '6px 10px' }}
+                >
+                  <Icon name="back" size={16} /> Back
+                </button>
+                <input 
+                  type="text" 
+                  className="note-title-input" 
+                  value={localTitle}
+                  onChange={(e) => setLocalTitle(e.target.value)}
+                  placeholder={noteDisplayTitle({ content: localContent })}
+                />
+              </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <button
                   type="button"
@@ -626,6 +643,7 @@ export const Notes: React.FC = () => {
                 if (activeNoteId) {
                   deleteNote(activeNoteId);
                   setActiveNoteId(null);
+                  setIsEditorOpen(false);
                 }
                 setConfirmOpen(false);
               }}>Delete</button>

@@ -10,11 +10,9 @@ import { EmptyState } from '../../components/ui/EmptyState';
 export const Tasks: React.FC = () => {
   const { isAppLoading } = useAppContext();
   const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask, setAppData, saveTaskSnapshot, undoTask, redoTask } = useTaskContext();
-  const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory, addTask } = useTasks();
+  const { toggleTask, toggleSubtask, deleteTask, deleteCategory, addCategory } = useTasks();
 
   const [filter, setFilter] = useState<'all' | 'pending' | 'done'>('all');
-  const [quickTaskName, setQuickTaskName] = useState('');
-  const [quickTaskCategory, setQuickTaskCategory] = useState(0);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [isAddingCategory, setIsAddingCategory] = useState(false);
 
@@ -73,14 +71,6 @@ export const Tasks: React.FC = () => {
     setTargetTaskIndex(null);
   };
 
-  const handleQuickTaskSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const name = quickTaskName.trim();
-    if (!name || !appData[quickTaskCategory]) return;
-    addTask(quickTaskCategory, name);
-    setQuickTaskName('');
-  };
-
   const filterTask = (task: Task) => {
     return (
       filter === "all" ||
@@ -136,30 +126,6 @@ export const Tasks: React.FC = () => {
           <button type="button" className="btn btn-primary" onClick={() => handleAddTask(0)}>+ Add task</button>
         </div>
       </div>
-
-      {appData.length > 0 && !isAppLoading && (
-        <form className="tasks-quick-add" onSubmit={handleQuickTaskSubmit}>
-          <input
-            type="text"
-            className="tasks-quick-add__input"
-            placeholder="Add a task and press Enter..."
-            aria-label="New task name"
-            value={quickTaskName}
-            onChange={(e) => setQuickTaskName(e.target.value)}
-          />
-          <select
-            className="tasks-quick-add__category"
-            aria-label="Task category"
-            value={quickTaskCategory}
-            onChange={(e) => setQuickTaskCategory(Number(e.target.value))}
-          >
-            {appData.map((category, index) => (
-              <option key={`${category.name}-${index}`} value={index}>{category.name}</option>
-            ))}
-          </select>
-          <button type="submit" className="tasks-quick-add__submit">Add</button>
-        </form>
-      )}
 
       <div className="dashboard-panel tasks-panel">
         <div className="panel-header">

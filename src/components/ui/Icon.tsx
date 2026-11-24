@@ -38,6 +38,7 @@ import {
   Bike,
   Footprints,
   Apple,
+  ChevronLeft,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -81,6 +82,7 @@ const icons = {
   bike: Bike,
   footprints: Footprints,
   apple: Apple,
+  back: ChevronLeft,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;
