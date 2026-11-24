@@ -1183,6 +1183,8 @@ body.light-mode #bottomNav button{
 
   background:transparent;
 
+  border: 0;
+
   color: var(--color-muted);
 }
 
@@ -2956,6 +2958,16 @@ body.light-mode #levelBox {
 
 .panel-tabs button.is-active {
   color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+/* Tab buttons must stay flat in light mode; the generic light button rule adds a gradient + border. */
+body.light-mode .panel-tabs button {
+  background: transparent;
+  border: 0;
+}
+
+body.light-mode .panel-tabs button.is-active {
   border-bottom: 2px solid var(--color-primary);
 }
 

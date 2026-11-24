@@ -807,11 +807,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1505] Responsive and Theme Parity Verification
 - **Description:** Uji dan perbaiki overflow, modal, navbar, sidebar, bottom nav, dashboard, dan theme pada viewport target desktop, tablet, dan mobile.
 - **Priority:** High
-- **Status:** NOT_STARTED
+- **Status:** DONE
 - **Dependencies:** TASK-1501, TASK-1502, TASK-1503, TASK-1504
 - **Acceptance Criteria:** Tidak ada horizontal overflow atau elemen terpotong pada 375x812, 390x844, 768x1024, 1024x768, 1280x800, dan 1440x900; dark/light mode konsisten; keyboard focus terlihat.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/design/DESIGN_REVIEW.md, docs/testing/UAT_CHECKLIST_FINAL.md
+- **Notes:** Audit headless Chrome pada 6 viewport dan 8 halaman (dark + light) tidak menemukan horizontal overflow (`scrollWidth === innerWidth`) maupun console error. Perbaikan: header Habits di mobile kini stacked dengan judul rata kiri (ikon + judul satu baris) dan tombol full-width; header Calendar mobile memakai judul 1.1rem agar tidak wrap di antara tombol Prev/Next; tab `All/Pending/Done` dan tombol bottom nav tidak lagi memakai gradient/border dari aturan generik light-mode sehingga tampil sama dengan dark mode. Keyboard focus-visible 2px terverifikasi pada Tab stop navbar dan navigasi. Build PASS, lint 0 error (1 warning lama di `useHabits.ts`). Manual UAT PASS oleh pengguna pada 6 viewport target (dark + light). TASK-1504 (ikon/logo) masih `NOT_STARTED` dan tidak termasuk perubahan ini.
 
 ### [TASK-1506] Browser QA and Manual UAT for UX Remediation
 - **Description:** Jalankan smoke test, interaction test, screenshot review, dan Manual UAT untuk seluruh perubahan M15.
@@ -825,12 +826,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1507] Cross-Device Cloud Sync for All User Data
 - **Description:** Sinkronkan seluruh state pengguna (tasks/kategori, habits, habit history, streak, notes, XP, settings) ke Firestore per akun, termasuk propagasi penghapusan antar device, menggantikan sinkronisasi habit-definition saja.
 - **Priority:** High
-- **Status:** IN_PROGRESS
+- **Status:** DONE
 - **Dependencies:** TASK-1303, TASK-1304
 - **Acceptance Criteria:** Login dengan akun yang sama di dua device menampilkan data identik; tambah/ubah/hapus task, habit, dan note di device A tampil di device B tanpa reload manual; data akun lama tetap utuh saat berganti akun; build/lint PASS; Manual UAT PASS.
-- **Progress:** 80%
+- **Progress:** 100%
 - **Related Docs:** docs/product/CORE_PRODUCT_PRINCIPLES.md (Local-First, Security & Privacy by Design)
-- **Notes:** Implementasi `users/{uid}/state/{key}` dengan `updatedAt` per dokumen, debounce 800 ms, migrasi habit lama dari `users/{uid}/habits`. `geminiApiKey` sengaja tidak disinkronkan. Butuh verifikasi Firestore rules untuk path `users/{uid}/state/*` sebelum UAT.
+- **Notes:** Implementasi `users/{uid}/state/{key}` dengan `updatedAt` per dokumen, debounce 800 ms, migrasi habit lama dari `users/{uid}/habits`. `geminiApiKey` sengaja tidak disinkronkan. Firestore rules aktif: `match /users/{userId}/{document=**} { allow read, write: if request.auth != null && request.auth.uid == userId; }` setelah rules lama (batas waktu `timestamp.date(2026, 7, 4)` dan variabel `userId` di luar match path) menyebabkan `permission-denied` pada 8 dokumen `state/*`. Manual UAT PASS oleh pengguna; warning React "setState while rendering" pada `toggleTask` diperbaiki dan terverifikasi tanpa console error.
 
 ### [TASK-1508] Backup Import and Data Reset Actually Persist
 - **Description:** Perbaiki Import backup dan Reset Data yang hanya menulis/menghapus `localStorage` sehingga diabaikan oleh `usePersistentState` (IndexedDB diprioritaskan) dan tertimpa data cloud saat reload.

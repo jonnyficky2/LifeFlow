@@ -200,6 +200,18 @@
   }
 }
 
+@media (max-width: 480px) {
+  .calendar-header h2 {
+    font-size: 1.1rem;
+    white-space: nowrap;
+  }
+
+  .calendar-nav-btn {
+    padding: var(--space-2) 10px;
+    font-size: 0.85rem;
+  }
+}
+
 body.light-mode .calendar-cell {
   background: var(--bg-secondary);
   border-color: var(--border-color);

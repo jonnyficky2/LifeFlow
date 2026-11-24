@@ -2,6 +2,37 @@
 
 ---
 
+## 2026-11-24 — Firestore Rules Fix & setState-in-Render Fix (TASK-1505, TASK-1507)
+- **Status:** `[TASK-1505]` dan `[TASK-1507]` **DONE** (Manual UAT PASS oleh pengguna, 2026-11-24); `[TASK-1508]` tetap `TESTING` (90%).
+- **Pekerjaan Sesi Ini:**
+  - Diagnosis `permission-denied` pada 8 dokumen `users/{uid}/state/*`: rule `request.time < timestamp.date(2026, 7, 4)` sudah kedaluwarsa dan rule `request.auth.uid == userId` dipasang di `match /{document=**}` yang tidak mendefinisikan `userId`. Pengguna mengganti rules dengan `match /users/{userId}/{document=**} { allow read, write: if request.auth != null && request.auth.uid == userId; }` dan simulator `get`/`create`/`update`/`delete` menjadi allowed.
+  - Perbaikan warning React "Cannot update a component (`AppProvider`) while rendering a different component (`TaskProvider`)" di `src/hooks/useTasks.ts`: `toggleTask` tidak lagi memanggil `setAppData` dengan updater yang di dalamnya memanggil `setStreakData`/`setHistoryData`/`setXp`; data baru dihitung dari `appData` lalu `setAppData(newData)` dan setter provider lain dipanggil di luar updater.
+  - Verifikasi otomatis (Chrome headless CDP): tambah task via quick-add → toggle checkbox → task masuk `.task.done`. Hasil: 0 warning `setState-in-render`, 0 console error.
+  - Catatan sisa: log `Fetch API cannot load https://firestore.googleapis.com/... due to access control checks` bukan penolakan rules (tidak ada kode `permission-denied`), melainkan blokir transport di browser; perlu diuji ulang dengan extension/privacy blocker dimatikan.
+- **Rencana Berikutnya:** `[TASK-1508]` (import backup + reset data) menunggu Manual UAT; `[TASK-1506]` (browser QA) dan `[TASK-1504]` (ikon/logo) belum dimulai.
+- **Build/Lint:** `npm run build` PASS; `npm run lint` 0 error (1 warning lama `react-hooks/exhaustive-deps` di `useHabits.ts`).
+
+---
+
+## 2026-11-23 — TASK-1505 Responsive & Theme Parity Verification
+- **Status:** `[TASK-1505]` di status `TESTING` (menunggu Manual UAT); `[TASK-1508]` tetap `TESTING`.
+- **Pekerjaan Sesi Ini:**
+  - Audit responsive + theme menggunakan Chrome headless (CDP) pada viewport 375x812, 390x844, 768x1024, 1024x768, 1280x800, dan 1440x900 untuk halaman Dashboard, Tasks, Notes, Calendar, Habits, Focus, Reports, dan Settings, baik dark maupun light mode.
+  - Hasil: tidak ada horizontal overflow (`documentElement.scrollWidth === innerWidth`) dan tidak ada console error/uncaught exception pada semua kombinasi viewport × halaman. Modal Add Task (termasuk Advanced Options), Unified Search, dan Sidebar muat dalam viewport 375px.
+  - Perbaikan responsive:
+    - `Habits.css`: header Habits di ≤640px stacked, judul rata kiri dengan ikon sebaris, tombol `+ Add habit` full-width.
+    - `Calendar.css`: judul bulan di ≤480px diperkecil ke 1.1rem dan `nowrap` agar tidak terpotong dua baris di antara tombol Prev/Next.
+  - Perbaikan theme parity:
+    - `style.css`: tab `All/Pending/Done` kembali flat (tanpa gradient/border) di light mode dan underline aktif dipertahankan.
+    - `style.css`: tombol bottom nav light mode tidak lagi mendapat border dari aturan generik, sehingga identik dengan dark mode.
+  - Keyboard `focus-visible` (outline 2px) terverifikasi pada seluruh Tab stop navbar, sidebar, dan bottom nav.
+  - **Verifikasi**: `npm run build` PASS; `npm run lint` 0 error (1 warning lama `react-hooks/exhaustive-deps` di `useHabits.ts`).
+- **Rencana Berikutnya:**
+  - Manual UAT `[TASK-1505]` oleh pengguna pada 6 viewport target (dark + light).
+  - Sebelum UAT `[TASK-1507]`, verifikasi Firestore rules untuk path `users/{uid}/state/*`.
+
+---
+
 ## 2026-11-16 — Milestone M14 Completion & TASK-1501 Task-First Dashboard Implementation
 - **Status:** M14 (`TASK-1403`, `TASK-1404`) **DONE** (lulus validasi UAT pengguna); M15 `[TASK-1501]` di status `TESTING` siap untuk Manual UAT.
 - **Pekerjaan Sesi Ini:**

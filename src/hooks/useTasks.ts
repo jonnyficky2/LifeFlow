@@ -86,53 +86,51 @@ export function useTasks() {
       showToast('Task marked pending', 'info');
     }
 
-    setAppData(prevData => {
-      const currentOldTask = prevData[catIndex]?.tasks[taskIndex];
-      if (!currentOldTask) return prevData;
+    const task = { ...oldTask };
+    const today = getToday();
+    task.done = willBeDone;
 
-      const task = { ...currentOldTask };
-      const today = getToday();
-      task.done = willBeDone;
-
-      if (task.done) {
-        if (!task.completedDates.includes(today)) {
-          task.completedDates = [...task.completedDates, today];
-          updateTaskStreak(task);
-        }
-      } else {
-        task.completedDates = task.completedDates.filter(date => date !== today);
+    if (task.done) {
+      if (!task.completedDates.includes(today)) {
+        task.completedDates = [...task.completedDates, today];
         updateTaskStreak(task);
       }
+    } else {
+      task.completedDates = task.completedDates.filter(date => date !== today);
+      updateTaskStreak(task);
+    }
 
-      const newData = prevData.map((cat, cIdx) => {
-        if (cIdx !== catIndex) return cat;
-        return {
-          ...cat,
-          tasks: cat.tasks.map((t, tIdx) => tIdx === taskIndex ? task : t)
-        };
-      });
-
-      if (task.done) {
-        setStreakData(prevStreak => {
-          let hasTask = false;
-          let allDone = true;
-          newData.forEach(category => {
-            category.tasks?.forEach(t => {
-              hasTask = true;
-              if (!t.done) allDone = false;
-            });
-          });
-
-          if (hasTask && allDone && !prevStreak.includes(today)) {
-            return [...prevStreak, today];
-          }
-          return prevStreak;
-        });
-      }
-
-      updateDailyHistoryLocal(newData);
-      return newData;
+    const newData = appData.map((cat, cIdx) => {
+      if (cIdx !== catIndex) return cat;
+      return {
+        ...cat,
+        tasks: cat.tasks.map((t, tIdx) => tIdx === taskIndex ? task : t)
+      };
     });
+
+    setAppData(newData);
+
+    // Setter lain dipanggil di luar updater setAppData: updater React dieksekusi saat render,
+    // dan memanggil setState provider lain dari sana memicu warning "setState while rendering".
+    if (task.done) {
+      setStreakData(prevStreak => {
+        let hasTask = false;
+        let allDone = true;
+        newData.forEach(category => {
+          category.tasks?.forEach(t => {
+            hasTask = true;
+            if (!t.done) allDone = false;
+          });
+        });
+
+        if (hasTask && allDone && !prevStreak.includes(today)) {
+          return [...prevStreak, today];
+        }
+        return prevStreak;
+      });
+    }
+
+    updateDailyHistoryLocal(newData);
   }, [appData, saveTaskSnapshot, setAppData, setXp, showToast, setStreakData, updateDailyHistoryLocal]);
 
   const toggleSubtask = useCallback((catIndex: number, taskIndex: number, subIndex: number) => {
