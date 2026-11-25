@@ -836,12 +836,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1508] Backup Import and Data Reset Actually Persist
 - **Description:** Perbaiki Import backup dan Reset Data yang hanya menulis/menghapus `localStorage` sehingga diabaikan oleh `usePersistentState` (IndexedDB diprioritaskan) dan tertimpa data cloud saat reload.
 - **Priority:** High
-- **Status:** TESTING
+- **Status:** DONE
 - **Dependencies:** TASK-1304, TASK-1507
 - **Acceptance Criteria:** Import file backup memulihkan task, habit, note, XP, history, dan streak setelah reload dan ikut tersinkron ke device lain; file non-backup ditolak tanpa menghapus data; Reset Data mengosongkan semua domain di semua device yang login dengan akun sama; settings (tema dan API key) tetap utuh; build/lint PASS; Manual UAT PASS.
-- **Progress:** 90%
+- **Progress:** 100%
 - **Related Docs:** docs/product/CORE_PRODUCT_PRINCIPLES.md (Local-First)
-- **Notes:** `writeLocalState` menulis nilai + stempel `:updatedAt` ke IndexedDB dan `localStorage`, lalu nilai yang sama didorong ke `users/{uid}/state/*` agar tidak ditimpa cloud. Reset sengaja tidak menyentuh key `settings`.
+- **Notes:** `writeLocalState` menulis nilai + stempel `:updatedAt` ke IndexedDB dan `localStorage`, lalu nilai yang sama didorong ke `users/{uid}/state/*` agar tidak ditimpa cloud. Reset sengaja tidak menyentuh key `settings`. Manual UAT PASS oleh user.
 
 ---
 
