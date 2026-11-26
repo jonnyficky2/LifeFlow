@@ -17,7 +17,10 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Firestore
 // ignoreUndefinedProperties: field opsional (mis. Habit.repeat) bernilai undefined dan akan
 // membuat setDoc gagal total kalau dibiarkan.
-export const db = initializeFirestore(app, { ignoreUndefinedProperties: true });
+export const db = initializeFirestore(app, {
+  ignoreUndefinedProperties: true,
+  experimentalAutoDetectLongPolling: true,
+});
 
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
