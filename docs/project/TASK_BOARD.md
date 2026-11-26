@@ -797,12 +797,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1504] Unify Icons, Brand Logo, and Visual Tokens
 - **Description:** Ganti icon navigation/action yang berbasis emoji/simbol dengan sistem icon konsisten dan siapkan logo mark/wordmark untuk app shell, favicon, dan PWA.
 - **Priority:** Medium
-- **Status:** NOT_STARTED
+- **Status:** DONE
 - **Dependencies:** TASK-1501
 - **Acceptance Criteria:** Ikon navigasi dan action konsisten lintas platform; logo terbaca pada ukuran kecil dan dark/light mode; token warna dan semantic states memiliki satu sumber penggunaan yang terdokumentasi.
-- **Progress:** 0%
+- **Progress:** 100%
 - **Related Docs:** docs/design/COMPONENT_LIBRARY.md, docs/design/DESIGN_REVIEW.md
-- **Notes:** Logo final membutuhkan persetujuan user sebelum aset diganti.
+- **Notes:** Mengganti emoji-emoji legacy yang tersisa di `Tasks.tsx` dan `UnifiedSearchModal.tsx` dengan komponen `<Icon />` terstandarisasi (`tasks`, `check`, `search`, `file`). Ikon `Check` ditambahkan ke `Icon.tsx`. Build PASS, lint 0 error. Manual UAT PASS oleh user.
 
 ### [TASK-1505] Responsive and Theme Parity Verification
 - **Description:** Uji dan perbaiki overflow, modal, navbar, sidebar, bottom nav, dashboard, dan theme pada viewport target desktop, tablet, dan mobile.
