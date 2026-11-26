@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-11-26 — Dashboard Stats & Today Items + Habits Categories Overhaul & Icon Fallback Fix
+- **Status:** Implementasi Dashboard & Habits selesai, build dan linting PASS.
+- **Pekerjaan Sesi Ini:**
+  - **Habits Overhaul:**
+    - Menghapus flat "habit row" 90-hari matrix grid kotak-kotak lama.
+    - Mengganti arsitektur Habits dengan sistem **Habit Categories** (kategori seperti "Work Out", "Morning Routine", dll yang berisi kebiasaan-kebiasaan).
+    - Menambahkan atribut jam (`time`) dan durasi/nilai (`targetValue`) pada kebiasaan, misal `50 reps`, `30 menit`, `2L`.
+    - Checkbox toggle habit harian langsung di kartu kategori dengan feedback inline visual dan reward XP (+5 XP).
+    - Menyediakan modal Create/Edit Habit (dengan dropdown kategori, input jam, durasi/nilai, icon picker) dan modal Create Category.
+  - **Dashboard Overhaul:**
+    - Menambahkan visual statistics: SVG Progress Ring overall completion tasks, kartu metrik Habits consistency %, Tasks Due today, Notes baru hari ini, dan total XP progress bar.
+    - Menambahkan 3 kolom Today's Items terpadu:
+      1. **Today's Tasks**: daftar tugas hari ini & overdue dengan checkbox checklist langsung dan navigasi view/edit task.
+      2. **Today's Habits**: daftar kebiasaan hari ini dengan category tag, jam, durasi/target value, dan checkbox checklist langsung dari dashboard.
+      3. **Today's Notes**: daftar catatan yang dibuat/dijadwalkan hari ini dengan cuplikan 2 baris dan tautan langsung ke halaman editor Notes.
+  - **Icon Fallback Fix:**
+    - Memperbaiki potensi runtime error React pada komponen `Icon` (`Element type is invalid: expected a string or class/function but got: undefined`) jika nama ikon dari data habit lama/custom tidak terdaftar di Lucide map, dengan menyematkan fallback otomatis ke ikon `icons.target`.
+  - **Verifikasi:**
+    - `npm run build` PASS (tsc + vite build tanpa error).
+    - `npm run lint` PASS (0 errors, 0 warnings).
+- **Rencana Berikutnya:** Manual UAT oleh pengguna untuk memvalidasi interaksi visual Dashboard dan Habits Categories baru.
+
+---
+
 ## 2026-11-24 — Firestore Rules Fix & setState-in-Render Fix (TASK-1505, TASK-1507)
 - **Status:** `[TASK-1505]` dan `[TASK-1507]` **DONE** (Manual UAT PASS oleh pengguna, 2026-11-24); `[TASK-1508]` tetap `TESTING` (90%).
 - **Pekerjaan Sesi Ini:**
