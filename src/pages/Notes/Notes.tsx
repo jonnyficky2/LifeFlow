@@ -57,13 +57,18 @@ export const Notes: React.FC = () => {
     return notes.find(n => n.id === activeNoteId) || null;
   }, [notes, activeNoteId]);
 
+  const getTodayDate = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+
   // Sync local state when changing selected note
   useEffect(() => {
     if (activeNoteData) {
       // 'Untitled Note' dari catatan lama dianggap belum berjudul agar placeholder 2 kata pertama tampil.
       setLocalTitle(activeNoteData.title === 'Untitled Note' ? '' : activeNoteData.title);
       setLocalContent(activeNoteData.content);
-      setLocalDeadline(activeNoteData.deadline || '');
+      setLocalDeadline(activeNoteData.deadline || getTodayDate());
       setLocalTime(activeNoteData.time || '');
       setLocalReminder(activeNoteData.reminder || 'none');
     } else {
@@ -94,7 +99,7 @@ export const Notes: React.FC = () => {
         updateNote(activeNoteId, { 
           title: localTitle, 
           content: localContent,
-          deadline: localDeadline,
+          deadline: localDeadline || getTodayDate(),
           time: localTime,
           reminder: localReminder
         });

@@ -7,14 +7,21 @@ export const useNotes = () => {
   const { notes, setNotes, saveNoteSnapshot } = useNoteContext();
   const { showToast } = useToast();
 
+  const getToday = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+
   const addNote = useCallback((title: string = 'Untitled Note') => {
     saveNoteSnapshot();
+    const now = new Date();
     const newNote: Note = {
       id: `note_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
       title,
       content: '',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+      deadline: getToday()
     };
     setNotes([newNote, ...notes]);
     showToast('Note created', 'success');

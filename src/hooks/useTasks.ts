@@ -191,7 +191,7 @@ export function useTasks() {
         const newTask: Task = {
           name: taskName,
           done: false,
-          deadline: "",
+          deadline: getToday(),
           time: "",
           location: "",
           note: "",
@@ -224,7 +224,7 @@ export function useTasks() {
         const newTasks: Task[] = tasksToAdd.map(item => ({
           name: item.name,
           done: false,
-          deadline: "",
+          deadline: getToday(),
           time: "",
           location: "",
           note: "",
@@ -255,7 +255,7 @@ export function useTasks() {
         const newTask: Task = {
           name: taskData.name,
           done: Boolean(taskData.done),
-          deadline: taskData.deadline || "",
+          deadline: taskData.deadline || getToday(),
           time: taskData.time || "",
           location: taskData.location || "",
           note: taskData.note || "",

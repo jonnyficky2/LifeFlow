@@ -38,6 +38,7 @@ export interface Habit {
   color: string;
   icon: string;
   createdAt: string;
+  startDate?: string;
   repeat?: HabitRepeatConfig;
   time?: string;
 }

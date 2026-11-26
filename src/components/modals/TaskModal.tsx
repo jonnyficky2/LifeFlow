@@ -40,9 +40,11 @@ export const TaskModal: React.FC = () => {
         setReminder(task.reminder || 'none');
         setSubtasks(task.subtasks ? [...task.subtasks] : []);
       } else {
+        const d = new Date();
+        const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
         setName('');
         setNote('');
-        setDeadline('');
+        setDeadline(today);
         setTime('');
         setPriority('low');
         setTagsInput('');
@@ -65,6 +67,9 @@ export const TaskModal: React.FC = () => {
     saveTaskSnapshot();
 
     const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
+    const d = new Date();
+    const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const finalDeadline = deadline.trim() || today;
     
     setAppData(prevData => {
       if (editingTask) {
@@ -76,7 +81,7 @@ export const TaskModal: React.FC = () => {
               if (tIdx !== editingTask.taskIndex) return t;
               return {
                 ...t,
-                name, deadline, time, location, note, priority, tags, reminder,
+                name, deadline: finalDeadline, time, location, note, priority, tags, reminder,
                 subtasks: [...subtasks]
               };
             })
@@ -95,7 +100,7 @@ export const TaskModal: React.FC = () => {
         }
 
         const newTask: Task = {
-          name, deadline, time, location, note, priority,
+          name, deadline: finalDeadline, time, location, note, priority,
           done: false, completedDates: [], streak: 0, lastCompleted: null,
           subtasks: [...subtasks],
           reminder,
