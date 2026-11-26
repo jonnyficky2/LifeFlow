@@ -23,6 +23,12 @@
   height: 70px;
 }
 
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;

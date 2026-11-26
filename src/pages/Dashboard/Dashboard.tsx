@@ -176,6 +176,9 @@ export const Dashboard: React.FC = () => {
               <h2 className="dashboard-col-title">Today's Tasks</h2>
               <span className="dashboard-col-badge">{todayTasks.length}</span>
             </div>
+            <div className="dashboard-col-actions">
+              <button className="dashboard-col-btn" onClick={() => { setEditingTask(null); setCurrentCategoryIndex(0); setTaskModalOpen(true); }}><Icon name="search" size={14} /> +</button>
+            </div>
           </div>
           <div className="dashboard-today-items">
             {todayTasks.map(({ task, catIndex, taskIndex, categoryName }) => (
@@ -225,6 +228,9 @@ export const Dashboard: React.FC = () => {
               <span className="dashboard-col-badge">
                 {todayHabits.filter(h => (habitHistory[h.id] || []).includes(todayStr)).length}/{todayHabits.length}
               </span>
+            </div>
+            <div className="dashboard-col-actions">
+              <button className="dashboard-col-btn" onClick={() => setActiveSection('habits')}><Icon name="habits" size={14} /> +</button>
             </div>
           </div>
           <div className="dashboard-today-items">
@@ -276,6 +282,9 @@ export const Dashboard: React.FC = () => {
             <div className="dashboard-col-title-group">
               <h2 className="dashboard-col-title">Today's Notes</h2>
               <span className="dashboard-col-badge">{todayNotes.length}</span>
+            </div>
+            <div className="dashboard-col-actions">
+              <button className="dashboard-col-btn" onClick={() => { setActiveSection('notes'); }}><Icon name="notes" size={14} /> +</button>
             </div>
           </div>
           <div className="dashboard-today-items">

@@ -60,7 +60,7 @@ export const AiChatDrawer: React.FC = () => {
       setActiveSection('notes');
       setAiChatOpen(false);
     } else if (reference.type === 'habit') {
-      setActiveSection('habit');
+      setActiveSection('habits');
       setAiChatOpen(false);
     }
   };

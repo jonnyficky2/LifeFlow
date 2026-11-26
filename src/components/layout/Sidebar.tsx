@@ -47,7 +47,7 @@ export const Sidebar: React.FC = () => {
             <div className="sidebar-group">
               <span className="sidebar-group-label">Planning</span>
               <button type="button" className={`sidebar-item ${activeSection === 'calendar' ? 'is-active' : ''}`} onClick={() => handleNavClick('calendar')}><Icon name="calendar" /> Calendar</button>
-              <button type="button" className={`sidebar-item ${activeSection === 'habit' ? 'is-active' : ''}`} onClick={() => handleNavClick('habit')}><Icon name="habits" /> Habits</button>
+              <button type="button" className={`sidebar-item ${activeSection === 'habits' ? 'is-active' : ''}`} onClick={() => handleNavClick('habits')}><Icon name="habits" /> Habits</button>
               <button type="button" className={`sidebar-item ${activeSection === 'focus' ? 'is-active' : ''}`} onClick={() => handleNavClick('focus')}><Icon name="focus" /> Focus Timer</button>
             </div>
 

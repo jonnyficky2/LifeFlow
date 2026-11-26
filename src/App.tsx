@@ -64,7 +64,7 @@ const AppContent: React.FC = () => {
         <Suspense fallback={<PageFallback />}>
           {activeSection === 'home' && <Dashboard />}
           {activeSection === 'tasks' && <Tasks />}
-          {activeSection === 'habit' && <Habits />}
+          {activeSection === 'habits' && <Habits />}
           {activeSection === 'focus' && <Focus />}
           {activeSection === 'calendar' && <Calendar />}
           {activeSection === 'categories' && <Categories />}

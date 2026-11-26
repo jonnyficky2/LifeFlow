@@ -12,6 +12,20 @@ export const Navbar: React.FC = () => {
     <nav id="navbar" className="navbar">
       <div className="navbar-container">
         
+        {/* Sidebar Toggle Button - Move to left */}
+        <div className="navbar-left">
+          <button 
+            id="sidebarToggle" 
+            className={`sidebar-toggle ${isSidebarOpen ? 'active' : ''}`} 
+            aria-label="Open sidebar"
+            onClick={() => setSidebarOpen(!isSidebarOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+        
         {/* Logo & Title */}
         <div 
           className="navbar-brand"
@@ -56,18 +70,6 @@ export const Navbar: React.FC = () => {
               aria-label="Open Settings"
             />
           )}
-        
-          {/* Sidebar Toggle Button */}
-          <button 
-            id="sidebarToggle" 
-            className={`sidebar-toggle ${isSidebarOpen ? 'active' : ''}`} 
-            aria-label="Open sidebar"
-            onClick={() => setSidebarOpen(!isSidebarOpen)}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
         </div>
         
       </div>
