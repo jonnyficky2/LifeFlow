@@ -90,7 +90,7 @@ const icons = {
 export type IconName = keyof typeof icons;
 
 export const Icon: React.FC<{ name: IconName; size?: number; className?: string }> = ({ name, size = 18, className }) => {
-  const Component = icons[name];
+  const Component = icons[name] || icons.target;
   return (
     <Component
       size={size}

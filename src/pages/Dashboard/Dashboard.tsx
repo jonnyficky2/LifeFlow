@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Icon } from '../../components/ui/Icon';
+import type { IconName } from '../../components/ui/Icon';
 import { useAppContext } from '../../context/AppContext';
 import { useTaskContext } from '../../context/TaskContext';
 import { useHabitContext } from '../../context/HabitContext';
@@ -22,8 +23,13 @@ export const Dashboard: React.FC = () => {
   const { toggleTask } = useTasks();
   const { toggleHabitDate } = useHabits();
   const { user } = useAuth();
-
+  
   const todayStr = useMemo(() => getLocalDateString(new Date()), []);
+
+  // Safe icon helper with target fallback
+  const safeIcon = (iconName?: string): IconName => {
+    return (iconName as IconName) || 'target';
+  };
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
@@ -234,7 +240,7 @@ export const Dashboard: React.FC = () => {
                     aria-label={`Check habit ${habit.name}`}
                   />
                   <div className="today-habit-icon">
-                    <Icon name={(habit.icon as any) || 'target'} size={15} />
+                    <Icon name={safeIcon(habit.icon)} size={15} />
                   </div>
                   <div className="today-item-body">
                     <h3 className="today-item-title">{habit.name}</h3>
