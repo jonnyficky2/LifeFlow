@@ -35,12 +35,14 @@ export interface HabitRepeatConfig {
 export interface Habit {
   id: string;
   name: string;
+  category?: string;
   color: string;
   icon: string;
   createdAt: string;
   startDate?: string;
   repeat?: HabitRepeatConfig;
   time?: string;
+  targetValue?: string;
 }
 
 export type HabitHistory = Record<string, string[]>;

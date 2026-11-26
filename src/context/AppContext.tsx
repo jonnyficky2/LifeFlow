@@ -7,6 +7,7 @@ export const STORAGE_KEYS = {
   APP_DATA: "appData",
   XP: "xp",
   HABITS: "habits",
+  HABIT_CATEGORIES: "habitCategories",
   HABIT_HISTORY: "habitHistory",
   STREAK_DATA: "streakData",
   HISTORY_DATA: "historyData",

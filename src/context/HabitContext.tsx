@@ -7,6 +7,8 @@ import type { Habit, HabitHistory, StreakData } from '../types';
 interface HabitContextType {
   habits: Habit[];
   setHabits: React.Dispatch<React.SetStateAction<Habit[]>>;
+  habitCategories: string[];
+  setHabitCategories: React.Dispatch<React.SetStateAction<string[]>>;
   habitHistory: HabitHistory;
   setHabitHistory: React.Dispatch<React.SetStateAction<HabitHistory>>;
   streakData: StreakData;
@@ -18,8 +20,11 @@ interface HabitContextType {
 
 const HabitContext = createContext<HabitContextType | undefined>(undefined);
 
+const DEFAULT_HABIT_CATEGORIES = ['Work Out', 'Morning Routine', 'Daily'];
+
 export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [habits, setHabits] = usePersistentState<Habit[]>(STORAGE_KEYS.HABITS, []);
+  const [habitCategories, setHabitCategories] = usePersistentState<string[]>(STORAGE_KEYS.HABIT_CATEGORIES, DEFAULT_HABIT_CATEGORIES);
   const [habitHistory, setHabitHistory] = usePersistentState<HabitHistory>(STORAGE_KEYS.HABIT_HISTORY, {});
   const [streakData, setStreakData] = usePersistentState<StreakData>(STORAGE_KEYS.STREAK_DATA, []);
 
@@ -27,14 +32,14 @@ export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [redoStack, setRedoStack] = useState<string[]>([]);
 
   const saveHabitSnapshot = () => {
-    const snapshot = JSON.stringify({ habits, habitHistory, streakData });
+    const snapshot = JSON.stringify({ habits, habitCategories, habitHistory, streakData });
     setUndoStack(prev => [...prev, snapshot]);
     setRedoStack([]);
   };
 
   const undoHabit = () => {
     if (undoStack.length === 0) return;
-    const currentState = JSON.stringify({ habits, habitHistory, streakData });
+    const currentState = JSON.stringify({ habits, habitCategories, habitHistory, streakData });
     setRedoStack(prev => [...prev, currentState]);
     const newUndoStack = [...undoStack];
     const prevStateStr = newUndoStack.pop();
@@ -42,6 +47,7 @@ export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (prevStateStr) {
       const prevState = JSON.parse(prevStateStr);
       setHabits(prevState.habits);
+      if (prevState.habitCategories) setHabitCategories(prevState.habitCategories);
       setHabitHistory(prevState.habitHistory);
       setStreakData(prevState.streakData);
     }
@@ -49,7 +55,7 @@ export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const redoHabit = () => {
     if (redoStack.length === 0) return;
-    const currentState = JSON.stringify({ habits, habitHistory, streakData });
+    const currentState = JSON.stringify({ habits, habitCategories, habitHistory, streakData });
     setUndoStack(prev => [...prev, currentState]);
     const newRedoStack = [...redoStack];
     const nextStateStr = newRedoStack.pop();
@@ -57,6 +63,7 @@ export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (nextStateStr) {
       const nextState = JSON.parse(nextStateStr);
       setHabits(nextState.habits);
+      if (nextState.habitCategories) setHabitCategories(nextState.habitCategories);
       setHabitHistory(nextState.habitHistory);
       setStreakData(nextState.streakData);
     }
@@ -65,6 +72,7 @@ export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   return (
     <HabitContext.Provider value={{
       habits, setHabits,
+      habitCategories, setHabitCategories,
       habitHistory, setHabitHistory,
       streakData, setStreakData,
       undoHabit, redoHabit, saveHabitSnapshot
