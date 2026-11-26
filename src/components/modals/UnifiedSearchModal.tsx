@@ -213,14 +213,14 @@ export const UnifiedSearchModal: React.FC = () => {
             <div className="unified-search-empty">
               <p className="unified-search-hint">Ketik untuk mencari di semua modul LifeFlow</p>
               <div className="unified-search-stats">
-                <span className="unified-stat-pill">📋 {totalTasks} Tugas</span>
-                <span className="unified-stat-pill"><Icon name="document" /> {totalNotes} Catatan</span>
-                <span className="unified-stat-pill">📁 {totalCategories} Kategori</span>
+                <span className="unified-stat-pill"><Icon name="tasks" size={14} /> {totalTasks} Tugas</span>
+                <span className="unified-stat-pill"><Icon name="document" size={14} /> {totalNotes} Catatan</span>
+                <span className="unified-stat-pill"><Icon name="file" size={14} /> {totalCategories} Kategori</span>
               </div>
             </div>
           ) : results.length === 0 ? (
             <div className="unified-search-no-results">
-              <span className="unified-no-results-icon" aria-hidden="true">🍂</span>
+              <span className="unified-no-results-icon" aria-hidden="true"><Icon name="search" size={32} /></span>
               <p>Tidak ada hasil untuk &ldquo;<strong>{query}</strong>&rdquo;</p>
               <small>Coba gunakan kata kunci lain untuk tugas, catatan, atau kategori.</small>
             </div>

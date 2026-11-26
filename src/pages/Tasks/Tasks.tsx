@@ -148,7 +148,7 @@ export const Tasks: React.FC = () => {
             ))
           ) : appData.length === 0 ? (
             <EmptyState 
-              icon="📋" 
+              icon={<Icon name="tasks" size={48} />} 
               title="No Tasks Yet" 
               description="You haven't created any task categories. Add a new category to get started." 
             />
@@ -329,12 +329,13 @@ export const Tasks: React.FC = () => {
         </div>
 
         {!hasVisibleTasks && appData.length > 0 && (
-          <div className="empty-state tasks-empty-state">
-            <div className="empty-state__icon">✓</div>
-            <h3 className="empty-state__title">No Tasks Yet</h3>
-            <p className="empty-state__description">Create your first task to get started on your productivity journey.</p>
-            <button id="emptyAddTaskBtn" type="button" className="btn empty-state__cta" onClick={() => handleAddTask(0)}>＋ Add Task</button>
-          </div>
+          <EmptyState
+            icon={<Icon name="check" size={48} />}
+            title="No Tasks Yet"
+            description="Create your first task to get started on your productivity journey."
+          >
+            <button id="emptyAddTaskBtn" type="button" className="btn empty-state__cta" onClick={() => handleAddTask(0)}>+ Add task</button>
+          </EmptyState>
         )}
 
       </div>

@@ -39,6 +39,7 @@ import {
   Footprints,
   Apple,
   ChevronLeft,
+  Check,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -83,6 +84,7 @@ const icons = {
   footprints: Footprints,
   apple: Apple,
   back: ChevronLeft,
+  check: Check,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof icons;
