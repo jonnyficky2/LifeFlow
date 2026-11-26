@@ -817,11 +817,12 @@ Task dikelompokkan berdasarkan **Milestone**. Selalu perbarui status task mengik
 ### [TASK-1506] Browser QA and Manual UAT for UX Remediation
 - **Description:** Jalankan smoke test, interaction test, screenshot review, dan Manual UAT untuk seluruh perubahan M15.
 - **Priority:** High
-- **Status:** NOT_STARTED
+- **Status:** TESTING
 - **Dependencies:** TASK-1505
 - **Acceptance Criteria:** Build/lint PASS; navigasi, Add, Search, profile, checkbox feedback, theme, dan responsive viewport lulus checklist; hasil UAT user dicatat sebelum status task menjadi DONE.
-- **Progress:** 0%
+- **Progress:** 90%
 - **Related Docs:** docs/testing/UAT_CHECKLIST_FINAL.md, docs/project/UI_AUDIT.md
+- **Notes:** Build dan lint PASS. Semua perbaikan UX M15 (navigasi, feedback inline, visual token, unifikasi icon, dan responsive parity) telah siap diuji secara menyeluruh. Menunggu validasi Manual UAT dari pengguna.
 
 ### [TASK-1507] Cross-Device Cloud Sync for All User Data
 - **Description:** Sinkronkan seluruh state pengguna (tasks/kategori, habits, habit history, streak, notes, XP, settings) ke Firestore per akun, termasuk propagasi penghapusan antar device, menggantikan sinkronisasi habit-definition saja.
