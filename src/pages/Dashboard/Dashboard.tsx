@@ -17,7 +17,7 @@ const getLocalDateString = (dateObj: Date) => {
 };
 
 export const Dashboard: React.FC = () => {
-  const { xp, setActiveSection } = useAppContext();
+  const { xp, historyData, setActiveSection } = useAppContext();
   const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask } = useTaskContext();
   const { habits, habitHistory, setPendingHabitCategory } = useHabitContext();
   const { notes, setActiveNoteId, setPendingNoteEdit } = useNoteContext();
@@ -95,15 +95,53 @@ export const Dashboard: React.FC = () => {
     }).slice(0, 5);
   }, [notes, todayStr]);
 
+  const chartData = useMemo(() => {
+    const dateStr = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    return Array.from({ length: 7 }, (_, index) => {
+      const d = new Date();
+      d.setDate(d.getDate() - 6 + index);
+      const key = dateStr(d);
+      return {
+        label: `${d.getDate()}/${d.getMonth() + 1}`,
+        dayName: d.toLocaleDateString('en-US', { weekday: 'short' }),
+        tasks: historyData[key] || 0,
+      };
+    });
+  }, [historyData]);
+
+  // SVG dimensions for dashboard mini chart
+  const width = 600;
+  const height = 150;
+  const paddingX = 30;
+  const paddingY = 20;
+  const graphWidth = width - paddingX * 2;
+  const graphHeight = height - paddingY * 2;
+
+  const taskValues = chartData.map(d => d.tasks);
+  const maxTaskVal = Math.max(...taskValues, 100);
+
+  const points = chartData.map((d, i) => {
+    const x = paddingX + i * (graphWidth / (chartData.length - 1));
+    const val = d.tasks;
+    const y = height - paddingY - (val / maxTaskVal) * graphHeight;
+    return { x, y, val, dayName: d.dayName };
+  });
+
+  let dLine = `M ${points[0].x} ${points[0].y}`;
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[i];
+    const p1 = points[i + 1];
+    const cpX = (p0.x + p1.x) / 2;
+    dLine += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+  }
+  const dArea = `${dLine} L ${points[points.length - 1].x} ${height - paddingY} L ${points[0].x} ${height - paddingY} Z`;
+
   return (
     <div className="dashboard-wrapper">
       <section className="dashboard-header">
         <div>
           <h1>{greeting}</h1>
           <p>Today is {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
-        </div>
-        <div className="dashboard-header-actions">
-          <button className="btn btn-primary" onClick={() => { setEditingTask(null); setCurrentCategoryIndex(null); setTaskModalOpen(true); }}>+ Add Task</button>
         </div>
       </section>
 
@@ -166,6 +204,44 @@ export const Dashboard: React.FC = () => {
               <p className="dashboard-metric-subtext">Total progress</p>
             </div>
             <div className="dashboard-mini-bar"><div className="dashboard-mini-bar-fill" style={{ width: `${Math.min(100, (xp % 100))}%` }} /></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Productivity Overview Area Chart Card */}
+      <section className="dashboard-chart-section">
+        <div className="dashboard-chart-card">
+          <div className="dashboard-chart-header">
+            <div>
+              <h3>Productivity Trend</h3>
+              <p>Task completion rate over the last 7 days</p>
+            </div>
+            <button className="dashboard-col-footer-link" onClick={() => setActiveSection('stats')}>View full reports →</button>
+          </div>
+          <div className="dashboard-svg-container">
+            <svg viewBox={`0 0 ${width} ${height}`} className="svg-chart">
+              <defs>
+                <linearGradient id="dashboardDashGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0.0" />
+                </linearGradient>
+              </defs>
+
+              <line x1={paddingX} y1={paddingY} x2={width - paddingX} y2={paddingY} className="svg-grid-line" />
+              <line x1={paddingX} y1={paddingY + graphHeight / 2} x2={width - paddingX} y2={paddingY + graphHeight / 2} className="svg-grid-line" />
+              <line x1={paddingX} y1={height - paddingY} x2={width - paddingX} y2={height - paddingY} className="svg-grid-line" />
+
+              <path d={dArea} fill="url(#dashboardDashGradient)" />
+              <path d={dLine} fill="none" stroke="var(--color-primary)" strokeWidth="3" strokeLinecap="round" />
+
+              {points.map((pt, idx) => (
+                <g key={idx} className="svg-node-group">
+                  <circle cx={pt.x} cy={pt.y} r="4.5" className="svg-node-dot" style={{ stroke: 'var(--color-surface)' }} />
+                  <text x={pt.x} y={pt.y - 10} textAnchor="middle" className="svg-node-val">{pt.val}%</text>
+                  <text x={pt.x} y={height - 4} textAnchor="middle" className="svg-label-text">{pt.dayName}</text>
+                </g>
+              ))}
+            </svg>
           </div>
         </div>
       </section>

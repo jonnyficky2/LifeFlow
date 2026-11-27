@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
     <nav id="navbar" className="navbar">
       <div className="navbar-container">
         
-        {/* Sidebar Toggle Button - Move to left */}
+        {/* Sidebar Toggle Button & Brand (Desktop left, Mobile center) */}
         <div className="navbar-left">
           <button 
             id="sidebarToggle" 
@@ -24,11 +24,28 @@ export const Navbar: React.FC = () => {
             <span></span>
             <span></span>
           </button>
+          
+          <div 
+            className="navbar-brand navbar-brand--desktop"
+            onClick={() => setActiveSection('home')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setActiveSection('home');
+              }
+            }}
+            aria-label="Go to LifeFlow Dashboard"
+          >
+            <img src={APP_LOGO} alt="Logo" className="navbar-logo" />
+            <span className="navbar-title sidebar-title">Life<span>Flow</span></span>
+          </div>
         </div>
         
-        {/* Logo & Title */}
+        {/* Mobile Brand (Center) */}
         <div 
-          className="navbar-brand"
+          className="navbar-brand navbar-brand--mobile"
           onClick={() => setActiveSection('home')}
           role="button"
           tabIndex={0}

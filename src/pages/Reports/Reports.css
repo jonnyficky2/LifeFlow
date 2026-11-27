@@ -1,26 +1,15 @@
-.improve-card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-.improve-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 5px;
-}
-
-.improve-card p {
-  font-size: 0.9rem;
-  opacity: 0.7;
+.reports-header-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: 30px;
 }
 
 .progress-ring-box {
   position: relative;
-  width: 180px;
-  height: 180px;
-  margin: 0 auto 30px;
+  width: 160px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,17 +21,17 @@
 
 .ring-bg {
   fill: none;
-  stroke: var(--surface);
-  stroke-width: 15;
+  stroke: var(--color-bg-deep);
+  stroke-width: 12;
 }
 
 .ring-progress {
   fill: none;
-  stroke: var(--accent);
-  stroke-width: 15;
+  stroke: var(--color-primary);
+  stroke-width: 12;
   stroke-linecap: round;
-  stroke-dasharray: 440;
-  stroke-dashoffset: 440;
+  stroke-dasharray: 390;
+  stroke-dashoffset: 390;
   transition: stroke-dashoffset 1s ease-out;
 }
 
@@ -53,19 +42,129 @@
 
 .ring-text h2 {
   font-size: 2rem;
-  margin-bottom: 5px;
+  font-weight: 700;
+  margin: 0;
 }
 
 .ring-text p {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   opacity: 0.7;
+  margin: 0;
 }
 
-.chart-box {
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 15px;
-  margin-bottom: 30px;
+.reports-tab-switch {
+  display: flex;
+  background: var(--color-bg-deep);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  gap: 4px;
+}
+
+.reports-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reports-tab-btn.active {
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* CHART OPTION PREVIEW LIST */
+.chart-preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.chart-option-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.chart-option-header {
+  margin-bottom: 16px;
+}
+
+.chart-option-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  background: rgba(99, 102, 241, 0.1);
+  padding: 2px 8px;
+  border-radius: 99px;
+  margin-bottom: 6px;
+}
+
+.chart-option-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: var(--color-text);
+}
+
+.chart-option-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.svg-chart-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.svg-chart {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  display: block;
+}
+
+.svg-grid-line {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  opacity: 0.5;
+}
+
+.svg-node-dot {
+  fill: var(--color-primary);
+  stroke: var(--color-surface);
+  stroke-width: 2;
+  transition: r 0.2s ease;
+}
+
+.svg-node-group:hover .svg-node-dot {
+  r: 7;
+}
+
+.svg-node-val {
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--color-primary);
+}
+
+.svg-label-text {
+  font-size: 11px;
+  fill: var(--color-text-muted);
 }
 
 .empty-state {
@@ -94,11 +193,11 @@
 }
 
 .empty-state__cta {
-  background: var(--accent);
+  background: var(--color-primary);
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-md);
   font-size: 1rem;
   cursor: pointer;
   transition: opacity 0.2s;
@@ -107,63 +206,3 @@
 .empty-state__cta:hover {
   opacity: 0.9;
 }
-
-/* NATIVE BAR CHART STYLES */
-.chart-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  height: 150px;
-  padding-top: 20px;
-  gap: 10px;
-}
-
-.chart-bar-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  flex: 1;
-  height: 100%;
-}
-
-.chart-bar-track {
-  position: relative;
-  width: 100%;
-  flex: 1; /* Mengisi sisa ruang kosong dari flexbox wrapper */
-}
-
-.chart-bar {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 30px;
-  background-color: var(--color-primary);
-  border-radius: 4px 4px 0 0;
-  min-height: 4px;
-  transition: height 0.5s ease-out;
-}
-
-.chart-label {
-  margin-top: 10px;
-  font-size: 0.75rem;
-  opacity: 0.7;
-  text-align: center;
-}
-
-.chart-empty {
-  text-align: center;
-  padding: 40px 0;
-  opacity: 0.5;
-  font-size: 0.9rem;
-}
-
-.progress-list { display: grid; gap: 14px; }
-.progress-row { display: grid; grid-template-columns: 48px minmax(0, 1fr) 42px; align-items: center; gap: 12px; }
-.progress-label, .progress-row strong { font-size: 13px; color: var(--color-muted); }
-.progress-row strong { text-align: right; color: var(--color-text); }
-.progress-track { height: 8px; overflow: hidden; border-radius: 999px; background: var(--color-bg-deep); }
-.progress-fill { height: 100%; border-radius: inherit; background: var(--color-primary); transition: width .4s ease; }
-.progress-fill--success { background: var(--color-success); }

@@ -29,7 +29,8 @@
   gap: var(--space-3);
 }
 
-.navbar-brand {
+.navbar-brand--desktop,
+.navbar-brand--mobile {
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -38,6 +39,10 @@
   color: var(--color-text);
   flex-shrink: 0;
   pointer-events: auto;
+}
+
+.navbar-brand--mobile {
+  display: none;
 }
 
 .navbar-logo {
@@ -3290,9 +3295,25 @@ body.light-mode .sidebar-streak-card span {
     justify-content: space-between;
   }
 
-  .navbar-brand {
+  .navbar-brand--desktop {
     display: flex;
-    pointer-events: auto;
+  }
+
+  .navbar-brand--mobile {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .navbar-brand--desktop {
+      display: none;
+    }
+
+    .navbar-brand--mobile {
+      display: flex;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
   .app-sidebar {

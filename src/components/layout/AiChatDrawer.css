@@ -57,6 +57,9 @@
   border-radius: var(--radius-sm);
   font-size: 24px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .ai-chat-close:hover { color: var(--color-text); background: var(--color-surface); }
 
