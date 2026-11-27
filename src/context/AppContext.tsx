@@ -38,12 +38,42 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+const APP_SECTIONS = ['home', 'tasks', 'habits', 'focus', 'calendar', 'categories', 'stats', 'notes', 'settings'];
+
+const getSectionFromLocation = () => {
+  const hashSection = window.location.hash.replace('#', '');
+  return APP_SECTIONS.includes(hashSection) ? hashSection : 'home';
+};
+
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [xp, setXp] = usePersistentState<number>(STORAGE_KEYS.XP, 0);
   const [historyData, setHistoryData] = usePersistentState<HistoryData>(STORAGE_KEYS.HISTORY_DATA, {});
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSectionState] = useState(getSectionFromLocation);
+
+  // Section changes must create a browser history entry so Android/browser back
+  // returns to the previous page instead of closing the app (PWA standalone).
+  const setActiveSection = React.useCallback((section: string) => {
+    setActiveSectionState(section);
+    if (window.location.hash !== `#${section}`) {
+      window.history.pushState({ section }, '', `#${section}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      const section = event.state?.section;
+      setActiveSectionState(
+        typeof section === 'string' && APP_SECTIONS.includes(section)
+          ? section
+          : getSectionFromLocation()
+      );
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const [isAiChatOpen, setAiChatOpen] = useState(false);
   const [isUnifiedSearchOpen, setUnifiedSearchOpen] = useState(false);
   const [isAppLoading, setIsAppLoading] = useState(true);

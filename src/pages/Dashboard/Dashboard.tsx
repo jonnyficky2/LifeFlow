@@ -7,6 +7,7 @@ import { useHabitContext } from '../../context/HabitContext';
 import { useNoteContext } from '../../context/NoteContext';
 import { useTasks } from '../../hooks/useTasks';
 import { useHabits } from '../../hooks/useHabits';
+import { useNotes } from '../../hooks/useNotes';
 import { useAuth } from '../../context/AuthContext';
 import type { Task } from '../../types';
 import './Dashboard.css';
@@ -18,10 +19,11 @@ const getLocalDateString = (dateObj: Date) => {
 export const Dashboard: React.FC = () => {
   const { xp, setActiveSection } = useAppContext();
   const { appData, setTaskModalOpen, setCurrentCategoryIndex, setEditingTask } = useTaskContext();
-  const { habits, habitHistory } = useHabitContext();
-  const { notes, setActiveNoteId } = useNoteContext();
+  const { habits, habitHistory, setPendingHabitCategory } = useHabitContext();
+  const { notes, setActiveNoteId, setPendingNoteEdit } = useNoteContext();
   const { toggleTask } = useTasks();
   const { toggleHabitDate } = useHabits();
+  const { addNote } = useNotes();
   const { user } = useAuth();
   
   const todayStr = useMemo(() => getLocalDateString(new Date()), []);
@@ -101,7 +103,7 @@ export const Dashboard: React.FC = () => {
           <p>Today is {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
         </div>
         <div className="dashboard-header-actions">
-          <button className="btn btn-primary" onClick={() => { setEditingTask(null); setTaskModalOpen(true); }}>+ Add Task</button>
+          <button className="btn btn-primary" onClick={() => { setEditingTask(null); setCurrentCategoryIndex(null); setTaskModalOpen(true); }}>+ Add Task</button>
         </div>
       </section>
 
@@ -177,7 +179,12 @@ export const Dashboard: React.FC = () => {
               <span className="dashboard-col-badge">{todayTasks.length}</span>
             </div>
             <div className="dashboard-col-actions">
-              <button className="dashboard-col-btn" onClick={() => { setEditingTask(null); setCurrentCategoryIndex(0); setTaskModalOpen(true); }}><Icon name="search" size={14} /> +</button>
+              <button
+                className="dashboard-col-btn"
+                onClick={() => { setEditingTask(null); setCurrentCategoryIndex(null); setTaskModalOpen(true); }}
+                aria-label="Add task for today"
+                title="Add task for today"
+              >+</button>
             </div>
           </div>
           <div className="dashboard-today-items">
@@ -230,7 +237,12 @@ export const Dashboard: React.FC = () => {
               </span>
             </div>
             <div className="dashboard-col-actions">
-              <button className="dashboard-col-btn" onClick={() => setActiveSection('habits')}><Icon name="habits" size={14} /> +</button>
+              <button
+                className="dashboard-col-btn"
+                onClick={() => { setPendingHabitCategory(''); setActiveSection('habits'); }}
+                aria-label="Add habit"
+                title="Add habit"
+              >+</button>
             </div>
           </div>
           <div className="dashboard-today-items">
@@ -284,7 +296,17 @@ export const Dashboard: React.FC = () => {
               <span className="dashboard-col-badge">{todayNotes.length}</span>
             </div>
             <div className="dashboard-col-actions">
-              <button className="dashboard-col-btn" onClick={() => { setActiveSection('notes'); }}><Icon name="notes" size={14} /> +</button>
+              <button
+                className="dashboard-col-btn"
+                onClick={() => {
+                  const newId = addNote('');
+                  setActiveNoteId(newId);
+                  setPendingNoteEdit(true);
+                  setActiveSection('notes');
+                }}
+                aria-label="Add note"
+                title="Add note"
+              >+</button>
             </div>
           </div>
           <div className="dashboard-today-items">

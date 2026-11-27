@@ -333,7 +333,7 @@
 }
 
 .habit-icon-option {
-  height: 40px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -354,6 +354,43 @@
   border-color: var(--primary-color);
   background: rgba(59, 130, 246, 0.15);
   color: var(--primary-color);
+}
+
+.habit-icon-caption {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.habit-category-locked {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.habit-category-locked-badge {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.habit-category-change-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 0.82rem;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  margin-left: auto;
+}
+
+.habit-category-change-btn:hover {
+  text-decoration: underline;
 }
 
 .habit-modal-actions {

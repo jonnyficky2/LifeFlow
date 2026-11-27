@@ -11,6 +11,7 @@ export const TaskModal: React.FC = () => {
     appData, 
     setAppData, 
     currentCategoryIndex,
+    setCurrentCategoryIndex,
     saveTaskSnapshot
   } = useTaskContext();
 
@@ -134,6 +135,10 @@ export const TaskModal: React.FC = () => {
 
   if (!isTaskModalOpen) return null;
 
+  const selectedCategoryIndex = currentCategoryIndex !== null && currentCategoryIndex < appData.length
+    ? currentCategoryIndex
+    : 0;
+
   return (
     <div id="taskModal" className={`modal ${isTaskModalOpen ? 'show' : ''}`}>
       <div className="modal-content">
@@ -153,6 +158,19 @@ export const TaskModal: React.FC = () => {
           value={note}
           onChange={(e) => setNote(e.target.value)}
         />
+
+        {!editingTask && appData.length > 0 && (
+          <select
+            id="taskCategoryInput"
+            aria-label="Category"
+            value={selectedCategoryIndex}
+            onChange={(e) => setCurrentCategoryIndex(Number(e.target.value))}
+          >
+            {appData.map((cat, index) => (
+              <option key={`${cat.name}-${index}`} value={index}>{cat.name}</option>
+            ))}
+          </select>
+        )}
 
         <details className="advanced-task-options">
           <summary>Advanced Options</summary>

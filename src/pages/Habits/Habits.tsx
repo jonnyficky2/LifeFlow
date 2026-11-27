@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Icon } from '../../components/ui/Icon';
 import type { IconName } from '../../components/ui/Icon';
 import { useAppContext } from '../../context/AppContext';
@@ -9,23 +9,47 @@ import { Skeleton } from '../../components/ui/Skeleton';
 import { EmptyState } from '../../components/ui/EmptyState';
 import './Habits.css';
 
-const HABIT_ICON_NAMES = [
-  'target',
+const HABIT_ICON_PICKER = [
+  'heart',
   'dumbbell',
   'book',
-  'droplets',
-  'heart',
   'brain',
-  'coffee',
-  'bike',
-  'sun',
-  'moon',
-  'footprints',
   'apple',
+  'droplets',
+  'moon',
+  'sun',
+  'briefcase',
+  'house',
+  'wallet',
+  'users',
 ] as const;
 
+// Ikon lama tetap dirender agar habit yang sudah ada tidak berubah diam-diam.
+const LEGACY_HABIT_ICONS = ['target', 'coffee', 'bike', 'footprints'] as const;
+
+const HABIT_ICON_LABELS: Record<string, string> = {
+  heart: 'Health',
+  dumbbell: 'Fitness',
+  book: 'Learning',
+  brain: 'Mind',
+  apple: 'Nutrition',
+  droplets: 'Hydration',
+  moon: 'Sleep',
+  sun: 'Morning',
+  briefcase: 'Work',
+  house: 'Home',
+  wallet: 'Finance',
+  users: 'Social',
+  target: 'Focus',
+  coffee: 'Break',
+  bike: 'Cycling',
+  footprints: 'Walking',
+};
+
+const HABIT_ICON_RENDERABLE: readonly string[] = [...HABIT_ICON_PICKER, ...LEGACY_HABIT_ICONS];
+
 const isHabitIconName = (value: string): value is IconName =>
-  (HABIT_ICON_NAMES as readonly string[]).includes(value as IconName);
+  HABIT_ICON_RENDERABLE.includes(value);
 
 const getLocalDateString = (dateObj: Date) => {
   return `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
@@ -33,7 +57,7 @@ const getLocalDateString = (dateObj: Date) => {
 
 export const Habits: React.FC = () => {
   const { isAppLoading } = useAppContext();
-  const { habits, habitHistory } = useHabitContext();
+  const { habits, habitHistory, pendingHabitCategory, setPendingHabitCategory } = useHabitContext();
   const { 
     habitCategories, 
     addCategory, 
@@ -51,6 +75,7 @@ export const Habits: React.FC = () => {
   const [editingHabitId, setEditingHabitId] = useState<string | null>(null);
   const [habitName, setHabitName] = useState('');
   const [habitCategory, setHabitCategory] = useState('');
+  const [isCategoryLocked, setIsCategoryLocked] = useState(false);
   const [habitCustomCategory, setHabitCustomCategory] = useState('');
   const [habitIcon, setHabitIcon] = useState<string>('target');
   const [habitTime, setHabitTime] = useState('');
@@ -100,10 +125,11 @@ export const Habits: React.FC = () => {
     return groups;
   }, [categoriesList, habits]);
 
-  const handleOpenAddHabit = (defaultCategory?: string) => {
+  const handleOpenAddHabit = useCallback((defaultCategory?: string) => {
     setEditingHabitId(null);
     setHabitName('');
     setHabitCategory(defaultCategory || categoriesList[0] || 'Daily');
+    setIsCategoryLocked(Boolean(defaultCategory));
     setHabitCustomCategory('');
     setHabitIcon('target');
     setHabitTime('');
@@ -112,12 +138,20 @@ export const Habits: React.FC = () => {
     setRepeatDays([]);
     setRepeatDate(1);
     setHabitModalOpen(true);
-  };
+  }, [categoriesList]);
+
+  // Dibuka dari tombol "+" di Dashboard: langsung tampilkan form create.
+  useEffect(() => {
+    if (pendingHabitCategory === null) return;
+    handleOpenAddHabit(pendingHabitCategory || undefined);
+    setPendingHabitCategory(null);
+  }, [pendingHabitCategory, setPendingHabitCategory, handleOpenAddHabit]);
 
   const handleOpenEditHabit = (habit: Habit) => {
     setEditingHabitId(habit.id);
     setHabitName(habit.name);
     setHabitCategory(habit.category || 'Daily');
+    setIsCategoryLocked(false);
     setHabitCustomCategory('');
     setHabitIcon(habit.icon || 'target');
     setHabitTime(habit.time || '');
@@ -297,13 +331,6 @@ export const Habits: React.FC = () => {
                 {categoryHabits.length === 0 ? (
                   <div className="habit-category-empty">
                     <p>No habits in "{categoryName}" yet.</p>
-                    <button 
-                      type="button" 
-                      className="btn btn-secondary btn-sm" 
-                      onClick={() => handleOpenAddHabit(categoryName)}
-                    >
-                      + Add habit now
-                    </button>
                   </div>
                 ) : (
                   <div className="habit-items-list">
@@ -411,16 +438,29 @@ export const Habits: React.FC = () => {
 
               <div className="form-group habit-field">
                 <label htmlFor="habitCategorySelect">Category</label>
-                <select
-                  id="habitCategorySelect"
-                  value={habitCategory}
-                  onChange={e => setHabitCategory(e.target.value)}
-                >
-                  {categoriesList.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                  <option value="__new__">+ Create New Category...</option>
-                </select>
+                {isCategoryLocked ? (
+                  <div className="habit-category-locked">
+                    <span className="habit-category-locked-badge">{habitCategory}</span>
+                    <button
+                      type="button"
+                      className="habit-category-change-btn"
+                      onClick={() => setIsCategoryLocked(false)}
+                    >
+                      Change
+                    </button>
+                  </div>
+                ) : (
+                  <select
+                    id="habitCategorySelect"
+                    value={habitCategory}
+                    onChange={e => setHabitCategory(e.target.value)}
+                  >
+                    {categoriesList.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                    <option value="__new__">+ Create New Category...</option>
+                  </select>
+                )}
               </div>
 
               {habitCategory === '__new__' && (
@@ -462,18 +502,21 @@ export const Habits: React.FC = () => {
               <div className="form-group habit-field">
                 <label>Icon</label>
                 <div className="habit-icon-picker">
-                  {HABIT_ICON_NAMES.map(iconName => (
+                  {HABIT_ICON_PICKER.map(iconName => (
                     <button
                       key={iconName}
                       type="button"
                       className={`habit-icon-option ${habitIcon === iconName ? 'selected' : ''}`}
                       onClick={() => setHabitIcon(iconName)}
-                      aria-label={`Select icon ${iconName}`}
+                      title={HABIT_ICON_LABELS[iconName]}
+                      aria-label={`Select icon ${HABIT_ICON_LABELS[iconName]}`}
+                      aria-pressed={habitIcon === iconName}
                     >
                       <Icon name={iconName} size={18} />
                     </button>
                   ))}
                 </div>
+                <p className="habit-icon-caption">Icon: {HABIT_ICON_LABELS[habitIcon] || habitIcon}</p>
               </div>
 
               <div className="habit-modal-actions">

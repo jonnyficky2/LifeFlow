@@ -40,6 +40,9 @@ import {
   Apple,
   ChevronLeft,
   Check,
+  Briefcase,
+  Wallet,
+  Users,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -83,6 +86,10 @@ const icons = {
   bike: Bike,
   footprints: Footprints,
   apple: Apple,
+  briefcase: Briefcase,
+  house: House,
+  wallet: Wallet,
+  users: Users,
   back: ChevronLeft,
   check: Check,
 } satisfies Record<string, LucideIcon>;

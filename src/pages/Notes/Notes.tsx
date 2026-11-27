@@ -16,7 +16,7 @@ import './Notes.css';
 
 export const Notes: React.FC = () => {
   const { isAppLoading } = useAppContext();
-  const { notes, activeNoteId, setActiveNoteId } = useNoteContext();
+  const { notes, activeNoteId, setActiveNoteId, pendingNoteEdit, setPendingNoteEdit } = useNoteContext();
   const { appData } = useTaskContext();
   const { settings } = useSettingsContext();
   const { addNote, updateNote, deleteNote } = useNotes();
@@ -32,6 +32,13 @@ export const Notes: React.FC = () => {
       setActiveNoteId(notes[0].id);
     }
   }, [activeNoteId, notes, setActiveNoteId]);
+
+  // Dibuka dari tombol "+" di Dashboard: langsung tampilkan editor.
+  useEffect(() => {
+    if (!pendingNoteEdit) return;
+    setIsEditorOpen(true);
+    setPendingNoteEdit(false);
+  }, [pendingNoteEdit, setPendingNoteEdit]);
 
   // Local state for the editor to avoid laggy keystrokes
   const [localTitle, setLocalTitle] = useState('');

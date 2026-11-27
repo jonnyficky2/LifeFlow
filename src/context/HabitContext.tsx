@@ -13,6 +13,8 @@ interface HabitContextType {
   setHabitHistory: React.Dispatch<React.SetStateAction<HabitHistory>>;
   streakData: StreakData;
   setStreakData: React.Dispatch<React.SetStateAction<StreakData>>;
+  pendingHabitCategory: string | null;
+  setPendingHabitCategory: (category: string | null) => void;
   undoHabit: () => void;
   redoHabit: () => void;
   saveHabitSnapshot: () => void;
@@ -27,6 +29,7 @@ export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [habitCategories, setHabitCategories] = usePersistentState<string[]>(STORAGE_KEYS.HABIT_CATEGORIES, DEFAULT_HABIT_CATEGORIES);
   const [habitHistory, setHabitHistory] = usePersistentState<HabitHistory>(STORAGE_KEYS.HABIT_HISTORY, {});
   const [streakData, setStreakData] = usePersistentState<StreakData>(STORAGE_KEYS.STREAK_DATA, []);
+  const [pendingHabitCategory, setPendingHabitCategory] = useState<string | null>(null);
 
   const [undoStack, setUndoStack] = useState<string[]>([]);
   const [redoStack, setRedoStack] = useState<string[]>([]);
@@ -75,6 +78,7 @@ export const HabitProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       habitCategories, setHabitCategories,
       habitHistory, setHabitHistory,
       streakData, setStreakData,
+      pendingHabitCategory, setPendingHabitCategory,
       undoHabit, redoHabit, saveHabitSnapshot
     }}>
       {children}
